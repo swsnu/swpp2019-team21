@@ -1,7 +1,12 @@
 # Team 21 - Sprint 1
+
+> 2018-15366 Sangmin Kim
+> 2018-13132 Yeongho Seo
+> 2018-18761 Donghyun Son
+> 2018-11940 Seonghwan Choi
+
 ## Project abstract
  Adit is an advertiser-participant matching platform that implements crowd sourcing system. For convenience, we define advertisers as ‘Aditors’, ad participants as ‘Aditees’. Aditors would post a link which he/she wants to promote, and a number of adults will freely participate in that advertisement with the provided link. Aditors can submit ad requests by setting their own target inflow to promotional sites and advertising duration. Their expenses are calculated based on their target inflow and charged right after submission. Aditees will be given a unique link to evaluate their paticipation and compensated according to their contribution. Inflow rate to the promotional site would be notified to aditors since submission. In case their goal is not achieved after the due date, aditors get refund on the difference between used and paid. Aditees can collect rewards and cash in them with continuous participation, which can contribute to ongoing involvement. On this system anyone can be an advertiser and anything can be advertised, ranging from product promotions to club performance notices. This will also push the limits between advertisers of ads and its participants, suggesting a new paradigm of ‘Advertisement Open For Everyone’.
- 
 ## Customer
 - **General Customer**
     - Aditor
