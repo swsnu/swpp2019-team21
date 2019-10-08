@@ -5,12 +5,14 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { createBrowserHistory } from 'history';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { routerMiddleware } from 'connected-react-router';
+import { routerMiddleware, connectRouter } from 'connected-react-router';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 
 const history = createBrowserHistory();
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+    router: connectRouter(history)
+});
 const store = createStore(
     rootReducer,
     applyMiddleware(thunk, routerMiddleware(history))
