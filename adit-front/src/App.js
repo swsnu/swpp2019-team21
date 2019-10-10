@@ -4,6 +4,7 @@ import './App.css';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import TopMenu from './components/TopMenu/TopMenu'
+import SignIn from './containers/SignIn/SignIn'
 
 function App(props) {
     return (
@@ -11,9 +12,8 @@ function App(props) {
             <div className="App">
                 <TopMenu />
                 <Switch>
-                    <Route path="/login" exact >
-                    </Route>
-                    <Redirect from="/" to="/login" />
+                    <Route path="/signin" exact='false' component={SignIn}/>
+                    <Route path="/home" exact render={() =><h1>Hello World! This is the main page!</h1>}/>
                 </Switch>
             </div>
         </ConnectedRouter>

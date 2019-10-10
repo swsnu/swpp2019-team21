@@ -2,6 +2,7 @@ import React, { Component, Profiler } from 'react'
 import { Dropdown, DropdownButton, Navbar, Image, OverlayTrigger, Popover, ListGroup, ListGroupItem } from 'react-bootstrap';
 import './TopMenu.css';
 import profile from './../../assets/iu_profile.png'
+import history from '../../index'
 import { connect } from 'net';
 
 class TopMenu extends Component {
@@ -20,7 +21,7 @@ class TopMenu extends Component {
                     <Popover.Title as="h3"><u1>Hello, <strong>{this.state.user.name}</strong>!</u1></Popover.Title>
                     <Popover.Content id='PopUserContent'>
                         <ListGroup id='PopUserMenuList'>
-                            <ListGroup.Item variant='light'>
+                            <ListGroup.Item action variant='light' onClick = {() => window.location.assign('/mypage')}>
                                 <p align='center'><Image id='UserInfoImage' class='img-responsive' src={this.state.user.pic} width='100px' roundedCircle/></p> 
                             </ListGroup.Item>
                             <ListGroup.Item>
