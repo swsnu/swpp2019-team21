@@ -6,7 +6,7 @@ import './SignIn.css'
 import avatar from '../../assets/avatar.png'
 
 class SignIn extends Component {
-    static var props = {storedUsers:{email:'csh3695@naver.com', password:'ihateswpp',name:'Kent', logged_in:true},}
+    props = {storedUsers:{email:'csh3695@naver.com', password:'ihateswpp',name:'Kent', logged_in:true},}
     state = {email: '', password: '', name:'', logged_in: false}
     SigninHandler = () => {
         if (this.props.storedUsers.email === this.state.email && this.props.storedUsers.password === this.state.password){
