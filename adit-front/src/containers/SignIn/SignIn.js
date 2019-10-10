@@ -6,11 +6,10 @@ import './SignIn.css'
 import avatar from '../../assets/avatar.png'
 
 class SignIn extends Component {
-    props = {storedUsers:{email:'csh3695@naver.com', password:'ihateswpp',name:'Kent', logged_in:true},}
-    state = {email: '', password: '', name:'', logged_in: false}
+    state = {email: '', password: '', name:'', logged_in: false, storedUsers:{email:'csh3695@naver.com', password:'ihateswpp',name:'Kent', logged_in:true}}
     SigninHandler = () => {
-        if (this.props.storedUsers.email === this.state.email && this.props.storedUsers.password === this.state.password){
-            this.setstate({...this.state, email:this.props.storedUsers.email, password:'pw', name:this.props.storedUsers.name, logged_in:true, })
+        if (this.state.storedUsers.email === this.state.email && this.state.storedUsers.password === this.state.password){
+            this.setState({...this.state, email:this.state.storedUsers.email, password:'pw', name:this.state.storedUsers.name, logged_in:true, })
             window.location.assign('/articles')
             return
         }
