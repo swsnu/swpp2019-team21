@@ -41,15 +41,6 @@
     background-color: #e6e6e6;
 }
 
-.TopMenu #dummy-button-list{
-    float: right;
-}
-
-li.dummybuttonlistitem {
-    display: inline-block;
-    white-space: nowrap;
-    margin: 20px;
-}
 .popover{
     width:600px;
     padding-bottom:5px;
