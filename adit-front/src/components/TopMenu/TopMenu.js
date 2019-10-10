@@ -6,11 +6,17 @@ import history from '../../index'
 import { connect } from 'net';
 
 class TopMenu extends Component {
-    state = { sign_in: false, user : {
+    state = { sign_in: true, user : {
         pic: profile,
         name: 'JIEUN',
         point: 65535,
     } }
+
+    SignOutHandler = () => {
+        alert('로그아웃 되었습니다')
+        this.setState({...this.state, sign_in: true})
+        window.location.assign('/signin')
+    }
 
     render() {
         let popuserinfo = null;
@@ -29,7 +35,7 @@ class TopMenu extends Component {
                                 <up>Point {this.state.user.point}</up>
                             </ListGroup.Item>
                             <ListGroup.Item action variant='light'>My Page</ListGroup.Item>
-                            <ListGroup.Item action variant='light' onClick = {() => window.location.assign('/home')}>Sign Out</ListGroup.Item>
+                            <ListGroup.Item action variant='light' onClick = {() => this.SignOutHandler()}>Sign Out</ListGroup.Item>
                         </ListGroup>
                     </Popover.Content>
                 </Popover>
