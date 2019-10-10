@@ -6,7 +6,7 @@ import history from '../../index'
 import { connect } from 'net';
 
 class TopMenu extends Component {
-    state = { sign_in : true, user : {
+    state = { sign_in: false, user : {
         pic: profile,
         name: 'JIEUN',
         point: 65535,
@@ -15,6 +15,7 @@ class TopMenu extends Component {
     render() {
         let popuserinfo = null;
         let overlaytrigger = null;
+        let signInButton = null;
         if(this.state.sign_in){
             popuserinfo = (
                 <Popover id='PopUserInfo'>

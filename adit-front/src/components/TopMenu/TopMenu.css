@@ -34,10 +34,18 @@
     font-size:80px;
 }
 
+.TopMenu #sign-in-button{
+    position: absolute;
+    right: 50px;
+    border: 0;
+    background-color: #e6e6e6;
+}
+
 .popover{
     width:600px;
     padding-bottom:5px;
 }
+
 
 u1 {
     font-size:18px;
