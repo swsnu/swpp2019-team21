@@ -14,6 +14,8 @@ function App(props) {
                 <Switch>
                     <Route path="/signin" exact='false' component={SignIn}/>
                     <Route path="/home" exact render={() =><h1>Hello World! This is the main page!</h1>}/>
+                    <Route path="/mypage" exact render={() =><h1>MyPage</h1>}/>
+                    <Route component={()=>window.location = '/signin'}/>
                 </Switch>
             </div>
         </ConnectedRouter>

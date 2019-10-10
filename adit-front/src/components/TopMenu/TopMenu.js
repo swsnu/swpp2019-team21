@@ -28,7 +28,7 @@ class TopMenu extends Component {
                                 <up>Point {this.state.user.point}</up>
                             </ListGroup.Item>
                             <ListGroup.Item action variant='light'>My Page</ListGroup.Item>
-                            <ListGroup.Item action variant='light'>Sign Out</ListGroup.Item>
+                            <ListGroup.Item action variant='light' onClick = {() => window.location.assign('/home')}>Sign Out</ListGroup.Item>
                         </ListGroup>
                     </Popover.Content>
                 </Popover>
@@ -42,7 +42,7 @@ class TopMenu extends Component {
         return (
             <div className='TopMenu'>
                 <Navbar id='UserInfo' fixed='top'>
-                    <h1 id='AditTitle' align='left'>Adit</h1>
+                    <h1 id='AditTitle' align='left' onClick = {() => window.location.assign('/home')}>Adit</h1>
                     {overlaytrigger}
                 </Navbar>
             </div>
