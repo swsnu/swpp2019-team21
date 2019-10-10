@@ -1,0 +1,60 @@
+.TopMenu {
+    min-height: 180px;
+}
+
+.TopMenu #UserInfo{
+    background: #ffffff;
+    box-shadow: 10px 0px 4px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1); /* 그림자 */ 
+}
+
+.TopMenu #AditTitle{
+    color: #5e5e5e;
+    font-family: sans-serif;
+    font-size: 2rem;
+    padding-left:1em;
+    padding-right:0.6em;
+}
+
+.TopMenu #UserInfo{
+    background: #f0f1f2;
+}
+
+.TopMenu #UserImage{
+    position: absolute;
+    align-self: center;
+    right: 50px;
+}
+
+.TopMenu #PopUserInfo{
+    background:#000000;
+    min-width:800px;
+}
+
+.TopMenu #PopUserContent{
+    font-size:80px;
+}
+
+.TopMenu #sign-in-button{
+    position: absolute;
+    right: 50px;
+    border: 0;
+    background-color: #e6e6e6;
+}
+
+.popover{
+    width:600px;
+    padding-bottom:5px;
+}
+
+
+u1 {
+    font-size:18px;
+    color:#5e5e5e;
+}
+u0 {
+    font-size:20px;
+}
+
+up {
+    color: crimson;
+}
