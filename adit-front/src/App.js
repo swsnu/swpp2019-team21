@@ -14,6 +14,7 @@ function App(props) {
                 <Switch>
                     <Route path="/signin" exact='false' component={SignIn}/>
                     <Route path="/home" exact render={() =><h1>Hello World! This is the main page!</h1>}/>
+                    <Route render = {() => {window.location = "http://localhost:3000/home"}}/>
                 </Switch>
             </div>
         </ConnectedRouter>

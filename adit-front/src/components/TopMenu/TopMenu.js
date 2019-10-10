@@ -6,7 +6,7 @@ import history from '../../index'
 import { connect } from 'net';
 
 class TopMenu extends Component {
-    state = { sign_in : true, user : {
+    state = { sign_in: false, user : {
         pic: profile,
         name: 'JIEUN',
         point: 65535,
@@ -15,6 +15,7 @@ class TopMenu extends Component {
     render() {
         let popuserinfo = null;
         let overlaytrigger = null;
+        let signInButton = null;
         if(this.state.sign_in){
             popuserinfo = (
                 <Popover id='PopUserInfo'>
@@ -43,7 +44,11 @@ class TopMenu extends Component {
             <div className='TopMenu'>
                 <Navbar id='UserInfo' fixed='top'>
                     <h1 id='AditTitle' align='left'>Adit</h1>
-                    {overlaytrigger}
+                    {this.state.sign_in && 
+                        <OverlayTrigger trigger='click' placement='auto' overlay={popuserinfo}>
+                            <Image id='UserImage' src={this.state.user.pic} width='55px' roundedCircle/>
+                        </OverlayTrigger>}
+                    {!this.state.sign_in && <button id = 'sign-in-button'>SignIn</button>}
                 </Navbar>
             </div>
         )
