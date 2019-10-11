@@ -3,8 +3,8 @@
 }
 
 .TopMenu #UserInfo{
-    background: #ffffff00;
-    box-shadow: 10px 0px 4px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); /* 그림자 */ 
+    background: #ffffff;
+    box-shadow: 10px 0px 4px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1); /* 그림자 */ 
 }
 
 .TopMenu #AditTitle{
@@ -16,7 +16,7 @@
 }
 
 .TopMenu #UserInfo{
-    background: #e6e6e6;
+    background: #f0f1f2;
 }
 
 .TopMenu #UserImage{

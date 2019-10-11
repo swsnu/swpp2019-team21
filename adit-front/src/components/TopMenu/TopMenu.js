@@ -13,7 +13,6 @@ class TopMenu extends Component {
     } }
 
     SignOutHandler = () => {
-        alert('로그아웃 되었습니다')
         this.setState({...this.state, sign_in: true})
         window.location.assign('/signin')
     }
@@ -34,7 +33,7 @@ class TopMenu extends Component {
                             <ListGroup.Item>
                                 <up>Point {this.state.user.point}</up>
                             </ListGroup.Item>
-                            <ListGroup.Item action variant='light'>My Page</ListGroup.Item>
+                            <ListGroup.Item action variant='light' onClick = {() => window.location.assign('/mypage')}>My Page</ListGroup.Item>
                             <ListGroup.Item action variant='light' onClick = {() => this.SignOutHandler()}>Sign Out</ListGroup.Item>
                         </ListGroup>
                     </Popover.Content>
@@ -50,7 +49,8 @@ class TopMenu extends Component {
             <div className='TopMenu'>
                 <Navbar id='UserInfo' fixed='top'>
                     <h1 id='AditTitle' align='left' onClick = {() => window.location.assign('/home')}>Adit</h1>
-                    {overlaytrigger}
+                    {this.state.sign_in && overlaytrigger}
+                    {!this.state.sign_in && signInButton}
                 </Navbar>
             </div>
         )
