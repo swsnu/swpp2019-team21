@@ -5,7 +5,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import TopMenu from './components/TopMenu/TopMenu'
 import SignIn from './containers/SignIn/SignIn'
-import ArticleSearch from './containers/ArticleSearch/ArticleSearch'
+import ArticleSearch from './containers/Article/ArticleSearch/ArticleSearch'
 import SignUp from './containers/SignUp/SignUp'
 import UserInfo from './containers/UserInfo/UserInfo';
 

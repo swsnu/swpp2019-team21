@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ArticlePreview from '../../../components/ArticlePreview/ArticlePreview'
-import thumbnail from '../../assets/thumbnail_example.png'
+import thumbnail from '../../../assets/thumbnail_example.png'
 import './ArticleSearch.css'
 class ArticleSearch extends Component {
     render() {
