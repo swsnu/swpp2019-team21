@@ -9,15 +9,16 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { routerMiddleware, connectRouter } from 'connected-react-router';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
+import {store, history} from './store.js';
 
-const history = createBrowserHistory();
+/* const history = createBrowserHistory();
 const rootReducer = combineReducers({
     router: connectRouter(history)
 });
-const store = createStore(
+ const store = createStore(
     rootReducer,
     applyMiddleware(thunk, routerMiddleware(history))
-);
+); */
 
 ReactDOM.render(
     <Provider store={store}>

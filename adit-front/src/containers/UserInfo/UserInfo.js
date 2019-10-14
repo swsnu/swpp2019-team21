@@ -3,7 +3,7 @@ import { Dropdown, DropdownButton, Navbar, Image, OverlayTrigger, Popover, ListG
 import profile from './../../assets/iu_profile.png'
 import { connect } from 'net';
 import UserDetail from '../../components/UserDetail/UserDetail'
-//import './UserInfo.css'
+import './UserInfo.css'
 import avatar from '../../assets/avatar.png'
 
 class UserInfo extends Component {

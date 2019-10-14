@@ -1,12 +1,10 @@
 
 import {createStore, combineReducers} from 'redux';
-//import articleReducer from './store/article'
+import tempReducer from './store/reducers/tempReducer.js'
 import { applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-
-const rootReducer = combineReducers({
-    //red: reducer name,
-})
+import { createBrowserHistory } from 'history';
+import { routerMiddleware, connectRouter } from 'connected-react-router';
 
 const logger = store => {
         return next => {
@@ -17,6 +15,15 @@ const logger = store => {
         return result;
     }
 }};
-const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 
-export default store;
+export const history = createBrowserHistory();
+
+const rootReducer = combineReducers({
+    tem : tempReducer,
+    router: connectRouter(history)
+})
+
+export const store = createStore(
+    rootReducer,
+    applyMiddleware(thunk, routerMiddleware(history))
+);

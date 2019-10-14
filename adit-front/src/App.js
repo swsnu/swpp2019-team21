@@ -20,7 +20,7 @@ function App(props) {
                     <Route path="/home" exact component={ArticleSearch}/>
                     <Route path="/home" exact render={() =><h1>Hello World! This is the main page!</h1>}/>
                     <Route path="/mypage" exact component={UserInfo}/>
-                    <Route component={()=>window.location = '/signin'}/>
+                    <Route component={()=>window.location = '/signin'}/>￼￼
                 </Switch>
             </div>
         </ConnectedRouter>
