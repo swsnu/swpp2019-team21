@@ -47,10 +47,10 @@ class SignUp extends Component {
                         </td>   
                     </table>        
                     <div className="checkterm">
-                        <label clasName="Term"><input type="checkbox"/> I have read and agree to the <a href='#'>terms of service</a></label>
+                        <label clasName="Term"><input type="checkbox" id='haveread-chkbox'/> I have read and agree to the <a href='#'>terms of service</a></label>
                     </div>
                     <div className="form-group">
-                        <button type="submit" className="btn btn-primary btn-lg btn-block" button id='login-button' onClick={()=>this.SignupHandler()}>Sign up!</button>
+                        <button type="submit" className="btn btn-primary btn-lg btn-block" button id='signup-button' onClick={()=>this.SignupHandler()}>Sign up!</button>
                     </div>
                 </div>  
             </div>

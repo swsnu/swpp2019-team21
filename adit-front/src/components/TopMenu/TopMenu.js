@@ -33,7 +33,7 @@ class TopMenu extends Component {
                             <ListGroup.Item>
                                 <up>Point {this.state.user.point}</up>
                             </ListGroup.Item>
-                            <ListGroup.Item action variant='light'>My Page</ListGroup.Item>
+                            <ListGroup.Item action variant='light' onClick = {() => window.location.assign('/mypage')}>My Page</ListGroup.Item>
                             <ListGroup.Item action variant='light' onClick = {() => this.SignOutHandler()}>Sign Out</ListGroup.Item>
                         </ListGroup>
                     </Popover.Content>

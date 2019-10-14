@@ -34,14 +34,14 @@ class SignIn extends Component {
                         <input className="form-control" id='pw-input' type='password' value={this.state.password} required="required" onChange={(event)=>this.setState({password:event.target.value})}/>
                     </div>        
                     <div className="form-group">
-                        <button type="submit" className="btn btn-primary btn-lg btn-block" button id='login-button' onClick={()=>this.SignInHandler()}>Sign in</button>
+                        <button type="submit" className="btn btn-primary btn-lg btn-block" button id='signin-button' onClick={()=>this.SignInHandler()}>Sign in</button>
                     </div>
                     <div className="clearfix">
-                        <label clasName="Remember"><input type="checkbox"/> Remember me</label>
-                        <a href="#" className="ForgotPW">Forgot Password?</a>
+                        <label clasName="Remember"><input type="checkbox" id='remember-chkbox'/> Remember me</label>
+                        <a href="#" className="ForgotPW" id='findpw-link'>Forgot Password?</a>
                     </div>
                 </div>
-                <p className="text-center small">Don't have an account? <a href="#" onClick = {() => this.SignUpHandler()}>Sign up here!</a></p>
+                <p className="text-center small">Don't have an account? <a href="#" id='signup-link' onClick = {() => this.SignUpHandler()}>Sign up here!</a></p>
             </div>
         )
     }
