@@ -11,20 +11,30 @@ class SignUp extends Component {
     
     render(){
         return(
-            <Carousel id = "post-picture-view">
-                    <Carousel.Item>
-                        <img className="intro_first" src = {intro_first} alt='first_slide' width='100%'/>
-                        <Carousel.Caption><h3>Intro_First</h3></Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img className="intro_second" src = {intro_second} alt='second_slide' width='100%'/>
-                        <Carousel.Caption><h3>Intro_Second</h3></Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img className="intro_third" src = {intro_third} alt='third_slide' width='100%'/>
-                        <Carousel.Caption><h3>Intro_Third</h3></Carousel.Caption>
-                    </Carousel.Item>
-            </Carousel>
+            <div className = "ArticleDetail">
+                <Carousel id = "post-picture-view">
+                        <Carousel.Item>
+                            <img className="intro_first" src = {intro_first} alt='first_slide' width='100%'/>
+                            <Carousel.Caption><h3>Intro_First</h3></Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img className="intro_second" src = {intro_second} alt='second_slide' width='100%'/>
+                            <Carousel.Caption><h3>Intro_Second</h3></Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img className="intro_third" src = {intro_third} alt='third_slide' width='100%'/>
+                            <Carousel.Caption><h3>Intro_Third</h3></Carousel.Caption>
+                        </Carousel.Item>
+                </Carousel>
+                <Image id = "statistics-image" src = {intro_second}/>
+                <h2 id = 'post-title-text'>Sample Title</h2>
+                <ul id = 'tag-link-list'>
+                    <li id = 'tag-link'>Sample tag 1</li>
+                    <li id = 'tag-link'>Sample tag 2</li>
+                    <li id = 'tag-link'>Sample tag 3</li>
+                </ul>
+
+            </div>
         )
     }
 }
