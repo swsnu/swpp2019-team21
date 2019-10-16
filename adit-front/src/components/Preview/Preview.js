@@ -24,7 +24,7 @@ class Preview extends Component {
                             <big>
                                 <strong>{this.props.preview.title}</strong>
                             </big>
-                            <p />
+                            <br/>
                             <text>{this.props.preview.subtitle}</text>
                         </ListGroup.Item>
                         <Card.Footer>
