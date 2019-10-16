@@ -8,6 +8,7 @@ import intro_second from '../../../assets/intro_second.jpg'
 import intro_third from '../../../assets/intro_third.jpg'
 
 class ArticleSearch extends Component {
+
     render() {
         return(
             <div className="ArticleSearch">

@@ -8,6 +8,7 @@ import SignIn from './containers/SignIn/SignIn'
 import ArticleSearch from './containers/Article/ArticleSearch/ArticleSearch'
 import SignUp from './containers/SignUp/SignUp'
 import UserInfo from './containers/UserInfo/UserInfo';
+import ArticleDetail from './containers/Article/ArticleDetail/ArticleDetail'
 
 function App(props) {
     return (
@@ -20,6 +21,7 @@ function App(props) {
                     <Route path="/home" exact component={ArticleSearch}/>
                     <Route path="/home" exact render={() =><h1>Hello World! This is the main page!</h1>}/>
                     <Route path="/mypage" exact component={UserInfo}/>
+                    <Route path="/article/:id" exact component={ArticleDetail}/>
                     <Route component={()=>window.location = '/signin'}/>￼￼
                 </Switch>
             </div>
