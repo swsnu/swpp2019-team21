@@ -8,6 +8,7 @@ import SignIn from './containers/SignIn/SignIn'
 import ArticleSearch from './containers/Article/ArticleSearch/ArticleSearch'
 import SignUp from './containers/SignUp/SignUp'
 import UserInfo from './containers/UserInfo/UserInfo';
+import Home from './containers/Home/Home';
 
 function App(props) {
     return (
@@ -17,10 +18,10 @@ function App(props) {
                 <Switch>
                     <Route path="/signin" exact component={SignIn}/>
                     <Route path="/signup" exact component={SignUp}/>
-                    <Route path="/home" exact component={ArticleSearch}/>
-                    <Route path="/home" exact render={() =><h1>Hello World! This is the main page!</h1>}/>
+                    <Route path="/home" exact component={Home}/>
+                    <Route path="/search/:tag" exact component={ArticleSearch}/>
                     <Route path="/mypage" exact component={UserInfo}/>
-                    <Route component={()=>window.location = '/signin'}/>￼￼
+                    {/* <Route component={()=>window.location = '/signin'}/>￼￼ */}
                 </Switch>
             </div>
         </ConnectedRouter>
