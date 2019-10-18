@@ -9,9 +9,9 @@ import ArticleSearch from './containers/Article/ArticleSearch/ArticleSearch'
 import SignUp from './containers/SignUp/SignUp'
 import UserInfo from './containers/UserInfo/UserInfo';
 import Home from './containers/Home/Home';
-import ArticleDetail from './containers/Article/ArticleDetail/ArticleDetail'
-import ArticleEdit from './containers/Article/ArticleEdit/ArticleEdit'
-
+import ArticleDetail from './containers/Article/ArticleDetail/ArticleDetail';
+import ArticleEdit from './containers/Article/ArticleEdit/ArticleEdit';
+import ArticleCreate from './containers/Article/ArticleCreate/ArticleCreate';
 function App(props) {
     return (
         <ConnectedRouter history={props.history}>
@@ -24,6 +24,7 @@ function App(props) {
                     <Route path="/search/:tag" exact component={ArticleSearch}/>
                     <Route path="/mypage" exact component={UserInfo}/>
                     {/* <Route component={()=>window.location = '/signin'}/>￼￼ */}
+                    <Route path="/article/create" exact component={ArticleCreate}/>
                     <Route path="/article/:id" exact component={ArticleDetail}/>
                     <Route component={()=>window.location = '/signin'}/>￼￼
                 </Switch>

@@ -1,0 +1,39 @@
+#button1 {
+    border:none;
+    background-color:transparent; 
+}
+#createTabs {
+    margin-bottom: 50px;
+    margin-top: 10px;
+}
+.ArticleCreate {
+    margin-top: 30px;
+}
+
+#post-explain-input {
+    resize: none;
+    height: 200px;
+}
+
+.form-control {
+    width: 500px;
+}
+
+text {
+    font-size: 20px;
+}
+
+#post-thumbnail-preview {
+    width: 500px;
+    height: 200px;
+    border: 1px solid #c0c0c0;
+    margin-top: 5px;
+}
+
+.previewText {
+    margin-top: 5px;
+}
+
+#confirm-button {
+    margin-bottom: 50px;
+}
