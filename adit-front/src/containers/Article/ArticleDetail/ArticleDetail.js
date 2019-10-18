@@ -68,26 +68,27 @@ class ArticleDetail extends Component {
                     <h3 id = 'description-title-text'>Detailed description</h3>
                     <p id = 'description-text'>{this.state.detailedDescription}</p>
                 </div>
-                {this.state.mine && 
-                    <div>
-                        <Image id = "statistics-image" src = {statistics_image}/>
-                        <button id = 'post-edit-button' onClick = {this.postEditHandler}>Edit</button>
-                        <div className = 'achieve-bar-component'>
-                            <p id = 'achieve-bar-name'>achieve rate</p>
-                            <ProgressBar id = "achieve-bar" now = {this.state.now} label = {`${this.state.now}%`}></ProgressBar>
+                <div>
+                    {this.state.mine && 
+                        <div>
+                            <Image id = "statistics-image" src = {statistics_image}/>
+                            <button id = 'post-edit-button' onClick = {this.postEditHandler}>Edit</button>
+                            <div className = 'achieve-bar-component'>
+                                <p id = 'achieve-bar-name'>achieve rate</p>
+                                <ProgressBar id = "achieve-bar" now = {this.state.now} label = {`${this.state.now}%`}></ProgressBar>
+                            </div>
                         </div>
-                    </div>
-                }
-                
-                {(!this.state.mine && !this.state.participated) && <button id = 'participate-button' onClick = {this.participateHandler}>Participate</button>}
-                {(!this.state.mine && this.state.participated) && 
-                    <div className = 'url-component'>
-                        <p id = 'unique-url-text'>{this.state.url}</p>
-                        <CopyToClipboard text = {this.state.url}>
-                            <button id = 'url-copy-button'>Copy</button>  
-                        </CopyToClipboard> 
-                    </div> 
-                }
+                    }  
+                    {(!this.state.mine && !this.state.participated) && <button id = 'participate-button' onClick = {this.participateHandler}>Participate</button>}
+                    {(!this.state.mine && this.state.participated) && 
+                        <div className = 'url-component'>
+                            <p id = 'unique-url-text'>{this.state.url}</p>
+                            <CopyToClipboard text = {this.state.url}>
+                                <button id = 'url-copy-button'>Copy</button>  
+                            </CopyToClipboard> 
+                        </div> 
+                    }
+                </div>
                 <button onClick = {this.toggleMine}>Toggle Mine</button>
                 <button onClick = {this.toggleParticipate}>Toggle Participated</button>
             </div>

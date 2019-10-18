@@ -26,6 +26,7 @@ function App(props) {
                     {/* <Route component={()=>window.location = '/signin'}/>￼￼ */}
                     <Route path="/article/create" exact component={ArticleCreate}/>
                     <Route path="/article/:id" exact component={ArticleDetail}/>
+                    <Route path="/article/:id/edit" exact component={ArticleEdit}/>
                     <Route component={()=>window.location = '/signin'}/>￼￼
                 </Switch>
             </div>
