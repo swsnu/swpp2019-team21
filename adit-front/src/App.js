@@ -10,6 +10,7 @@ import SignUp from './containers/SignUp/SignUp'
 import UserInfo from './containers/UserInfo/UserInfo';
 import Home from './containers/Home/Home';
 import ArticleDetail from './containers/Article/ArticleDetail/ArticleDetail'
+import ArticleEdit from './containers/Article/ArticleEdit/ArticleEdit'
 
 function App(props) {
     return (
