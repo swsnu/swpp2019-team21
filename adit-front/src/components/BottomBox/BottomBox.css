@@ -1,0 +1,21 @@
+.BottomBox{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    background: #424446;
+}
+
+.InfoParagraph{
+    padding: 50px;
+    width: 600px;
+}
+
+.InfoTitle{
+    color: #d1d2d3;
+    font-size: 40px;
+    font-family: consolas;
+}
+
+.InfoContent{
+    color: #919293;
+}

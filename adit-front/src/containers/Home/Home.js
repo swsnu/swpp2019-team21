@@ -53,9 +53,9 @@ class Home extends Component {
             <div className="home">
                 <EventItemList eventItems={mockEventList} />
                 <p></p>
-                <PreviewList articles={mockAdPostList} list_name={'hottest'} />
-                <PreviewList articles={mockAdPostList} list_name={'newest'} />
-                <PreviewList articles={mockAdPostList} list_name={'tag 1'} />
+                <PreviewList articles={mockAdPostList} list_name={'Hottest'} />
+                <PreviewList articles={mockAdPostList} list_name={'Newest'} />
+                <PreviewList articles={mockAdPostList} list_name={'Tag 1'} />
             </div>
         );
     }

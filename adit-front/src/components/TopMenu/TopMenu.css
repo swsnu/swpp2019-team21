@@ -7,6 +7,32 @@
     box-shadow: 10px 0px 4px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1); /* 그림자 */ 
 }
 
+.TopMenu input[type=text]{
+    font-size: 1.2rem;
+    width:600px;
+    min-width: 100px;
+    border-style:hidden;
+    background: #f0f1f2;
+    box-shadow: 0 1px 0 0 #708bc5;
+}
+
+.TopMenu input[type=text]:focus{
+    outline: none;
+    border-bottom: 1px solid #708bc5;
+    box-shadow: 0 1px 0 0 #708bc5;
+}
+
+.TopMenu .Search{
+    position:relative;
+    left:5%;
+}
+
+@media (max-width: 960px){
+    .Search{
+        visibility: hidden;
+    }
+}
+
 .TopMenu #AditTitle{
     color: #5e5e5e;
     font-family: sans-serif;
