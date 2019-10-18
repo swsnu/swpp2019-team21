@@ -47,6 +47,7 @@ const mockEventList = [
 ];
 
 class ArticleSearch extends Component {
+
     render() {
         return (
             <div className="ArticleSearch">
