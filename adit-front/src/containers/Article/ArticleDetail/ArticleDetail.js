@@ -79,7 +79,6 @@ class ArticleDetail extends Component {
                             </div>
                         </div>
                     }  
-                    {(!this.state.mine && !this.state.participated) && <button id = 'participate-button' onClick = {this.participateHandler}>Participate</button>}
                     {(!this.state.mine && this.state.participated) && 
                         <div className = 'url-component'>
                             <p id = 'unique-url-text'>{this.state.url}</p>
@@ -88,9 +87,10 @@ class ArticleDetail extends Component {
                             </CopyToClipboard> 
                         </div> 
                     }
+                    {(!this.state.mine && !this.state.participated) && <button id = 'participate-button' onClick = {this.participateHandler}>Participate</button>}
                 </div>
-                <button onClick = {this.toggleMine}>Toggle Mine</button>
-                <button onClick = {this.toggleParticipate}>Toggle Participated</button>
+                <button onClick = {this.toggleMine} id = "toggle-mine-button">Toggle Mine</button>
+                <button onClick = {this.toggleParticipate} id = "toggle-participate-button">Toggle Participate</button>
             </div>
         )
     }

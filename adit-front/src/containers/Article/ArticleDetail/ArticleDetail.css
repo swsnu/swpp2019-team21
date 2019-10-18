@@ -26,17 +26,7 @@
     }
     
     #tag-link-list{
-        float: right;
-        width: 50%;
-    }
-    
-    #participate-button{
-        float: right;
-        width: 25%;
-    }
-    
-    #url-component{
-        float: right;
+        float: left;
         width: 50%;
     }
     
@@ -49,6 +39,24 @@
         float: right;
         width: 50%;
     }
+
+    #participate-button{
+        float: left;
+        width: 25%;
+    }
+    
+    #toggle-mine-button{
+        float: left;
+    }
+
+    #toggle-participate-button{
+        float: left;
+    }
+    #url-component{
+        float: right;
+        width: 50%;
+    }
+    
 }
 @media screen and (max-width: 1100px)
 {

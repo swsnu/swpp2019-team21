@@ -58,7 +58,8 @@ class ArticleEdit extends Component {
     }
 
     editConfirmHandler = () => {
-        window.alert("not submitted zz")
+        window.alert("not submitted zz");
+        window.location.assign(window.location.href.substring(0, window.location.href.length-5));
     }
 
     render(){
