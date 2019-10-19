@@ -1,12 +1,13 @@
 import React, { Component, Profiler } from 'react';
 import {Button} from 'react-bootstrap'
-
+import ReactDOM from 'react-dom';
+import ReactTags from 'react-tag-autocomplete'
 import './ArticleCreate.css'
 
 class ArticleCreate extends Component {
     state = {
-        donePage:1,
-        currentPage:1,
+        donePage:2,
+        currentPage:2,
         postTag:[],
         postTitle:'',
         postSubtitle:'',
@@ -19,6 +20,12 @@ class ArticleCreate extends Component {
             month:'',
             date:''
         },
+        mockSuggestion:  [
+            { id: 3, name: "Bananas" },
+            { id: 4, name: "Mango" },
+            { id: 5, name: "Lemons" },
+            { id: 6, name: "Apricots" }
+        ],
         imagePreviewUrl:null
     };
     render() {
@@ -29,6 +36,18 @@ class ArticleCreate extends Component {
         } else {
             imagePreview = (<div className="previewText"><strong>Please select an Image for Preview</strong></div>);
         }
+        const handleDelete = (i) => {
+            const tags = this.state.postTag.slice(0)
+            tags.splice(i, 1)
+            this.setState({ postTag:tags })
+        }
+         
+        const handleAddition = (tag) => {
+            const tags = [].concat(this.state.postTag, tag)
+            this.setState({ postTag:tags })
+        }
+     
+
         const tabOnClick = (n) => {
             if(n<=this.state.donePage) {
                 return () => {
@@ -91,13 +110,13 @@ class ArticleCreate extends Component {
         const explainChangeHandler = (i) => {
             this.setState ({
                 ...this.state,
-                postUrl:i.target.value
+                postExplain:i.target.value
             })
         }
         const urlChangeHandler = (i) => {
             this.setState ({
                 ...this.state,
-                postExplain:i.target.value
+                postUrl:i.target.value
             })
         }
         const imageOnChange = (e) => {
@@ -115,23 +134,26 @@ class ArticleCreate extends Component {
         
             reader.readAsDataURL(file);
         }
-        const confirmOnClick = () => {
-            this.setState({
-                ...this.state,
-                currentPage:this.state.currentPage+1
-            });
+        const nextOnClick = () => {
             if(this.state.donePage===this.state.currentPage) {
                 this.setState({
                     ...this.state,
                     donePage:this.state.donePage+1, 
+                    currentPage:this.state.currentPage+1
                 })
+            }
+            else {
+                this.setState({
+                    ...this.state,
+                    currentPage:this.state.currentPage+1
+                });
             }
         }
         const views = (n) => {
             switch(n) {
                 case 1:
                     return (
-                        <div>
+                        <div class='configuration'>
                             <div className='form-group' align='center'>
                                 <h3 className="form-label">Title</h3>
                                 <input className="form-control" placeholder=" input title" id="post-title-input" onChange={titleChangeHandler} value={this.state.postTitle}/>
@@ -157,19 +179,33 @@ class ArticleCreate extends Component {
                             <p/><br/>
                             <div className='form-group' align='center'>
                                 <h3 className="form-label">Ad Url</h3>
-                                <input className="form-control" placeholder=" input url of ad" id="post-url-input" onChange={urlChangeHandler} value={this.state.postExplain}></input>
+                                <input className="form-control" placeholder=" input url of ad" id="post-url-input" onChange={urlChangeHandler} value={this.state.postUrl}></input>
                             </div>
                             <p/><br/>
-                            <button type="submit" className="btn btn-primary" id='confirm-button' onClick={confirmOnClick}>Confirm</button>
+                            <button className="btn btn-primary" id='next-button' disabled={!this.state.postFile||!this.state.postTitle||!this.state.postUrl||!this.state.postSubtitle} onClick={nextOnClick}>Next</button>
                         </div>
                     )
                     break;
+                case 2:
+                    return(
+                        <div class='tagSelect'>
+                        <ReactTags
+                            tags={this.state.postTag}
+                            suggestions={this.state.mockSuggestion}
+                            handleDelete={handleDelete.bind(this)}
+                            handleAddition={handleAddition.bind(this)} 
+                            allowNew={true}
+                            minQueryLength={1}
+                            />
+                            <button className="btn btn-primary" id='next-button' disabled={!this.state.postTag.length} onClick={nextOnClick}>Next</button>
+                        </div>
+                    );
                 default:
                     break;
             }
         }
         return (
-            <div className = "ArticleCreate">
+            <div className = "ArticleCreate" align='center'>
                 <h1 id='pageTitle'>Request Ad</h1>
                 {tabs()}
                 {views(this.state.currentPage)}
