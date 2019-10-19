@@ -6,20 +6,30 @@ import './UserDetail.css'
 import avatar from '../../assets/avatar.png'
 
 class UserDetail extends Component {
-    state = {fname:'John', lname:'Doe', show:false}
+    state = {fname:'John', lname:'Doe', showChangePW:false, showChargePoint:false,addpoint:0,}
     componentDidMount(){
         this.setState({fname:this.props.fname, lname:this.props.lname, nickname: this.props.nickname})
     }
-    changePWHandler = () => this.setState({show: true})
+    changePWHandler = () => this.setState({showChangePW: true})
     changePWFinishHandler = () => {
-        this.setState({show: false})
+        this.setState({showChangePW: false})
         alert("Done!")
-        window.location.assign('/signin')
+    }
+    chargePointHandler = () => this.setState({showChargePoint: true})
+    chargePointFinishHandler = () => {
+        this.setState({showChargePoint: false})
+        alert("Done!")
+    }
+    saveChangesHandler = () => {
+       alert('Saved!')
+    }
+    withdrawalHandler = () => {
+        alert('Noooo.....')
     }
     render(){
         return(
             <div className='UserDetail'>
-                <Modal show = {this.state.show} onHide={this.changePWFinishHandler}>
+                <Modal show = {this.state.showChangePW} onHide={this.changePWFinishHandler}>
                     <Modal.Header closeButton>
                        <Modal.Title>Change Password</Modal.Title>
                     </Modal.Header>
@@ -41,6 +51,29 @@ class UserDetail extends Component {
                     <Button variant="primary" onClick={this.changePWFinishHandler}>Save</Button>
                     </Modal.Footer>
                 </Modal>
+                <Modal show = {this.state.showChargePoint} onHide={this.chargePointFinishHandler}>
+                    <Modal.Header closeButton>
+                       <Modal.Title>Charge Point</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="form-group" align='left'>
+                            <p className='label-tag' align='left'>Current Point</p>
+                            <text className="form-fixed" id='point'>{this.props.point}</text>
+                        </div>
+                        <div className="form-group" align='left'>
+                            <p className='label-tag' align='left'>Charge</p>
+                            <input type='number' min='1' className="form-fixed" id='chargepoint' onChange = {(event) => this.setState({...this.state, addpoint:event.target.value})}/>
+                        </div>
+                        <div className="form-group" align='left'>
+                            <p className='label-tag' align='left'>Point Expected</p>
+                            <text className="form-fixed" id='point'>{this.props.point*1+this.state.addpoint*1}</text>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <Button variant="primary" onClick={this.chargePointFinishHandler}>Save</Button>
+                    </Modal.Footer>
+                </Modal>
+                
                 <h2 className='UserInfoTitle'>User Info</h2>
                 <div className='avatar'>
                     <img src={this.props.profileimg} className="Avatar"/>
@@ -73,17 +106,17 @@ class UserDetail extends Component {
                 </div>
                 <div className="form-group" align='left'>
                     <ListGroup id='UserFunctList'>
-                        <ListGroup.Item action variant='light' onClick = {() => alert('Charge Point?')}>
+                        <ListGroup.Item action variant='light' onClick = {this.chargePointHandler}>
                             <h6>Charge Point</h6> 
                         </ListGroup.Item>
                         <ListGroup.Item action variant='light' onClick = {this.changePWHandler}>
                             <h6>Change Password</h6>
                         </ListGroup.Item>
-                        <ListGroup.Item action variant='light' onClick = {() => alert('Saved!')}>
+                        <ListGroup.Item action variant='light' onClick = {this.saveChangesHandler}>
                             <h6>Save Changes</h6> 
                         </ListGroup.Item>
                     </ListGroup>
-                    <p className="form-select" align='right'><a href="#" onClick = {() => alert('Noooo.....')}>Withrawal</a></p>
+                    <p className="form-select" align='right'><a href="#" onClick = {this.withdrawalHandler}>Withrawal</a></p>
                 </div>
             </div>
         )

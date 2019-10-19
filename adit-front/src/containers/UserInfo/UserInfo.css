@@ -51,6 +51,10 @@ ttl {
         left: 12%;
         width: 40%;
     }
+    .BottomBox{
+        position: absolute;
+        top: 2250px;
+    }
 }
 
 t {

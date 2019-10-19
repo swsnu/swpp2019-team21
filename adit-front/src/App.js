@@ -21,7 +21,7 @@ function App(props) {
                     <Route path="/signin" exact component={SignIn}/>
                     <Route path="/signup" exact component={SignUp}/>
                     <Route path="/home" exact component={Home}/>
-                    <Route path="/search/:tag" exact component={ArticleSearch}/>
+                    <Route path="/adposts/search=:tag" exact component={ArticleSearch}/>
                     <Route path="/mypage" exact component={UserInfo}/>
                     <Route path="/resetpw" exact component={ResetPW}/>
                     <Route path="/article/:id" exact component={ArticleDetail}/>

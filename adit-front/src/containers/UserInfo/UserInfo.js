@@ -36,6 +36,9 @@ class UserInfo extends Component {
                     <PreviewList articles={mockAdPostList} list_name={'Participated'} />
                 </div>
                 <UserDetail {...this.userinfo} />
+                <footer className='footer'>
+                    <BottomBox />
+                </footer>
             </div>
         )
     }
