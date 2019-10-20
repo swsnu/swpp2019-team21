@@ -8,7 +8,7 @@ const mockInfoContent = {
     }
 
 class BottomBox extends Component {
-    state = { title: mockinfocontent.title, content:mockinfocontent.content}
+    state = { title: mockInfoContent.title, content:mockInfoContent.content}
 
     render() {
         return (
