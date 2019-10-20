@@ -6,9 +6,9 @@ import './UserDetail.css'
 import avatar from '../../assets/avatar.png'
 
 class UserDetail extends Component {
-    state = {fname:'John', lname:'Doe', showChangePW:false, showChargePoint:false,addpoint:0,}
+    state = {user: {fname: 'John', lname: 'Doe',nickname: 'john'}, showChangePW:false, showChargePoint:false, addpoint:0,}
     componentDidMount(){
-        this.setState({fname:this.props.fname, lname:this.props.lname, nickname: this.props.nickname})
+        this.setState({user:{...this.state.user, fname:this.props.fname, lname:this.props.lname, nickname: this.props.nickname}})
     }
     changePWHandler = () => this.setState({showChangePW: true})
     changePWFinishHandler = () => {
@@ -84,19 +84,19 @@ class UserDetail extends Component {
                 </div>
                 <div className="form-group">
                     <p className='label-tag' align='left'>Nickname</p>
-                    <input className="form-control" id='fname' type='text' value={this.state.nickname} onChange={(event)=>this.setState({nickname:event.target.value})}/>
+                    <input className="form-control" id='fname' type='text' value={this.state.user.nickname} onChange={(event)=>this.setState({user:{nickname:event.target.value}})}/>
                 </div>
                 <table>
                     <td>
                         <div className="form-group">
                             <p className='label-tag' align='left'>First Name</p>
-                            <input className="form-control" id='fname' type='text' value={this.state.fname} onChange={(event)=>this.setState({fname:event.target.value})}/>
+                            <input className="form-control" id='fname' type='text' value={this.state.user.fname} onChange={(event)=>this.setState({user:{fname:event.target.value}})}/>
                         </div>
                     </td>
                     <td>
                         <div className="form-group">
                             <p className='label-tag' align='left'>Last Name</p>
-                            <input className="form-control" id='lname' type='text' value={this.state.lname} onChange={(event)=>this.setState({lname:event.target.value})}/>
+                            <input className="form-control" id='lname' type='text' value={this.state.user.lname} onChange={(event)=>this.setState({user:{lname:event.target.value}})}/>
                         </div>
                     </td>
                 </table>
