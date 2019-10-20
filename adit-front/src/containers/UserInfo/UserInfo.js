@@ -21,21 +21,21 @@ const mockAdPostList = [...Array(10).keys()].map(index => {
 });
 
 class UserInfo extends Component {
-    userinfo = {email:'csh3695@naver.com', fname:'Seonghwan', lname:'Choi', nickname:'Kent', point:0x7fffffff, profileimg:profile, usertag:['student', 'SNU', 'club', 'band'],}
-    tags = this.userinfo.usertag.map((tg) => {return <t>#{tg} </t>})
+    state = {email:'csh3695@naver.com', fname:'Seonghwan', lname:'Choi', nickname:'Kent', point:0x7fffffff, profileimg:profile, usertag:['student', 'SNU', 'club', 'band'],}
+    tags = this.state.usertag.map((tg) => {return <t>#{tg} </t>})
     render(){
         return(
             <div className='UserInfo'>
                 <img src={background} id='title-background'/>
                 <div className='TitleBox' id='userinfo-titlebox'>
-                    <ttl className='Title' id='userinfo_title'>Hello, {this.userinfo.nickname}!</ttl>
+                    <ttl className='Title' id='userinfo_title'>Hello, {this.state.nickname}!</ttl>
                     <p><tgs>{this.tags}</tgs></p>
                 </div>
                 <div className='AdList'>
                     <PreviewList articles={mockAdPostList} list_name={'Your Request'} />
                     <PreviewList articles={mockAdPostList} list_name={'Participated'} />
                 </div>
-                <UserDetail {...this.userinfo} />
+                <UserDetail {...this.state} />
                 <footer className='footer'>
                     <BottomBox />
                 </footer>
