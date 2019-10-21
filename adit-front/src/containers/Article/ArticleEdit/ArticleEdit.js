@@ -1,6 +1,7 @@
 import React, { Component, Profiler } from 'react'
-import { Dropdown, DropdownButton, Navbar, Image, OverlayTrigger, Popover, ListGroup, ListGroupItem, Carousel, ProgressBar} from 'react-bootstrap';
+import { Carousel } from 'react-bootstrap';
 import { connect } from 'net';
+import ReactTags from 'react-tag-autocomplete'
 import './ArticleEdit.css'
 import intro_first from '../../../assets/intro_first.jpg'
 import intro_second from '../../../assets/intro_second.jpg'
@@ -16,7 +17,14 @@ class ArticleEdit extends Component {
         id: 1,
         selectedImage: null,
         imageURL: null,
-        valid: false
+        valid: false,
+        postTag:[],
+        mockSuggestion:  [
+            { id: 3, name: "Bananas" },
+            { id: 4, name: "Mango" },
+            { id: 5, name: "Lemons" },
+            { id: 6, name: "Apricots" }
+        ],
     } // should be props, not state
 
     titleChangeHandler = (t) => {
@@ -62,6 +70,17 @@ class ArticleEdit extends Component {
         window.location.assign(window.location.href.substring(0, window.location.href.length-5));
     }
 
+    handleDelete = (i) => {
+        const tags = this.state.postTag.slice(0)
+        tags.splice(i, 1)
+        this.setState({ postTag:tags })
+    }
+     
+    handleAddition = (tag) => {
+        const tags = [].concat(this.state.postTag, tag)
+        this.setState({ postTag:tags })
+    }
+
     render(){
         return(
             <div className = "ArticleEdit">
@@ -81,11 +100,16 @@ class ArticleEdit extends Component {
                 <input className = 'form-control' value = {this.state.title} onChange = {(e) => {this.titleChangeHandler(e)}} id = 'post-title-input'/>
                 <input className = 'form-control' value = {this.state.subtitle} onChange = {(e) => {this.subtitleChangeHandler(e)}} id = 'post-subtitle-input'/>
                 <p id = 'due-date-text'>{this.state.duedate}</p>
-                <ul id = 'tag-link-list'>
-                    <li id = 'tag-link'>Sample tag 1</li>
-                    <li id = 'tag-link'>Sample tag 2</li>
-                    <li id = 'tag-link'>Sample tag 3</li>
-                </ul>
+                <div class='tagSelect'>
+                        <ReactTags
+                            tags={this.state.postTag}
+                            suggestions={this.state.mockSuggestion}
+                            handleDelete={this.handleDelete.bind(this)}
+                            handleAddition={this.handleAddition.bind(this)} 
+                            allowNew={true}
+                            minQueryLength={1}
+                            />
+                </div>
                 <div className = 'description-component'>
                     <textarea className = 'form-control' value = {this.state.detailedDescription} onChange = {(e) => {this.detailedChangeHandler(e)}} id = 'description-input'/>
                 </div>

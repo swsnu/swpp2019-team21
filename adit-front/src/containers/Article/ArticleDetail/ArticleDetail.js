@@ -1,5 +1,5 @@
 import React, { Component, Profiler } from 'react'
-import { Dropdown, DropdownButton, Navbar, Image, OverlayTrigger, Popover, ListGroup, ListGroupItem, Carousel, ProgressBar} from 'react-bootstrap';
+import { Image, Carousel, ProgressBar} from 'react-bootstrap';
 import { connect } from 'net';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import './ArticleDetail.css'
