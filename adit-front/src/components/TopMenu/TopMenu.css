@@ -7,8 +7,6 @@
     box-shadow: 10px 0px 4px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1); /* 그림자 */ 
 }
 
-<<<<<<< Updated upstream
-=======
 .TopMenu input[type=text]{
     font-size: 1.2rem;
     width:600px;
@@ -53,7 +51,6 @@
     }
 }
 
->>>>>>> Stashed changes
 .TopMenu #AditTitle{
     color: #5e5e5e;
     font-family: sans-serif;
