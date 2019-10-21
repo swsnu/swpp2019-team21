@@ -3,16 +3,17 @@ import {Button} from 'react-bootstrap'
 import ReactDOM from 'react-dom';
 import ReactTags from 'react-tag-autocomplete'
 import './ArticleCreate.css'
+import Calendar from 'react-calendar';
 
 class ArticleCreate extends Component {
     state = {
-        donePage:2,
-        currentPage:2,
+        donePage:3,
+        currentPage:3,
         postTag:[],
         postTitle:'',
         postSubtitle:'',
         postExplain:'',
-        postFile:null,
+        postFile:'',
         postUrl:'',
         postGoal:'',
         postDeadline: {
@@ -26,7 +27,7 @@ class ArticleCreate extends Component {
             { id: 5, name: "Lemons" },
             { id: 6, name: "Apricots" }
         ],
-        imagePreviewUrl:null
+        imagePreviewUrl:''
     };
     render() {
         let imagePreview = null
@@ -131,8 +132,14 @@ class ArticleCreate extends Component {
                 imagePreviewUrl: reader.result
               });
             }
-        
+            
             reader.readAsDataURL(file);
+        }
+        const goalChangeHandler = (e) => {
+            this.setState ({
+                ...this.state,
+                postGoal: e.target.value
+            })
         }
         const nextOnClick = () => {
             if(this.state.donePage===this.state.currentPage) {
@@ -149,46 +156,51 @@ class ArticleCreate extends Component {
                 });
             }
         }
+        const onCalendarChange = (e) => {
+            this.setState ({
+                ...this.state,
+                postDeadline: {
+                    year: e.getYear()+1900,
+                    month: e.getMonth()+1,
+                    date: e.getDate()
+                }
+            })
+        }
         const views = (n) => {
-            switch(n) {
-                case 1:
-                    return (
-                        <div class='configuration'>
-                            <div className='form-group' align='center'>
-                                <h3 className="form-label">Title</h3>
-                                <input className="form-control" placeholder=" input title" id="post-title-input" onChange={titleChangeHandler} value={this.state.postTitle}/>
-                            </div>
-                            <p/><br/>
-                            <div className='form-group' align='center'>
-                                <h3 className="form-label">Subtitle</h3>
-                                <input className="form-control" placeholder=" input subtitle" id="post-subtitle-input" onChange={subtitleChangeHandler} value={this.state.postSubtitle}></input>
-                            </div>
-                            <p/><br/>
-                            <div className='form-group' align='center'>
-                                <h3 className="form-label">Ad Description</h3>
-                                <textarea className="form-control" placeholder=" explain your ad" id="post-explain-input" onChange={explainChangeHandler} value={this.state.postExplain}></textarea>
-                            </div>
-                            <p/><br/>
-                            <div className='form-group' align='center'>
-                                <h3 className="form-label">Select Thumbnail</h3>
-                                <input className="form-control" type="file" id="post-thumbnail-input" multiple={false} onChange={imageOnChange}/>
-                                <div>
-                                    {imagePreview}
-                                </div>
-                            </div>
-                            <p/><br/>
-                            <div className='form-group' align='center'>
-                                <h3 className="form-label">Ad Url</h3>
-                                <input className="form-control" placeholder=" input url of ad" id="post-url-input" onChange={urlChangeHandler} value={this.state.postUrl}></input>
-                            </div>
-                            <p/><br/>
-                            <button className="btn btn-primary" id='next-button' disabled={!this.state.postFile||!this.state.postTitle||!this.state.postUrl||!this.state.postSubtitle} onClick={nextOnClick}>Next</button>
+            return (
+                <div>
+                    <div class='configuration' style={{ display: (this.state.currentPage==1) ? 'block':'none' }}>
+                        <div className='form-group' align='center'>
+                            <h3 className="form-label">Title</h3>
+                            <input className="form-control" placeholder=" input title" id="post-title-input" onChange={titleChangeHandler} value={this.state.postTitle}/>
                         </div>
-                    )
-                    break;
-                case 2:
-                    return(
-                        <div class='tagSelect'>
+                        <p/><br/>
+                        <div className='form-group' align='center'>
+                            <h3 className="form-label">Subtitle</h3>
+                            <input className="form-control" placeholder=" input subtitle" id="post-subtitle-input" onChange={subtitleChangeHandler} value={this.state.postSubtitle}></input>
+                        </div>
+                        <p/><br/>
+                        <div className='form-group' align='center'>
+                            <h3 className="form-label">Ad Description</h3>
+                            <textarea className="form-control" placeholder=" explain your ad" id="post-explain-input" onChange={explainChangeHandler} value={this.state.postExplain}></textarea>
+                        </div>
+                        <p/><br/>
+                        <div className='form-group' align='center'>
+                            <h3 className="form-label">Select Thumbnail</h3>
+                            <input className="form-control" type="file" id="post-thumbnail-input" multiple={false} onChange={imageOnChange}/>
+                            <div>
+                            {imagePreview}
+                            </div>
+                        </div>
+                        <p/><br/>
+                        <div className='form-group' align='center'>
+                            <h3 className="form-label">Ad Url</h3>
+                            <input className="form-control" placeholder=" input url of ad" id="post-url-input" onChange={urlChangeHandler} value={this.state.postUrl.bind}></input>
+                        </div>
+                        <p/><br/>
+                        <button className="btn btn-primary" id='next-button' disabled={!this.state.postFile||!this.state.postTitle||!this.state.postUrl||!this.state.postSubtitle} onClick={nextOnClick}>Next</button>
+                    </div>
+                    <div class='tagSelect'style={{ display: (this.state.currentPage==2) ? 'block':'none' }}>
                         <ReactTags
                             tags={this.state.postTag}
                             suggestions={this.state.mockSuggestion}
@@ -196,13 +208,23 @@ class ArticleCreate extends Component {
                             handleAddition={handleAddition.bind(this)} 
                             allowNew={true}
                             minQueryLength={1}
-                            />
-                            <button className="btn btn-primary" id='next-button' disabled={!this.state.postTag.length} onClick={nextOnClick}>Next</button>
+                        />
+                        <button className="btn btn-primary" id='next-button' disabled={!this.state.postTag.length} onClick={nextOnClick}>Next</button>
+                    </div>
+                    <div class='adGoal'style={{ display: (this.state.currentPage==3) ? 'block':'none' }}>
+                        <div className='form-group' align='center'>
+                            <h3 className="form-label">Set Ad Goal</h3>
+                            <input className="form-control" type="number" placeholder=" input goal" id="post-goal-input" onChange={goalChangeHandler} value={this.state.postGoal}/>
                         </div>
-                    );
-                default:
-                    break;
-            }
+                        <p/><br/>
+                            <h3 className="label">Choose Ad Expiry Date</h3>
+                            <Calendar onChange={onCalendarChange}/>
+                        <p/><br/>
+                        <button className="btn btn-primary" id='next-button' disabled={!this.state.postGoal||!this.state.postDeadline.year} onClick={nextOnClick}>Next</button>
+                    </div>
+                    
+                </div>
+            );
         }
         return (
             <div className = "ArticleCreate" align='center'>
