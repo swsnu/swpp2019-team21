@@ -7,12 +7,65 @@
     box-shadow: 10px 0px 4px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1); /* 그림자 */ 
 }
 
+<<<<<<< Updated upstream
+=======
+.TopMenu input[type=text]{
+    font-size: 1.2rem;
+    width:600px;
+    min-width: 100px;
+    border-style:hidden;
+    background: #f0f1f2;
+    box-shadow: 0 1px 0 0 #708bc5;
+}
+
+.TopMenu input[type=text]:focus{
+    outline: none;
+    border-bottom: 1px solid #708bc5;
+    box-shadow: 0 1px 0 0 #708bc5;
+}
+
+.TopMenu .Search{
+    position:relative;
+    left:5%;
+}
+
+.TopMenu btn{
+    font-size: 25px;
+    font-style: italic;
+    min-width: 200px;
+    color: #5e5e5e;
+    font-family: sans-serif;
+    font-weight: 500;
+    position: absolute;
+    right: 200px;
+}
+.TopMenu btn:hover{
+    cursor: pointer;
+}
+
+.TopMenu #UserImage:hover{
+    cursor: pointer;
+}
+
+@media (max-width: 960px){
+    .Search{
+        visibility: hidden;
+    }
+}
+
+>>>>>>> Stashed changes
 .TopMenu #AditTitle{
     color: #5e5e5e;
     font-family: sans-serif;
-    font-size: 2rem;
+    font-size: 2.5rem;
+    font-style: italic;
+    font-weight:800;
     padding-left:1em;
     padding-right:0.6em;
+}
+
+.TopMenu #AditTitle:hover{
+    cursor: pointer;
 }
 
 .TopMenu #UserInfo{
