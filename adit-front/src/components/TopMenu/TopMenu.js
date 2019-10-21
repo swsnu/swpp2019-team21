@@ -1,5 +1,7 @@
 import React, { Component, Profiler } from 'react'
-import { Dropdown, DropdownButton, Navbar, Image, OverlayTrigger, Popover, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Navbar, Image, OverlayTrigger, Popover, ListGroup } from 'react-bootstrap';
 import './TopMenu.css';
 import profile from './../../assets/iu_profile.png'
 import history from '../../index'
@@ -10,11 +12,21 @@ class TopMenu extends Component {
         pic: profile,
         name: 'JIEUN',
         point: 65535,
-    } }
+    }, searchkey: null,
+    }
 
-    SignOutHandler = () => {
+    signOutHandler = () => {
         this.setState({...this.state, sign_in: true})
         window.location.assign('/signin')
+    }
+
+    searchConfirmHandler = () => {
+        if(!this.state.searchkey) alert('Input your Search Words.')
+        else window.location.assign(`/adposts/search=${this.state.searchkey}`)
+    }
+    
+    keyPressHandler = (e) => {
+        if(e.charCode === 13) this.searchConfirmHandler()
     }
 
     render() {
@@ -34,7 +46,7 @@ class TopMenu extends Component {
                                 <up>Point {this.state.user.point}</up>
                             </ListGroup.Item>
                             <ListGroup.Item action variant='light' onClick = {() => window.location.assign('/mypage')}>My Page</ListGroup.Item>
-                            <ListGroup.Item action variant='light' onClick = {() => this.SignOutHandler()}>Sign Out</ListGroup.Item>
+                            <ListGroup.Item action variant='light' onClick = {() => this.signOutHandler()}>Sign Out</ListGroup.Item>
                         </ListGroup>
                     </Popover.Content>
                 </Popover>
@@ -49,6 +61,11 @@ class TopMenu extends Component {
             <div className='TopMenu'>
                 <Navbar id='UserInfo' fixed='top'>
                     <h1 id='AditTitle' align='left' onClick = {() => window.location.assign('/home')}>Adit</h1>
+                    <div class="Search">
+                        <input id='ad-search-input' type='text' placeHolder='Search' onKeyPress={this.keyPressHandler}onChange={(event) => this.setState({...this.state, searchkey: event.target.value})}/>
+                        <FontAwesomeIcon icon = {faSearch} onClick={this.searchConfirmHandler}/>
+                        <i className="fa fa-search" id='search-confirm-button' aria-hidden="true" onClick={this.searchConfirmHandler}></i>
+                    </div>
                     {this.state.sign_in && overlaytrigger}
                     {!this.state.sign_in && signInButton}
                 </Navbar>

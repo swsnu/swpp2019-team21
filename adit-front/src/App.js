@@ -10,6 +10,7 @@ import SignUp from './containers/SignUp/SignUp'
 import UserInfo from './containers/UserInfo/UserInfo';
 import Home from './containers/Home/Home';
 import ArticleDetail from './containers/Article/ArticleDetail/ArticleDetail'
+import ResetPW from './containers/UserInfo/ResetPW/ResetPW';
 
 function App(props) {
     return (
@@ -20,9 +21,9 @@ function App(props) {
                     <Route path="/signin" exact component={SignIn}/>
                     <Route path="/signup" exact component={SignUp}/>
                     <Route path="/home" exact component={Home}/>
-                    <Route path="/search/:tag" exact component={ArticleSearch}/>
+                    <Route path="/adposts/search=:tag" exact component={ArticleSearch}/>
                     <Route path="/mypage" exact component={UserInfo}/>
-                    {/* <Route component={()=>window.location = '/signin'}/>￼￼ */}
+                    <Route path="/resetpw" exact component={ResetPW}/>
                     <Route path="/article/:id" exact component={ArticleDetail}/>
                     <Route component={()=>window.location = '/signin'}/>￼￼
                 </Switch>
