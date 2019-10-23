@@ -3,13 +3,14 @@ import { Dropdown, DropdownButton, Navbar, Image, OverlayTrigger, Popover, ListG
 import { connect } from 'net';
 import './ResetPW.css'
 import background from '../../../assets/userinfo_background.jpg';
+import {history} from '../../../store'
 
 
 class ResetPW extends Component {
     state = {password : null, password_valid: null}
     confirmResetHandler(){
         alert('Done!')
-        window.location.assign('/home')
+        history.push('/home')
     }
     render(){
         return(

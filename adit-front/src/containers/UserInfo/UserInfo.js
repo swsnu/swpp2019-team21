@@ -32,8 +32,8 @@ class UserInfo extends Component {
                     <p><tgs>{this.tags}</tgs></p>
                 </div>
                 <div className='AdList'>
-                    <PreviewList articles={mockAdPostList} list_name={'Your Request'} />
-                    <PreviewList articles={mockAdPostList} list_name={'Participated'} />
+                    <PreviewList articles={mockAdPostList} list_name={'Your Request'} compact={true}/>
+                    <PreviewList articles={mockAdPostList} list_name={'Participated'} compact={true}/>
                 </div>
                 <UserDetail {...this.state} />
                 <footer className='footer'>

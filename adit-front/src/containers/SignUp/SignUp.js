@@ -9,7 +9,7 @@ class SignUp extends Component {
     state = {email: '', password: '', password_check:'', fname:'', lname:'',}
     SignupHandler = () => {
         alert('Welcome!')
-        window.location.assign('/signin')
+        this.props.history.push('/signin')
         return
     }
     render(){
