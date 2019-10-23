@@ -2,3 +2,10 @@
     resize: none;
     height:500px;
 }
+
+.thumbnail_image {
+    height: 500px;
+    width: 50%;
+    object-fit: cover;
+}
+

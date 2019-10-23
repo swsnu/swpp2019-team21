@@ -15,10 +15,12 @@ class ArticleEdit extends Component {
         subtitle: "Sample subtitle",
         duedate: "2001/01/16",
         id: 1,
-        selectedImage: null,
-        imageURL: null,
+        thumbnail: intro_first,
+        imageURL: intro_first,
         valid: false,
-        postTag:[],
+        postTag:[
+            { id: 1, name: "iluvswpp"},
+        ],
         mockSuggestion:  [
             { id: 3, name: "Bananas" },
             { id: 4, name: "Mango" },
@@ -52,15 +54,8 @@ class ArticleEdit extends Component {
         if(p.target.files[0]){
             this.setState({
                 ...this.state,
-                selectedImage: p.target.files[0],
+                thumbnail: p.target.files[0],
                 imageURL: URL.createObjectURL(p.target.files[0])
-            })
-        }
-        else{
-            this.setState({
-                ...this.state,
-                selectedImage: null,
-                imageURL: null
             })
         }
     }
@@ -84,19 +79,9 @@ class ArticleEdit extends Component {
     render(){
         return(
             <div className = "ArticleEdit">
-                <Carousel id = "post-picture-view">
-                        <Carousel.Item>
-                            {this.state.imageURL && <img className="intro_first" src = {this.state.imageURL} alt='first_picture' width='100%'/>}
-                            {!this.state.imageURL && <div className="previewText"><strong>Please select an Image for Preview</strong></div>}
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img className="intro_second" src = {intro_second} alt='second_picture' width='100%'/>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img className="intro_third" src = {intro_third} alt='third_picture' width='100%'/>
-                        </Carousel.Item>
-                </Carousel>
-                <input type = "file" id = "edit-picture-input"  onChange = {(e) => {this.changePictureHandler(e)}}/>
+                {this.state.imageURL && <img className="thumbnail_image" src = {this.state.imageURL} alt='first_picture' width='100%' height = '200px'/>}
+                {!this.state.imageURL && <div className="previewText"><strong>Please select an Image for Preview</strong></div>}
+                <input type = "file" id = "edit-picture-input" onChange = {(e) => {this.changePictureHandler(e)}}/>
                 <input className = 'form-control' value = {this.state.title} onChange = {(e) => {this.titleChangeHandler(e)}} id = 'post-title-input'/>
                 <input className = 'form-control' value = {this.state.subtitle} onChange = {(e) => {this.subtitleChangeHandler(e)}} id = 'post-subtitle-input'/>
                 <p id = 'due-date-text'>{this.state.duedate}</p>
@@ -113,7 +98,7 @@ class ArticleEdit extends Component {
                 <div className = 'description-component'>
                     <textarea className = 'form-control' value = {this.state.detailedDescription} onChange = {(e) => {this.detailedChangeHandler(e)}} id = 'description-input'/>
                 </div>
-                <button id = 'confirm-edit-button' onClick = {this.editConfirmHandler} disabled = {!this.state.selectedImage || !this.state.detailedDescription || !this.state.title || !this.state.subtitle}>Confirm</button>
+                <button id = 'confirm-edit-button' onClick = {this.editConfirmHandler} disabled = {!this.state.thumbnail || !this.state.detailedDescription || !this.state.title || !this.state.subtitle}>Confirm</button>
             </div>
         )
     }

@@ -1,15 +1,12 @@
 @media screen and (min-width: 1101px)
 {
-    #post-picture-view{
+    
+    .left-component{
         float: left;
         width: 50%;
     }
     
-    .description-component{
-        float: left;
-        width: 50%;
-    }
-    
+
     #post-title-text{
         float: right;
         width: 50%;
@@ -60,12 +57,8 @@
 }
 @media screen and (max-width: 1100px)
 {
-    #post-picture-view{
-        float: left;
-        width: 100%;
-    }
     
-    .description-component{
+    .left-component{
         float: left;
         width: 100%;
     }

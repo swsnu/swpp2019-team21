@@ -18,7 +18,14 @@ class ArticleDetail extends Component {
         title: "Sample title",
         subtitle: "Sample subtitle",
         duedate: "2001/01/16",
+        thumbnail: intro_first,
         id: 1,
+        posttag : [
+            { id: 3, name: "Bananas" },
+            { id: 4, name: "Mango" },
+            { id: 5, name: "Lemons" },
+            { id: 6, name: "Apricots" }
+        ]
 
     } // should be props, not state
 
@@ -40,34 +47,24 @@ class ArticleDetail extends Component {
         this.setState({...this.state, mine: tem})
     }
     render(){
+        const tags = this.state.posttag.map((td) => {
+            return (
+                <li key = {td.id} id = 'tag-link'>{td.name}</li>
+            );
+        });
         return(
             <div className = "ArticleDetail">
-                <Carousel id = "post-picture-view">
-                        <Carousel.Item>
-                            <img className="intro_first" src = {intro_first} alt='first_picture' width='100%'/>
-                            <Carousel.Caption><h3>Intro_First</h3></Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img className="intro_second" src = {intro_second} alt='second_picture' width='100%'/>
-                            <Carousel.Caption><h3>Intro_Second</h3></Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img className="intro_third" src = {intro_third} alt='third_picture' width='100%'/>
-                            <Carousel.Caption><h3>Intro_Third</h3></Carousel.Caption>
-                        </Carousel.Item>
-                </Carousel>
+                <div className = 'left-component'>
+                    <img id="article-thumbnail" src = {this.state.thumbnail} alt='first_picture' width='100%' height = '500px'/>
+                    <h3 id = 'description-title-text'>Detailed description</h3>
+                    <p id = 'description-text'>{this.state.detailedDescription}</p>
+                </div>
                 <h1 id = 'post-title-text'>{this.state.title}</h1>
                 <h3 id = 'post-subtitle-text'>{this.state.subtitle}</h3>
                 <p id = 'due-date-text'>{this.state.duedate}</p>
                 <ul id = 'tag-link-list'>
-                    <li id = 'tag-link'>Sample tag 1</li>
-                    <li id = 'tag-link'>Sample tag 2</li>
-                    <li id = 'tag-link'>Sample tag 3</li>
+                    {tags}
                 </ul>
-                <div className = 'description-component'>
-                    <h3 id = 'description-title-text'>Detailed description</h3>
-                    <p id = 'description-text'>{this.state.detailedDescription}</p>
-                </div>
                 <div>
                     {this.state.mine && 
                         <div>
