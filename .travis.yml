@@ -4,7 +4,7 @@ matrix:
     node_js:
         - '10'
     before_install:
-        - cd frontend
+        - cd adit-front
     install:
         - yarn install
     script:

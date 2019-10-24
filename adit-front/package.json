@@ -14,6 +14,8 @@
     "connected-react-router": "^6.5.2",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
+    "eslint-config-prettier": "^6.4.0",
+    "prettier": "^1.18.2",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-bootstrap": "^1.0.0-beta.14",
@@ -33,7 +35,16 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "airbnb",
+      "prettier"
+    ],
+    "rules": {
+      "react/prefer-stateless-function": 0,
+      "react/jsx-filename-extension": 0,
+      "react/jsx-one-expression-per-line": 0
+    }
   },
   "browserslist": {
     "production": [
