@@ -1,6 +1,7 @@
 .ArticlePreview:hover {
-    background: #8191eb;
-    outline: none important;
+    /* background: #8191eb;
+    outline: none important; */
+    text-decoration: underline;
 }
 
 .ArticlePreview {

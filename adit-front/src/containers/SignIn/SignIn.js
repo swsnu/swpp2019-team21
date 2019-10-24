@@ -10,14 +10,14 @@ class SignIn extends Component {
     SignInHandler = () => {
         if (this.state.storedUsers.email === this.state.email && this.state.storedUsers.password === this.state.password){
             this.setState({...this.state, email:this.state.storedUsers.email, password:'', name:this.state.storedUsers.name, logged_in:true, })
-            window.location.assign('/home')
+            this.props.history.push('/home')
             return
         }
         alert('Email or password is wrong')
         return
     }
     SignUpHandler = () => {
-        window.location.assign('/signup')
+        this.props.history('/signup')
     }
     render(){
         return(

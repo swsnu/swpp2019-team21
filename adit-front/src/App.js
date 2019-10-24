@@ -12,6 +12,8 @@ import Home from './containers/Home/Home';
 import ArticleDetail from './containers/Article/ArticleDetail/ArticleDetail';
 import ArticleEdit from './containers/Article/ArticleEdit/ArticleEdit';
 import ArticleCreate from './containers/Article/ArticleCreate/ArticleCreate';
+import ResetPW from './containers/UserInfo/ResetPW/ResetPW';
+
 function App(props) {
     return (
         <ConnectedRouter history={props.history}>
@@ -21,10 +23,10 @@ function App(props) {
                     <Route path="/signin" exact component={SignIn}/>
                     <Route path="/signup" exact component={SignUp}/>
                     <Route path="/home" exact component={Home}/>
-                    <Route path="/search/:tag" exact component={ArticleSearch}/>
+                    <Route path="/adposts/search=:tag" exact component={ArticleSearch}/>
                     <Route path="/mypage" exact component={UserInfo}/>
-                    {/* <Route component={()=>window.location = '/signin'}/>￼￼ */}
                     <Route path="/article/create" exact component={ArticleCreate}/>
+                    <Route path="/resetpw" exact component={ResetPW}/>
                     <Route path="/article/:id" exact component={ArticleDetail}/>
                     <Route path="/article/:id/edit" exact component={ArticleEdit}/>
                     <Route component={()=>window.location = '/signin'}/>￼￼

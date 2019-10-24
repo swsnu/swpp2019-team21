@@ -24,6 +24,24 @@ const responsive = {
     }
 };
 
+const responsive_compact = {
+    desktop: {
+        breakpoint: { max: 3000, min: 1024 },
+        items: 2,
+        slidesToSlide: 2 // optional, default to 1.
+    },
+    tablet: {
+        breakpoint: { max: 1024, min: 464 },
+        items: 1,
+        slidesToSlide: 1 // optional, default to 1.
+    },
+    mobile: {
+        breakpoint: { max: 464, min: 0 },
+        items: 1,
+        slidesToSlide: 1 // optional, default to 1.
+    }
+}
+
 class PreviewList extends React.Component {
     clickPreviewHandler = id => {
         alert('PREVIEW ID:' + id);
@@ -33,7 +51,7 @@ class PreviewList extends React.Component {
         return (
             <div classNmae="preview-list">
                 <h1 id="list-title">{this.props.list_name}</h1>
-                <Carousel id="list-carousel" responsive={responsive}>
+                <Carousel id="list-carousel" responsive={this.props.compact ? responsive_compact : responsive}>
                     {this.props.articles.map(item => (
                         <Preview
                             key={item.id}

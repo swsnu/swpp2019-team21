@@ -1,50 +1,50 @@
 {
-    "name": "adit-front",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "axios": "^0.19.0",
-        "bootstrap": "^4.3.1",
-        "connected-react-router": "^6.5.2",
-        "enzyme": "^3.10.0",
-        "enzyme-adapter-react-16": "^1.14.0",
-        "prop-types": "^15.7.2",
-        "react": "^16.10.2",
-        "react-bootstrap": "^1.0.0-beta.14",
-        "react-calendar": "^2.19.2",
-        "react-copy-to-clipboard": "^5.0.1",
-        "react-dnd": "^9.4.0",
-        "react-dnd-html5-backend": "^9.4.0",
-        "react-dom": "^16.10.2",
-        "react-multi-carousel": "^2.3.0",
-        "react-redux": "^7.1.1",
-        "react-router-dom": "^5.1.1",
-        "react-scripts": "3.2.0",
-        "react-tag-autocomplete": "^5.11.2",
-        "react-tag-input": "^6.4.1",
-        "react-test-renderer": "^16.9.0",
-        "redux": "^4.0.4",
-        "redux-thunk": "^2.3.0"
-    },
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject"
-    },
-    "eslintConfig": {
-        "extends": "react-app"
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    }
+  "name": "adit-front",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome": "^1.1.8",
+    "@fortawesome/fontawesome-free-regular": "^5.0.13",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
+    "@fortawesome/fontawesome-svg-core": "^1.2.25",
+    "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "@fortawesome/react-fontawesome": "^0.1.7",
+    "axios": "^0.19.0",
+    "bootstrap": "^4.3.1",
+    "connected-react-router": "^6.5.2",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.10.2",
+    "react-bootstrap": "^1.0.0-beta.14",
+    "react-dom": "^16.10.2",
+    "react-multi-carousel": "^2.3.0",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.1.1",
+    "react-scripts": "3.2.0",
+    "react-test-renderer": "^16.9.0",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
