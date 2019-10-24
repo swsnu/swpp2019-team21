@@ -7,8 +7,8 @@ import Calendar from 'react-calendar';
 
 class ArticleCreate extends Component {
     state = {
-        donePage:3,
-        currentPage:3,
+        donePage:1,
+        currentPage:1,
         postTag:[],
         postTitle:'',
         postSubtitle:'',
@@ -71,7 +71,7 @@ class ArticleCreate extends Component {
             }
         }
         const tabtext = (n) => {
-            let tabs = ['Configure Info','Select Tag','Ad Goal','Payment'];
+            let tabs = ['Configure Info','Select Tag','Ad Goal','Preview'];
             if(this.state.currentPage==n) {
                 return (
                     <text id={"tab-text"+n} style={{color:color(n)}} onClick={tabOnClick(n)}><strong>{tabs[n-1]}</strong></text>
@@ -156,6 +156,9 @@ class ArticleCreate extends Component {
                 });
             }
         }
+        const confirmOnClick = () => {
+            this.props.history.push('/article/1');
+        }
         const onCalendarChange = (e) => {
             this.setState ({
                 ...this.state,
@@ -167,6 +170,8 @@ class ArticleCreate extends Component {
             })
         }
         const views = (n) => {
+            let tenDay = new Date();
+            tenDay.setTime(tenDay.getTime()+10*24*3600*1000);
             return (
                 <div>
                     <div class='configuration' style={{ display: (this.state.currentPage==1) ? 'block':'none' }}>
@@ -218,9 +223,12 @@ class ArticleCreate extends Component {
                         </div>
                         <p/><br/>
                             <h3 className="label">Choose Ad Expiry Date</h3>
-                            <Calendar onChange={onCalendarChange}/>
+                            <Calendar minDate={tenDay} onChange={onCalendarChange}/>
                         <p/><br/>
                         <button className="btn btn-primary" id='next-button' disabled={!this.state.postGoal||!this.state.postDeadline.year} onClick={nextOnClick}>Next</button>
+                    </div>
+                    <div class='payment'style={{ display: (this.state.currentPage==4) ? 'block':'none' }}>
+                        <button className="btn btn-primary" id='confirm-button' onClick={confirmOnClick}>Submit</button>
                     </div>
                     
                 </div>

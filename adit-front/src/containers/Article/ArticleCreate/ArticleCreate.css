@@ -15,7 +15,7 @@
     height: 200px;
 }
 
-.ArticleCreate .form-control {
+.ArticleCreate   .form-control {
     width: 500px;
 }
 
@@ -25,7 +25,6 @@
 
 #post-thumbnail-preview {
     width: 500px;
-    height: 200px;
     border: 1px solid #c0c0c0;
     margin-top: 5px;
 }
@@ -38,32 +37,8 @@
     margin-bottom: 50px;
 }
 
-/**
- * <div class="react-tags">
- *   <div class="react-tags__selected">
- *     <button class="react-tags__selected-tag">
- *       <span class="react-tags__selected-tag-name" />
- *     </button>
- *   </div>
- *   <div class="react-tags__search">
- *     <div class="react-tags__search-input">
- *       <input />
- *       <div />
- *     </div>
- *     <div class="react-tags__suggestions">
- *       <ul>
- *         <li class="is-active">
- *           <mark />
- *         </li>
- *         <li class="is-disabled">
- *           <mark />
- *         </li>
- *       </ul>
- *     </div>
- *   </div>
- */
 
- .tagSelect .react-tags {
+.tagSelect .react-tags {
     position: relative;
     padding: 6px 0 0 6px;
     border: 1px solid #d1d1d1;
