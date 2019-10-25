@@ -1,14 +1,15 @@
 matrix:
-    include:
-        - language: node_js # Your language e.g. node_js, python
+  include:
+  - language: node_js # Your language e.g. node_js, python
     node_js:
-        - '10'
+    - '10'
     before_install:
-        - cd frontend
+    - cd adit-front
     install:
-        - yarn install
+    - yarn install
     script:
-        - ./node_modules/.bin/eslint src
-        - yarn test --coverage --watchAll=false
+    - ./node_modules/.bin/eslint src
+    - yarn test --coverage --watchAll=false
 # - language: python
 #   python: 3.6
+#   ...
