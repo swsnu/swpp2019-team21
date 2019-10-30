@@ -1,7 +1,6 @@
 import React from 'react';
-import { ButtonToolbar, Button } from 'react-bootstrap';
 import './App.css';
-import { Route, Redirect, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import TopMenu from './components/TopMenu/TopMenu';
 import SignIn from './containers/SignIn/SignIn';
