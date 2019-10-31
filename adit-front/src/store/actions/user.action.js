@@ -3,10 +3,10 @@ import axios from 'axios';
 
 const base_url = '/api';
 
-export const signIn_ = data => {
+export const signIn_ = user => {
     return {
         type: actionTypes.SIGN_IN,
-        user: data
+        user: user
     };
 };
 
@@ -34,6 +34,22 @@ export const signOut = () => {
             .then(res => dispatch(signOut_()))
             .catch(error => {
                 console.log('sign out failed');
+            });
+    };
+};
+
+export const signUp_ = () => {
+    return {
+        type: actionTypes.SIGN_UP
+    };
+};
+export const signUp = user => {
+    return dispatch => {
+        return axios
+            .post(base_url + '/sign-up/', user)
+            .then(res => dispatch(signUp_()))
+            .catch(error => {
+                console.log('sign up failed');
             });
     };
 };
