@@ -4,12 +4,21 @@ import profile from './../../assets/iu_profile.png'
 import { connect } from 'net';
 import './SignUp.css'
 import avatar from '../../assets/avatar.png'
+import * as actionCreators from '../../store/actions/user.action'
 
 class SignUp extends Component {
     state = {email: '', password: '', password_check:'', fname:'', lname:'',}
     SignupHandler = () => {
         alert('Welcome!')
         this.props.history.push('/signin')
+        const user = {
+            email: this.state.email,
+            password: this.state.password,
+            firstname: this.state.fname,
+            lastname: this.state.lname,
+            nickname: this.state.fname
+        }
+        this.props.onsignUp(user)
         return
     }
     render(){
@@ -58,4 +67,17 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp
+export const mapStateToProps = state => {
+    return{
+        selected : state.td.selectedArticle,
+    }
+}
+
+export const mapDispatchToProps = dispatch => {
+    return {
+        ...this,
+        onsignUp : (user) => dispatch(actionCreators.signUp(user))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

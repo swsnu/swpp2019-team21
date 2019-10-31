@@ -10,6 +10,7 @@ import { routerMiddleware, connectRouter } from 'connected-react-router';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { store, history } from './store.js';
+import axios from 'axios';
 
 /* const history = createBrowserHistory();
 const rootReducer = combineReducers({
@@ -19,6 +20,9 @@ const rootReducer = combineReducers({
     rootReducer,
     applyMiddleware(thunk, routerMiddleware(history))
 ); */
+
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
 
 ReactDOM.render(
     <Provider store={store}>

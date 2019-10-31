@@ -13,7 +13,7 @@ class EventItemList extends React.Component {
         return (
             <Carousel className = "EventItemList">
                 {this.props.eventItems.map(item =>
-                    <Carousel.Item key = {item.id} onClick={() => this.clickEventHandler(item.id)}>
+                    <Carousel.Item className = "EventItemListItem" key = {item.id} onClick={() => this.clickEventHandler(item.id)}>
                         <img
                             src={item.url}
                             alt={item.title}
