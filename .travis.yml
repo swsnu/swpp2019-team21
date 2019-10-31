@@ -27,4 +27,3 @@ matrix:
     - pylint **/*.py
     - coverage run --source="." manage.py test adit
     - coverage report
-
