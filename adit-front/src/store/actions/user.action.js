@@ -1,3 +1,6 @@
+import actionTypes from '../actions/actionTypes';
+import axios from 'axios';
+
 const base_url = '/api';
 
 export const signIn_ = data => {
