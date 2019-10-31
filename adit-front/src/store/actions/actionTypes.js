@@ -1,3 +1,2 @@
-const actionTypes = null;
-
-export default actionTypes;
+export const SIGN_IN = "SIGN_IN";
+export const SIGN_OUT = "SIGN_OUT";
