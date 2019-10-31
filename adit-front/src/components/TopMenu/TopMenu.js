@@ -66,9 +66,7 @@ class TopMenu extends Component {
                             <ListGroup.Item
                                 action
                                 variant="light"
-                                onClick={() =>
-                                    history.push('/mypage')
-                                }
+                                onClick={() => history.push('/mypage')}
                             >
                                 <p align="center">
                                     <Image
@@ -86,9 +84,7 @@ class TopMenu extends Component {
                             <ListGroup.Item
                                 action
                                 variant="light"
-                                onClick={() =>
-                                    history.push('/mypage')
-                                }
+                                onClick={() => history.push('/mypage')}
                             >
                                 My Page
                             </ListGroup.Item>

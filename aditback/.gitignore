@@ -2,6 +2,7 @@
 # Created by https://www.gitignore.io/api/linux,macos,python,django,pycharm+all
 # Edit at https://www.gitignore.io/?templates=linux,macos,python,django,pycharm+all
 
+
 ### Django ###
 *.log
 *.pot
@@ -296,3 +297,4 @@ modules.xml
 # Pyre type checker
 
 # End of https://www.gitignore.io/api/linux,macos,python,django,pycharm+all
+

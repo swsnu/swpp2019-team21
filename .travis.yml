@@ -3,6 +3,12 @@ matrix:
   - language: node_js # Your language e.g. node_js, python
     node_js:
     - '10'
+    dist: trusty
+    addons:
+      sonarcloud:
+        organization: "swsnu"
+        token: 
+          secure: "ra7Txo7mbKUi9vs0ZZyG1PHvIb8WEv8alVfhsmATMyTId7tncxlBmOQ36Ag3AQkHPrmVXzk0lfOXAM4KRovlfUC2EtVweaFKi2iYjbpyWstagmVn89qLU20QnSG+wyy5K+xEimJXxvi3oSSj6DN+QyUOEW7/PRcx9+9XziY41+cOpM75GIrJWIB2duc0yUF0d7ck/kZa6dE6nyKosIwNPCX8Zse88QuJtX5HzjtO+OXJUtbD2N1EiK9QA/sC8CvZNfsE2OEGrXkJPITW0+/N/T+FVTeMU9ZGF19qjhIaJ07+mz6AnCnKblGjc+Ewhg1zDhM2cr+DwBsw/+s2pOt3muqKUFgf4LZl/fwHOSb2xxQVwSQE25SyqqCF5nwu1bneFdqsDO7Gl+DKnWeUKxMs9knEvP4d7dLnXll9Wth2dEGhgnjlxZ3ydJkASZwVIA9RzToPlWFFS2q10sj3sVNWeuytRp8d8Wr40L+G15Y9Q94eCdkmGVKHXLPs1JzjhXQabChREcj+4CpaNLyEFQzWj0dBtd8nB13AaEOtNY4lG3LFf4vD820Rqw21Mqn7fA2JwBawSCM5RDtGtnvYeIpnqXQs2z2KEZ/WeDKTSihco3796c3b3LdJWGcrkjHnMteVpn38Vo80YYlG5MSXINW44PrtR0aJtTTJTmRPd7xFVIc="
     before_install:
     - cd adit-front
     install:
@@ -10,6 +16,14 @@ matrix:
     script:
     - ./node_modules/.bin/eslint src
     - yarn test --coverage --watchAll=false
+    - sonar-scanner
   - language: python
-    python: 3.6
-    ...
+    python: "3.6"
+    before_install:
+    - cd aditback
+    install:
+    - pip3 install -r requirements.txt
+    script:
+    - pylint **/*.py
+    - coverage run --source="." manage.py test adit
+    - coverage report

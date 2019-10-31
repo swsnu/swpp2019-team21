@@ -20,7 +20,6 @@ def check_valid_method(valid_method):
             return func(*args, **kwargs)
 
         return decorator
-
     return wrapper
 
 
@@ -96,7 +95,7 @@ def check_is_permitted(object_type):
 '''
     Action: Check payload can be parsed with given item argument
             If cannot be parsed then response with 400
-    Usage:  @check_valid_json(item_list==['first_name', 'second_name', 'email', 'password', ...]
+    Usage:  @check_valid_json(item_list=['first_name', 'second_name', 'email', 'password', ...]
 '''
 
 
@@ -105,7 +104,6 @@ def check_valid_json(item_list):
         @wraps(func)
         def decorator(*args, **kwargs):
             request = args[1]
-
             if request.method == 'POST' or request.method == 'PUT':
                 try:
                     req_data = json.loads(request.body.decode())
