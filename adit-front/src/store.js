@@ -1,29 +1,31 @@
-
-import {createStore, combineReducers} from 'redux';
-import tempReducer from './store/reducers/tempReducer.js'
+import { createStore, combineReducers } from 'redux';
+import tempReducer from './store/reducers/tempReducer.js';
 import { applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware, connectRouter } from 'connected-react-router';
 
 const logger = store => {
-        return next => {
+    return next => {
         return action => {
-        //console.log('[Middleware] Dispatching', action);
-        const result = next(action);
-        //console.log('[Middleware] Next State', store.getState());
-        return result;
-    }
-}};
+            console.log('[Middleware] Dispatching', action);
+            const result = next(action);
+            console.log('[Middleware] Next State', store.getState());
+            return result;
+        };
+    };
+};
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
-    tem : tempReducer,
+    tem: tempReducer,
     router: connectRouter(history)
-})
+});
 
-export const store = createStore(
+const store = createStore(
     rootReducer,
     applyMiddleware(thunk, routerMiddleware(history))
 );
+
+export default store;
