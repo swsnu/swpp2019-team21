@@ -18,7 +18,7 @@ matrix:
     - yarn test --coverage --watchAll=false
     - sonar-scanner
   - language: python
-    python: 3.6
+    python: "3.6"
     before_install:
     - cd aditback
     install:
