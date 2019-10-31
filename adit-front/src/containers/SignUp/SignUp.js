@@ -1,7 +1,7 @@
 import React, { Component, Profiler } from 'react'
 import { Dropdown, DropdownButton, Navbar, Image, OverlayTrigger, Popover, ListGroup, ListGroupItem } from 'react-bootstrap';
 import profile from './../../assets/iu_profile.png'
-import { connect } from 'net';
+import { connect } from 'react-redux';
 import './SignUp.css'
 import avatar from '../../assets/avatar.png'
 import * as actionCreators from '../../store/actions/user.action'
@@ -67,17 +67,11 @@ class SignUp extends Component {
     }
 }
 
-export const mapStateToProps = state => {
-    return{
-        selected : state.td.selectedArticle,
-    }
-}
 
 export const mapDispatchToProps = dispatch => {
     return {
-        ...this,
         onsignUp : (user) => dispatch(actionCreators.signUp(user))
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(null, mapDispatchToProps)(SignUp);
