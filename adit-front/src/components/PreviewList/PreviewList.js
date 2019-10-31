@@ -40,7 +40,7 @@ const responsive_compact = {
         items: 1,
         slidesToSlide: 1 // optional, default to 1.
     }
-}
+};
 
 class PreviewList extends React.Component {
     clickPreviewHandler = id => {
@@ -49,9 +49,14 @@ class PreviewList extends React.Component {
 
     render() {
         return (
-            <div classNmae="preview-list">
+            <div className="PreviewList">
                 <h1 id="list-title">{this.props.list_name}</h1>
-                <Carousel id="list-carousel" responsive={this.props.compact ? responsive_compact : responsive}>
+                <Carousel
+                    id="list-carousel"
+                    responsive={
+                        this.props.compact ? responsive_compact : responsive
+                    }
+                >
                     {this.props.articles.map(item => (
                         <Preview
                             key={item.id}
@@ -61,9 +66,7 @@ class PreviewList extends React.Component {
                             }
                         />
                     ))}
-                    <Link
-                        to={`/search/${this.props.list_name}`}
-                    >
+                    <Link to={`/search/${this.props.list_name}`}>
                         <button
                             id="search-more"
                             onClick={this.clickSearchMoreHandler}

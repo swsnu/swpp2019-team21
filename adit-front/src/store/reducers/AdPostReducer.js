@@ -1,6 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
 import axios from 'axios';
-import actionType from '../actions/actionTypes';
 
 const initialState = {
     adpost_list_item: [
@@ -43,11 +42,11 @@ const initialState = {
     }
 };
 
-export const reducer = (state = initialState, action) => {
+export const adpost_reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionType.GET_LISTED_ARTICLE:
+        case actionTypes.GET_LISTED_ARTICLE:
             return { ...state, adpost_list_item: action.adpost_list_item };
-        case actionType.GET_DETAILED_ARTILCE:
+        case actionTypes.GET_DETAILED_ARTICLE:
             return {
                 ...state,
                 adpost_detailed_item: action.adpost_detailed_item
@@ -55,4 +54,3 @@ export const reducer = (state = initialState, action) => {
     }
     return state;
 };
-export default reducer;

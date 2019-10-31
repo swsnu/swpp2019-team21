@@ -10,6 +10,8 @@ const mockedState = {
 describe('<BottomBox />', () => {
     it('should render without errors', () => {
         const component = shallow(<BottomBox />);
+        const wrapper = component.find('.BottomBox');
+        expect(wrapper.length).toBe(1);
     });
 
     it('should reflect state', () => {
