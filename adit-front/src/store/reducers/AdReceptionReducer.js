@@ -1,13 +1,13 @@
 import actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    all_tags: []
+    submitted : false
 };
 
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.GET_TAG:
-            return { ...state, all_tags: action.all_tags };
+        case actionTypes.POST_RECEPTION:
+            return { ...state, submitted : true };
     }
     return state;
 };
