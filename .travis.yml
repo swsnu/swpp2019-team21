@@ -6,9 +6,9 @@ matrix:
     dist: trusty
     addons:
       sonarcloud:
-        organization: swsnu
+        organization: "swsnu"
         token: 
-          secure: AxbEkrjI56NTHCuIcBl357hMbGpLYTeFEdJZbhmlHZHPGeDlUg6e15LMLlRWEZ8Fbhd0QmqgtsZIuHM5f256fRFM1OWowo2sXgyBNQndmcLjDhMFEhMQnjLZqzeWvTyGhQkdM+YGqiNQvLJqf41bga37stebgjIJk1qJfL1YprjuFIVqIpuxQ89NcjRP92p+/DIIr2e49YycRA4jVMZhSbWDDyNCJ2AoyxgRCiqLGfkPKVWOiC9nT0eDoJnhHXABFEJAnazXvb8sLe+wrNydqW9xk4NZyMYJD+ECpFAIzy6C1FYQPsDydwzXFCIK9VOiGi+RrEMZ1GD1sp5q8Vu1mgfg5mlai0OuG9HYc871cwlMCEmZqrhlPqzfdQd9qERkqpYOXmWbM8bFdtWyzY5cm1VXcwTCKUGAnTTTj3gubKdrYpk8HUWmdBGuv6oVsGd6T36CWZIXee4kDQAH5CJb8D3Z/R15Icv5Pz4IRYv2D55wgTfP3224sCHkhIO9mKuy6xAZ2Q7OHwrAAgPD40Af29cHWpE1gB7OLqpGvgZGLybQ3aRQMakpH01MtuQTkdadF2ccGSpdCv/mpBPLGKtuF5ZauI/ZaTqi05izKgSjfDocuOSf8ICk2wz3az6zcFeoCx13ZePhFbuU1lXFqXTkjWmNBU6sb/3GeDxoqHuwz8Y=
+          secure: "AxbEkrjI56NTHCuIcBl357hMbGpLYTeFEdJZbhmlHZHPGeDlUg6e15LMLlRWEZ8Fbhd0QmqgtsZIuHM5f256fRFM1OWowo2sXgyBNQndmcLjDhMFEhMQnjLZqzeWvTyGhQkdM+YGqiNQvLJqf41bga37stebgjIJk1qJfL1YprjuFIVqIpuxQ89NcjRP92p+/DIIr2e49YycRA4jVMZhSbWDDyNCJ2AoyxgRCiqLGfkPKVWOiC9nT0eDoJnhHXABFEJAnazXvb8sLe+wrNydqW9xk4NZyMYJD+ECpFAIzy6C1FYQPsDydwzXFCIK9VOiGi+RrEMZ1GD1sp5q8Vu1mgfg5mlai0OuG9HYc871cwlMCEmZqrhlPqzfdQd9qERkqpYOXmWbM8bFdtWyzY5cm1VXcwTCKUGAnTTTj3gubKdrYpk8HUWmdBGuv6oVsGd6T36CWZIXee4kDQAH5CJb8D3Z/R15Icv5Pz4IRYv2D55wgTfP3224sCHkhIO9mKuy6xAZ2Q7OHwrAAgPD40Af29cHWpE1gB7OLqpGvgZGLybQ3aRQMakpH01MtuQTkdadF2ccGSpdCv/mpBPLGKtuF5ZauI/ZaTqi05izKgSjfDocuOSf8ICk2wz3az6zcFeoCx13ZePhFbuU1lXFqXTkjWmNBU6sb/3GeDxoqHuwz8Y="
     before_install:
     - cd adit-front
     install:
@@ -27,3 +27,4 @@ matrix:
     - pylint **/*.py
     - coverage run --source="." manage.py test adit
     - coverage report
+
