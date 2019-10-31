@@ -2,17 +2,29 @@ from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAll
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import ensure_csrf_cookie
 import json
-#from .models import Article, Comment
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.forms.models import model_to_dict
+from django.shortcuts import get_object_or_404
 
 def signup(request):
     if request.method == 'POST':
-        #TODO
-        return HttpResponse(status = 201)
+        try:
+            req_data = json.loads(request.body.decode())
+            email = req_data['email']
+            password = req_data['password']
+            firstname = req_data['fname']
+            lastname = req_data['lname']
+            nickname = req_data['nickname']
+            if len(User.objects.filter(email = email)) > 0:
+                return HttpResponseBadRequest()
+        except (KeyError, JSONDecodeError) as e:
+            return HttpResponseBadRequest()
+        User.objects.create_user(username = nickname, password = password, first_name = firstname, last_name = lastname, email = email)
+        #TODO : put new tags
+        return HttpResponse(status=201)
     else:
-        return HttpResponseNotAllowed(["POST"])
+        return HttpResponseNotAllowed(['POST'])
 
 
 @ensure_csrf_cookie
@@ -24,10 +36,20 @@ def token(request):
 
 def signin(request):
     if request.method == 'POST':
-        #TODO
-        return HttpResponse(status = 201)
+        try:
+            req_data = json.loads(request.body.decode())
+            email = req_data['email']
+            password = req_data['password']
+        except (KeyError, JSONDecodeError) as e:
+            return HttpResponseBadRequest(status=400)
+        user = auth.authenticate(email = email, password = password)
+        if user is not None:
+            auth.login(request, user)
+            return HttpResponse(status = 204)
+        else:
+            return HttpResponse(status = 401)
     else:
-        return HttpResponseNotAllowed(["POST"])
+        return HttpResponseNotAllowed(['POST'])
 
 def signout(request):
     if request.method == 'GET':
