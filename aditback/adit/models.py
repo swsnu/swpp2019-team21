@@ -1,83 +1,93 @@
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser, PermissionsMixin)
- 
+
+
 class AditUserManager(BaseUserManager):
-    def create_user(self, email, nickname, password=None, first_name, last_name, tags):
+    def create_user(self, email, nickname, first_name, last_name, tags, password=None):
         if not email:
             raise ValueError('Users must have an email address')
-        
-        if AditUser.objects.get(email = email):
+
+        if len(AditUser.objects.filter(email=email)):
             raise ValueError('Email address should be unique')
- 
+
         user = self.model(
-            email = AditUser.normalize_email(email),
-            nickname = nickname,
-            first_name = first_name,
-            last_name = last_name,
-            tags = tags
+            email=AditUserManager.normalize_email(email),
+            nickname=nickname,
+            first_name=first_name,
+            last_name=last_name
         )
- 
+        print(user.id)
+
+
         user.set_password(password)
-        user.save(using = self._db)
+        user.save(using=self._db)
+        user.tags.set(InterestedTags.objects.all())
+        user.save()
         return user
- 
+
     def create_superuser(self, email, nickname, password):
-        u = self.create_user(email = email,
-                             nickname = nickname,
-                             password = password,
-                            )
+        u = self.create_user(email=email,
+                             nickname=nickname,
+                             password=password,
+                             )
         u.is_admin = True
-        u.save(using = self._db)
+        u.save(using=self._db)
         return u
- 
-class AditUser(AbstractBaseUser,  PermissionsMixin):
+
+class InterestedTags(models.Model):
+    content = models.CharField(
+        max_length=20
+    )
+
+class AditUser(AbstractBaseUser, PermissionsMixin):
+    id = models.AutoField(primary_key=True)
     email = models.EmailField(
-        verbose_name = 'email',
-        max_length = 255,
-        unique = True,
+        verbose_name='email',
+        max_length=255,
+        unique=True,
     )
     nickname = models.CharField(
         'Nickname',
-        max_length = 10, 
-        blank = False, 
-        unique = True, 
-        default = ''
+        max_length=10,
+        blank=False,
+        unique=True,
+        default=''
     )
     avatar = models.ImageField(
-        null = True,
-        blank = True,
-        upload_to = 'image/avatar/',
+        null=True,
+        blank=True,
+        upload_to='image/avatar/',
     )
     first_name = models.CharField(
         'Firstname',
-        max_length = 10, 
-        blank = False, 
-        unique = False, 
-        default = ''
+        max_length=10,
+        blank=False,
+        unique=False,
+        default=''
     )
     last_name = models.CharField(
         'Lastname',
-        max_length = 10, 
-        blank = False, 
-        unique = False, 
-        default = ''
+        max_length=10,
+        blank=False,
+        unique=False,
+        default=''
     )
     tags = models.ManyToManyField(
-        to = InterestedTags, 
-        related_name = 'usertag'
+        to=InterestedTags,
+        related_name='usertag'
     )
-    is_active = models.BooleanField(default = True)
-    is_admin = models.BooleanField(default = False)
- 
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+
     objects = AditUserManager()
- 
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nickname', 'first_name', 'last_name']
- 
+
     def get_full_name(self):
         # The user is identified by their email address
         return self.email
- 
+
     def get_short_name(self):
         # The user is identified by their email address
         return self.email
@@ -87,7 +97,7 @@ class AditUser(AbstractBaseUser,  PermissionsMixin):
 
     def get_tags(self):
         return self.tags
- 
+
     def __str__(self):
         return self.email
 
@@ -97,7 +107,6 @@ class AditUser(AbstractBaseUser,  PermissionsMixin):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
-    """ 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
         # Simplest possible answer: Yes, always
@@ -107,28 +116,37 @@ class AditUser(AbstractBaseUser,  PermissionsMixin):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
-    """ 
+
+
+
+class PostImage(models.Model):
+    image = models.ImageField(
+        upload_to='image/adpost/postimage',
+        null=True
+    )
+
 
 class AdPost(models.Model):
     owner = models.ForeignKey(
         AditUser,
-        related_name = 'post'
+        related_name='post',
+        on_delete=models.CASCADE
     )
     title = models.CharField(
-        max_length = 64
+        max_length=64
     )
     subtitle = models.CharField(
-        max_length = 64
+        max_length=64
     )
     content = models.TextField()
     thumbnail = models.ImageField(
-        null = True,
-        blank = True,
-        upload_to = 'image/adpost/thumnail',
+        null=True,
+        blank=True,
+        upload_to='image/adpost/thumnail',
     )
     image = models.ManyToManyField(
-        to = PostImage,
-        related_name = 'imagepost'
+        to=PostImage,
+        related_name='imagepost'
     )
     ad_link = models.TextField()
     closed = models.BooleanField()
@@ -137,51 +155,37 @@ class AdPost(models.Model):
     upload_date = models.DateTimeField()
     expiry_date = models.DateField()
     tags = models.ManyToManyField(
-        to = InterestedTags, 
-        related_name = 'posttag'
+        to=InterestedTags,
+        related_name='posttag'
     )
 
-class PostImage(models.Model):
-    image = models.ImageField(
-        upload_to='image/adpost/postimage',
-        null = True
-    )
-    post = models.ManyToManyField(
-        to = AdPost,
-        related_name = 'postimage',
-        on_delete = models.CASCADE
-    )
-
-class InterestedTags(models.Model):
-    content = models.CharField(
-        max_length = 20
-    )
 
 class AdReception(models.Model):
     owner = models.ForeignKey(
         AditUser,
-        related_name = 'adreception',
-        on_delete = models.CASCADE
+        related_name='adreception',
+        on_delete=models.CASCADE
     )
     adpost = models.ForeignKey(
         AdPost,
-        related_name = 'adreception',
-        on_delete = models.CASCADE
+        related_name='adreception',
+        on_delete=models.CASCADE
     )
     views = models.IntegerField()
     unique_link = models.TextField()
     closed = models.BooleanField()
 
+
 class Question(models.Model):
     owner = models.ForeignKey(
         AditUser,
-        related_name = 'question',
-        on_delete = models.CASCADE
+        related_name='question',
+        on_delete=models.CASCADE
     )
     adpost = models.ForeignKey(
         AdPost,
-        related_name = 'question',
-        on_delete = models.CASCADE
+        related_name='question',
+        on_delete=models.CASCADE
     )
     content = models.TextField()
     checked = models.BooleanField()

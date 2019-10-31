@@ -2,23 +2,22 @@ from django.urls import path
 from adit import views
 
 urlpatterns = [
-    path('sign-up/', views.signup),
+    path('sign-up/', views.signUp.as_view()),
     path('token/', views.token),
-    path('sign-in/', views.signin),
-    path('sign-out/', views.signout),
-    path('user/<int:id>/', views.getUser),
-    path('adpost/', views.adpost),
-    path('adpost/<int:id>/', views.adpostId),
-    path('adpost/by-userid/<int:userid>/', views.adpostUserId),
-    path('adpost/by-tag/<str:tag>/', views.adpostTag),
-    path('adpost/hottest/', views.adpostHot),
-    path('adpost/recent/', views.adpostRecent),
-    path('adpost/search/<str:str>/', views.adpostSearch),
-    path('adpost/custom/<int:userid>/', views.adpostCustom),
-    path('adreception/', views.adreception),
-    path('adreception/<int:id>', views.adreceptionId),
-    path('adreception/by-user/<int:userid>/', views.adreceptionUserId),
-    path('tag/', views.tag),
-    path('tag/search/<str:pattern>/', views.tagSearch),
-    path('question/<int:adpostid>/', views.questionPostId)
+    path('sign-in/', views.signIn.as_view()),
+    path('sign-out/', views.signOut.as_view()),
+    path('user/<int:id>/', views.getUser.as_view()),
+    path('adpost/', views.adPost.as_view()),
+    path('adpost/<int:id>/', views.adPostID.as_view()),
+    path('adpost/by-userid/<int:userid>/', views.adPostUserID.as_view()),
+    path('adpost/by-tag/<str:tag>/', views.adPostTag.as_view()),
+    path('adpost/hottest/', views.adPostHot.as_view()),
+    path('adpost/recent/', views.adPostRecent.as_view()),
+    path('adpost/search/<str:str>/', views.adPostSearch.as_view()),
+    path('adpost/custom/<int:userid>/', views.adPostCustom.as_view()),
+    path('adreception/', views.adReception.as_view()),
+    path('adreception/<int:id>', views.adReceptionID.as_view()),
+    path('tag/', views.tag.as_view()),
+    path('tag/search/<str:pattern>/', views.tagSearch.as_view())
+    #path('question/<int:adpostid>/', views.questionPostId)
 ]

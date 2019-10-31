@@ -14,11 +14,13 @@ def check_valid_method(valid_method):
     def wrapper(func):
         @wraps(func)
         def decorator(*args, **kwargs):
-            request = args[0]
+            request = args[1]
             if request.method not in valid_method:
                 return HttpResponseNotAllowed(valid_method)
             return func(*args, **kwargs)
+
         return decorator
+
     return wrapper
 
 
@@ -32,7 +34,7 @@ def check_valid_method(valid_method):
 def check_is_authenticated(func):
     @wraps(func)
     def decorator(*args, **kwargs):
-        request = args[0]
+        request = args[1]
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         else:
@@ -52,14 +54,16 @@ def check_object_exist(object_type):
     def wrapper(func):
         @wraps(func)
         def decorator(*args, **kwargs):
-            object_id = args[1]
+            object_id = args[2]
             entry = object_type.objects.filter(id=object_id)
 
             if not entry.exists():
                 return HttpResponseNotFound()
             else:
                 return func(*args, **kwargs)
+
         return decorator
+
     return wrapper
 
 
@@ -74,8 +78,8 @@ def check_is_permitted(object_type):
     def wrapper(func):
         @wraps(func)
         def decorator(*args, **kwargs):
-            request = args[0]
-            object_id = args[1]
+            request = args[1]
+            object_id = args[2]
 
             my_user = request.user
             article_owner = object_type.objects.get(id=object_id).owner_id
@@ -83,7 +87,9 @@ def check_is_permitted(object_type):
                 return HttpResponseForbidden()
             else:
                 return func(*args, **kwargs)
+
         return decorator
+
     return wrapper
 
 
@@ -98,7 +104,7 @@ def check_valid_json(item_list):
     def wrapper(func):
         @wraps(func)
         def decorator(*args, **kwargs):
-            request = args[0]
+            request = args[1]
 
             if request.method == 'POST' or request.method == 'PUT':
                 try:
@@ -108,5 +114,7 @@ def check_valid_json(item_list):
                 except (KeyError, json.JSONDecodeError) as e:
                     return HttpResponseBadRequest(400)
             return func(*args, **kwargs)
+
         return decorator
+
     return wrapper
