@@ -8,7 +8,7 @@ const initialState = {
             list_tag: null,
             adpost_items: [
                 {
-                    id: null,
+                    adpost_id: null,
                     owner_id: null,
                     title: null,
                     subtitle: null,
@@ -36,6 +36,7 @@ const initialState = {
         upload_date: null,
         expire_date: null,
         interest_tags: [],
+        is_owner: false,
         info_aditee: { is_participating: false, unique_url: null, views: null },
         // Should be added at latter..
         info_aditor: { statistics: null }
