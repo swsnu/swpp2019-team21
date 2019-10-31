@@ -124,7 +124,7 @@ class TopMenu extends Component {
                     >
                         Adit
                     </h1>
-                    <div class="Search">
+                    <div className="Search">
                         <input
                             id="ad-search-input"
                             type="text"

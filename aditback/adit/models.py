@@ -1,3 +1,4 @@
+from builtins import ValueError
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser, PermissionsMixin)
 
@@ -21,7 +22,8 @@ class AditUserManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using=self._db)
-        user.tags.set(InterestedTags.objects.all())
+        for tag in tags:
+            user.tags.add(tag)
         user.save()
         return user
 
@@ -38,6 +40,9 @@ class InterestedTags(models.Model):
     content = models.CharField(
         max_length=20
     )
+    usercount = models.IntegerField()
+    postcount = models.IntegerField()
+
 
 class AditUser(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True)
@@ -118,7 +123,6 @@ class AditUser(AbstractBaseUser, PermissionsMixin):
         return True
 
 
-
 class PostImage(models.Model):
     image = models.ImageField(
         upload_to='image/adpost/postimage',
@@ -159,6 +163,7 @@ class AdPost(models.Model):
         related_name='posttag'
     )
 
+InterestedTags.post = models.ManyToManyField(to=AdPost, related_name='posttag')
 
 class AdReception(models.Model):
     owner = models.ForeignKey(
