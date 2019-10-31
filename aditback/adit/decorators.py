@@ -18,7 +18,9 @@ def check_valid_method(valid_method):
             if request.method not in valid_method:
                 return HttpResponseNotAllowed(valid_method)
             return func(*args, **kwargs)
+
         return decorator
+
     return wrapper
 
 
@@ -59,7 +61,9 @@ def check_object_exist(object_type):
                 return HttpResponseNotFound()
             else:
                 return func(*args, **kwargs)
+
         return decorator
+
     return wrapper
 
 
@@ -83,7 +87,9 @@ def check_is_permitted(object_type):
                 return HttpResponseForbidden()
             else:
                 return func(*args, **kwargs)
+
         return decorator
+
     return wrapper
 
 
@@ -108,5 +114,7 @@ def check_valid_json(item_list):
                 except (KeyError, json.JSONDecodeError) as e:
                     return HttpResponseBadRequest(400)
             return func(*args, **kwargs)
+
         return decorator
+
     return wrapper
