@@ -1,15 +1,4 @@
 import React, { Component } from 'react';
-import {
-    Dropdown,
-    DropdownButton,
-    Navbar,
-    Image,
-    OverlayTrigger,
-    Popover,
-    ListGroup,
-    ListGroupItem,
-    Carousel
-} from 'react-bootstrap';
 import PreviewList from '../../components/PreviewList/PreviewList';
 import EventItemList from '../../components/EventItemList/EventItemList';
 import thumbnail from '../../assets/thumbnail_example.png';

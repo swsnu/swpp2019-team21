@@ -15,7 +15,7 @@
     height: 200px;
 }
 
-.ArticleCreate   .form-control {
+.ArticleCreate .form-control {
     width: 500px;
 }
 
@@ -36,7 +36,6 @@
 #next-button {
     margin-bottom: 50px;
 }
-
 
 .tagSelect .react-tags {
     position: relative;
