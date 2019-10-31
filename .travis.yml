@@ -16,6 +16,13 @@ matrix:
     script:
     - ./node_modules/.bin/eslint src
     - yarn test --coverage --watchAll=false
-# - language: python
-#   python: 3.6
-#   ...
+  - language: python
+    python: 3.6
+    before_install:
+    - cd adit-front
+    install:
+    - pip3 install -r requirements.txt
+    script:
+    - pylint **/*.py
+    - coverage run --source="." manage.py test adit
+    - coverage report
