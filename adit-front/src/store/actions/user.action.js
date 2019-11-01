@@ -55,3 +55,38 @@ export const signUp = user => {
             });
     };
 };
+
+export const getUser_ = user => {
+    return {
+        type: actionTypes.GET_USER,
+        user: user
+    };
+};
+
+export const getUser = user => {
+    return dispatch => {
+        return axios
+            .get(base_url + '/user/')
+            .then(res => dispatch(getUser_(res.data)))
+            .catch(error => {
+                console.log('getUser failed');
+            });
+    };
+};
+
+export const putUser_ = () => {
+    return {
+        type: actionTypes.PUT_USER
+    };
+};
+
+export const putUser = user => {
+    return dispatch => {
+        return axios
+            .put(base_url + '/user/', user)
+            .then(res => dispatch(putUser_()))
+            .catch(error => {
+                console.log('put user failed');
+            });
+    };
+};
