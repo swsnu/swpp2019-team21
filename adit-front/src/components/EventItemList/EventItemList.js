@@ -11,9 +11,9 @@ class EventItemList extends React.Component {
 
     render() {
         return (
-            <Carousel>
+            <Carousel className = "EventItemList">
                 {this.props.eventItems.map(item =>
-                    <Carousel.Item onClick={() => this.clickEventHandler(item.id)}>
+                    <Carousel.Item className = "EventItemListItem" key = {item.id} onClick={() => this.clickEventHandler(item.id)}>
                         <img
                             src={item.url}
                             alt={item.title}
@@ -30,7 +30,7 @@ class EventItemList extends React.Component {
 }
 
 EventItemList.propTypes = {
-    eventItems: PropTypes.object
+    eventItems: PropTypes.array
 };
 
 export default EventItemList;

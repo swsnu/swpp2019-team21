@@ -1,15 +1,24 @@
 import React, { Component, Profiler } from 'react'
 import { Dropdown, DropdownButton, Navbar, Image, OverlayTrigger, Popover, ListGroup, ListGroupItem } from 'react-bootstrap';
 import profile from './../../assets/iu_profile.png'
-import { connect } from 'net';
+import { connect } from 'react-redux';
 import './SignUp.css'
 import avatar from '../../assets/avatar.png'
+import * as actionCreators from '../../store/actions/user.action'
 
 class SignUp extends Component {
     state = {email: '', password: '', password_check:'', fname:'', lname:'',}
     SignupHandler = () => {
         alert('Welcome!')
         this.props.history.push('/signin')
+        const user = {
+            email: this.state.email,
+            password: this.state.password,
+            firstname: this.state.fname,
+            lastname: this.state.lname,
+            nickname: this.state.fname
+        }
+        this.props.onsignUp(user)
         return
     }
     render(){
@@ -58,4 +67,11 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp
+
+export const mapDispatchToProps = dispatch => {
+    return {
+        onsignUp : (user) => dispatch(actionCreators.signUp(user))
+    };
+}
+
+export default connect(null, mapDispatchToProps)(SignUp);
