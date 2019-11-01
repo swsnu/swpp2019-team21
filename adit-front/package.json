@@ -1,7 +1,7 @@
 {
     "name": "adit-front",
     "version": "0.1.0",
-    "proxy":"http://localhost:8000/",
+    "proxy": "http://localhost:8000/",
     "private": true,
     "dependencies": {
         "@fortawesome/fontawesome": "^1.1.8",
@@ -10,6 +10,7 @@
         "@fortawesome/fontawesome-svg-core": "^1.2.25",
         "@fortawesome/free-solid-svg-icons": "^5.11.2",
         "@fortawesome/react-fontawesome": "^0.1.7",
+        "@types/jest": "^24.0.21",
         "axios": "^0.19.0",
         "bootstrap": "^4.3.1",
         "connected-react-router": "^6.5.2",
@@ -31,6 +32,7 @@
         "react-tag-autocomplete": "^5.11.2",
         "react-test-renderer": "^16.9.0",
         "redux": "^4.0.4",
+        "redux-mock-store": "^1.5.3",
         "redux-thunk": "^2.3.0"
     },
     "scripts": {

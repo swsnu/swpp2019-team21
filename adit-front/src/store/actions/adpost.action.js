@@ -1,14 +1,10 @@
 import actionTypes from '../actions/actionTypes';
 import axios from 'axios';
 
-const base_url = '/api';
-
-function getListArticle_(data) {
-    return {
-        type: actionTypes.GET_LISTED_ARTICLE,
-        adpost_list_item: data
-    };
-}
+export const adpostActions = {
+    getArticleList,
+    getArticleDetail
+};
 
 function makeUrl(tag) {
     switch (tag) {
@@ -21,26 +17,48 @@ function makeUrl(tag) {
     }
 }
 
-export const getListArticle = tag_list => {
-    return dispatch => {
-        var chain = axios.get(base_url + makeUrl(tag_list[0]));
-        var data = [];
+function getArticleList_(data) {
+    return {
+        type: actionTypes.GET_LISTED_ARTICLE,
+        adpost_list_item: data
+    };
+}
 
-        for (var i = 1; i < tag_list.length; i++) {
-            chain = chain.then(res => {
-                data.concat({
-                    list_tag: tag_list[i - 1],
-                    adpost_items: res.data
+export const getArticleList = tag_list => {
+    return dispatch => {
+        tag_list.forEach(tag => {
+            axios
+                .get(makeUrl(tag))
+                .then(res => {
+                    var data = {
+                        list_tag: tag,
+                        adpost_items: res.data
+                    };
+                    dispatch(getArticleList_(data));
+                })
+                .catch(e => {
+                    console.log(e);
                 });
-                return axios.get(base_url + makeUrl(tag_list[i]));
-            });
-        }
-        chain.then(res => {
-            data.concat({
-                list_tag: tag_list[tag_list.length - 1],
-                adpost_items: res.data
-            });
-            dispatch(getListArticle_(data));
         });
     };
 };
+
+function getArticleDetail_(data) {
+    return {
+        type: actionTypes.GET_DETAILED_ARTICLE,
+        adpost_detailed_item: data
+    };
+}
+
+function getArticleDetail(article_id) {
+    return dispatch => {
+        axios
+            .get('/adpost/' + article_id)
+            .then(res => {
+                dispatch(getArticleDetail_(res.data));
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+}

@@ -1,6 +1,4 @@
-import React, { Component, Profiler } from 'react';
-import { Button } from 'react-bootstrap';
-import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
 import './ArticleCreate.css';
 import Calendar from 'react-calendar';

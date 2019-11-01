@@ -10,16 +10,28 @@ import {
     ListGroupItem
 } from 'react-bootstrap';
 import profile from './../../assets/iu_profile.png';
-import { connect } from 'net';
+import { connect } from 'react-redux';
 import './SignIn.css';
 import avatar from '../../assets/avatar.png';
+import * as actionCreators from '../../store/actions/user.action';
 
 class SignIn extends Component {
+    componentDidMount() {
+        if (localStorage.getItem('logged_in') === 'true') {
+            this.props.history.push('/home');
+        }
+    }
+
+    componentDidUpdate() {
+        if (localStorage.getItem('logged_in') === 'true') {
+            this.props.history.push('/home');
+        }
+    }
+
     state = {
         email: '',
         password: '',
         name: '',
-        logged_in: false,
         storedUsers: {
             email: 'csh3695@naver.com',
             password: 'ihateswpp',
@@ -27,23 +39,13 @@ class SignIn extends Component {
             logged_in: true
         }
     };
+
     SignInHandler = () => {
-        if (
-            this.state.storedUsers.email === this.state.email &&
-            this.state.storedUsers.password === this.state.password
-        ) {
-            this.setState({
-                ...this.state,
-                email: this.state.storedUsers.email,
-                password: '',
-                name: this.state.storedUsers.name,
-                logged_in: true
-            });
-            this.props.history.push('/home');
-            return;
-        }
-        alert('Email or password is wrong');
-        return;
+        const user = {
+            email: this.state.email,
+            password: this.state.password
+        };
+        this.props.onsignIn(user);
     };
     SignUpHandler = () => {
         this.props.history.push('/signup');
@@ -84,7 +86,6 @@ class SignIn extends Component {
                         <button
                             type="submit"
                             className="btn btn-primary btn-lg btn-block"
-                            button
                             id="signin-button"
                             onClick={() => this.SignInHandler()}
                         >
@@ -92,7 +93,7 @@ class SignIn extends Component {
                         </button>
                     </div>
                     <div className="clearfix">
-                        <label clasName="Remember">
+                        <label className="Remember">
                             <input type="checkbox" id="remember-chkbox" />{' '}
                             Remember me
                         </label>
@@ -116,4 +117,19 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
+export const mapStateToProps = state => {
+    return {
+        logged_in: state.user.logged_in
+    };
+};
+
+export const mapDispatchToProps = dispatch => {
+    return {
+        onsignIn: user => dispatch(actionCreators.signIn(user))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignIn);
