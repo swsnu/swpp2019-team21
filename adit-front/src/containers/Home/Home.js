@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PreviewList from '../../components/PreviewList/PreviewList';
 import EventItemList from '../../components/EventItemList/EventItemList';
 import thumbnail from '../../assets/thumbnail_example.png';
-import { adpostAction, adpostActions } from '../../store/actions/adpost.action';
+import * as actionCreators from '../../store/actions/adpost.action';
 import './Home.css';
 import { connect } from 'react-redux';
 import intro_first from '../../assets/intro_first.jpg';
@@ -41,17 +41,26 @@ const mockEventList = [
 
 class Home extends Component {
     componentDidMount() {
-        this.props.onSetUp();
+        //this.props.onGetCustomList();
+        this.props.onGetHottestList();
+        //this.props.onGetRecentList();
     }
 
     render() {
+        /*const customPreviewList = this.props.interestedList.map(list => {
+            return (
+                <PreviewList
+                    articles={list.adpost_item}
+                    list_name={list.list_tag}
+                />
+            );
+        });*/
         return (
             <div className="home">
                 <EventItemList eventItems={mockEventList} />
                 <p></p>
                 <PreviewList articles={mockAdPostList} list_name={'Hottest'} />
                 <PreviewList articles={mockAdPostList} list_name={'Newest'} />
-                <PreviewList articles={mockAdPostList} list_name={'Tag 1'} />
             </div>
         );
     }
@@ -59,13 +68,30 @@ class Home extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSetUp: () => {
-            dispatch(adpostActions.getArticleList);
+        onGetRecentList: () => {
+            dispatch(actionCreators.getRecentList());
+        },
+        onGetHottestList: () => {
+            dispatch(actionCreators.getHottestList());
+        },
+        onGetCustomList: () => {
+            dispatch(actionCreators.getCustomList());
+        },
+        onGetListByTags: tag_list => {
+            dispatch(actionCreators.getArticleList(tag_list));
         }
     };
 };
 
+const mapStateToProps = state => {
+    return {
+        hotList: state.adpost.adpost_hottest_item,
+        recentList: state.adpost.adpost_recent_item,
+        interestedList: state.adpost.addpost_list_item
+    };
+};
+
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(Home);

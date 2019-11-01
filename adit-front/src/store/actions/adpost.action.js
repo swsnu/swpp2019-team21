@@ -1,10 +1,5 @@
-import actionTypes from '../actions/actionTypes';
+import * as actionTypes from '../actions/actionTypes';
 import axios from 'axios';
-
-export const adpostActions = {
-    getArticleList,
-    getArticleDetail
-};
 
 function makeUrl(tag) {
     switch (tag) {
@@ -43,6 +38,66 @@ export const getArticleList = tag_list => {
     };
 };
 
+function getHottestList_(data) {
+    return {
+        type: actionTypes.GET_HOTTEST_ARTICLE,
+        adpost_list_item: data
+    };
+}
+
+export const getHottestList = () => {
+    return dispatch => {
+        axios
+            .get('/api/adpost/hottest/')
+            .then(res => {
+                dispatch(getHottestList_(res.data));
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+};
+
+function getRecentList_(data) {
+    return {
+        type: actionTypes.GET_RECENT_ARTICLE,
+        adpost_list_item: data
+    };
+}
+
+export const getRecentList = () => {
+    return dispatch => {
+        axios
+            .get('/api/adpost/recent/')
+            .then(res => {
+                dispatch(getRecentList_(res.data));
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+};
+
+function getCustomList_(data) {
+    return {
+        type: actionTypes.GET_CUSTOM_ARTICLE,
+        adpost_list_item: data
+    };
+}
+
+export const getCustomList = () => {
+    return dispatch => {
+        axios
+            .get('/api/adpost/custom/')
+            .then(res => {
+                dispatch(getRecentList_(res.data));
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+};
+
 function getArticleDetail_(data) {
     return {
         type: actionTypes.GET_DETAILED_ARTICLE,
@@ -53,7 +108,7 @@ function getArticleDetail_(data) {
 function getArticleDetail(article_id) {
     return dispatch => {
         axios
-            .get('/adpost/' + article_id)
+            .get('/api/adpost/' + article_id)
             .then(res => {
                 dispatch(getArticleDetail_(res.data));
             })

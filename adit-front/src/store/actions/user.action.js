@@ -73,7 +73,6 @@ export const getUser_ = user => {
 
 export const getUser = user => {
     return dispatch => {
-        alert('!!');
         return axios
             .get(base_url + '/user/')
             .then(res => dispatch(getUser_(res.data)))
