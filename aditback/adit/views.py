@@ -13,7 +13,8 @@ from django.forms.models import model_to_dict
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from datetime import datetime
-
+from django.core.files.base import ContentFile
+import base64
 @ensure_csrf_cookie
 def token(request):
     if request.method == 'GET':
@@ -130,10 +131,20 @@ class adPost(View):
                 tag = InterestedTags(content = tag, usercount = 1, postcount = 0)
                 tag.save()
                 tags.append(tag)
-        adpost.image.set(image)
         for tag in tags:
             adpost.tags.add(tag)
         adpost.save()
+        for img in image:
+            format, imgstr = img.split(';')
+            ext = format.split('/')[-1]
+            print(ext)
+            imgstr += '=' * (-len(imgstr)%8)
+            print(imgstr)
+            data = ContentFile(base64.b64decode(imgstr), name='temp.'+ext)
+            newimg = PostImage(image = data)
+            newimg.save()
+            print(newimg.image.url)
+
         response_dict = model_to_dict(adpost)
         return JsonResponse(response_dict)
 
@@ -183,7 +194,7 @@ class adPostByUserID(View):
 
 class adPostByTag(View):
     def get(self, request, tag):
-        post_by_tag = [model_to_dict(post) for post in InterestedTags.objects.filter(content = tag).filter(closed = False).post.all().order_by('-id')] # all()? not all()?
+        post_by_tag = [model_to_dict(post) for post in InterestedTags.objects.filter(content = tag).filter(closed = False).topost.all().order_by('-id')] # all()? not all()?
         return JsonResponse(post_by_tag, status=200, safe=False)
 
 
@@ -198,10 +209,9 @@ class adPostByRecent(View):
         post_by_recent = [model_to_dict(post) for post in AdPost.objects.all().order_by('-upload_date')]
         return JsonResponse(post_by_recent, status=200, safe=False)
 
-
 class adPostBySearch(View):
     def get(self, request, str):
-        post_by_search = [model_to_dict(post) for post in AdPost.objects.all().filter(Q(title__icontains=str) | Q(content__icontains=str)).order_by('-id')]
+        post_by_search = [model_to_dict(post) for post in AdPost.objects.all().filter(Q(title__icontains=str) | Q(subtitle__icontains=str) | Q(content__icontains=str)).order_by('-id')]
         return JsonResponse(post_by_search, status=200, safe=False)
 
 
@@ -211,7 +221,7 @@ class adPostByCustom(View):
     @check_is_permitted
     def get(self, request, userid):
         usertags = AditUser.objects.filter(id = userid).tags
-        post_by_custom = [model_to_dict(post) for tag in usertags for post in InterestedTags.objects.filter(content = tag).filter(closed = False).post.all().order_by('-id')]
+        post_by_custom = [model_to_dict(post) for tag in usertags for post in InterestedTags.objects.filter(content = tag).filter(closed = False).topost.all().order_by('-id')]
         return JsonResponse(post_by_custom, status=200, safe=False)
 
 
@@ -252,13 +262,13 @@ class tag(View):
     @check_valid_json(item_list=item_list)
     def get(self, request):
         taglist = [model_to_dict(tag) for tag in InterestedTags.objects.all()]
-        return JsonResponse(taglist)
+        return JsonResponse(taglist, safe = False)
 
 
 class tagSearch(View):
-    def get(self, request):
-        tags_by_searchkey = [model_to_dict(tag) for tag in InterestedTags.objects.all().filter(content__icontains=request.searchkey)]
-        return JsonResponse(tags_by_searchkey)
+    def get(self, request, pattern):
+        tags_by_searchkey = [model_to_dict(tag) for tag in InterestedTags.objects.all().filter(content__icontains=pattern)]
+        return JsonResponse(tags_by_searchkey, safe = False)
 
 
 """
