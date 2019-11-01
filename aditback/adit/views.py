@@ -135,10 +135,9 @@ class adPost(View):
             adpost.tags.add(tag)
         adpost.save()
         for img in image:
-            format, imgstr = img.split(';')
+            format, imgstr = img.split(';base64,')
             ext = format.split('/')[-1]
             print(ext)
-            imgstr += '=' * (-len(imgstr)%8)
             print(imgstr)
             data = ContentFile(base64.b64decode(imgstr), name='temp.'+ext)
             newimg = PostImage(image = data)

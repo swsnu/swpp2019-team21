@@ -9,8 +9,8 @@
 
 .TopMenu input[type=text]{
     font-size: 1.2rem;
-    width:600px;
-    min-width: 100px;
+    min-width: 250px;
+    max-width: 250px;
     border-style:hidden;
     background: #f0f1f2;
     box-shadow: 0 1px 0 0 #708bc5;
@@ -24,7 +24,7 @@
 
 .TopMenu .Search{
     position:relative;
-    left:5%;
+    left:3%;
 }
 
 .TopMenu btn{
