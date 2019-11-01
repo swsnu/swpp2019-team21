@@ -86,7 +86,6 @@ class SignIn extends Component {
                         <button
                             type="submit"
                             className="btn btn-primary btn-lg btn-block"
-                            button
                             id="signin-button"
                             onClick={() => this.SignInHandler()}
                         >
@@ -94,7 +93,7 @@ class SignIn extends Component {
                         </button>
                     </div>
                     <div className="clearfix">
-                        <label clasName="Remember">
+                        <label className="Remember">
                             <input type="checkbox" id="remember-chkbox" />{' '}
                             Remember me
                         </label>

@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { push } from 'connected-react-router';
 import axios from 'axios';
 
 const base_url = '/api';
@@ -13,7 +14,11 @@ export const signIn = user => {
     return dispatch => {
         return axios
             .post(base_url + '/sign-in/', user)
-            .then(res => dispatch(signIn_()))
+            .then(res => {
+                dispatch(getUser());
+                dispatch(signIn_());
+                dispatch(push('/home'));
+            })
             .catch(error => {
                 console.log('sign in failed');
                 alert('Email or password is wrong');
@@ -31,7 +36,10 @@ export const signOut = () => {
     return dispatch => {
         return axios
             .get(base_url + '/sign-out/')
-            .then(res => dispatch(signOut_()))
+            .then(res => {
+                dispatch(signOut_());
+                dispatch(push('/signin'));
+            })
             .catch(error => {
                 console.log('sign out failed');
             });
@@ -65,6 +73,7 @@ export const getUser_ = user => {
 
 export const getUser = user => {
     return dispatch => {
+        alert('!!');
         return axios
             .get(base_url + '/user/')
             .then(res => dispatch(getUser_(res.data)))

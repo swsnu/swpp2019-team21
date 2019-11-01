@@ -21,7 +21,7 @@ export const user_reducer = (state = initialState, action) => {
             localStorage.setItem('logged_in', 'false');
             return { ...state, logged_in: false };
         case actionTypes.GET_USER:
-            return { ...state, user: action.user };
+            return { ...state, user: action.user, logged_in: true };
         case actionTypes.PUT_USER:
             return { ...state };
         default:

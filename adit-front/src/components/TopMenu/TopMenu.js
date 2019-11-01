@@ -16,6 +16,7 @@ import profile from './../../assets/iu_profile.png';
 import { connect } from 'react-redux';
 import { history } from '../../store';
 import * as actionCreators from '../../store/actions/user.action';
+import TopMenuPopUp from './TopMenuPopUp';
 
 class TopMenu extends Component {
     state = {
@@ -28,9 +29,21 @@ class TopMenu extends Component {
         searchkey: null
     };
 
-    signOutHandler = () => {
-        this.props.onsignOut();
+    componentDidMount() {
+        if (
+            localStorage.getItem('logged_in') === 'true' &&
+            !this.props.user.user_id
+        ) {
+            this.props.reloadUser();
+        }
+    }
+
+    signInHandler = () => {
         history.push('/signin');
+    };
+
+    clickHomeHandler = () => {
+        history.push('/home');
     };
 
     searchConfirmHandler = () => {
@@ -43,85 +56,27 @@ class TopMenu extends Component {
     };
 
     newArticleHandler = () => {
-        if (this.state.sign_in) history.push('/article/create');
+        if (this.props.logged_in) history.push('/article/create');
         else history.push('/signin');
     };
 
     render() {
-        let popuserinfo = null;
-        let overlaytrigger = null;
-        let signInButton = null;
+        let signInButton = (
+            <button value="signin" onClick={this.signInHandler}>
+                Sign In
+            </button>
+        );
         let newArticleButton = (
             <btn onClick={this.newArticleHandler}>New Ad Request</btn>
         );
-        if (this.state.sign_in) {
-            popuserinfo = (
-                <Popover id="PopUserInfo">
-                    <Popover.Title as="h3">
-                        <u1>
-                            Hello, <strong>{this.state.user.name}</strong>!
-                        </u1>
-                    </Popover.Title>
-                    <Popover.Content id="PopUserContent">
-                        <ListGroup id="PopUserMenuList">
-                            <ListGroup.Item
-                                action
-                                variant="light"
-                                onClick={() => history.push('/mypage')}
-                            >
-                                <p align="center">
-                                    <Image
-                                        id="UserInfoImage"
-                                        class="img-responsive"
-                                        src={this.state.user.pic}
-                                        width="100px"
-                                        roundedCircle
-                                    />
-                                </p>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                <up>Point {this.state.user.point}</up>
-                            </ListGroup.Item>
-                            <ListGroup.Item
-                                action
-                                variant="light"
-                                onClick={() => history.push('/mypage')}
-                            >
-                                My Page
-                            </ListGroup.Item>
-                            <ListGroup.Item
-                                action
-                                variant="light"
-                                onClick={() => this.signOutHandler()}
-                            >
-                                Sign Out
-                            </ListGroup.Item>
-                        </ListGroup>
-                    </Popover.Content>
-                </Popover>
-            );
-            overlaytrigger = (
-                <OverlayTrigger
-                    trigger="click"
-                    placement="auto"
-                    overlay={popuserinfo}
-                >
-                    <Image
-                        id="UserImage"
-                        src={this.state.user.pic}
-                        width="55px"
-                        roundedCircle
-                    />
-                </OverlayTrigger>
-            );
-        }
+
         return (
             <div className="TopMenu">
                 <Navbar id="UserInfo" fixed="top">
                     <h1
                         id="AditTitle"
                         align="left"
-                        onClick={() => history.push('/home')}
+                        onClick={this.clickHomeHandler}
                     >
                         Adit
                     </h1>
@@ -129,7 +84,7 @@ class TopMenu extends Component {
                         <input
                             id="ad-search-input"
                             type="text"
-                            placeHolder="Search"
+                            placeholder="Search"
                             onKeyPress={this.keyPressHandler}
                             onChange={event =>
                                 this.setState({
@@ -149,9 +104,16 @@ class TopMenu extends Component {
                             onClick={this.searchConfirmHandler}
                         ></i>
                     </div>
-                    {this.state.sign_in && newArticleButton}
-                    {this.state.sign_in && overlaytrigger}
-                    {!this.state.sign_in && signInButton}
+                    {this.props.logged_in && newArticleButton}
+                    {this.props.logged_in && (
+                        <TopMenuPopUp user={this.props.user} />
+                    )}
+
+                    {!this.props.logged_in && (
+                        <button id="SignInButton" onClick={this.signInHandler}>
+                            Sign In
+                        </button>
+                    )}
                 </Navbar>
             </div>
         );
@@ -160,13 +122,15 @@ class TopMenu extends Component {
 
 export const mapStateToProps = state => {
     return {
-        logged_in: state.user.logged_in
+        logged_in: state.user.logged_in,
+        user: state.user.user
     };
 };
 
 export const mapDispatchToProps = dispatch => {
     return {
-        onsignOut: () => dispatch(actionCreators.signOut())
+        onsignOut: () => dispatch(actionCreators.signOut()),
+        reloadUser: () => dispatch(actionCreators.getUser())
     };
 };
 

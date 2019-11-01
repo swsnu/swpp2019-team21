@@ -10,17 +10,6 @@ import thunk from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware, connectRouter } from 'connected-react-router';
 
-const logger = store => {
-    return next => {
-        return action => {
-            console.log('[Middleware] Dispatching', action);
-            const result = next(action);
-            console.log('[Middleware] Next State', store.getState());
-            return result;
-        };
-    };
-};
-
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
