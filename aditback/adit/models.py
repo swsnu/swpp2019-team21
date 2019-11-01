@@ -27,9 +27,12 @@ class AditUserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_superuser(self, email, nickname, password):
+    def create_superuser(self, email, nickname, first_name, last_name, password):
         u = self.create_user(email=email,
                              nickname=nickname,
+                             first_name=first_name,
+                             last_name=last_name,
+                             tags = [],
                              password=password,
                              )
         u.is_admin = True

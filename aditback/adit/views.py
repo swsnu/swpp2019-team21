@@ -181,7 +181,7 @@ class adPost(View):
         title = req_data['title']
         subtitle = req_data['subtitle']
         content = req_data['content']
-        image = req_data['image']
+        image = req_data['image'][1:]
         ad_link = req_data['ad_link']
         target_views = req_data['target_views']
         expiry_date = req_data['expiry_date']
@@ -206,9 +206,8 @@ class adPost(View):
         adpost.save()
 
         for i in range(len(image)):
-            if i>0:
-                newimg = img_process(image[i])
-                adpost.image.add(newimg)
+            newimg = img_process(image[i])
+            adpost.image.add(newimg)
 
         adpost.save()
         response_dict = model_to_dict(adpost)
@@ -226,7 +225,6 @@ class adPostByID(View):
         tag_process(response_dict)
         image_process(response_dict)
         thumbnail_process(response_dict)
-        print(response_dict)
         return JsonResponse(response_dict)
 
     @check_is_authenticated
@@ -246,7 +244,7 @@ class adPostByID(View):
         post_new_thumbnail = req_data['image'][0]
         post_old_images = adpost.image.all()
         post_old_tags = adpost.tags.all()
-        post_old_thumbnail = adpost.thumbnail
+        post_old_thumbnail_id = adpost.thumbnail.id
 
         for tag in post_old_tags:
             tag.postcount -= 1
@@ -261,7 +259,9 @@ class adPostByID(View):
 
         img_new = img_process(post_new_thumbnail)
         adpost.thumbnail = img_new
-        #PostImage.delete(post_old_thumbnail)
+        post_old_thumbnail = PostImage.objects.get(id = post_old_thumbnail_id)
+        adpost.save()
+        PostImage.delete(post_old_thumbnail)
 
         for tag in post_new_tags:
             if len(InterestedTags.objects.filter(content = tag)) > 0:
