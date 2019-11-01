@@ -43,6 +43,7 @@ export const signUp_ = () => {
         type: actionTypes.SIGN_UP
     };
 };
+
 export const signUp = user => {
     return dispatch => {
         return axios
