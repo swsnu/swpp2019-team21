@@ -1,6 +1,11 @@
 import actionTypes from '../actions/actionTypes';
 import axios from 'axios';
 
+export const adpostActions = {
+    getArticleList,
+    getArticleDetail
+};
+
 function makeUrl(tag) {
     switch (tag) {
         case 'hottest':

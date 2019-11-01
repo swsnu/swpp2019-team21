@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PreviewList from '../../components/PreviewList/PreviewList';
 import EventItemList from '../../components/EventItemList/EventItemList';
 import thumbnail from '../../assets/thumbnail_example.png';
+import { adpostAction, adpostActions } from '../../store/actions/adpost.action';
 import './Home.css';
 import intro_first from '../../assets/intro_first.jpg';
 import intro_second from '../../assets/intro_second.jpg';
@@ -37,6 +38,10 @@ const mockEventList = [
 ];
 
 class Home extends Component {
+    componentDidMount() {
+        this.props.onSetUp();
+    }
+
     render() {
         return (
             <div className="home">
@@ -49,5 +54,11 @@ class Home extends Component {
         );
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSetUp: () => dispatch(adpostActions.getArticleList)
+    };
+};
 
 export default Home;

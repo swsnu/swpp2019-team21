@@ -1,22 +1,47 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios'
+import axios from 'axios';
 
-const base_url = '/api';
+export const tagActions = {
+    getAllTag,
+    postTag
+};
 
-export const getTag_ = (tag) => {
+const getAllTag_ = tag => {
     return {
-        type: actionTypes.GET_TAG,
-        all_tags : tag
+        type: actionTypes.GET_ALL_TAG,
+        all_tags: tag
     };
 };
 
-export const getTag = () => {
+const getAllTag = () => {
     return dispatch => {
         return axios
-            .get(base_url + '/tag/search/')
-            .then(res => dispatch(getTag_(res.data)))
+            .get('/api/tag/search/')
+            .then(res => {
+                dispatch(getAllTag_(res.data));
+            })
             .catch(error => {
-                console.log('getting tag failed');
+                console.log(error);
+            });
+    };
+};
+
+const postTag_ = tag => {
+    return {
+        type: actionTypes.POST_TAG,
+        tag: tag
+    };
+};
+
+const postTag = tag => {
+    return dispatch => {
+        return axios
+            .post('/api/tag/search/' + tag)
+            .then(res => {
+                dispatch(postTag_(res.data));
+            })
+            .catch(error => {
+                console.log(error);
             });
     };
 };
