@@ -44,8 +44,15 @@ const initialState = {
 
 export const adpost_reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.GET_GRID_ARTICLE:
+            return { ...state, adpost_list_item: [action.adpost_list_item] };
         case actionTypes.GET_LISTED_ARTICLE:
-            return { ...state, adpost_list_item: action.adpost_list_item };
+            return {
+                ...state,
+                adpost_list_item: state.adpost_list_item.concat(
+                    action.adpost_list_item
+                )
+            };
         case actionTypes.GET_DETAILED_ARTICLE:
             return {
                 ...state,
