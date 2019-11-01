@@ -37,6 +37,13 @@ def image_process(response_dict):
 def thumbnail_process(response_dict):
     response_dict['thumbnail'] = PostImage.objects.get(id=response_dict['thumbnail']).image.url
 
+def list_process(post_list_by):
+    for i in range(len(post_list_by)):
+        image_process(post_list_by[i])
+        thumbnail_process(post_list_by[i])
+        tag_process(post_list_by[i])
+    return
+
 class signUp(View):
     item_list = ['email', 'password', 'first_name', 'last_name', 'nickname', 'tags']
 
@@ -210,7 +217,7 @@ class adPost(View):
         return JsonResponse(response_dict, safe = False)
 
 
-class adPostID(View):
+class adPostByID(View):
     item_list = ['id', 'title', 'subtitle', 'content', 'image', 'ad_link', 'closed']
 
     @check_object_exist(object_type=AdPost)
@@ -255,44 +262,52 @@ class adPostID(View):
 class adPostByOwnerID(View):
     @check_object_exist(object_type=AditUser)
     def get(self, request, id):
-        post_by_userid = [model_to_dict(post) for post in AdPost.objects.filter(owner = id).order_by('-id')]
+        post_by_userid = [model_to_dict(post) for post in AdPost.objects.filter(owner = id).order_by('-upload_date')]
+        list_process(post_by_userid)
         return JsonResponse(post_by_userid, status=200, safe=False)
 
 class adPostByParticipantID(View):
     @check_object_exist(object_type=AditUser)
     def get(self, request, id):
         post_by_userid = [model_to_dict(post) for post in AdPost.objects.filter(owner = id).order_by('-upload_date')]
+        list_process(post_by_userid)
         return JsonResponse(post_by_userid, status=200, safe=False)
 
 class adPostByTag(View):
     def get(self, request, tag):
-        post_by_tag = [model_to_dict(post) for post in InterestedTags.objects.filter(content = tag).topost.all().order_by('-upload_date')] # all()? not all()?
+        post_by_tag = [model_to_dict(post) for tagrelated in InterestedTags.objects.filter(content=tag).all() for post in tagrelated.topost.all().order_by('-upload_date')] # all()? not all()?
+        list_process(post_by_tag)
         return JsonResponse(post_by_tag, status=200, safe=False)
 
 class adPostByHot(View):
     def get(self, request):
-        post_by_hot = [model_to_dict(post) for post in AdPost.objects.all().order_by('-total_views')]
+        post_by_hot = [model_to_dict(post) for post in AdPost.objects.all().order_by('-total_views', '-upload_date')]
+        list_process(post_by_hot)
         return JsonResponse(post_by_hot, status=200, safe=False)
-
 
 class adPostByRecent(View):
     def get(self, request):
         post_by_recent = [model_to_dict(post) for post in AdPost.objects.all().order_by('-upload_date')]
+        list_process(post_by_recent)
         return JsonResponse(post_by_recent, status=200, safe=False)
 
 class adPostBySearch(View):
     def get(self, request, str):
         post_by_search = [model_to_dict(post) for post in AdPost.objects.all().filter(Q(title__icontains=str) | Q(subtitle__icontains=str)).order_by('-upload_date')]
+        list_process(post_by_search)
         return JsonResponse(post_by_search, status=200, safe=False)
-
 
 class adPostByCustom(View):
     @check_is_authenticated
-    @check_object_exist(object_type=AditUser)
-    @check_is_permitted
-    def get(self, request, userid):
-        usertags = AditUser.objects.filter(id = userid).tags
-        post_by_custom = [model_to_dict(post) for tag in usertags for post in InterestedTags.objects.filter(content = tag).topost.all().order_by('-upload_date')]
+    def get(self, request):
+        user_tags = list(request.user.tags.all())
+        post_by_custom = {}
+        for tag in user_tags:
+            tags_custom = [post for tagrelated in InterestedTags.objects.filter(content=tag.content).all() for post in tagrelated.topost.all().order_by('-upload_date')]
+
+            post_by_custom[tag.content] = [model_to_dict(post) for post in tags_custom]  # all()? not all()?
+            list_process(post_by_custom[tag.content])
+
         return JsonResponse(post_by_custom, status=200, safe=False)
 
 
@@ -338,7 +353,7 @@ class tag(View):
 
 class tagSearch(View):
     def get(self, request, pattern):
-        tags_by_searchkey = [model_to_dict(tag) for tag in InterestedTags.objects.all().filter(content__icontains=pattern)]
+        tags_by_searchkey = [model_to_dict(tag) for tag in InterestedTags.objects.all().filter(content__startswith=pattern)]
         return JsonResponse(tags_by_searchkey, safe = False)
 
 """
