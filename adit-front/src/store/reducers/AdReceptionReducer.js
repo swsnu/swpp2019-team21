@@ -8,6 +8,8 @@ export const adreception_reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.POST_RECEPTION:
             return { ...state, submitted: true };
+        default:
+            break;
     }
     return state;
 };

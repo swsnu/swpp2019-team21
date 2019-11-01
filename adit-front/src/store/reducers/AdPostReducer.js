@@ -51,6 +51,8 @@ export const adpost_reducer = (state = initialState, action) => {
                 ...state,
                 adpost_detailed_item: action.adpost_detailed_item
             };
+        default:
+            break;
     }
     return state;
 };
