@@ -13,8 +13,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import './TopMenu.css';
 import profile from './../../assets/iu_profile.png';
-import { connect } from 'net';
+import { connect } from 'react-redux';
 import { history } from '../../store';
+import * as actionCreators from '../../store/actions/user.action';
 
 class TopMenu extends Component {
     state = {
@@ -28,7 +29,7 @@ class TopMenu extends Component {
     };
 
     signOutHandler = () => {
-        this.setState({ ...this.state, sign_in: true });
+        this.props.onsignOut();
         history.push('/signin');
     };
 
@@ -157,4 +158,19 @@ class TopMenu extends Component {
     }
 }
 
-export default TopMenu;
+export const mapStateToProps = state => {
+    return {
+        logged_in: state.user.logged_in
+    };
+};
+
+export const mapDispatchToProps = dispatch => {
+    return {
+        onsignOut: () => dispatch(actionCreators.signOut())
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TopMenu);

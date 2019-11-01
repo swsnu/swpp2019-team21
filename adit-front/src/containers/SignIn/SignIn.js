@@ -10,16 +10,26 @@ import {
     ListGroupItem
 } from 'react-bootstrap';
 import profile from './../../assets/iu_profile.png';
-import { connect } from 'net';
+import { connect } from 'react-redux';
 import './SignIn.css';
 import avatar from '../../assets/avatar.png';
+import * as actionCreators from '../../store/actions/user.action';
 
 class SignIn extends Component {
+    componentDidMount() {
+        if (this.props.logged_in == true) {
+            this.props.history.push('/home');
+        }
+    }
+    componentDidUpdate() {
+        if (this.props.logged_in == true) {
+            this.props.history.push('/home');
+        }
+    }
     state = {
         email: '',
         password: '',
         name: '',
-        logged_in: false,
         storedUsers: {
             email: 'csh3695@naver.com',
             password: 'ihateswpp',
@@ -28,22 +38,11 @@ class SignIn extends Component {
         }
     };
     SignInHandler = () => {
-        if (
-            this.state.storedUsers.email === this.state.email &&
-            this.state.storedUsers.password === this.state.password
-        ) {
-            this.setState({
-                ...this.state,
-                email: this.state.storedUsers.email,
-                password: '',
-                name: this.state.storedUsers.name,
-                logged_in: true
-            });
-            this.props.history.push('/home');
-            return;
-        }
-        alert('Email or password is wrong');
-        return;
+        const user = {
+            email: this.state.email,
+            password: this.state.password
+        };
+        this.props.onsignIn(user);
     };
     SignUpHandler = () => {
         this.props.history.push('/signup');
@@ -116,4 +115,19 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
+export const mapStateToProps = state => {
+    return {
+        logged_in: state.user.logged_in
+    };
+};
+
+export const mapDispatchToProps = dispatch => {
+    return {
+        onsignIn: user => dispatch(actionCreators.signIn(user))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignIn);

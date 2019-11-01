@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import axios from 'axios';
 
-const base_url = 'http://localhost:8000/api';
+const base_url = '/api';
 
 export const signIn_ = user => {
     return {
@@ -17,6 +17,7 @@ export const signIn = user => {
             .then(res => dispatch(signIn_(res.data)))
             .catch(error => {
                 console.log('sign in failed');
+                alert('Email or password is wrong');
             });
     };
 };
