@@ -9,7 +9,7 @@ urlpatterns = [
     path('user/', views.getUser.as_view()),
     path('adpost/', views.adPost.as_view()),
     path('adpost/<int:id>/', views.adPostID.as_view()),
-    path('adpost/by-userid/<int:userid>/', views.adPostByUserID.as_view()),
+    path('adpost/by-userid/<int:userid>/', views.adPostByOwnerID.as_view()),
     path('adpost/by-tag/<str:tag>/', views.adPostByTag.as_view()),
     path('adpost/hottest/', views.adPostByHot.as_view()),
     path('adpost/recent/', views.adPostByRecent.as_view()),

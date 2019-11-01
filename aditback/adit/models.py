@@ -143,10 +143,10 @@ class AdPost(models.Model):
         max_length=64
     )
     content = models.TextField()
-    thumbnail = models.ImageField(
-        null=True,
-        blank=True,
-        upload_to='image/adpost/thumbnail',
+    thumbnail = models.ForeignKey(
+        to = PostImage,
+        related_name = 'thumbnail_topost',
+        on_delete = models.DO_NOTHING
     )
     image = models.ManyToManyField(
         to=PostImage,
