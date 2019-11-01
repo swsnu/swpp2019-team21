@@ -15,9 +15,15 @@ const initialState = {
 export const user_reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SIGN_IN:
-            return { ...state, user: action.user, logged_in: true };
+            localStorage.setItem('logged_in', 'true');
+            return { ...state };
         case actionTypes.SIGN_OUT:
-            return { ...initialState, logged_in: false };
+            localStorage.setItem('logged_in', 'false');
+            return { ...state, logged_in: false };
+        case actionTypes.GET_USER:
+            return { ...state };
+        case actionTypes.PUT_USER:
+            return { ...state };
         default:
             break;
     }

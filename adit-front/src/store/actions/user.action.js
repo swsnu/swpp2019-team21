@@ -5,8 +5,7 @@ const base_url = '/api';
 
 export const signIn_ = user => {
     return {
-        type: actionTypes.SIGN_IN,
-        user: user
+        type: actionTypes.SIGN_IN
     };
 };
 
@@ -14,7 +13,7 @@ export const signIn = user => {
     return dispatch => {
         return axios
             .post(base_url + '/sign-in/', user)
-            .then(res => dispatch(signIn_(res.data)))
+            .then(res => dispatch(signIn_()))
             .catch(error => {
                 console.log('sign in failed');
                 alert('Email or password is wrong');
@@ -48,7 +47,7 @@ export const signUp_ = () => {
 export const signUp = user => {
     return dispatch => {
         return axios
-            .post('/api/sign-up/', user)
+            .post(base_url + '/sign-up/', user)
             .then(res => dispatch(signUp_()))
             .catch(error => {
                 console.log('sign up failed');

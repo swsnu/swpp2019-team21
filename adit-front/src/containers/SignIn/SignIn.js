@@ -17,15 +17,17 @@ import * as actionCreators from '../../store/actions/user.action';
 
 class SignIn extends Component {
     componentDidMount() {
-        if (this.props.logged_in == true) {
+        if (localStorage.getItem('logged_in') === 'true') {
             this.props.history.push('/home');
         }
     }
+
     componentDidUpdate() {
-        if (this.props.logged_in == true) {
+        if (localStorage.getItem('logged_in') === 'true') {
             this.props.history.push('/home');
         }
     }
+
     state = {
         email: '',
         password: '',
@@ -37,6 +39,7 @@ class SignIn extends Component {
             logged_in: true
         }
     };
+
     SignInHandler = () => {
         const user = {
             email: this.state.email,
