@@ -53,7 +53,7 @@ def check_object_exist(object_type):
     def wrapper(func):
         @wraps(func)
         def decorator(*args, **kwargs):
-            object_id = args[2]
+            object_id = kwargs['id']
             entry = object_type.objects.filter(id=object_id)
 
             if not entry.exists():

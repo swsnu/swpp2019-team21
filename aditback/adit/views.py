@@ -31,6 +31,12 @@ def img_process(img_64):
 def tag_process(response_dict):
     response_dict['tags'] = list(map(lambda tag: tag.content, response_dict['tags']))
 
+def image_process(response_dict):
+    response_dict['image'] = list(map(lambda postimage: postimage.image.url, response_dict['image']))
+
+def thumbnail_process(response_dict):
+    response_dict['thumbnail'] = PostImage.objects.get(id=response_dict['thumbnail']).image.url
+
 class signUp(View):
     item_list = ['email', 'password', 'first_name', 'last_name', 'nickname', 'tags']
 
@@ -150,7 +156,8 @@ class adPost(View):
 
     def post_to_dict(self, adpost):
         response_dict = model_to_dict(adpost)
-        response_dict['image'] = []
+        image_process(response_dict)
+        thumbnail_process(response_dict)
         tag_process(response_dict)
         return response_dict
 
@@ -208,7 +215,11 @@ class adPostID(View):
 
     @check_object_exist(object_type=AdPost)
     def get(self, request, id):
-        response_dict = model_to_dict(AdPost.objects.filter(id = id))
+        response_dict = model_to_dict(AdPost.objects.get(id = id))
+        tag_process(response_dict)
+        image_process(response_dict)
+        thumbnail_process(response_dict)
+        print(response_dict)
         return JsonResponse(response_dict)
 
     @check_is_authenticated
