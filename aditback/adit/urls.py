@@ -21,3 +21,4 @@ urlpatterns = [
     path('tag/search/<str:pattern>/', views.tagSearch.as_view())
     #path('question/<int:adpostid>/', views.questionPostId)
 ]
+

@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import axios from 'axios';
 
-const base_url = '/api';
+const base_url = 'http://localhost:8000/api';
 
 export const signIn_ = user => {
     return {
@@ -47,10 +47,11 @@ export const signUp_ = () => {
 export const signUp = user => {
     return dispatch => {
         return axios
-            .post(base_url + '/sign-up/', user)
+            .post('/api/sign-up/', user)
             .then(res => dispatch(signUp_()))
             .catch(error => {
                 console.log('sign up failed');
+                console.log(error);
             });
     };
 };

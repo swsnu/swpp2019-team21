@@ -79,7 +79,7 @@ class AditUser(AbstractBaseUser, PermissionsMixin):
     )
     tags = models.ManyToManyField(
         to=InterestedTags,
-        related_name='usertag'
+        related_name='touser'
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
@@ -146,11 +146,11 @@ class AdPost(models.Model):
     thumbnail = models.ImageField(
         null=True,
         blank=True,
-        upload_to='image/adpost/thumnail',
+        upload_to='image/adpost/thumbnail',
     )
     image = models.ManyToManyField(
         to=PostImage,
-        related_name='imagepost'
+        related_name='topost'
     )
     ad_link = models.TextField()
     closed = models.BooleanField()
@@ -160,10 +160,8 @@ class AdPost(models.Model):
     expiry_date = models.DateField()
     tags = models.ManyToManyField(
         to=InterestedTags,
-        related_name='posttag'
+        related_name='topost'
     )
-
-InterestedTags.post = models.ManyToManyField(to=AdPost, related_name='posttag')
 
 class AdReception(models.Model):
     owner = models.ForeignKey(
