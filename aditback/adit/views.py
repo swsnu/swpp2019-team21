@@ -81,14 +81,13 @@ class signIn(View):
 
 class signOut(View):
     @check_is_authenticated
-    @check_is_permitted
     def get(self, request):
         logout(request)
         return HttpResponse(status=204)
 
 
 class getUser(View):
-    item_list = ['first_name', 'last_name', 'nickname', 'interest_tags']
+    item_list = ['first_name', 'last_name', 'nickname', 'tags']
     @check_is_authenticated
     def get(self, request):
         temp_dict = model_to_dict(request.user)
@@ -112,9 +111,37 @@ class getUser(View):
         user.first_name = req_data['first_name']
         user.last_name = req_data['last_name']
         user.nickname = req_data['nickname']
-        user.interest_tags = req_data['interest_tags']
+        user_tags = list(user.tags.all())
+        modified_tags = req_data['tags']
+        user.tags.clear()
+        for tag in user_tags:
+            tag.usercount -=1
+            tag.save()
+            if tag.usercount is 0 and tag.postcount is 0:
+                tag.delete()
+
+        for tag in modified_tags:
+            if len(InterestedTags.objects.filter(content=tag)) is 0:
+                tag_new = InterestedTags.objects.create(content=tag, usercount=1, postcount=0)
+                user.tags.add(tag_new)
+            else:
+                tag_old = InterestedTags.objects.get(content=tag)
+                tag_old.usercount += 1
+                tag_old.save()
+                user.tags.add(tag_old)
+
         user.save()
-        response_dict = model_to_dict(user)
+        temp_dict = model_to_dict(user)
+        response_dict = {
+            'id': temp_dict['id'],
+            'email': temp_dict['email'],
+            'nickname': temp_dict['nickname'],
+            'first_name': temp_dict['first_name'],
+            'last_name': temp_dict['last_name'],
+            'avatar': '',
+            'tags': temp_dict['tags']
+        }
+        tag_process(response_dict)
         return JsonResponse(response_dict)
 
 class adPost(View):
