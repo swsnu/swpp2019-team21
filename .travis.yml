@@ -1,6 +1,6 @@
 matrix:
   include:
-  - language: node_js # Your language e.g. node_js, python
+  - language: node_js
     node_js:
     - '10'
     dist: trusty
