@@ -14,7 +14,9 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from datetime import datetime
 from django.core.files.base import ContentFile
+from hashids import Hashids
 import base64
+
 @ensure_csrf_cookie
 def token(request):
     if request.method == 'GET':
@@ -187,7 +189,7 @@ class adPost(View):
         expiry_date = req_data['expiry_date']
         post_tags = req_data['interest_tags']
         upload_date = datetime.now()
-        thumbnail = img_process(image[0])
+        thumbnail = img_process(req_data['image'][0])
 
         adpost = AdPost(owner = request.user, title = title, subtitle = subtitle, content = content, ad_link = ad_link, target_views = target_views, total_views = 0, expiry_date = expiry_date, upload_date = upload_date, closed = False, thumbnail=thumbnail)
         adpost.save()
@@ -222,9 +224,7 @@ class adPostByID(View):
     @check_object_exist(object_type=AdPost)
     def get(self, request, id):
         response_dict = model_to_dict(AdPost.objects.get(id = id))
-        tag_process(response_dict)
-        image_process(response_dict)
-        thumbnail_process(response_dict)
+        model_process(response_dict)
         return JsonResponse(response_dict)
 
     @check_is_authenticated
@@ -364,33 +364,78 @@ class adPostByCustom(View):
         return JsonResponse(post_by_custom, status=200, safe=False)
 
 
+def encode(userid, time, postid):
+    base_link = 'http://localhost:3000/redirectfrom='
+    time = time.strftime("%y%m%d%H%M%S")
+    print('encode : ' + time)
+    hashids = Hashids()
+    return base_link + hashids.encode(int(time), postid, userid)
+
+def decode(code, object):
+    base_link = 'http://localhost:3000/redirectfrom='
+    time = object.recept_time.strftime("%y%m%d%H%M%S")
+    hashids = Hashids()
+    res = hashids.decode(code.replace(base_link, ''))
+    if not res:
+        return None
+    return res[1]
+
 class adReception(View):
     @check_is_authenticated
-    @check_object_exist(object_type=AdPost)
-    def get(self, request, id):
-        # TODO
-        return HttpResponse(status=200)
+    def get(self, request):
+        reception_by_userid = [model_to_dict(rcpt) for rcpt in AdReception.objects.filter(owner=request.user).order_by('-id')]
+        return JsonResponse(reception_by_userid, safe=False)
 
     @check_is_authenticated
-    @check_object_exist(object_type=AdPost)
-    def post(self, request, id):
-        # TODO
-        return HttpResponse(status=201)
+#    @check_object_exist(object_type=AdPost)
+    def post(self, request):
+        req_data = json.loads(request.body.decode())
+        id = req_data['adpost']
+        recept_time = datetime.now()
+        target_post = AdPost.objects.get(id = id)
+        unique_link = encode(request.user.id, recept_time, id)
+        response_dict = model_to_dict(AdReception.objects.create(owner = request.user, adpost = target_post, views = 0, recept_time=recept_time, unique_link = unique_link, closed = False))
+        return JsonResponse(response_dict, status = 201)
 
-
-class adReceptionID(View):
+class adReceptionByID(View):
     @check_is_authenticated
     @check_object_exist(object_type=AdReception)
-    @check_is_permitted  # 주의: ad의 주인도 확인할 수 있어야 함. if 문으로 처리해야 할 듯?
+    @check_is_permitted(object_type=AdReception)  # 주의: ad의 주인도 확인할 수 있어야 함. if 문으로 처리해야 할 듯?
     def get(self, request, id):
-        # TODO
-        return HttpResponse(status=200)
+        response_dict = model_to_dict(AdReception.objects.get(id = id))
+        return JsonResponse(response_dict)
+
+class adReceptionOutRedirect(View):
+    ### ad closed ==> 410
+    def get(self, request, str):
+        print(str)
+        for reception_object in AdReception.objects.all():
+            print(reception_object)
+            print(str)
+            if decode(str, reception_object) is not None:
+                post_id = decode(str, reception_object)
+                post = AdPost.objects.get(id = post_id)
+                if post.closed:
+                    return HttpResponse(status = 410)
+                else:
+                    print(post.ad_link)# Redirect to = post.ad_link
+                    return HttpResponse(status=204)
+                break
+
+        return HttpResponse(status=404)
 
 
 class adReceptionRedirect(View):
     ### ad closed ==> 410
     def get(self, request, id):
-        # TODO
+        reception_object = AdReception.objects.filter(id=id)
+        post_id = decode(reception_object.get().unique_link, reception_object.get())
+        print(post_id)
+        post = AdPost.objects.get(id = post_id)
+        if post.closed:
+            return HttpResponse(status = 410)
+        else:
+            print(post.ad_link)# Redirect to = post.ad_link
         return HttpResponse(status=204)
 
 

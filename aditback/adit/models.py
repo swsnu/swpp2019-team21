@@ -169,17 +169,18 @@ class AdPost(models.Model):
 class AdReception(models.Model):
     owner = models.ForeignKey(
         AditUser,
-        related_name='adreception',
+        related_name='toreception',
         on_delete=models.CASCADE
     )
     adpost = models.ForeignKey(
         AdPost,
-        related_name='adreception',
+        related_name='toreception',
         on_delete=models.CASCADE
     )
     views = models.IntegerField()
     unique_link = models.TextField()
     closed = models.BooleanField()
+    recept_time = models.DateTimeField()
 
 
 class Question(models.Model):

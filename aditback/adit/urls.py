@@ -16,7 +16,9 @@ urlpatterns = [
     path('adpost/search/<str:str>/', views.adPostBySearch.as_view()),
     path('adpost/custom/', views.adPostByCustom.as_view()),
     path('adreception/', views.adReception.as_view()),
-    path('adreception/<int:id>', views.adReceptionID.as_view()),
+    path('adreception/<int:id>/', views.adReceptionByID.as_view()),
+    path('adreception/redirect/<int:id>/', views.adReceptionRedirect.as_view()),
+    path('adreception/redirectto=<str:str>/', views.adReceptionOutRedirect.as_view()),
     path('tag/', views.tag.as_view()),
     path('tag/search/<str:pattern>/', views.tagSearch.as_view())
     #path('question/<int:adpostid>/', views.questionPostId)
