@@ -62,12 +62,12 @@ class signUp(View):
         lastname = req_data['last_name']
         nickname = req_data['nickname']
         newtags = req_data['tags']
-        if len(AditUser.objects.filter(email=email)) > 0:
+        if AditUser.objects.filter(email=email).exists():
             return HttpResponseBadRequest()
 
         tags = []
         for tag in newtags:
-            if len(InterestedTags.objects.filter(content = tag)) > 0:
+            if InterestedTags.objects.filter(content = tag).exists():
                 tag_exist = InterestedTags.objects.filter(content = tag)[0]
                 tag_exist.usercount+=1
                 tag_exist.save()
@@ -140,7 +140,7 @@ class getUser(View):
                 tag.delete()
 
         for tag in modified_tags:
-            if len(InterestedTags.objects.filter(content=tag)) is 0:
+            if not InterestedTags.objects.filter(content=tag).exists():
                 tag_new = InterestedTags.objects.create(content=tag, usercount=1, postcount=0)
                 user.tags.add(tag_new)
             else:
@@ -195,7 +195,7 @@ class adPost(View):
         adpost.save()
 
         for tag in post_tags:
-            if len(InterestedTags.objects.filter(content = tag)) > 0:
+            if InterestedTags.objects.filter(content = tag).exists():
                 tag_exist = InterestedTags.objects.filter(content = tag)[0]
                 tag_exist.postcount+=1
                 tag_exist.save()
@@ -264,7 +264,7 @@ class adPostByID(View):
         PostImage.delete(post_old_thumbnail)
 
         for tag in post_new_tags:
-            if len(InterestedTags.objects.filter(content = tag)) > 0:
+            if InterestedTags.objects.filter(content = tag).exists():
                 tag_exist = InterestedTags.objects.filter(content = tag)[0]
                 tag_exist.postcount+=1
                 tag_exist.save()
