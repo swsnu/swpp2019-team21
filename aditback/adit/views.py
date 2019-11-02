@@ -277,9 +277,8 @@ class adPostByID(View):
         adpost.save()
 
         for i in range(len(post_new_images)):
-            if i>0:
-                newimg = img_process(post_new_images[i])
-                adpost.image.add(newimg)
+            newimg = img_process(post_new_images[i])
+            adpost.image.add(newimg)
 
         adpost.save()
 
