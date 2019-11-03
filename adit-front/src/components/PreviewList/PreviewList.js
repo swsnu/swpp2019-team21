@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Carousel from 'react-multi-carousel';
 import Preview from '../Preview/Preview';
+import { history } from '../../store';
 import 'react-multi-carousel/lib/styles.css';
 import './PreviewList.css';
 import { Route, Link } from 'react-router-dom';
-import { history } from '../../store';
 
 const responsive = {
     desktop: {
@@ -45,7 +45,8 @@ const responsive_compact = {
 
 class PreviewList extends React.Component {
     clickPreviewHandler = id => {
-        alert('PREVIEW ID:' + id);
+        //alert('PREVIEW ID:' + id);
+        history.push('/article/' + id);
     };
 
     clickSearchMoreHandler = () => {

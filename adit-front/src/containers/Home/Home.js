@@ -40,11 +40,23 @@ const mockEventList = [
 ];
 
 class Home extends Component {
+    state = {
+        updated: false
+    }
     componentDidMount() {
         this.props.onGetCustomList();
         this.props.onGetHottestList();
         this.props.onGetRecentList();
     }
+
+    /*componentDidUpdate() {
+        if(this.state.updated === false) {
+            this.props.onGetCustomList();
+            this.props.onGetHottestList();
+            this.props.onGetRecentList();
+            this.state.updated = true;
+        }
+    }*/
 
     render() {
         var customPreviewList;
