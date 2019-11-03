@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { push } from 'connected-react-router';
 import axios from 'axios';
 
 function makeUrl(tag) {
@@ -111,9 +112,32 @@ function getArticleDetail(article_id) {
             .get('/api/adpost/' + article_id)
             .then(res => {
                 dispatch(getArticleDetail_(res.data));
+                dispatch(push());
             })
             .catch(e => {
                 console.log(e);
             });
     };
 }
+
+function postAdpost_(data) {
+    return {
+        type: actionTypes.POST_ARTICLE,
+        adpost_list_item: data
+    };
+}
+
+export const postAdpost = (data) => {
+    return dispatch => {
+        axios
+            .post('/api/adpost/', data)
+            .then(res => {
+                dispatch(postAdpost_(res.data));
+                dispatch(push('/article/' + res.data.id));
+            })
+            .catch(e => {
+                alert("Post failed...");
+                console.log(e);
+            });
+    };
+};

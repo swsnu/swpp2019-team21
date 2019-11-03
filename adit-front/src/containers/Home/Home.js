@@ -48,7 +48,7 @@ class Home extends Component {
 
     render() {
         var customPreviewList;
-        /*f(this.props.loaded) {
+        /*if(this.props.loaded) {
                 customPreviewList = this.props.interestedList.map(list => {
                 return (
                     <PreviewList
@@ -68,6 +68,7 @@ class Home extends Component {
                         <PreviewList
                             articles={this.props.hotList.adpost_item}
                             list_name={'Hottest'}
+                            compact = {false}
                         />
                     </div>
                 )}
@@ -76,6 +77,7 @@ class Home extends Component {
                         <PreviewList
                             articles={this.props.recentList.adpost_item}
                             list_name={'Newest'}
+                            compact = {false}
                         />
                     </div>
                 )}

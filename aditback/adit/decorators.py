@@ -53,7 +53,6 @@ def check_object_exist(object_type):
     def wrapper(func):
         @wraps(func)
         def decorator(*args, **kwargs):
-            print(1234)
             object_id = kwargs['id']
             entry = object_type.objects.filter(id=object_id)
 
@@ -82,7 +81,7 @@ def check_is_permitted(object_type):
             object_id = kwargs['id']
 
             my_user = request.user
-            article_owner = object_type.objects.get(id=object_id).owner_id
+            article_owner = object_type.objects.get(id=object_id).owner
             if not my_user == article_owner:
                 return HttpResponseForbidden()
             else:

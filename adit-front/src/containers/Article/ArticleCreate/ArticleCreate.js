@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../../store/actions/adpost.action';
 import './ArticleCreate.css';
 import Calendar from 'react-calendar';
 
@@ -167,7 +169,20 @@ class ArticleCreate extends Component {
             }
         };
         const confirmOnClick = () => {
-            this.props.history.push('/article/1');
+            const adpost = {
+                title: this.state.postTitle,
+                subtitle: this.state.postSubtitle, 
+                content: this.state.postExplain,
+                image: [this.state.imagePreviewUrl], 
+                ad_link: this.state.postUrl, 
+                target_views: this.state.postGoal,
+                expiry_date: this.state.postDeadline.year + '-' + this.state.postDeadline.month + '-' + this.state.postDeadline.date,
+                interest_tags: this.state.postTag.map(tag => {
+                    return tag.name;
+                })
+            }
+            this.props.onPostArticle(adpost)
+            //this.props.history.push('/article/1');
         };
         const onCalendarChange = e => {
             this.setState({
@@ -346,4 +361,17 @@ class ArticleCreate extends Component {
     }
 }
 
-export default ArticleCreate;
+const mapDispatchToProps = dispatch => {
+    return {
+        onPostArticle: (adpost) => {
+            dispatch(actionCreators.postAdpost(adpost));
+        }
+    }
+
+}
+
+const mapStateToProps = state => {
+
+} 
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleCreate);

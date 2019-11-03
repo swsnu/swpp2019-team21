@@ -107,8 +107,9 @@ export const adpost_reducer = (state = initialState, action) => {
         case actionTypes.GET_CUSTOM_ARTICLE:
             return {
                 ...state,
-                adpost_list_item: action.adpost_list_item
+                adpost_list_item: [action.adpost_list_item]
             };
+        
         default:
             break;
     }

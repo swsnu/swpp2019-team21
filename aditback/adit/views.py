@@ -14,7 +14,9 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from datetime import datetime
 from django.core.files.base import ContentFile
+from hashids import Hashids
 import base64
+
 @ensure_csrf_cookie
 def token(request):
     if request.method == 'GET':
@@ -37,12 +39,16 @@ def image_process(response_dict):
 def thumbnail_process(response_dict):
     response_dict['thumbnail'] = PostImage.objects.get(id=response_dict['thumbnail']).image.url
 
+def model_process(response_dict):
+    image_process(response_dict)
+    thumbnail_process(response_dict)
+    tag_process(response_dict)
+
 def list_process(post_list_by):
     for i in range(len(post_list_by)):
-        image_process(post_list_by[i])
-        thumbnail_process(post_list_by[i])
-        tag_process(post_list_by[i])
+        model_process(post_list_by[i])
     return
+
 
 class signUp(View):
     item_list = ['email', 'password', 'first_name', 'last_name', 'nickname', 'tags']
@@ -56,12 +62,12 @@ class signUp(View):
         lastname = req_data['last_name']
         nickname = req_data['nickname']
         newtags = req_data['tags']
-        if len(AditUser.objects.filter(email=email)) > 0:
+        if AditUser.objects.filter(email=email).exists():
             return HttpResponseBadRequest()
 
         tags = []
         for tag in newtags:
-            if len(InterestedTags.objects.filter(content = tag)) > 0:
+            if InterestedTags.objects.filter(content = tag).exists():
                 tag_exist = InterestedTags.objects.filter(content = tag)[0]
                 tag_exist.usercount+=1
                 tag_exist.save()
@@ -134,7 +140,7 @@ class getUser(View):
                 tag.delete()
 
         for tag in modified_tags:
-            if len(InterestedTags.objects.filter(content=tag)) is 0:
+            if not InterestedTags.objects.filter(content=tag).exists():
                 tag_new = InterestedTags.objects.create(content=tag, usercount=1, postcount=0)
                 user.tags.add(tag_new)
             else:
@@ -159,13 +165,11 @@ class getUser(View):
 
 class adPost(View):
     item_list = ['title', 'subtitle', 'content', 'image', 'ad_link', 'target_views', 'expiry_date',
-                 'interest_tags']
+                 'tags']
 
     def post_to_dict(self, adpost):
         response_dict = model_to_dict(adpost)
-        image_process(response_dict)
-        thumbnail_process(response_dict)
-        tag_process(response_dict)
+        model_process(response_dict)
         return response_dict
 
     def get(self, request):
@@ -179,19 +183,19 @@ class adPost(View):
         title = req_data['title']
         subtitle = req_data['subtitle']
         content = req_data['content']
-        image = req_data['image']
+        image = req_data['image'][1:]
         ad_link = req_data['ad_link']
         target_views = req_data['target_views']
         expiry_date = req_data['expiry_date']
-        post_tags = req_data['interest_tags']
+        post_tags = req_data['tags']
         upload_date = datetime.now()
-        thumbnail = img_process(image[0])
+        thumbnail = img_process(req_data['image'][0])
 
         adpost = AdPost(owner = request.user, title = title, subtitle = subtitle, content = content, ad_link = ad_link, target_views = target_views, total_views = 0, expiry_date = expiry_date, upload_date = upload_date, closed = False, thumbnail=thumbnail)
         adpost.save()
 
         for tag in post_tags:
-            if len(InterestedTags.objects.filter(content = tag)) > 0:
+            if InterestedTags.objects.filter(content = tag).exists():
                 tag_exist = InterestedTags.objects.filter(content = tag)[0]
                 tag_exist.postcount+=1
                 tag_exist.save()
@@ -204,35 +208,29 @@ class adPost(View):
         adpost.save()
 
         for i in range(len(image)):
-            if i>0:
-                newimg = img_process(image[i])
-                adpost.image.add(newimg)
+            newimg = img_process(image[i])
+            adpost.image.add(newimg)
 
         adpost.save()
         response_dict = model_to_dict(adpost)
-        tag_process(response_dict)
-        response_dict['image'] = list(map(lambda image: image.image.url, response_dict['image']))
-        response_dict['thumbnail']=adpost.thumbnail.image.url
-
+        model_process(response_dict)
         return JsonResponse(response_dict, safe = False)
 
 
 class adPostByID(View):
     item_list = ['id', 'title', 'subtitle', 'content', 'image', 'ad_link', 'closed']
+    item_put_list = ['title', 'subtitle', 'content', 'image']
 
     @check_object_exist(object_type=AdPost)
     def get(self, request, id):
         response_dict = model_to_dict(AdPost.objects.get(id = id))
-        tag_process(response_dict)
-        image_process(response_dict)
-        thumbnail_process(response_dict)
-        print(response_dict)
+        model_process(response_dict)
         return JsonResponse(response_dict)
 
     @check_is_authenticated
     @check_object_exist(object_type=AdPost)
-    @check_is_permitted
-    @check_valid_json(item_list=item_list)
+    @check_is_permitted(object_type=AdPost)
+    @check_valid_json(item_list=item_put_list)
     def put(self, request, id):
         adpost = get_object_or_404(AdPost, id = id)
         req_data = json.loads(request.body.decode())
@@ -240,23 +238,77 @@ class adPostByID(View):
         adpost.title = req_data['title']
         adpost.subtitle = req_data['subtitle']
         adpost.content = req_data['content']
-        adpost.ad_link = req_data['ad_link']
         adpost.upload_date = upload_date
-        adpost.closed = req_data['closed']
-        adpost.image = req_data['image']
-        adpost.interest_tags = req_data['interest_tags']
+        post_new_images = req_data['image'][1:]
+        post_new_tags = req_data['tags']
+        post_new_thumbnail = req_data['image'][0]
+        post_old_images = adpost.image.all()
+        post_old_tags = adpost.tags.all()
+        post_old_thumbnail_id = adpost.thumbnail.id
+
+        for tag in post_old_tags:
+            tag.postcount -= 1
+            tag.save()
+            if tag.usercount is 0 and tag.postcount is 0:
+                tag.delete()
+        adpost.tags.clear()
+
+        for image in post_old_images:
+            PostImage.delete(image)
+        adpost.image.clear()
+
+        img_new = img_process(post_new_thumbnail)
+        adpost.thumbnail = img_new
+        post_old_thumbnail = PostImage.objects.get(id = post_old_thumbnail_id)
+        adpost.save()
+        PostImage.delete(post_old_thumbnail)
+
+        for tag in post_new_tags:
+            if InterestedTags.objects.filter(content = tag).exists():
+                tag_exist = InterestedTags.objects.filter(content = tag)[0]
+                tag_exist.postcount+=1
+                tag_exist.save()
+                adpost.tags.add(tag_exist)
+            else:
+                tag_new = InterestedTags(content = tag, usercount = 1, postcount = 0)
+                tag_new.save()
+                adpost.tags.add(tag_new)
 
         adpost.save()
+
+        for i in range(len(post_new_images)):
+            newimg = img_process(post_new_images[i])
+            adpost.image.add(newimg)
+
+        adpost.save()
+
         response_dict = model_to_dict(adpost)
+        model_process(response_dict)
         return JsonResponse(response_dict)
 
     @check_is_authenticated
     @check_object_exist(object_type=AdPost)
-    @check_is_permitted
+    @check_is_permitted(object_type=AdPost)
     @check_valid_json(item_list=item_list)
     def delete(self, request, id):
         adpost = get_object_or_404(AdPost, id = id)
+        post_tags = adpost.tags.all()
+        post_thumbnail = adpost.thumbnail
+        post_images = adpost.image.all()
+
+        for tag in post_tags:
+            tag.postcount -= 1
+            tag.save()
+            if tag.usercount is 0 and tag.postcount is 0:
+                tag.delete()
+
         AdPost.delete(adpost)
+
+        PostImage.delete(post_thumbnail)
+
+        for image in post_images:
+            PostImage.delete(image)
+
         return HttpResponse(status = 204)
 
 class adPostByOwnerID(View):
@@ -267,9 +319,14 @@ class adPostByOwnerID(View):
         return JsonResponse(post_by_userid, status=200, safe=False)
 
 class adPostByParticipantID(View):
+    @check_is_authenticated
     @check_object_exist(object_type=AditUser)
     def get(self, request, id):
-        post_by_userid = [model_to_dict(post) for post in AdPost.objects.filter(owner = id).order_by('-upload_date')]
+        if request.user.id is not id:
+            return HttpResponseForbidden()
+        user = request.user
+        reception_list = AdReception.objects.filter(owner=user).order_by('-recept_time')
+        post_by_userid = [model_to_dict(reception.adpost) for reception in reception_list]
         list_process(post_by_userid)
         return JsonResponse(post_by_userid, status=200, safe=False)
 
@@ -311,35 +368,90 @@ class adPostByCustom(View):
         return JsonResponse(post_by_custom, status=200, safe=False)
 
 
+def encode(userid, time, postid):
+    base_link = 'http://localhost:3000/redirectfrom='
+    time = time.strftime("%y%m%d%H%M%S")
+    print('encode : ' + time)
+    hashids = Hashids()
+    return base_link + hashids.encode(int(time), postid, userid)
+
+def decode(code, object):
+    base_link = 'http://localhost:3000/redirectfrom='
+    time = object.recept_time.strftime("%y%m%d%H%M%S")
+    hashids = Hashids()
+    res = hashids.decode(code.replace(base_link, ''))
+    if not res:
+        return None
+    return res[1]
+
 class adReception(View):
     @check_is_authenticated
-    @check_object_exist(object_type=AdPost)
-    def get(self, request, id):
-        # TODO
-        return HttpResponse(status=200)
+    def get(self, request):
+        reception_by_userid = [model_to_dict(rcpt) for rcpt in AdReception.objects.filter(owner=request.user).order_by('-id')]
+        return JsonResponse(reception_by_userid, safe=False)
 
     @check_is_authenticated
-    @check_object_exist(object_type=AdPost)
-    def post(self, request, id):
-        # TODO
-        return HttpResponse(status=201)
+#    @check_object_exist(object_type=AdPost)
+    def post(self, request):
+        req_data = json.loads(request.body.decode())
+        id = req_data['adpost']
+        if AdReception.objects.filter(adpost = id, owner = request.user.id).exists():
+            return HttpResponseForbidden()
+        recept_time = datetime.now()
+        target_post = AdPost.objects.get(id = id)
+        unique_link = encode(request.user.id, recept_time, id)
+        response_dict = model_to_dict(AdReception.objects.create(owner = request.user, adpost = target_post, views = 0, recept_time=recept_time, unique_link = unique_link, closed = False))
+        return JsonResponse(response_dict, status = 201)
 
-
-class adReceptionID(View):
+class adReceptionByID(View):
     @check_is_authenticated
     @check_object_exist(object_type=AdReception)
-    @check_is_permitted  # 주의: ad의 주인도 확인할 수 있어야 함. if 문으로 처리해야 할 듯?
+    @check_is_permitted(object_type=AdReception)  # 주의: ad의 주인도 확인할 수 있어야 함. if 문으로 처리해야 할 듯?
     def get(self, request, id):
-        # TODO
-        return HttpResponse(status=200)
+        response_dict = model_to_dict(AdReception.objects.get(id = id))
+        return JsonResponse(response_dict)
+
+class adReceptionOutRedirect(View):
+    ### ad closed ==> 410
+    def get(self, request, str):
+        print(str)
+        base_link = 'http://localhost:3000/redirectfrom='
+        str = base_link+str
+        for reception_object in AdReception.objects.all():
+            print(reception_object)
+            print(str)
+            if decode(str, reception_object) is not None:
+                post_id = decode(str, reception_object)
+                post = AdPost.objects.get(id = post_id)
+                if post.closed:
+                    return HttpResponse(status = 410)
+                else:
+                    reception_object.views +=1
+                    reception_object.save()
+                    post.total_views += 1
+                    post.save()
+                    if post.total_views == post.target_views:
+                        post.closed = True
+                        post.save()
+                    response_dict = {'ad_link':post.ad_link}# Redirect to = post.ad_link
+                    return JsonResponse(response_dict)
+                break
+
+        return HttpResponse(status=404)
 
 
 class adReceptionRedirect(View):
     ### ad closed ==> 410
     def get(self, request, id):
-        # TODO
-        return HttpResponse(status=204)
-
+        reception_object = AdReception.objects.filter(id=id)
+        post_id = decode(reception_object.get().unique_link, reception_object.get())
+        print(post_id)
+        post = AdPost.objects.get(id = post_id)
+        if post.closed:
+            return HttpResponse(status = 410)
+        else:
+            response_dict = {'ad_link': post.ad_link}  # Redirect to = post.ad_link
+        return JsonResponse(response_dict)
 
 class tag(View):
     item_list = ['content']
