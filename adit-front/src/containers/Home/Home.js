@@ -42,8 +42,9 @@ const mockEventList = [
 class Home extends Component {
     componentDidMount() {
         //this.props.onGetCustomList();
+        console.log(this.props.hotList);
         this.props.onGetHottestList();
-        //this.props.onGetRecentList();
+        this.props.onGetRecentList();
     }
 
     render() {

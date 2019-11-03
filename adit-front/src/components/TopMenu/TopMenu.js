@@ -31,7 +31,7 @@ class TopMenu extends Component {
 
     componentDidMount() {
         if (
-            localStorage.getItem('logged_in') === 'true' &&
+            sessionStorage.getItem('logged_in') === 'true' &&
             !this.props.user.user_id
         ) {
             this.props.reloadUser();
