@@ -19,11 +19,11 @@ class Preview extends Component {
                     </Card.Body>
                     <ListGroup variant="flush">
                         <ListGroup.Item>
-                            {this.props.preview.expiry_date.toString() + 'Days Left'}
+                            {'Until ' + this.props.preview.expiry_date.toString()}
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <small className="text-muted">
-                                {(this.props.preview.total_view / this.props.preview.target_view).toString() +
+                                {(Number(this.props.preview.total_views) / Number(this.props.preview.target_views)).toString() +
                                     '% reached'}
                             </small>
                         </ListGroup.Item>
