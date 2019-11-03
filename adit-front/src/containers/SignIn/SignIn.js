@@ -55,6 +55,7 @@ class SignIn extends Component {
                         <input
                             className="form-control"
                             id="email-input"
+                            placeholder="Email"
                             type="text"
                             value={this.state.email}
                             required="required"
@@ -68,6 +69,7 @@ class SignIn extends Component {
                             className="form-control"
                             id="pw-input"
                             type="password"
+                            placeholder="Password"
                             value={this.state.password}
                             required="required"
                             onChange={event =>

@@ -72,11 +72,13 @@ class PreviewList extends React.Component {
                               />
                           ))
                         : null}
-                    <button
-                        id="search-more"
-                        onClick={this.clickSearchMoreHandler}>
-                        Search More!
-                    </button>
+                    <div id="search-more-btn">
+                        <button
+                            id="search-more"
+                            onClick={this.clickSearchMoreHandler}>
+                            Search More!
+                        </button>
+                    </div>
                 </Carousel>
             </div>
         );

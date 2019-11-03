@@ -26,7 +26,9 @@ const mockAdPostList = [...Array(10).keys()].map(index => {
         thumbnail: thumbnail,
         title: 'Mocked Title ' + index.toString(),
         subtitle: 'Mocked SubTitle ' + index.toString(),
-        acheive_rate: 77
+        acheive_rate: 77,
+        expiry_date: 10,
+        tags: []
     };
 });
 

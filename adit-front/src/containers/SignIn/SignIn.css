@@ -4,6 +4,7 @@
 
 .form-control {
     min-height: 41px;
+    margin-top: 1px;
     background: #fff;
     box-shadow: none !important;
     border-color: #e3e3e3;
@@ -22,7 +23,7 @@
 
     color: #7a7a7a;
     border-radius: 2px;
-    margin-bottom: 15px;
+    margin-bottom: 35px;
     font-size: 13px;
     background: #ececec;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
@@ -52,6 +53,7 @@
 }
 .sign-in-form input[type='checkbox'] {
     margin-top: 2px;
+    margin-right: 5px;
 }
 .sign-in-form .btn {
     font-size: 16px;
@@ -74,7 +76,7 @@
 }
 
 .sign-in-form .forgot-password {
-    padding-left: 80px;
+    padding-left: 70px;
     color: #7a7a7a;
 }
 

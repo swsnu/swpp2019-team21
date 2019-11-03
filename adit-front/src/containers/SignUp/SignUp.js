@@ -82,7 +82,7 @@ class SignUp extends Component {
                         </p>
                         <input
                             className={`form-control${
-                                this.state.valid.email ? '' : '-unvalid'
+                                this.state.valid.email ? '' : ''
                             }`}
                             id="email-input"
                             type="text"

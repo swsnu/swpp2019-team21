@@ -91,6 +91,6 @@
     text-decoration: underline;
 }
 
-.form-group .input-tag-false {
+.form-group .input-tag-unvalid {
     color: red;
 }

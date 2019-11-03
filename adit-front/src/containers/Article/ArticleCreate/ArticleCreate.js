@@ -171,17 +171,22 @@ class ArticleCreate extends Component {
         const confirmOnClick = () => {
             const adpost = {
                 title: this.state.postTitle,
-                subtitle: this.state.postSubtitle, 
+                subtitle: this.state.postSubtitle,
                 content: this.state.postExplain,
-                image: [this.state.imagePreviewUrl], 
-                ad_link: this.state.postUrl, 
+                image: [this.state.imagePreviewUrl],
+                ad_link: this.state.postUrl,
                 target_views: this.state.postGoal,
-                expiry_date: this.state.postDeadline.year + '-' + this.state.postDeadline.month + '-' + this.state.postDeadline.date,
-                interest_tags: this.state.postTag.map(tag => {
+                expiry_date:
+                    this.state.postDeadline.year +
+                    '-' +
+                    this.state.postDeadline.month +
+                    '-' +
+                    this.state.postDeadline.date,
+                tags: this.state.postTag.map(tag => {
                     return tag.name;
                 })
-            }
-            this.props.onPostArticle(adpost)
+            };
+            this.props.onPostArticle(adpost);
             //this.props.history.push('/article/1');
         };
         const onCalendarChange = e => {
@@ -363,15 +368,15 @@ class ArticleCreate extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPostArticle: (adpost) => {
+        onPostArticle: adpost => {
             dispatch(actionCreators.postAdpost(adpost));
         }
-    }
+    };
+};
 
-}
+const mapStateToProps = state => {};
 
-const mapStateToProps = state => {
-
-} 
-
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleCreate);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleCreate);
