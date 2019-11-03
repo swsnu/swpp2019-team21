@@ -403,6 +403,16 @@ class adReception(View):
         response_dict = model_to_dict(AdReception.objects.create(owner = request.user, adpost = target_post, views = 0, recept_time=recept_time, unique_link = unique_link, closed = False))
         return JsonResponse(response_dict, status = 201)
 
+class adReceptionByPostID(View):
+    @check_is_authenticated
+    @check_is_permitted(object_type=AdReception)  # 주의: ad의 주인도 확인할 수 있어야 함. if 문으로 처리해야 할 듯?
+    def get(self, request, id):
+        response_reception = AdReception.objects.filter(owner = request.user, adpost = id)
+        if not response_reception.exists():
+            return HttpResponseNotFound()
+        response_dict = model_to_dict(response_reception.get())
+        return JsonResponse(response_dict)
+
 class adReceptionByID(View):
     @check_is_authenticated
     @check_object_exist(object_type=AdReception)
