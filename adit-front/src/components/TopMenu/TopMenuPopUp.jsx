@@ -11,6 +11,7 @@ import {
     ListGroup,
     ListGroupItem
 } from 'react-bootstrap';
+import './TopMenuPopUp.css';
 
 var clickMypageHandler = () => {
     history.push('/mypage');
