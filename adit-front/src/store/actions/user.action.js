@@ -20,7 +20,6 @@ export const signIn = user => {
                 dispatch(push('/home'));
             })
             .catch(error => {
-                console.log('sign in failed');
                 alert('Email or password is wrong');
             });
     };
@@ -41,7 +40,7 @@ export const signOut = () => {
                 dispatch(push('/signin'));
             })
             .catch(error => {
-                console.log('sign out failed');
+                alert();
             });
     };
 };
@@ -58,7 +57,7 @@ export const signUp = user => {
             .post(base_url + '/sign-up/', user)
             .then(res => dispatch(signUp_()))
             .catch(error => {
-                console.log('sign up failed');
+                alert('User name duplicated');
                 console.log(error);
             });
     };

@@ -8,7 +8,7 @@ const initialState = {
         last_name: null,
         nickname: null,
         email: null,
-        interested_tags: []
+        tags: []
     }
 };
 

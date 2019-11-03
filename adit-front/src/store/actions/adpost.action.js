@@ -50,7 +50,6 @@ export const getHottestList = () => {
         axios
             .get('/api/adpost/hottest/')
             .then(res => {
-                console.log(res.data);
                 dispatch(getHottestList_(res.data));
             })
             .catch(e => {

@@ -46,6 +46,14 @@ class TopMenu extends Component {
         history.push('/home');
     };
 
+    clickSignOutHandler = () => {
+        this.props.onsignOut();
+    };
+
+    clickMyPageHandler = () => {
+        history.push('/mypage');
+    };
+
     searchConfirmHandler = () => {
         if (!this.state.searchkey) alert('Input your Search Words.');
         else history.push(`/adposts/search=${this.state.searchkey}`);
@@ -61,15 +69,6 @@ class TopMenu extends Component {
     };
 
     render() {
-        let signInButton = (
-            <button value="signin" onClick={this.signInHandler}>
-                Sign In
-            </button>
-        );
-        let newArticleButton = (
-            <btn onClick={this.newArticleHandler}>New Ad Request</btn>
-        );
-
         return (
             <div className="TopMenu">
                 <Navbar id="UserInfo" fixed="top">
@@ -102,15 +101,23 @@ class TopMenu extends Component {
                             aria-hidden="true"
                             onClick={this.searchConfirmHandler}></i>
                     </div>
-                    {this.props.logged_in && newArticleButton}
                     {this.props.logged_in && (
-                        <TopMenuPopUp user={this.props.user} />
+                        <a id="ad-add-btn" onClick={this.newArticleHandler}>
+                            New Ad Request
+                        </a>
+                    )}
+                    {this.props.logged_in && (
+                        <TopMenuPopUp
+                            user={this.props.user}
+                            mypageHandler={this.clickMyPageHandler}
+                            signOutHandler={this.clickSignOutHandler}
+                        />
                     )}
 
                     {!this.props.logged_in && (
-                        <button id="SignInButton" onClick={this.signInHandler}>
+                        <a id="sign-in-btn" onClick={this.signInHandler}>
                             Sign In
-                        </button>
+                        </a>
                     )}
                 </Navbar>
             </div>

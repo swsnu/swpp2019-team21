@@ -10,11 +10,12 @@ import {
     ListGroupItem
 } from 'react-bootstrap';
 import profile from './../../assets/iu_profile.png';
-import { connect } from 'net';
+import { connect } from 'react-redux';
 import UserDetail from '../../components/UserDetail/UserDetail';
 import PreviewList from '../../components/PreviewList/PreviewList';
 import BottomBox from '../../components/BottomBox/BottomBox';
 import './UserInfo.css';
+import * as actionCreators from '../../store/actions/user.action';
 import background from '../../assets/userinfo_background.jpg';
 import thumbnail from '../../assets/thumbnail_example.png';
 
@@ -39,16 +40,17 @@ class UserInfo extends Component {
         profileimg: profile,
         usertag: ['student', 'SNU', 'club', 'band']
     };
-    tags = this.state.usertag.map(tg => {
+    tags = this.props.user.tags.map(tg => {
         return <t>#{tg} </t>;
     });
+
     render() {
         return (
             <div className="UserInfo">
                 <img src={background} id="title-background" />
                 <div className="TitleBox" id="userinfo-titlebox">
                     <ttl className="Title" id="userinfo_title">
-                        Hello, {this.state.nickname}!
+                        Hello, {this.props.user.nickname}!
                     </ttl>
                     <p>
                         <tgs>{this.tags}</tgs>
@@ -66,7 +68,7 @@ class UserInfo extends Component {
                         compact={true}
                     />
                 </div>
-                <UserDetail {...this.state} />
+                <UserDetail {...this.props.user} />
                 <footer className="footer">
                     <BottomBox />
                 </footer>
@@ -75,4 +77,21 @@ class UserInfo extends Component {
     }
 }
 
-export default UserInfo;
+export const mapStateToProps = state => {
+    return {
+        logged_in: state.user.logged_in,
+        user: state.user.user
+    };
+};
+
+export const mapDispatchToProps = dispatch => {
+    return {
+        onsignOut: () => dispatch(actionCreators.signOut()),
+        reloadUser: () => dispatch(actionCreators.getUser())
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(UserInfo);

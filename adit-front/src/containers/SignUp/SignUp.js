@@ -25,15 +25,14 @@ class SignUp extends Component {
         lname: '',
         nickname: '',
         tags: [],
-        mockSuggestion: [
-            { id: 3, name: 'Bananas' },
-            { id: 4, name: 'Mango' },
-            { id: 5, name: 'Lemons' },
-            { id: 6, name: 'Apricots' }
-        ]
+        valid: {
+            email: false,
+            password_check: true,
+            nickname: true
+        }
     };
-    SignupHandler = () => {
-        alert('Welcome!');
+
+    signUpHandler = () => {
         const user = {
             email: this.state.email,
             password: this.state.password,
@@ -42,33 +41,49 @@ class SignUp extends Component {
             nickname: this.state.nickname,
             tags: this.state.tags
         };
-        this.props.onsignUp(user);
+        this.props.onSignUp(user);
         this.props.history.push('/signin');
         return;
     };
-    handleDelete = i => {
+
+    deleteTagHandler = i => {
         const tags = this.state.tags.slice(0);
         tags.splice(i, 1);
         this.setState({ tags: tags });
     };
-    handleAddition = tag => {
+
+    addTagHandler = tag => {
         const tags = [].concat(this.state.tags, tag);
         this.setState({ tags: tags });
     };
+
+    passwordCheckerHandler = () => {
+        // TODO Inputbox Get Red
+    };
+
     render() {
         return (
-            <div className="SignUp">
-                <div className="SignUpForm">
+            <div className="sign-up">
+                <div className="sign-up-form">
                     <div className="avatar">
                         <img src={avatar} className="Avatar" />
                     </div>
                     <h2 className="text-center">Join Us:)</h2>
                     <div className="form-group">
-                        <p className="input-tag" align="left">
-                            Email Address
+                        <p
+                            className={`input-tag${
+                                this.state.valid.email ? '' : '-unvalid'
+                            }`}
+                            align="left">
+                            Email Address{' '}
+                            {this.state.valid.email
+                                ? ''
+                                : '(email already exists)'}
                         </p>
                         <input
-                            className="form-control"
+                            className={`form-control${
+                                this.state.valid.email ? '' : '-unvalid'
+                            }`}
                             id="email-input"
                             type="text"
                             value={this.state.email}
@@ -94,7 +109,9 @@ class SignUp extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <p className="input-tag" align="left">
+                        <p
+                            className={`input-tag-${this.state.valid.password_check}`}
+                            align="left">
                             Password Check
                         </p>
                         <input
@@ -108,6 +125,7 @@ class SignUp extends Component {
                                     password_check: event.target.value
                                 })
                             }
+                            onBlur={this.passwordCheckerHandler}
                         />
                     </div>
                     <table>
@@ -151,12 +169,13 @@ class SignUp extends Component {
                         </td>
                     </table>
                     <div className="form-group">
-                        <p className="input-tag" align="left">
+                        <p
+                            className={`input-tag-${this.state.valid.nickname}`}
+                            align="left">
                             Nickname
                         </p>
                         <input
                             className="form-control"
-                            id="email-input"
                             type="text"
                             value={this.state.nickname}
                             required="required"
@@ -171,9 +190,9 @@ class SignUp extends Component {
                         </p>
                         <ReactTags
                             tags={this.state.tags}
-                            suggestions={this.state.mockSuggestion}
-                            handleDelete={this.handleDelete}
-                            handleAddition={this.handleAddition}
+                            suggestions={this.props.allTags}
+                            handleDelete={this.deleteTagHandler}
+                            handleAddition={this.addTagHandler}
                             allowNew={true}
                             minQueryLength={1}
                         />
@@ -191,7 +210,7 @@ class SignUp extends Component {
                             className="btn btn-primary btn-lg btn-block"
                             button
                             id="signup-button"
-                            onClick={() => this.SignupHandler()}>
+                            onClick={this.signUpHandler}>
                             Sign up!
                         </button>
                     </div>
@@ -201,13 +220,19 @@ class SignUp extends Component {
     }
 }
 
-export const mapDispatchToProps = dispatch => {
+const mapStateToProps = status => {
     return {
-        onsignUp: user => dispatch(actionCreators.signUp(user))
+        allTags: status.tag.all_tags
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSignUp: user => dispatch(actionCreators.signUp(user))
     };
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(SignUp);
