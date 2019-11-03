@@ -26,7 +26,7 @@ class SignUp extends Component {
         nickname: '',
         tags: [],
         valid: {
-            email: false,
+            email: true,
             password_check: true,
             nickname: true
         }
@@ -39,10 +39,10 @@ class SignUp extends Component {
             first_name: this.state.fname,
             last_name: this.state.lname,
             nickname: this.state.nickname,
-            tags: this.state.tags
+            tags: this.state.tags.map(item => item.name)
         };
         this.props.onSignUp(user);
-        this.props.history.push('/signin');
+        this.props.history.push();
         return;
     };
 
@@ -198,7 +198,7 @@ class SignUp extends Component {
                         />
                     </div>
                     <div className="checkterm">
-                        <label clasName="Term">
+                        <label className="Term">
                             <input type="checkbox" id="haveread-chkbox" /> I
                             have read and agree to the{' '}
                             <a href="#">terms of service</a>
@@ -208,7 +208,6 @@ class SignUp extends Component {
                         <button
                             type="submit"
                             className="btn btn-primary btn-lg btn-block"
-                            button
                             id="signup-button"
                             onClick={this.signUpHandler}>
                             Sign up!

@@ -13,9 +13,9 @@ import profile from './../../assets/iu_profile.png';
 import { connect } from 'react-redux';
 import UserDetail from '../../components/UserDetail/UserDetail';
 import PreviewList from '../../components/PreviewList/PreviewList';
-import BottomBox from '../../components/BottomBox/BottomBox';
 import './UserInfo.css';
 import * as actionCreators from '../../store/actions/user.action';
+import * as adpostCreators from '../../store/actions/adpost.action';
 import background from '../../assets/userinfo_background.jpg';
 import thumbnail from '../../assets/thumbnail_example.png';
 
@@ -42,11 +42,16 @@ class UserInfo extends Component {
         profileimg: profile,
         usertag: ['student', 'SNU', 'club', 'band']
     };
-    tags = this.props.user.tags.map(tg => {
-        return <t>#{tg} </t>;
-    });
+
+    componentDidMount() {
+        this.props.onGetOwnList();
+        this.props.onGetParticipatedList();
+    }
 
     render() {
+        var tags = this.props.user.tags.map(tg => {
+            return <t>#{tg} </t>;
+        });
         return (
             <div className="UserInfo">
                 <img src={background} id="title-background" />
@@ -55,41 +60,49 @@ class UserInfo extends Component {
                         Hello, {this.props.user.nickname}!
                     </ttl>
                     <p>
-                        <tgs>{this.tags}</tgs>
+                        <tgs>{tags}</tgs>
                     </p>
                 </div>
                 <div className="AdList">
                     <PreviewList
-                        articles={mockAdPostList}
+                        articles={
+                            this.props.own_article ? this.props.own_article : []
+                        }
                         list_name={'Your Request'}
                         compact={true}
                     />
                     <PreviewList
-                        articles={mockAdPostList}
+                        articles={
+                            this.props.participated_article
+                                ? this.props.participated_article
+                                : []
+                        }
                         list_name={'Participated'}
                         compact={true}
                     />
                 </div>
                 <UserDetail {...this.props.user} />
-                <footer className="footer">
-                    <BottomBox />
-                </footer>
             </div>
         );
     }
 }
 
-export const mapStateToProps = state => {
+const mapStateToProps = state => {
     return {
         logged_in: state.user.logged_in,
-        user: state.user.user
+        user: state.user.user,
+        own_article: state.adpost.adpost_own_item,
+        participated_article: state.adpost.adpost_participated_item
     };
 };
 
-export const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
     return {
         onsignOut: () => dispatch(actionCreators.signOut()),
-        reloadUser: () => dispatch(actionCreators.getUser())
+        reloadUser: () => dispatch(actionCreators.getUser()),
+        onGetOwnList: () => dispatch(adpostCreators.getUserOwnList()),
+        onGetParticipatedList: () =>
+            dispatch(adpostCreators.getUserParticipatedList())
     };
 };
 

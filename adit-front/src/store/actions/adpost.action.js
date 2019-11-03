@@ -91,7 +91,50 @@ export const getCustomList = () => {
         axios
             .get('/api/adpost/custom/')
             .then(res => {
+                console.log(res.data);
                 dispatch(getCustomList_(res.data));
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+};
+
+function getUserOwnList_(data) {
+    return {
+        type: actionTypes.GET_OWN_ARTICLE,
+        adpost_list_item: data
+    };
+}
+
+export const getUserOwnList = () => {
+    return dispatch => {
+        axios
+            .get('/api/adpost/by-userid/')
+            .then(res => {
+                console.log(res.data);
+                dispatch(getUserOwnList_(res.data));
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+};
+
+function getUserParticipatedList_(data) {
+    return {
+        type: actionTypes.GET_PARTICIPATED_ARTICLE,
+        adpost_list_item: data
+    };
+}
+
+export const getUserParticipatedList = () => {
+    return dispatch => {
+        axios
+            .get('/api/adpost/by-partid/')
+            .then(res => {
+                console.log(res.data);
+                dispatch(getUserParticipatedList_(res.data));
             })
             .catch(e => {
                 console.log(e);
@@ -106,7 +149,7 @@ function postAdpost_(data) {
     };
 }
 
-export const postAdpost = (data) => {
+export const postAdpost = data => {
     return dispatch => {
         axios
             .post('/api/adpost/', data)
@@ -115,7 +158,7 @@ export const postAdpost = (data) => {
                 dispatch(push('/article/' + res.data.id));
             })
             .catch(e => {
-                alert("Post failed...");
+                alert('Post failed...');
                 console.log(e);
             });
     };
@@ -128,7 +171,7 @@ function getAdpost_(data) {
     };
 }
 
-export const getAdpost = (id) => {
+export const getAdpost = id => {
     return dispatch => {
         axios
             .get('/api/adpost/' + id + '/')
@@ -136,7 +179,7 @@ export const getAdpost = (id) => {
                 dispatch(getAdpost_(res.data));
             })
             .catch(e => {
-                alert("Get failed...");
+                alert('Get failed...');
                 console.log(e);
             });
     };

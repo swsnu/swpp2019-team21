@@ -40,7 +40,7 @@ export const signOut = () => {
                 dispatch(push('/signin'));
             })
             .catch(error => {
-                alert();
+                console.log(error);
             });
     };
 };
@@ -55,10 +55,12 @@ export const signUp = user => {
     return dispatch => {
         return axios
             .post(base_url + '/sign-up/', user)
-            .then(res => dispatch(signUp_()))
+            .then(res => {
+                dispatch(signUp_());
+                dispatch(push('/signin'));
+            })
             .catch(error => {
                 alert('User name duplicated');
-                console.log(error);
             });
     };
 };

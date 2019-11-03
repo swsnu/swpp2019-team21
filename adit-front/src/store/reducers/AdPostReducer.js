@@ -3,26 +3,9 @@ import axios from 'axios';
 
 const initialState = {
     loaded: false,
-    adpost_list_item: [
-        {
-            list_tag: null,
-            adpost_items: [
-                {
-                    adpost_id: null,
-                    owner_id: null,
-                    title: null,
-                    subtitle: null,
-                    content: null,
-                    closed: false,
-                    target_views: null,
-                    total_views: null,
-                    upload_date: null,
-                    expire_date: null,
-                    interest_tags: []
-                }
-            ]
-        }
-    ],
+    adpost_list_item: null,
+    adpost_own_item: null,
+    adpost_participated_item: null,
     adpost_hottest_item: [
         {
             adpost_id: null,
@@ -110,7 +93,17 @@ export const adpost_reducer = (state = initialState, action) => {
         case actionTypes.GET_CUSTOM_ARTICLE:
             return {
                 ...state,
-                adpost_list_item: [action.adpost_list_item]
+                adpost_list_item: action.adpost_list_item
+            };
+        case actionTypes.GET_OWN_ARTICLE:
+            return {
+                ...state,
+                adpost_own_item: action.adpost_list_item
+            };
+        case actionTypes.GET_PARTICIPATED_ARTICLE:
+            return {
+                ...state,
+                adpost_participated_item: action.adpost_list_item
             };
         default:
             break;

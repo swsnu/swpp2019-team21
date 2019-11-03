@@ -1,19 +1,20 @@
-.BottomBox{
+.BottomBox {
+    margin-top: 300px;
     width: 100%;
     background: #424446;
 }
 
-.InfoParagraph{
+.InfoParagraph {
     padding: 50px;
     width: 600px;
 }
 
-.InfoTitle{
+.InfoTitle {
     color: #d1d2d3;
     font-size: 40px;
     font-family: consolas;
 }
 
-.InfoContent{
+.InfoContent {
     color: #919293;
 }

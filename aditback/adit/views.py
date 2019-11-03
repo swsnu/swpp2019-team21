@@ -312,18 +312,15 @@ class adPostByID(View):
         return HttpResponse(status = 204)
 
 class adPostByOwnerID(View):
-    @check_object_exist(object_type=AditUser)
-    def get(self, request, id):
-        post_by_userid = [model_to_dict(post) for post in AdPost.objects.filter(owner = id).order_by('-upload_date')]
+    @check_is_authenticated
+    def get(self, request):
+        post_by_userid = [model_to_dict(post) for post in AdPost.objects.filter(owner = request.user).order_by('-upload_date')]
         list_process(post_by_userid)
         return JsonResponse(post_by_userid, status=200, safe=False)
 
 class adPostByParticipantID(View):
     @check_is_authenticated
-    @check_object_exist(object_type=AditUser)
-    def get(self, request, id):
-        if request.user.id is not id:
-            return HttpResponseForbidden()
+    def get(self, request):
         user = request.user
         reception_list = AdReception.objects.filter(owner=user).order_by('-recept_time')
         post_by_userid = [model_to_dict(reception.adpost) for reception in reception_list]

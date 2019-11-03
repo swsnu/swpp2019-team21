@@ -12,6 +12,7 @@ import ArticleDetail from './containers/Article/ArticleDetail/ArticleDetail';
 import ArticleEdit from './containers/Article/ArticleEdit/ArticleEdit';
 import ArticleCreate from './containers/Article/ArticleCreate/ArticleCreate';
 import ResetPW from './containers/UserInfo/ResetPW/ResetPW';
+import BottomBox from './components/BottomBox/BottomBox';
 import { ScrollToTop } from './test/utils/ScrollToTop';
 
 function App(props) {
@@ -49,8 +50,8 @@ function App(props) {
                         component={ArticleEdit}
                     />
                     <Route component={() => (window.location = '/signin')} />
-                    ￼￼
                 </Switch>
+                <BottomBox />
             </div>
         </ConnectedRouter>
     );
