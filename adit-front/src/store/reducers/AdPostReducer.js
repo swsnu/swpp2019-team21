@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import axios from 'axios';
 
 const initialState = {
+    loaded: false,
     adpost_list_item: [
         {
             list_tag: null,
@@ -77,9 +78,16 @@ export const adpost_reducer = (state = initialState, action) => {
         case actionTypes.GET_GRID_ARTICLE:
             return { ...state, adpost_list_item: [action.adpost_list_item] };
         case actionTypes.GET_HOTTEST_ARTICLE:
-            return { ...state, adpost_hottest_item: action.adpost_list_item };
+            return {
+                ...state,
+                adpost_hottest_item: {
+                    adpost_item: action.adpost_list_item
+                }
+            };
         case actionTypes.GET_RECENT_ARTICLE:
-            return { ...state, adpost_recent_item: action.adpost_list_item };
+            return { ...state, loaded: true, adpost_recent_item: {
+                adpost_item: action.adpost_list_item
+            }};
         case actionTypes.GET_LISTED_ARTICLE:
             return {
                 ...state,
@@ -95,7 +103,7 @@ export const adpost_reducer = (state = initialState, action) => {
         case actionTypes.GET_CUSTOM_ARTICLE:
             return {
                 ...state,
-                adpost_list_item: [action.adpost_list_item]
+                adpost_list_item: action.adpost_list_item
             };
         default:
             break;

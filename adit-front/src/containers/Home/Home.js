@@ -41,27 +41,41 @@ const mockEventList = [
 
 class Home extends Component {
     componentDidMount() {
-        //this.props.onGetCustomList();
-        console.log(this.props.hotList);
+        this.props.onGetCustomList();
         this.props.onGetHottestList();
         this.props.onGetRecentList();
     }
 
     render() {
-        /*const customPreviewList = this.props.interestedList.map(list => {
-            return (
-                <PreviewList
-                    articles={list.adpost_item}
-                    list_name={list.list_tag}
-                />
-            );
-        });*/
+        var customPreviewList;
+        /*f(this.props.loaded) {
+                customPreviewList = this.props.interestedList.map(list => {
+                return (
+                    <PreviewList
+                        articles={list.adpost_item}
+                        list_name={list.list_tag}
+                    />
+                );
+            });
+        }*/
         return (
             <div className="home">
                 <EventItemList eventItems={mockEventList} />
+                {this.props.loaded && customPreviewList}
                 <p></p>
-                <PreviewList articles={mockAdPostList} list_name={'Hottest'} />
-                <PreviewList articles={mockAdPostList} list_name={'Newest'} />
+                {this.props.loaded && (
+                    <div>
+                        <PreviewList
+                            articles={this.props.hotList.adpost_item}
+                            list_name={'Hottest'}
+                        />
+                    </div>
+                )}
+                {this.props.loaded && (
+                    <div>
+                        <PreviewList articles={this.props.recentList.adpost_item} list_name={'Newest'} />
+                    </div>
+                )}
             </div>
         );
     }
@@ -88,7 +102,8 @@ const mapStateToProps = state => {
     return {
         hotList: state.adpost.adpost_hottest_item,
         recentList: state.adpost.adpost_recent_item,
-        interestedList: state.adpost.addpost_list_item
+        interestedList: state.adpost.addpost_list_item,
+        loaded: state.adpost.loaded
     };
 };
 

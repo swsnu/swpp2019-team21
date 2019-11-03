@@ -91,7 +91,7 @@ export const getCustomList = () => {
         axios
             .get('/api/adpost/custom/')
             .then(res => {
-                dispatch(getRecentList_(res.data));
+                dispatch(getCustomList_(res.data));
             })
             .catch(e => {
                 console.log(e);
