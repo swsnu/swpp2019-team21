@@ -177,7 +177,7 @@ class ArticleCreate extends Component {
                 ad_link: this.state.postUrl, 
                 target_views: this.state.postGoal,
                 expiry_date: this.state.postDeadline.year + '-' + this.state.postDeadline.month + '-' + this.state.postDeadline.date,
-                interest_tags: this.state.postTag.map(tag => {
+                tags: this.state.postTag.map(tag => {
                     return tag.name;
                 })
             }

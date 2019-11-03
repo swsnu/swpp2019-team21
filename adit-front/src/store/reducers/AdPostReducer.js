@@ -59,13 +59,15 @@ const initialState = {
         title: null,
         subtitle: null,
         content: null,
+        thumbnail: null,
+        ad_link: null,
         closed: false,
         image: [],
         target_views: null,
         total_views: null,
         upload_date: null,
-        expire_date: null,
-        interest_tags: [],
+        expiry_date: null,
+        tags: [],
         is_owner: false,
         info_aditee: { is_participating: false, unique_url: null, views: null },
         // Should be added at latter..
@@ -102,14 +104,14 @@ export const adpost_reducer = (state = initialState, action) => {
         case actionTypes.GET_DETAILED_ARTICLE:
             return {
                 ...state,
-                adpost_detailed_item: action.adpost_detailed_item
+                adpost_detailed_item: action.adpost_detailed_item,
+                loaded: true
             };
         case actionTypes.GET_CUSTOM_ARTICLE:
             return {
                 ...state,
                 adpost_list_item: [action.adpost_list_item]
             };
-        
         default:
             break;
     }

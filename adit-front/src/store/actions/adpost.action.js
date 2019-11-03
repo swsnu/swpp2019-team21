@@ -100,27 +100,6 @@ export const getCustomList = () => {
     };
 };
 
-function getArticleDetail_(data) {
-    return {
-        type: actionTypes.GET_DETAILED_ARTICLE,
-        adpost_detailed_item: data
-    };
-}
-
-function getArticleDetail(article_id) {
-    return dispatch => {
-        axios
-            .get('/api/adpost/' + article_id)
-            .then(res => {
-                dispatch(getArticleDetail_(res.data));
-                dispatch(push());
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
-}
-
 function postAdpost_(data) {
     return {
         type: actionTypes.POST_ARTICLE,
@@ -138,6 +117,27 @@ export const postAdpost = (data) => {
             })
             .catch(e => {
                 alert("Post failed...");
+                console.log(e);
+            });
+    };
+};
+
+function getAdpost_(data) {
+    return {
+        type: actionTypes.GET_DETAILED_ARTICLE,
+        adpost_detailed_item: data
+    };
+}
+
+export const getAdpost = (id) => {
+    return dispatch => {
+        axios
+            .get('/api/adpost/' + id + '/')
+            .then(res => {
+                dispatch(getAdpost_(res.data));
+            })
+            .catch(e => {
+                alert("Get failed...");
                 console.log(e);
             });
     };
