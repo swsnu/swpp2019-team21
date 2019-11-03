@@ -10,6 +10,7 @@ urlpatterns = [
     path('adpost/', views.adPost.as_view()),
     path('adpost/<int:id>/', views.adPostByID.as_view()),
     path('adpost/by-userid/<int:id>/', views.adPostByOwnerID.as_view()),
+    path('adpost/by-partid/<int:id>/', views.adPostByParticipantID.as_view()),
     path('adpost/by-tag/<str:tag>/', views.adPostByTag.as_view()),
     path('adpost/hottest/', views.adPostByHot.as_view()),
     path('adpost/recent/', views.adPostByRecent.as_view()),
