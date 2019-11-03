@@ -83,8 +83,7 @@ class ArticleDetail extends Component {
                             />
                             <button
                                 id="post-edit-button"
-                                onClick={this.postEditHandler}
-                            >
+                                onClick={this.postEditHandler}>
                                 Edit
                             </button>
                             <div className="achieve-bar-component">
@@ -92,8 +91,7 @@ class ArticleDetail extends Component {
                                 <ProgressBar
                                     id="achieve-bar"
                                     now={this.state.now}
-                                    label={`${this.state.now}%`}
-                                ></ProgressBar>
+                                    label={`${this.state.now}%`}></ProgressBar>
                             </div>
                         </div>
                     )}
@@ -108,8 +106,7 @@ class ArticleDetail extends Component {
                     {!this.state.mine && !this.state.participated && (
                         <button
                             id="participate-button"
-                            onClick={this.participateHandler}
-                        >
+                            onClick={this.participateHandler}>
                             Participate
                         </button>
                     )}
@@ -119,8 +116,7 @@ class ArticleDetail extends Component {
                 </button>
                 <button
                     onClick={this.toggleParticipate}
-                    id="toggle-participate-button"
-                >
+                    id="toggle-participate-button">
                     Toggle Participate
                 </button>
             </div>

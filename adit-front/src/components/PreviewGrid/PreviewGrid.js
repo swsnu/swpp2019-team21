@@ -14,11 +14,9 @@ class PreviewGrid extends React.Component {
         return ret;
     }
 
-    clickPreviewHandler = id => {
-    };
+    clickPreviewHandler = id => {};
 
     render() {
-        
         return (
             <div>
                 <table id="preview-table" align="center">
@@ -45,6 +43,6 @@ class PreviewGrid extends React.Component {
 
 PreviewGrid.propTypes = {
     articles: PropTypes.any
-}
+};
 
 export default PreviewGrid;

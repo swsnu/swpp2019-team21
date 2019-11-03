@@ -34,8 +34,7 @@ export default function TopMenuPopUp(props) {
                     <ListGroup.Item
                         action
                         variant="light"
-                        onClick={clickMypageHandler}
-                    >
+                        onClick={clickMypageHandler}>
                         <p align="center">
                             <Image
                                 id="UserInfoImage"
@@ -52,15 +51,13 @@ export default function TopMenuPopUp(props) {
                     <ListGroup.Item
                         action
                         variant="light"
-                        onClick={clickMypageHandler}
-                    >
+                        onClick={clickMypageHandler}>
                         My Page
                     </ListGroup.Item>
                     <ListGroup.Item
                         action
                         variant="light"
-                        onClick={signOutHandler}
-                    >
+                        onClick={signOutHandler}>
                         Sign Out
                     </ListGroup.Item>
                 </ListGroup>

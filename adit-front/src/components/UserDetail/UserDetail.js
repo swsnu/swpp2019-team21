@@ -54,8 +54,7 @@ class UserDetail extends Component {
             <div className="UserDetail">
                 <Modal
                     show={this.state.showChangePW}
-                    onHide={this.changePWFinishHandler}
-                >
+                    onHide={this.changePWFinishHandler}>
                     <Modal.Header closeButton>
                         <Modal.Title>Change Password</Modal.Title>
                     </Modal.Header>
@@ -94,16 +93,14 @@ class UserDetail extends Component {
                     <Modal.Footer>
                         <Button
                             variant="primary"
-                            onClick={this.changePWFinishHandler}
-                        >
+                            onClick={this.changePWFinishHandler}>
                             Save
                         </Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal
                     show={this.state.showChargePoint}
-                    onHide={this.chargePointFinishHandler}
-                >
+                    onHide={this.chargePointFinishHandler}>
                     <Modal.Header closeButton>
                         <Modal.Title>Charge Point</Modal.Title>
                     </Modal.Header>
@@ -145,8 +142,7 @@ class UserDetail extends Component {
                     <Modal.Footer>
                         <Button
                             variant="primary"
-                            onClick={this.chargePointFinishHandler}
-                        >
+                            onClick={this.chargePointFinishHandler}>
                             Save
                         </Button>
                     </Modal.Footer>
@@ -231,22 +227,19 @@ class UserDetail extends Component {
                         <ListGroup.Item
                             action
                             variant="light"
-                            onClick={this.chargePointHandler}
-                        >
+                            onClick={this.chargePointHandler}>
                             <h6>Charge Point</h6>
                         </ListGroup.Item>
                         <ListGroup.Item
                             action
                             variant="light"
-                            onClick={this.changePWHandler}
-                        >
+                            onClick={this.changePWHandler}>
                             <h6>Change Password</h6>
                         </ListGroup.Item>
                         <ListGroup.Item
                             action
                             variant="light"
-                            onClick={this.saveChangesHandler}
-                        >
+                            onClick={this.saveChangesHandler}>
                             <h6>Save Changes</h6>
                         </ListGroup.Item>
                     </ListGroup>

@@ -85,9 +85,13 @@ export const adpost_reducer = (state = initialState, action) => {
                 }
             };
         case actionTypes.GET_RECENT_ARTICLE:
-            return { ...state, loaded: true, adpost_recent_item: {
-                adpost_item: action.adpost_list_item
-            }};
+            return {
+                ...state,
+                loaded: true,
+                adpost_recent_item: {
+                    adpost_item: action.adpost_list_item
+                }
+            };
         case actionTypes.GET_LISTED_ARTICLE:
             return {
                 ...state,

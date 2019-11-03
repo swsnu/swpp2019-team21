@@ -73,7 +73,10 @@ class Home extends Component {
                 )}
                 {this.props.loaded && (
                     <div>
-                        <PreviewList articles={this.props.recentList.adpost_item} list_name={'Newest'} />
+                        <PreviewList
+                            articles={this.props.recentList.adpost_item}
+                            list_name={'Newest'}
+                        />
                     </div>
                 )}
             </div>

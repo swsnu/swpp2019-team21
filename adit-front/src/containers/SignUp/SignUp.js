@@ -191,8 +191,7 @@ class SignUp extends Component {
                             className="btn btn-primary btn-lg btn-block"
                             button
                             id="signup-button"
-                            onClick={() => this.SignupHandler()}
-                        >
+                            onClick={() => this.SignupHandler()}>
                             Sign up!
                         </button>
                     </div>

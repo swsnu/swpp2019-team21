@@ -87,8 +87,7 @@ class SignIn extends Component {
                             type="submit"
                             className="btn btn-primary btn-lg btn-block"
                             id="signin-button"
-                            onClick={() => this.SignInHandler()}
-                        >
+                            onClick={() => this.SignInHandler()}>
                             Sign in
                         </button>
                     </div>
@@ -107,8 +106,7 @@ class SignIn extends Component {
                     <a
                         href="#"
                         id="signup-link"
-                        onClick={() => this.SignUpHandler()}
-                    >
+                        onClick={() => this.SignUpHandler()}>
                         Sign up here!
                     </a>
                 </p>

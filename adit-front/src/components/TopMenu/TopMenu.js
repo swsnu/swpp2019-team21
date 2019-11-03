@@ -76,8 +76,7 @@ class TopMenu extends Component {
                     <h1
                         id="AditTitle"
                         align="left"
-                        onClick={this.clickHomeHandler}
-                    >
+                        onClick={this.clickHomeHandler}>
                         Adit
                     </h1>
                     <div className="Search">
@@ -101,8 +100,7 @@ class TopMenu extends Component {
                             className="fa fa-search"
                             id="search-confirm-button"
                             aria-hidden="true"
-                            onClick={this.searchConfirmHandler}
-                        ></i>
+                            onClick={this.searchConfirmHandler}></i>
                     </div>
                     {this.props.logged_in && newArticleButton}
                     {this.props.logged_in && (

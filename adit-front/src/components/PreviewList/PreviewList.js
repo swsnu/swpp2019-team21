@@ -55,8 +55,7 @@ class PreviewList extends React.Component {
                     id="list-carousel"
                     responsive={
                         this.props.compact ? responsive_compact : responsive
-                    }
-                >
+                    }>
                     {this.props.articles.map(item => (
                         <Preview
                             key={item.id}
@@ -69,8 +68,7 @@ class PreviewList extends React.Component {
                     <Link to={`/search/${this.props.list_name}`}>
                         <button
                             id="search-more"
-                            onClick={this.clickSearchMoreHandler}
-                        >
+                            onClick={this.clickSearchMoreHandler}>
                             Search More!
                         </button>
                     </Link>
