@@ -23,7 +23,7 @@ export const user_reducer = (state = initialState, action) => {
         case actionTypes.GET_USER:
             return { ...state, user: action.user, logged_in: true };
         case actionTypes.PUT_USER:
-            return { ...state };
+            return { ...state, user: action.user };
         default:
             break;
     }

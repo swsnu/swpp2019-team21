@@ -83,9 +83,10 @@ export const getUser = user => {
     };
 };
 
-export const putUser_ = () => {
+export const putUser_ = (user) => {
     return {
-        type: actionTypes.PUT_USER
+        type: actionTypes.PUT_USER,
+        user: user
     };
 };
 
@@ -93,10 +94,52 @@ export const putUser = user => {
     return dispatch => {
         return axios
             .put(base_url + '/user/', user)
-            .then(res => dispatch(putUser_()))
+            .then(res => 
+                dispatch(putUser_(user))
+            )
             .catch(error => {
                 console.log('put user failed');
                 alert('Put user failed zz');
+            });
+    };
+};
+
+export const changePW_ = () => {
+    return {
+        type: actionTypes.PUT_USER,
+    };
+};
+
+export const changePW = pw => {
+    return dispatch => {
+        return axios
+            .put(base_url + '/user/pw/', pw)
+            .then(res => 
+                dispatch(changePW_())
+            )
+            .catch(error => {
+                console.log('change PW failed');
+                alert('Input correct PW');
+            });
+    };
+};
+
+export const updatePoint_ = () => {
+    return {
+        type: actionTypes.PUT_USER,
+    };
+};
+
+export const updatePoint = pw => {
+    return dispatch => {
+        return axios
+            .put(base_url + '/user/point/', pw)
+            .then(res => 
+                dispatch(updatePoint_())
+            )
+            .catch(error => {
+                console.log('update Point failed');
+                alert('Input correct Point');
             });
     };
 };

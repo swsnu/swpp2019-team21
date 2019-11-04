@@ -2,53 +2,81 @@ import React, { Component, Profiler } from 'react';
 import {
     Modal,
     Button,
-    Dropdown,
-    DropdownButton,
-    Navbar,
-    Image,
-    OverlayTrigger,
-    Popover,
     ListGroup,
-    ListGroupItem
 } from 'react-bootstrap';
-import profile from './../../assets/iu_profile.png';
-import { connect } from 'net';
+import { connect } from 'react-redux';
+import ReactTags from 'react-tag-autocomplete';
 import './UserDetail.css';
+import * as actionCreators from '../../store/actions/user.action';
 import avatar from '../../assets/avatar.png';
 
 class UserDetail extends Component {
     state = {
-        user: { first_name: 'John', last_name: 'Doe', nickname: 'john' },
+        user: { first_name: '', last_name: '', nickname: '', tags: [] },
+        password: {
+            current_password:'',
+            new_password:'',
+            new_password_check:'',
+        },
         showChangePW: false,
         showChargePoint: false,
         addpoint: 0
     };
     componentDidMount() {
-        this.setState({
-            user: {
-                ...this.state.user,
-                first_name: this.props.first_name,
-                last_name: this.props.last_name,
-                nickname: this.props.nickname
-            }
-        });
+        this.props.reloadUser()
+            .then(res => { this.setState({
+                ...this.state,
+                user:{
+                    ...this.state.user,
+                    first_name: res.user.first_name,
+                    last_name: res.user.last_name,
+                    nickname: res.user.nickname,
+                    tags: res.user.tags.map(str => ({name:str})),
+                }
+            })
+            console.log(res)
+            console.log(res.user.tags.map(str => ({name:str})))
+        })
     }
     changePWHandler = () => this.setState({ showChangePW: true });
     changePWFinishHandler = () => {
-        this.setState({ showChangePW: false });
+        this.props.changePW(this.state.password)
         alert('Done!');
+        this.setState({ showChangePW: false });
     };
     chargePointHandler = () => this.setState({ showChargePoint: true });
     chargePointFinishHandler = () => {
+        this.props.updatePoint({point:this.props.user.point * 1 + this.state.addpoint * 1})
         this.setState({ showChargePoint: false });
         alert('Done!');
+        
     };
-    saveChangesHandler = () => {
+    saveChangesHandler = () => {    
+        console.log(this.state.user)
+        const user = {
+            nickname: this.state.user.nickname, 
+            first_name: this.state.user.first_name,
+            last_name: this.state.user.last_name,
+            tags: this.state.user.tags.map(str => str.name)
+        }
+        this.props.putUser(user)
         alert('Saved!');
     };
     withdrawalHandler = () => {
         alert('Noooo.....');
     };
+    deleteTagHandler = i => {
+        const tags = this.state.user.tags.slice(0);
+        tags.splice(i, 1);
+        this.setState({ ...this.state, user:{...this.state.user, tags: tags}});
+    };
+
+    addTagHandler = tag => {
+        const tags = [].concat(this.state.user.tags, tag);
+        this.setState({ ...this.state, user:{...this.state.user, tags: tags}});
+        console.log(this.state.user.tags)
+    };
+
     render() {
         return (
             <div className="UserDetail">
@@ -67,6 +95,14 @@ class UserDetail extends Component {
                                 type="password"
                                 className="form-fixed"
                                 id="password"
+                                value={this.state.password.current_password}
+                                onChange={event => this.setState({
+                                    ...this.state,
+                                    password:{
+                                        ...this.state.password,
+                                        current_password:event.target.value
+                                    }
+                                })}
                             />
                         </div>
                         <div className="form-group" align="left">
@@ -77,6 +113,14 @@ class UserDetail extends Component {
                                 type="password"
                                 className="form-fixed"
                                 id="new-password"
+                                value={this.state.password.new_password}
+                                onChange={event => this.setState({
+                                    ...this.state,
+                                    password:{
+                                        ...this.state.password,
+                                        new_password:event.target.value
+                                    }
+                                })}
                             />
                         </div>
                         <div className="form-group" align="left">
@@ -87,6 +131,14 @@ class UserDetail extends Component {
                                 type="password"
                                 className="form-fixed"
                                 id="new-password-check"
+                                value={this.state.password.new_password_check}
+                                onChange={event => this.setState({
+                                    ...this.state,
+                                    password:{
+                                        ...this.state.password,
+                                        new_password_check:event.target.value
+                                    }
+                                })}
                             />
                         </div>
                     </Modal.Body>
@@ -110,7 +162,7 @@ class UserDetail extends Component {
                                 Current Point
                             </p>
                             <text className="form-fixed" id="point">
-                                {this.props.point}
+                                {this.props.user.point}
                             </text>
                         </div>
                         <div className="form-group" align="left">
@@ -135,7 +187,7 @@ class UserDetail extends Component {
                                 Point Expected
                             </p>
                             <text className="form-fixed" id="point">
-                                {this.props.point * 1 + this.state.addpoint * 1}
+                                {this.props.user.point * 1 + this.state.addpoint * 1}
                             </text>
                         </div>
                     </Modal.Body>
@@ -152,8 +204,8 @@ class UserDetail extends Component {
                 <div className="avatar">
                     <img
                         src={
-                            this.props.profileimg
-                                ? this.props.profileimg
+                            this.props.user.pic
+                                ? this.props.user.pic
                                 : avatar
                         }
                         className="Avatar"
@@ -164,7 +216,7 @@ class UserDetail extends Component {
                         Email
                     </p>
                     <text className="form-fixed" id="email">
-                        {this.props.email}
+                        {this.props.user.email}
                     </text>
                 </div>
                 <div className="form-group">
@@ -175,11 +227,9 @@ class UserDetail extends Component {
                         className="form-control"
                         id="fname"
                         type="text"
-                        defaultValue={this.props.nickname}
+                        value={this.state.user.nickname}
                         onChange={event =>
-                            this.setState({
-                                user: { nickname: event.target.value }
-                            })
+                            this.setState({...this.state, user: { ...this.state.user, nickname: event.target.value }})
                         }
                     />
                 </div>
@@ -193,11 +243,9 @@ class UserDetail extends Component {
                                 className="form-control"
                                 id="fname"
                                 type="text"
-                                defaultValue={this.props.first_name}
+                                value={this.state.user.first_name}
                                 onChange={event =>
-                                    this.setState({
-                                        user: { first_name: event.target.value }
-                                    })
+                                    this.setState({...this.state, user: { ...this.state.user, first_name: event.target.value }})
                                 }
                             />
                         </div>
@@ -211,22 +259,33 @@ class UserDetail extends Component {
                                 className="form-control"
                                 id="lname"
                                 type="text"
-                                defaultValue={this.props.last_name}
+                                value={this.state.user.last_name}
                                 onChange={event =>
-                                    this.setState({
-                                        user: { last_name: event.target.value }
-                                    })
+                                    this.setState({...this.state, user: { ...this.state.user, last_name: event.target.value }})
                                 }
                             />
                         </div>
                     </td>
                 </table>
+                <div className="tagSelect">
+                        <p className="input-tag" align="left">
+                            Tags
+                        </p>
+                        <ReactTags
+                            tags={this.state.user.tags}
+                            suggestions={this.props.allTags}
+                            handleDelete={this.deleteTagHandler}
+                            handleAddition={this.addTagHandler}
+                            allowNew={true}
+                            minQueryLength={1}
+                        />
+                </div>
                 <div className="form-group" align="left">
                     <p className="label-tag" align="left">
                         Points Available
                     </p>
                     <text className="form-fixed" id="point">
-                        {this.props.point}
+                        {this.props.user.point}
                     </text>
                 </div>
                 <div className="form-group" align="left">
@@ -261,4 +320,22 @@ class UserDetail extends Component {
     }
 }
 
-export default UserDetail;
+const mapStateToProps = state => {
+    return {
+        user: state.user.user,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        reloadUser: () => dispatch(actionCreators.getUser()),
+        putUser: (user) => dispatch(actionCreators.putUser(user)),
+        changePW: (pw) => dispatch(actionCreators.changePW(pw)),
+        updatePoint: (point) => dispatch(actionCreators.updatePoint(point))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(UserDetail);

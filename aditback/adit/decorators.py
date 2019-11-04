@@ -108,6 +108,7 @@ def check_valid_json(item_list):
             if request.method == 'POST' or request.method == 'PUT':
                 try:
                     req_data = json.loads(request.body.decode())
+                    print(req_data)
                     for item in item_list:
                         tmp = req_data[item]
                 except (KeyError, json.JSONDecodeError) as e:

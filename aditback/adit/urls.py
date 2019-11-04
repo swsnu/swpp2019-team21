@@ -7,6 +7,8 @@ urlpatterns = [
     path('sign-in/', views.signIn.as_view()),
     path('sign-out/', views.signOut.as_view()),
     path('user/', views.getUser.as_view()),
+    path('user/point/', views.updatePoint.as_view()),
+    path('user/pw/', views.changePW.as_view()),
     path('adpost/', views.adPost.as_view()),
     path('adpost/<int:id>/', views.adPostByID.as_view()),
     path('adpost/by-userid/', views.adPostByOwnerID.as_view()),

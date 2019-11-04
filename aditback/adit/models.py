@@ -18,9 +18,9 @@ class AditUserManager(BaseUserManager):
             email=AditUserManager.normalize_email(email),
             nickname=nickname,
             first_name=first_name,
-            last_name=last_name
+            last_name=last_name,
+            point=0
         )
-        print(user.id)
 
         user.set_password(password)
         user.save(using=self._db)
@@ -36,6 +36,7 @@ class AditUserManager(BaseUserManager):
                              last_name=last_name,
                              tags=[],
                              password=password,
+                             point=0
                              )
         u.is_admin = True
         u.save(using=self._db)
@@ -83,6 +84,7 @@ class AditUser(AbstractBaseUser, PermissionsMixin):
         unique=False,
         default=''
     )
+    point = models.IntegerField()
     tags = models.ManyToManyField(
         to=InterestedTags,
         related_name='touser'

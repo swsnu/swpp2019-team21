@@ -16,6 +16,10 @@ body {
     box-shadow: none !important;
 }
 
+.UserDetail .tagSelect .react-tags {
+    width: 100%;
+    background: white;
+}
 
 .form-control {
     min-height: 41px;

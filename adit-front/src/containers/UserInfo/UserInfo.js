@@ -81,7 +81,7 @@ class UserInfo extends Component {
                         compact={true}
                     />
                 </div>
-                <UserDetail {...this.props.user} />
+                <UserDetail />
             </div>
         );
     }

@@ -9,8 +9,9 @@ from django.contrib.auth import authenticate, login, logout
 from .decorators import *
 from .models import *
 from django.views.generic import View
+from django.contrib.auth.hashers import check_password
 from django.forms.models import model_to_dict
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Q
 from datetime import datetime
 from django.core.files.base import ContentFile
@@ -126,7 +127,8 @@ class getUser(View):
             'first_name': temp_dict['first_name'],
             'last_name': temp_dict['last_name'],
             'avatar': '',
-            'tags': temp_dict['tags']
+            'tags': temp_dict['tags'],
+            'point': temp_dict['point']
         }
         tag_process(response_dict)
         return JsonResponse(response_dict)
@@ -172,6 +174,29 @@ class getUser(View):
         tag_process(response_dict)
         return JsonResponse(response_dict)
 
+class updatePoint(View):
+    @check_is_authenticated
+    def put(self, request):
+        user = request.user
+        req_data = json.loads(request.body.decode())
+        user.point = req_data['point']
+        user.save()
+        return HttpResponse(status=204)
+
+class changePW(View):
+    @check_is_authenticated
+    def put(self, request):
+        user = request.user
+        req_data = json.loads(request.body.decode())
+        current_password = req_data['current_password']
+        new_password = req_data['new_password']
+        if check_password(current_password, user.password):
+            user.set_password(new_password)
+            user.save()
+            login(request, user)
+            return redirect('')
+        else:
+            return HttpResponseNotAllowed()
 
 class adPost(View):
     item_list = ['title', 'subtitle', 'content', 'image', 'ad_link', 'target_views', 'expiry_date',
