@@ -224,6 +224,10 @@ class adPostByID(View):
     @check_object_exist(object_type=AdPost)
     def get(self, request, id):
         response_dict = model_to_dict(AdPost.objects.get(id = id))
+        if response_dict['owner'] ==  request.user.id:
+            response_dict['is_owner'] = True;
+        else :
+            response_dict['is_owner'] = False;
         model_process(response_dict)
         return JsonResponse(response_dict)
 
