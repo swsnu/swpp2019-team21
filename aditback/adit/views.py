@@ -240,7 +240,7 @@ class adPostByID(View):
             response_dict['is_owner'] = True;
         else :
             response_dict['is_owner'] = False;
-            
+
         model_process(response_dict)
         return JsonResponse(response_dict)
 
@@ -399,7 +399,10 @@ def encode(userid, time, postid):
     time = time.strftime("%y%m%d%H%M%S")
     print('encode : ' + time)
     hashids = Hashids()
-    return base_link + hashids.encode(int(time), postid, userid)
+    print(hashids)
+    print(postid, userid, int(time))
+    print(hashids.encode(int(time), int(postid), int(userid)))
+    return base_link + hashids.encode(int(time), int(postid), int(userid))
 
 
 def decode(code, object):
@@ -429,6 +432,7 @@ class adReception(View):
         recept_time = datetime.now()
         target_post = AdPost.objects.get(id=id)
         unique_link = encode(request.user.id, recept_time, id)
+        print(unique_link)
         response_dict = model_to_dict(
             AdReception.objects.create(owner=request.user, adpost=target_post, views=0, recept_time=recept_time,
                                        unique_link=unique_link, closed=False))
