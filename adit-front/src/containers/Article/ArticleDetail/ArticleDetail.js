@@ -3,6 +3,7 @@ import { Image, Carousel, ProgressBar } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import * as actionCreators from '../../../store/actions/adpost.action';
+import * as receptionCreators from '../../../store/actions/adreception.action';
 import './ArticleDetail.css';
 import intro_first from '../../../assets/intro_first.jpg';
 import intro_second from '../../../assets/intro_second.jpg';
@@ -31,10 +32,15 @@ class ArticleDetail extends Component {
     }; // should be props, not state
 
     componentDidMount() {
-        this.props.ongetArticle(window.location.href.substring(29));
+        this.props.ongetArticle(this.props.match.params.id);
     }
 
     participateHandler = () => {
+        const adpost = {
+            adpost: this.props.match.params.id
+        };
+        this.props.onpostReception(adpost);
+
         this.setState({ ...this.state, participated: true });
     };
 
@@ -110,16 +116,10 @@ class ArticleDetail extends Component {
                                 .state.participated && (
                                 <div className="url-component">
                                     <p id="unique-url-text">
-                                        {
-                                            this.props.article.info_aditee
-                                                .unique_url
-                                        }
+                                        {this.props.unique_link}
                                     </p>
                                     <CopyToClipboard
-                                        text={
-                                            this.props.article.info_aditee
-                                                .unique_url
-                                        }>
+                                        text={this.props.unique_link}>
                                         <button id="url-copy-button">
                                             Copy
                                         </button>
@@ -151,14 +151,17 @@ class ArticleDetail extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        ongetArticle: id => dispatch(actionCreators.getAdpost(id))
+        ongetArticle: id => dispatch(actionCreators.getAdpost(id)),
+        onpostReception: id => dispatch(receptionCreators.postReception(id))
     };
 };
 
 const mapStateToProps = state => {
     return {
         loaded: state.adpost.loaded,
-        article: state.adpost.adpost_detailed_item
+        article: state.adpost.adpost_detailed_item,
+        views: state.adreception.views,
+        unique_link: state.adreception.unique_link
     };
 };
 
