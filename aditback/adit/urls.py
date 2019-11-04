@@ -23,6 +23,5 @@ urlpatterns = [
     path('adreception/redirectto=<str:str>/', views.adReceptionOutRedirect.as_view()),
     path('tag/', views.tag.as_view()),
     path('tag/search/<str:pattern>/', views.tagSearch.as_view())
-    #path('question/<int:adpostid>/', views.questionPostId)
+    # path('question/<int:adpostid>/', views.questionPostId)
 ]
-

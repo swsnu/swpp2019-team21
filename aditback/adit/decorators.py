@@ -20,6 +20,7 @@ def check_valid_method(valid_method):
             return func(*args, **kwargs)
 
         return decorator
+
     return wrapper
 
 

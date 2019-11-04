@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -19,7 +18,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('password', models.CharField(max_length=128, verbose_name='password')),
                 ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
+                ('is_superuser', models.BooleanField(default=False,
+                                                     help_text='Designates that this user has all permissions without explicitly assigning them.',
+                                                     verbose_name='superuser status')),
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('email', models.EmailField(max_length=255, unique=True, verbose_name='email')),
                 ('nickname', models.CharField(default='', max_length=10, unique=True, verbose_name='Nickname')),
@@ -28,7 +29,10 @@ class Migration(migrations.Migration):
                 ('last_name', models.CharField(default='', max_length=10, verbose_name='Lastname')),
                 ('is_active', models.BooleanField(default=True)),
                 ('is_admin', models.BooleanField(default=False)),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups')),
+                ('groups', models.ManyToManyField(blank=True,
+                                                  help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
+                                                  related_name='user_set', related_query_name='user', to='auth.Group',
+                                                  verbose_name='groups')),
             ],
             options={
                 'abstract': False,
@@ -71,8 +75,10 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('content', models.TextField()),
                 ('checked', models.BooleanField()),
-                ('adpost', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='question', to='adit.AdPost')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='question', to=settings.AUTH_USER_MODEL)),
+                ('adpost', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='question',
+                                             to='adit.AdPost')),
+                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='question',
+                                            to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
@@ -83,8 +89,10 @@ class Migration(migrations.Migration):
                 ('unique_link', models.TextField()),
                 ('closed', models.BooleanField()),
                 ('recept_time', models.DateTimeField()),
-                ('adpost', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='toreception', to='adit.AdPost')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='toreception', to=settings.AUTH_USER_MODEL)),
+                ('adpost', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='toreception',
+                                             to='adit.AdPost')),
+                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='toreception',
+                                            to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.AddField(
@@ -95,7 +103,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='adpost',
             name='owner',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='post', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='post',
+                                    to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='adpost',
@@ -105,7 +114,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='adpost',
             name='thumbnail',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='thumbnail_topost', to='adit.PostImage'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='thumbnail_topost',
+                                    to='adit.PostImage'),
         ),
         migrations.AddField(
             model_name='adituser',
@@ -115,6 +125,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='adituser',
             name='user_permissions',
-            field=models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions'),
+            field=models.ManyToManyField(blank=True, help_text='Specific permissions for this user.',
+                                         related_name='user_set', related_query_name='user', to='auth.Permission',
+                                         verbose_name='user permissions'),
         ),
     ]
