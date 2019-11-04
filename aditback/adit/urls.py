@@ -17,6 +17,7 @@ urlpatterns = [
     path('adpost/search/<str:str>/', views.adPostBySearch.as_view()),
     path('adpost/custom/', views.adPostByCustom.as_view()),
     path('adreception/', views.adReception.as_view()),
+    path('adreception/by-post/<int:id>/', views.adReceptionByPostID.as_view()),
     path('adreception/<int:id>/', views.adReceptionByID.as_view()),
     path('adreception/redirect/<int:id>/', views.adReceptionRedirect.as_view()),
     path('adreception/redirectto=<str:str>/', views.adReceptionOutRedirect.as_view()),
