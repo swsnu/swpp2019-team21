@@ -22,7 +22,6 @@ class AditUserManager(BaseUserManager):
         )
         print(user.id)
 
-
         user.set_password(password)
         user.save(using=self._db)
         for tag in tags:
@@ -35,12 +34,13 @@ class AditUserManager(BaseUserManager):
                              nickname=nickname,
                              first_name=first_name,
                              last_name=last_name,
-                             tags = [],
+                             tags=[],
                              password=password,
                              )
         u.is_admin = True
         u.save(using=self._db)
         return u
+
 
 class InterestedTags(models.Model):
     content = models.CharField(
@@ -122,7 +122,7 @@ class AditUser(AbstractBaseUser, PermissionsMixin):
         "Does the user have a specific permission?"
         # Simplest possible answer: Yes, always
         return True
- 
+
     def has_module_perms(self, app_label):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
@@ -150,9 +150,9 @@ class AdPost(models.Model):
     )
     content = models.TextField()
     thumbnail = models.ForeignKey(
-        to = PostImage,
-        related_name = 'thumbnail_topost',
-        on_delete = models.DO_NOTHING
+        to=PostImage,
+        related_name='thumbnail_topost',
+        on_delete=models.DO_NOTHING
     )
     image = models.ManyToManyField(
         to=PostImage,
@@ -168,6 +168,7 @@ class AdPost(models.Model):
         to=InterestedTags,
         related_name='topost'
     )
+
 
 class AdReception(models.Model):
     owner = models.ForeignKey(
