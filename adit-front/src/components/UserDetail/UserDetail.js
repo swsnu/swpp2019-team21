@@ -18,7 +18,7 @@ import avatar from '../../assets/avatar.png';
 
 class UserDetail extends Component {
     state = {
-        user: { fname: 'John', lname: 'Doe', nickname: 'john' },
+        user: { first_name: 'John', last_name: 'Doe', nickname: 'john' },
         showChangePW: false,
         showChargePoint: false,
         addpoint: 0
@@ -27,8 +27,8 @@ class UserDetail extends Component {
         this.setState({
             user: {
                 ...this.state.user,
-                fname: this.props.fname,
-                lname: this.props.lname,
+                first_name: this.props.first_name,
+                last_name: this.props.last_name,
                 nickname: this.props.nickname
             }
         });
@@ -54,8 +54,7 @@ class UserDetail extends Component {
             <div className="UserDetail">
                 <Modal
                     show={this.state.showChangePW}
-                    onHide={this.changePWFinishHandler}
-                >
+                    onHide={this.changePWFinishHandler}>
                     <Modal.Header closeButton>
                         <Modal.Title>Change Password</Modal.Title>
                     </Modal.Header>
@@ -94,16 +93,14 @@ class UserDetail extends Component {
                     <Modal.Footer>
                         <Button
                             variant="primary"
-                            onClick={this.changePWFinishHandler}
-                        >
+                            onClick={this.changePWFinishHandler}>
                             Save
                         </Button>
                     </Modal.Footer>
                 </Modal>
                 <Modal
                     show={this.state.showChargePoint}
-                    onHide={this.chargePointFinishHandler}
-                >
+                    onHide={this.chargePointFinishHandler}>
                     <Modal.Header closeButton>
                         <Modal.Title>Charge Point</Modal.Title>
                     </Modal.Header>
@@ -145,8 +142,7 @@ class UserDetail extends Component {
                     <Modal.Footer>
                         <Button
                             variant="primary"
-                            onClick={this.chargePointFinishHandler}
-                        >
+                            onClick={this.chargePointFinishHandler}>
                             Save
                         </Button>
                     </Modal.Footer>
@@ -154,7 +150,14 @@ class UserDetail extends Component {
 
                 <h2 className="UserInfoTitle">User Info</h2>
                 <div className="avatar">
-                    <img src={this.props.profileimg} className="Avatar" />
+                    <img
+                        src={
+                            this.props.profileimg
+                                ? this.props.profileimg
+                                : avatar
+                        }
+                        className="Avatar"
+                    />
                 </div>
                 <div className="form-group" align="left">
                     <p className="label-tag" align="left">
@@ -172,7 +175,7 @@ class UserDetail extends Component {
                         className="form-control"
                         id="fname"
                         type="text"
-                        value={this.state.user.nickname}
+                        defaultValue={this.props.nickname}
                         onChange={event =>
                             this.setState({
                                 user: { nickname: event.target.value }
@@ -190,10 +193,10 @@ class UserDetail extends Component {
                                 className="form-control"
                                 id="fname"
                                 type="text"
-                                value={this.state.user.fname}
+                                defaultValue={this.props.first_name}
                                 onChange={event =>
                                     this.setState({
-                                        user: { fname: event.target.value }
+                                        user: { first_name: event.target.value }
                                     })
                                 }
                             />
@@ -208,10 +211,10 @@ class UserDetail extends Component {
                                 className="form-control"
                                 id="lname"
                                 type="text"
-                                value={this.state.user.lname}
+                                defaultValue={this.props.last_name}
                                 onChange={event =>
                                     this.setState({
-                                        user: { lname: event.target.value }
+                                        user: { last_name: event.target.value }
                                     })
                                 }
                             />
@@ -231,22 +234,19 @@ class UserDetail extends Component {
                         <ListGroup.Item
                             action
                             variant="light"
-                            onClick={this.chargePointHandler}
-                        >
+                            onClick={this.chargePointHandler}>
                             <h6>Charge Point</h6>
                         </ListGroup.Item>
                         <ListGroup.Item
                             action
                             variant="light"
-                            onClick={this.changePWHandler}
-                        >
+                            onClick={this.changePWHandler}>
                             <h6>Change Password</h6>
                         </ListGroup.Item>
                         <ListGroup.Item
                             action
                             variant="light"
-                            onClick={this.saveChangesHandler}
-                        >
+                            onClick={this.saveChangesHandler}>
                             <h6>Save Changes</h6>
                         </ListGroup.Item>
                     </ListGroup>

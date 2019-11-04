@@ -1,4 +1,4 @@
-.SignUp {
+.sign-up {
     margin-top: 100px;
 }
 
@@ -8,19 +8,17 @@
     box-shadow: none !important;
     border-color: #e3e3e3;
 }
+
 .form-control:focus {
     border-color: #708bc5;
 }
-.form-control, .btn {        
+
+.form-control,
+.btn {
     border-radius: 2px;
 }
 
-.SignUpForm .tagSelect .react-tags{
-    width: 100%;
-    background: white;
-}
-
-.SignUpForm {
+.sign-up-form {
     width: 350px;
     margin: 0 auto;
 
@@ -30,14 +28,20 @@
     font-size: 13px;
     background: #ececec;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    padding: 30px;	
-    position: relative;	
+    padding: 30px;
+    position: relative;
 }
-.SignUpForm h2 {
+
+.sign-up-form .tagSelect .react-tags {
+    width: 100%;
+    background: white;
+}
+
+.sign-up-form h2 {
     font-size: 22px;
     margin: 35px 0 25px;
 }
-.SignUpForm .Avatar {
+.sign-up-form .Avatar {
     position: absolute;
     margin: 0 auto;
     left: 0;
@@ -51,40 +55,42 @@
     padding: 15px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
-.SignUpForm .Avatar img {
+
+.sign-up-form .Avatar img {
     width: 100%;
-}	
-.SignUpForm input[type="checkbox"] {
+}
+
+.sign-up-form input[type='checkbox'] {
     margin-top: 2px;
 }
-.SignUpForm .btn {        
+
+.sign-up-form .btn {
     font-size: 16px;
     font-weight: bold;
     background: #708bc5;
     border: none;
     margin-bottom: 20px;
 }
-.SignUpForm .btn:hover, .login-form .btn:focus {
+
+.sign-up-form .btn:hover,
+.login-form .btn:focus {
     background: #5060b8;
     outline: none important;
-}    
-
-.SignUpForm .Remember {
-    text-align: left;
 }
 
-.SignUpForm .ForgotPW {
-    padding-left:80px;
-    color:#7a7a7a;
-}
-
-.SignUpForm a:hover {
+.sign-up-form a:hover {
     text-decoration: underline;
 }
-.SignUpForm form a {
+
+.sign-up-form form a {
     color: #7a7a7a;
     text-decoration: none;
 }
-.SignUpForm form a:hover {
+
+.sign-up-form form a:hover {
     text-decoration: underline;
+}
+
+.form-group .input-tag-unvalid {
+    color: red;
 }

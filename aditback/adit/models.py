@@ -8,8 +8,11 @@ class AditUserManager(BaseUserManager):
         if not email:
             raise ValueError('Users must have an email address')
 
-        if len(AditUser.objects.filter(email=email)):
+        if AditUser.objects.filter(email=email).exists():
             raise ValueError('Email address should be unique')
+
+        if AditUser.objects.filter(nickname=nickname).exists():
+            raise ValueError('Nickname should be unique')
 
         user = self.model(
             email=AditUserManager.normalize_email(email),

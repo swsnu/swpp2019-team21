@@ -31,7 +31,7 @@ class TopMenu extends Component {
 
     componentDidMount() {
         if (
-            localStorage.getItem('logged_in') === 'true' &&
+            sessionStorage.getItem('logged_in') === 'true' &&
             !this.props.user.user_id
         ) {
             this.props.reloadUser();
@@ -44,6 +44,14 @@ class TopMenu extends Component {
 
     clickHomeHandler = () => {
         history.push('/home');
+    };
+
+    clickSignOutHandler = () => {
+        this.props.onsignOut();
+    };
+
+    clickMyPageHandler = () => {
+        history.push('/mypage');
     };
 
     searchConfirmHandler = () => {
@@ -61,23 +69,13 @@ class TopMenu extends Component {
     };
 
     render() {
-        let signInButton = (
-            <button value="signin" onClick={this.signInHandler}>
-                Sign In
-            </button>
-        );
-        let newArticleButton = (
-            <btn onClick={this.newArticleHandler}>New Ad Request</btn>
-        );
-
         return (
             <div className="TopMenu">
                 <Navbar id="UserInfo" fixed="top">
                     <h1
                         id="AditTitle"
                         align="left"
-                        onClick={this.clickHomeHandler}
-                    >
+                        onClick={this.clickHomeHandler}>
                         Adit
                     </h1>
                     <div className="Search">
@@ -101,18 +99,25 @@ class TopMenu extends Component {
                             className="fa fa-search"
                             id="search-confirm-button"
                             aria-hidden="true"
-                            onClick={this.searchConfirmHandler}
-                        ></i>
+                            onClick={this.searchConfirmHandler}></i>
                     </div>
-                    {this.props.logged_in && newArticleButton}
                     {this.props.logged_in && (
-                        <TopMenuPopUp user={this.props.user} />
+                        <a id="ad-add-btn" onClick={this.newArticleHandler}>
+                            New Ad Request
+                        </a>
+                    )}
+                    {this.props.logged_in && (
+                        <TopMenuPopUp
+                            user={this.props.user}
+                            mypageHandler={this.clickMyPageHandler}
+                            signOutHandler={this.clickSignOutHandler}
+                        />
                     )}
 
                     {!this.props.logged_in && (
-                        <button id="SignInButton" onClick={this.signInHandler}>
+                        <a id="sign-in-btn" onClick={this.signInHandler}>
                             Sign In
-                        </button>
+                        </a>
                     )}
                 </Navbar>
             </div>

@@ -20,7 +20,6 @@ export const signIn = user => {
                 dispatch(push('/home'));
             })
             .catch(error => {
-                console.log('sign in failed');
                 alert('Email or password is wrong');
             });
     };
@@ -41,7 +40,7 @@ export const signOut = () => {
                 dispatch(push('/signin'));
             })
             .catch(error => {
-                console.log('sign out failed');
+                console.log(error);
             });
     };
 };
@@ -56,10 +55,12 @@ export const signUp = user => {
     return dispatch => {
         return axios
             .post(base_url + '/sign-up/', user)
-            .then(res => dispatch(signUp_()))
+            .then(res => {
+                dispatch(signUp_());
+                dispatch(push('/signin'));
+            })
             .catch(error => {
-                console.log('sign up failed');
-                console.log(error);
+                alert('User name duplicated');
             });
     };
 };
@@ -73,7 +74,6 @@ export const getUser_ = user => {
 
 export const getUser = user => {
     return dispatch => {
-        alert('!!');
         return axios
             .get(base_url + '/user/')
             .then(res => dispatch(getUser_(res.data)))

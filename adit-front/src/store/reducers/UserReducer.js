@@ -8,17 +8,17 @@ const initialState = {
         last_name: null,
         nickname: null,
         email: null,
-        interested_tags: []
+        tags: []
     }
 };
 
 export const user_reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SIGN_IN:
-            localStorage.setItem('logged_in', 'true');
+            sessionStorage.setItem('logged_in', 'true');
             return { ...state };
         case actionTypes.SIGN_OUT:
-            localStorage.setItem('logged_in', 'false');
+            sessionStorage.setItem('logged_in', 'false');
             return { ...state, logged_in: false };
         case actionTypes.GET_USER:
             return { ...state, user: action.user, logged_in: true };

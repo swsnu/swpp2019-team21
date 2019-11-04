@@ -17,51 +17,45 @@ import * as actionCreators from '../../store/actions/user.action';
 
 class SignIn extends Component {
     componentDidMount() {
-        if (localStorage.getItem('logged_in') === 'true') {
-            this.props.history.push('/home');
-        }
-    }
-
-    componentDidUpdate() {
-        if (localStorage.getItem('logged_in') === 'true') {
+        if (sessionStorage.getItem('logged_in') === 'true') {
             this.props.history.push('/home');
         }
     }
 
     state = {
         email: '',
-        password: '',
-        name: '',
-        storedUsers: {
-            email: 'csh3695@naver.com',
-            password: 'ihateswpp',
-            name: 'Kent',
-            logged_in: true
-        }
+        password: ''
     };
 
-    SignInHandler = () => {
+    signInHandler = () => {
         const user = {
             email: this.state.email,
             password: this.state.password
         };
-        this.props.onsignIn(user);
+        this.props.onSignIn(user);
     };
-    SignUpHandler = () => {
+
+    signUpHandler = () => {
         this.props.history.push('/signup');
     };
+
+    forgotPasswordHandler = () => {
+        // TODO:: Link to forgot Password
+    };
+
     render() {
         return (
-            <div className="SignIn">
-                <div className="SignInForm">
+            <div className="sign-in">
+                <div className="sign-in-form">
                     <div className="avatar">
-                        <img src={avatar} className="Avatar" />
+                        <img src={avatar} className="sign-in-user-icon" />
                     </div>
                     <h2 className="text-center">Sign In!</h2>
                     <div className="form-group">
                         <input
                             className="form-control"
                             id="email-input"
+                            placeholder="Email"
                             type="text"
                             value={this.state.email}
                             required="required"
@@ -75,6 +69,7 @@ class SignIn extends Component {
                             className="form-control"
                             id="pw-input"
                             type="password"
+                            placeholder="Password"
                             value={this.state.password}
                             required="required"
                             onChange={event =>
@@ -87,28 +82,27 @@ class SignIn extends Component {
                             type="submit"
                             className="btn btn-primary btn-lg btn-block"
                             id="signin-button"
-                            onClick={() => this.SignInHandler()}
-                        >
+                            onClick={() => this.signInHandler()}>
                             Sign in
                         </button>
                     </div>
                     <div className="clearfix">
-                        <label className="Remember">
-                            <input type="checkbox" id="remember-chkbox" />{' '}
+                        <label className="remember">
+                            <input type="checkbox" id="remember-chkbox" />
                             Remember me
                         </label>
-                        <a href="#" className="ForgotPW" id="findpw-link">
+                        <a
+                            href="#"
+                            className="forgot-password"
+                            id="findpw-link"
+                            onClick={this.forgotPasswordHandler}>
                             Forgot Password?
                         </a>
                     </div>
                 </div>
                 <p className="text-center small">
                     Don't have an account?{' '}
-                    <a
-                        href="#"
-                        id="signup-link"
-                        onClick={() => this.SignUpHandler()}
-                    >
+                    <a href="#" id="signup-link" onClick={this.signUpHandler}>
                         Sign up here!
                     </a>
                 </p>
@@ -117,19 +111,13 @@ class SignIn extends Component {
     }
 }
 
-export const mapStateToProps = state => {
-    return {
-        logged_in: state.user.logged_in
-    };
-};
-
 export const mapDispatchToProps = dispatch => {
     return {
-        onsignIn: user => dispatch(actionCreators.signIn(user))
+        onSignIn: user => dispatch(actionCreators.signIn(user))
     };
 };
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(SignIn);

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../../store/actions/adpost.action';
 import './ArticleCreate.css';
 import Calendar from 'react-calendar';
 
@@ -78,8 +80,7 @@ class ArticleCreate extends Component {
                     <text
                         id={'tab-text' + n}
                         style={{ color: color(n) }}
-                        onClick={tabOnClick(n)}
-                    >
+                        onClick={tabOnClick(n)}>
                         <strong>{tabs[n - 1]}</strong>
                     </text>
                 );
@@ -88,8 +89,7 @@ class ArticleCreate extends Component {
                     <text
                         id={'tab-text' + n}
                         style={{ color: color(n) }}
-                        onClick={tabOnClick(n)}
-                    >
+                        onClick={tabOnClick(n)}>
                         {' '}
                         {tabs[n - 1]}
                     </text>
@@ -169,7 +169,25 @@ class ArticleCreate extends Component {
             }
         };
         const confirmOnClick = () => {
-            this.props.history.push('/article/1');
+            const adpost = {
+                title: this.state.postTitle,
+                subtitle: this.state.postSubtitle,
+                content: this.state.postExplain,
+                image: [this.state.imagePreviewUrl],
+                ad_link: this.state.postUrl,
+                target_views: this.state.postGoal,
+                expiry_date:
+                    this.state.postDeadline.year +
+                    '-' +
+                    this.state.postDeadline.month +
+                    '-' +
+                    this.state.postDeadline.date,
+                tags: this.state.postTag.map(tag => {
+                    return tag.name;
+                })
+            };
+            this.props.onPostArticle(adpost);
+            //this.props.history.push('/article/1');
         };
         const onCalendarChange = e => {
             this.setState({
@@ -191,8 +209,7 @@ class ArticleCreate extends Component {
                         style={{
                             display:
                                 this.state.currentPage == 1 ? 'block' : 'none'
-                        }}
-                    >
+                        }}>
                         <div className="form-group" align="center">
                             <h3 className="form-label">Title</h3>
                             <input
@@ -212,8 +229,7 @@ class ArticleCreate extends Component {
                                 placeholder=" input subtitle"
                                 id="post-subtitle-input"
                                 onChange={subtitleChangeHandler}
-                                value={this.state.postSubtitle}
-                            ></input>
+                                value={this.state.postSubtitle}></input>
                         </div>
                         <p />
                         <br />
@@ -224,8 +240,7 @@ class ArticleCreate extends Component {
                                 placeholder=" explain your ad"
                                 id="post-explain-input"
                                 onChange={explainChangeHandler}
-                                value={this.state.postExplain}
-                            ></textarea>
+                                value={this.state.postExplain}></textarea>
                         </div>
                         <p />
                         <br />
@@ -249,8 +264,7 @@ class ArticleCreate extends Component {
                                 placeholder=" input url of ad"
                                 id="post-url-input"
                                 onChange={urlChangeHandler}
-                                value={this.state.postUrl.bind}
-                            ></input>
+                                value={this.state.postUrl.bind}></input>
                         </div>
                         <p />
                         <br />
@@ -263,8 +277,7 @@ class ArticleCreate extends Component {
                                 !this.state.postUrl ||
                                 !this.state.postSubtitle
                             }
-                            onClick={nextOnClick}
-                        >
+                            onClick={nextOnClick}>
                             Next
                         </button>
                     </div>
@@ -273,8 +286,7 @@ class ArticleCreate extends Component {
                         style={{
                             display:
                                 this.state.currentPage == 2 ? 'block' : 'none'
-                        }}
-                    >
+                        }}>
                         <ReactTags
                             tags={this.state.postTag}
                             suggestions={this.state.mockSuggestion}
@@ -287,8 +299,7 @@ class ArticleCreate extends Component {
                             className="btn btn-primary"
                             id="next-button"
                             disabled={!this.state.postTag.length}
-                            onClick={nextOnClick}
-                        >
+                            onClick={nextOnClick}>
                             Next
                         </button>
                     </div>
@@ -297,8 +308,7 @@ class ArticleCreate extends Component {
                         style={{
                             display:
                                 this.state.currentPage == 3 ? 'block' : 'none'
-                        }}
-                    >
+                        }}>
                         <div className="form-group" align="center">
                             <h3 className="form-label">Set Ad Goal</h3>
                             <input
@@ -326,8 +336,7 @@ class ArticleCreate extends Component {
                                 !this.state.postGoal ||
                                 !this.state.postDeadline.year
                             }
-                            onClick={nextOnClick}
-                        >
+                            onClick={nextOnClick}>
                             Next
                         </button>
                     </div>
@@ -336,13 +345,11 @@ class ArticleCreate extends Component {
                         style={{
                             display:
                                 this.state.currentPage == 4 ? 'block' : 'none'
-                        }}
-                    >
+                        }}>
                         <button
                             className="btn btn-primary"
                             id="confirm-button"
-                            onClick={confirmOnClick}
-                        >
+                            onClick={confirmOnClick}>
                             Submit
                         </button>
                     </div>
@@ -359,4 +366,17 @@ class ArticleCreate extends Component {
     }
 }
 
-export default ArticleCreate;
+const mapDispatchToProps = dispatch => {
+    return {
+        onPostArticle: adpost => {
+            dispatch(actionCreators.postAdpost(adpost));
+        }
+    };
+};
+
+const mapStateToProps = state => {};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleCreate);

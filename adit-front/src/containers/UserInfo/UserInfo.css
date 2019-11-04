@@ -1,4 +1,4 @@
-.UserInfo #title-background{
+.UserInfo #title-background {
     position: absolute;
     left: 0;
     right: 0;
@@ -6,13 +6,19 @@
     opacity: 0.6;
     max-height: 350px;
     object-fit: cover;
-    -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))
+    -webkit-mask-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(rgba(0, 0, 0, 1)),
+        to(rgba(0, 0, 0, 0))
+    );
 }
 
-.TitleBox{
+.TitleBox {
     position: relative;
     color: #303234;
-    text-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
     padding-top: 30px;
     padding-bottom: 30px;
 }
@@ -20,40 +26,41 @@
 ttl {
     font-size: 80px;
     font-weight: 550;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+        sans-serif;
     font-style: italic;
 }
 
-@media (max-width: 960px){
-    .UserDetail{
+@media (max-width: 960px) {
+    .UserDetail {
         width: 500px;
     }
-    .TitleBox{
+    .TitleBox {
         padding-top: 20px;
     }
     t {
         font-size: 25px;
     }
-    .AdList{
+    .AdList {
         padding: 0 10%;
     }
 }
 
-@media (min-width: 960px){
-    .UserDetail{
+@media (min-width: 960px) {
+    .UserDetail {
         position: absolute;
         right: 15%;
         max-width: 350px;
         width: 20%;
     }
-    .AdList{
+    .AdList {
         position: absolute;
         left: 12%;
         width: 40%;
     }
-    .BottomBox{
+    .BottomBox {
         position: absolute;
-        top: 2250px;
+        top: 1550px;
     }
 }
 

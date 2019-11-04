@@ -1,6 +1,6 @@
 import React from 'react';
-import './TopMenu.css';
 import { history } from '../../store';
+import profile from './../../assets/iu_profile.png';
 import {
     Dropdown,
     DropdownButton,
@@ -11,22 +11,16 @@ import {
     ListGroup,
     ListGroupItem
 } from 'react-bootstrap';
-
-var clickMypageHandler = () => {
-    history.push('/mypage');
-};
-
-var signOutHandler = () => {
-    this.props.onsignOut();
-    history.push('/signin');
-};
+import './TopMenuPopUp.css';
 
 export default function TopMenuPopUp(props) {
+    props.user.pic = profile;
+
     var popuserinfo = (
         <Popover id="PopUserInfo">
             <Popover.Title as="h3">
                 <u1>
-                    Hello, <strong>{props.user.name}</strong>!
+                    Hello, <strong>{props.user.nickname}</strong>!
                 </u1>
             </Popover.Title>
             <Popover.Content id="PopUserContent">
@@ -34,12 +28,11 @@ export default function TopMenuPopUp(props) {
                     <ListGroup.Item
                         action
                         variant="light"
-                        onClick={clickMypageHandler}
-                    >
+                        onClick={props.mypageHandler}>
                         <p align="center">
                             <Image
                                 id="UserInfoImage"
-                                class="img-responsive"
+                                className="img-responsive"
                                 src={props.user.pic}
                                 width="100px"
                                 roundedCircle
@@ -52,15 +45,13 @@ export default function TopMenuPopUp(props) {
                     <ListGroup.Item
                         action
                         variant="light"
-                        onClick={clickMypageHandler}
-                    >
+                        onClick={props.mypageHandler}>
                         My Page
                     </ListGroup.Item>
                     <ListGroup.Item
                         action
                         variant="light"
-                        onClick={signOutHandler}
-                    >
+                        onClick={props.signOutHandler}>
                         Sign Out
                     </ListGroup.Item>
                 </ListGroup>

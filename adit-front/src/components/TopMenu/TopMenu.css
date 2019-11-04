@@ -1,33 +1,34 @@
 .TopMenu {
-    min-height: 65px;
+    min-height: 60px;
 }
 
-.TopMenu #UserInfo{
-    background: #ffffff;
-    box-shadow: 10px 0px 4px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.1); /* 그림자 */ 
+.TopMenu #UserInfo {
+    height: 60px;
+    background: #f0f1f2;
+    box-shadow: 10px 0px 4px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
 }
 
-.TopMenu input[type=text]{
+.TopMenu input[type='text'] {
     font-size: 1.2rem;
     min-width: 250px;
     max-width: 250px;
-    border-style:hidden;
+    border-style: hidden;
     background: #f0f1f2;
     box-shadow: 0 1px 0 0 #708bc5;
 }
 
-.TopMenu input[type=text]:focus{
+.TopMenu input[type='text']:focus {
     outline: none;
     border-bottom: 1px solid #708bc5;
     box-shadow: 0 1px 0 0 #708bc5;
 }
 
-.TopMenu .Search{
-    position:relative;
-    left:3%;
+.TopMenu .Search {
+    position: relative;
+    left: 3%;
 }
 
-.TopMenu btn{
+.TopMenu button {
     font-size: 25px;
     font-style: italic;
     min-width: 200px;
@@ -37,74 +38,61 @@
     position: absolute;
     right: 200px;
 }
-.TopMenu btn:hover{
+
+.TopMenu button:hover {
     cursor: pointer;
 }
 
-.TopMenu #UserImage:hover{
+.TopMenu #UserImage:hover {
     cursor: pointer;
 }
 
-@media (max-width: 960px){
-    .Search{
+@media (max-width: 960px) {
+    .Search {
         visibility: hidden;
     }
 }
 
-.TopMenu #AditTitle{
+.TopMenu #AditTitle {
     color: #5e5e5e;
     font-family: sans-serif;
     font-size: 2.5rem;
     font-style: italic;
-    font-weight:800;
-    padding-left:1em;
-    padding-right:0.6em;
+    font-weight: 800;
+    padding-left: 1em;
+    padding-right: 0.6em;
+    padding-top: 0.3em;
 }
 
-.TopMenu #AditTitle:hover{
+.TopMenu #AditTitle:hover {
     cursor: pointer;
 }
 
-.TopMenu #UserInfo{
-    background: #f0f1f2;
-}
-
-.TopMenu #UserImage{
+.TopMenu #UserImage {
     position: absolute;
     align-self: center;
     right: 50px;
 }
 
-.TopMenu #PopUserInfo{
-    background:#000000;
-    min-width:800px;
-}
-
-.TopMenu #PopUserContent{
-    font-size:80px;
-}
-
-.TopMenu #sign-in-button{
+#sign-in-btn {
     position: absolute;
+    color: #5e5e5e;
     right: 50px;
-    border: 0;
-    background-color: #e6e6e6;
+    font-size: 22px;
+    border-style: hidden;
+    background: #f0f1f2;
 }
 
-.popover{
-    width:600px;
-    padding-bottom:5px;
+#ad-add-btn {
+    position: absolute;
+    color: #5e5e5e;
+    right: 150px;
+    font-size: 22px;
+    border-style: hidden;
+    background: #f0f1f2;
 }
 
-
-u1 {
-    font-size:18px;
-    color:#5e5e5e;
-}
-u0 {
-    font-size:20px;
-}
-
-up {
-    color: crimson;
+#sign-in-btn:hover,
+#ad-add-btn:hover {
+    cursor: pointer;
 }

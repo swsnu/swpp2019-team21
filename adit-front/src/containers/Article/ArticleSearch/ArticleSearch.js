@@ -24,7 +24,9 @@ const mockAdPostList = [...Array(30).keys()].map(index => {
         thumbnail: thumbnail,
         title: 'Mocked Title ' + index.toString(),
         subtitle: 'Mocked SubTitle ' + index.toString(),
-        acheive_rate: 77
+        acheive_rate: 77,
+        expiry_date: 10,
+        target_views: 10
     };
 });
 
@@ -47,7 +49,6 @@ const mockEventList = [
 ];
 
 class ArticleSearch extends Component {
-
     render() {
         return (
             <div className="ArticleSearch">

@@ -1,7 +1,8 @@
 import React, { Component, Profiler } from 'react';
 import { Image, Carousel, ProgressBar } from 'react-bootstrap';
-import { connect } from 'net';
+import { connect } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import * as actionCreators from '../../../store/actions/adpost.action';
 import './ArticleDetail.css';
 import intro_first from '../../../assets/intro_first.jpg';
 import intro_second from '../../../assets/intro_second.jpg';
@@ -29,6 +30,10 @@ class ArticleDetail extends Component {
         ]
     }; // should be props, not state
 
+    componentDidMount() {
+        this.props.ongetArticle(window.location.href.substring(29));
+    }
+
     participateHandler = () => {
         this.setState({ ...this.state, participated: true });
     };
@@ -48,84 +53,100 @@ class ArticleDetail extends Component {
         this.setState({ ...this.state, mine: tem });
     };
     render() {
-        const tags = this.state.posttag.map(td => {
+        if(this.props.loaded == true) {
+            const tags = this.props.article.tags.map(td => {
+                return (
+                    <li id="tag-link">
+                        {td}
+                    </li>
+                );
+            });
             return (
-                <li key={td.id} id="tag-link">
-                    {td.name}
-                </li>
-            );
-        });
-        return (
-            <div className="ArticleDetail">
-                <div className="left-component">
-                    <img
-                        id="article-thumbnail"
-                        src={this.state.thumbnail}
-                        alt="first_picture"
-                        width="100%"
-                        height="500px"
-                    />
-                    <h3 id="description-title-text">Detailed description</h3>
-                    <p id="description-text">
-                        {this.state.detailedDescription}
-                    </p>
-                </div>
-                <h1 id="post-title-text">{this.state.title}</h1>
-                <h3 id="post-subtitle-text">{this.state.subtitle}</h3>
-                <p id="due-date-text">{this.state.duedate}</p>
-                <ul id="tag-link-list">{tags}</ul>
-                <div>
-                    {this.state.mine && (
-                        <div>
-                            <Image
-                                id="statistics-image"
-                                src={statistics_image}
-                            />
-                            <button
-                                id="post-edit-button"
-                                onClick={this.postEditHandler}
-                            >
-                                Edit
-                            </button>
-                            <div className="achieve-bar-component">
-                                <p id="achieve-bar-name">achieve rate</p>
-                                <ProgressBar
-                                    id="achieve-bar"
-                                    now={this.state.now}
-                                    label={`${this.state.now}%`}
-                                ></ProgressBar>
+                <div className="ArticleDetail">
+                    <div className="left-component">
+                        <img
+                            id="article-thumbnail"
+                            src={this.props.article.thumbnail}
+                            alt="first_picture"
+                            width="100%"
+                            height="500px"
+                        />
+                        <h3 id="description-title-text">Detailed description</h3>
+                        <p id="description-text">
+                            {this.props.article.content}
+                        </p>
+                    </div>
+                    <h1 id="post-title-text">{this.props.article.title}</h1>
+                    <h3 id="post-subtitle-text">{this.props.article.subtitle}</h3>
+                    <p id="due-date-text">{this.props.article.expiry_date}</p>
+                    <ul id="tag-link-list">{tags}</ul>
+                    <div>
+                        {this.state.is_owner && (
+                            <div>
+                                <Image
+                                    id="statistics-image"
+                                    src={statistics_image}
+                                />
+                                <button
+                                    id="post-edit-button"
+                                    onClick={this.postEditHandler}>
+                                    Edit
+                                </button>
+                                <div className="achieve-bar-component">
+                                    <p id="achieve-bar-name">achieve rate</p>
+                                    <ProgressBar
+                                        id="achieve-bar"
+                                        now={this.state.now}
+                                        label={`${this.state.now}%`}></ProgressBar>
+                                </div>
                             </div>
-                        </div>
-                    )}
-                    {!this.state.mine && this.state.participated && (
-                        <div className="url-component">
-                            <p id="unique-url-text">{this.state.url}</p>
-                            <CopyToClipboard text={this.state.url}>
-                                <button id="url-copy-button">Copy</button>
-                            </CopyToClipboard>
-                        </div>
-                    )}
-                    {!this.state.mine && !this.state.participated && (
-                        <button
-                            id="participate-button"
-                            onClick={this.participateHandler}
-                        >
-                            Participate
-                        </button>
-                    )}
+                        )}
+                        {!this.props.article.is_owner && /*!this.props.article.info_aditee.is_participating*/ this.state.participated && (
+                            <div className="url-component">
+                                <p id="unique-url-text">{this.props.article.info_aditee.unique_url}</p>
+                                <CopyToClipboard text={this.props.article.info_aditee.unique_url}>
+                                    <button id="url-copy-button">Copy</button>
+                                </CopyToClipboard>
+                            </div>
+                        )}
+                        {!this.props.article.is_owner && /*!this.props.article.info_aditee.is_participating*/ this.state.participated && (
+                            <button
+                                id="participate-button"
+                                onClick={this.participateHandler}>
+                                Participate
+                            </button>
+                        )}
+                    </div>
+                    <button onClick={this.toggleMine} id="toggle-mine-button">
+                        Toggle Mine
+                    </button>
+                    <button
+                        onClick={this.toggleParticipate}
+                        id="toggle-participate-button">
+                        Toggle Participate
+                    </button>
                 </div>
-                <button onClick={this.toggleMine} id="toggle-mine-button">
-                    Toggle Mine
-                </button>
-                <button
-                    onClick={this.toggleParticipate}
-                    id="toggle-participate-button"
-                >
-                    Toggle Participate
-                </button>
-            </div>
-        );
+            );
+        }
+        else {
+            return(
+                <h1>LOADING</h1>
+            );
+        }
     }
 }
 
-export default ArticleDetail;
+const mapDispatchToProps = dispatch => {
+    return {
+        ongetArticle: (id) => dispatch(actionCreators.getAdpost(id))
+    };
+}
+
+const mapStateToProps = state => {
+    return {
+        loaded: state.adpost.loaded,
+        article: state.adpost.adpost_detailed_item,
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);

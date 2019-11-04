@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios'
+import axios from 'axios';
 
 const base_url = '/api';
 
@@ -9,7 +9,7 @@ export const postReception_ = () => {
     };
 };
 
-export const postReception = (req) => {
+export const postReception = req => {
     return dispatch => {
         return axios
             .post(base_url + '/adpost/' + req.id + '/adreception/')

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Carousel from 'react-multi-carousel';
 import Preview from '../Preview/Preview';
+import { history } from '../../store';
 import 'react-multi-carousel/lib/styles.css';
 import './PreviewList.css';
 import { Route, Link } from 'react-router-dom';
@@ -44,7 +45,12 @@ const responsive_compact = {
 
 class PreviewList extends React.Component {
     clickPreviewHandler = id => {
-        alert('PREVIEW ID:' + id);
+        //alert('PREVIEW ID:' + id);
+        history.push('/article/' + id);
+    };
+
+    clickSearchMoreHandler = () => {
+        history.push(`/adposts/search=${this.props.list_name}`);
     };
 
     render() {
@@ -55,25 +61,25 @@ class PreviewList extends React.Component {
                     id="list-carousel"
                     responsive={
                         this.props.compact ? responsive_compact : responsive
-                    }
-                >
-                    {this.props.articles.map(item => (
-                        <Preview
-                            key={item.id}
-                            preview={item}
-                            clickPreview={() =>
-                                this.clickPreviewHandler(item.id)
-                            }
-                        />
-                    ))}
-                    <Link to={`/search/${this.props.list_name}`}>
+                    }>
+                    {this.props.articles
+                        ? this.props.articles.map(item => (
+                              <Preview
+                                  key={item.id}
+                                  preview={item}
+                                  clickPreview={() =>
+                                      this.clickPreviewHandler(item.id)
+                                  }
+                              />
+                          ))
+                        : null}
+                    <div id="search-more-btn">
                         <button
                             id="search-more"
-                            onClick={this.clickSearchMoreHandler}
-                        >
+                            onClick={this.clickSearchMoreHandler}>
                             Search More!
                         </button>
-                    </Link>
+                    </div>
                 </Carousel>
             </div>
         );

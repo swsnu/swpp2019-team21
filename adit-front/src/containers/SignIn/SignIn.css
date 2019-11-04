@@ -1,9 +1,10 @@
-.SignIn {
+.sign-in {
     margin-top: 100px;
 }
 
 .form-control {
     min-height: 41px;
+    margin-top: 1px;
     background: #fff;
     box-shadow: none !important;
     border-color: #e3e3e3;
@@ -11,28 +12,29 @@
 .form-control:focus {
     border-color: #708bc5;
 }
-.form-control, .btn {        
+.form-control,
+.btn {
     border-radius: 2px;
 }
 
-.SignInForm {
+.sign-in-form {
     width: 350px;
     margin: 0 auto;
 
     color: #7a7a7a;
     border-radius: 2px;
-    margin-bottom: 15px;
+    margin-bottom: 35px;
     font-size: 13px;
     background: #ececec;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    padding: 30px;	
-    position: relative;	
+    padding: 30px;
+    position: relative;
 }
-.SignInForm h2 {
+.sign-in-form h2 {
     font-size: 22px;
     margin: 35px 0 25px;
 }
-.SignInForm .Avatar {
+.sign-in-form .sign-in-user-icon {
     position: absolute;
     margin: 0 auto;
     left: 0;
@@ -46,44 +48,45 @@
     padding: 15px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
-.SignInForm .Avatar img {
+.sign-in-form .sign-in-user-icon img {
     width: 100%;
-}	
-.SignInForm input[type="checkbox"] {
-    margin-top: 2px;
 }
-.SignInForm .btn {        
+.sign-in-form input[type='checkbox'] {
+    margin-top: 2px;
+    margin-right: 5px;
+}
+.sign-in-form .btn {
     font-size: 16px;
     font-weight: bold;
     background: #708bc5;
     border: none;
     margin-bottom: 20px;
 }
-.SignInForm .btn:hover, .login-form .btn:focus {
+.sign-in-form .btn:hover {
     background: #5060b8;
     outline: none important;
-}    
-.SignInForm a {
+}
+.sign-in-form a {
     color: #fff;
     text-decoration: underline;
 }
 
-.SignInForm .Remember {
+.sign-in-form .remember {
     text-align: left;
 }
 
-.SignInForm .ForgotPW {
-    padding-left:80px;
-    color:#7a7a7a;
+.sign-in-form .forgot-password {
+    padding-left: 70px;
+    color: #7a7a7a;
 }
 
-.SignInForm a:hover {
+.sign-in-form a:hover {
     text-decoration: none;
 }
-.SignInForm form a {
+.sign-in-form form a {
     color: #7a7a7a;
     text-decoration: none;
 }
-.SignInForm form a:hover {
+.sign-in-form form a:hover {
     text-decoration: underline;
 }

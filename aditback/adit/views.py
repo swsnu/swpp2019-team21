@@ -165,7 +165,7 @@ class getUser(View):
 
 class adPost(View):
     item_list = ['title', 'subtitle', 'content', 'image', 'ad_link', 'target_views', 'expiry_date',
-                 'interest_tags']
+                 'tags']
 
     def post_to_dict(self, adpost):
         response_dict = model_to_dict(adpost)
@@ -187,7 +187,7 @@ class adPost(View):
         ad_link = req_data['ad_link']
         target_views = req_data['target_views']
         expiry_date = req_data['expiry_date']
-        post_tags = req_data['interest_tags']
+        post_tags = req_data['tags']
         upload_date = datetime.now()
         thumbnail = img_process(req_data['image'][0])
 
@@ -312,16 +312,18 @@ class adPostByID(View):
         return HttpResponse(status = 204)
 
 class adPostByOwnerID(View):
-    @check_object_exist(object_type=AditUser)
-    def get(self, request, id):
-        post_by_userid = [model_to_dict(post) for post in AdPost.objects.filter(owner = id).order_by('-upload_date')]
+    @check_is_authenticated
+    def get(self, request):
+        post_by_userid = [model_to_dict(post) for post in AdPost.objects.filter(owner = request.user).order_by('-upload_date')]
         list_process(post_by_userid)
         return JsonResponse(post_by_userid, status=200, safe=False)
 
 class adPostByParticipantID(View):
-    @check_object_exist(object_type=AditUser)
-    def get(self, request, id):
-        post_by_userid = [model_to_dict(post) for post in AdPost.objects.filter(owner = id).order_by('-upload_date')]
+    @check_is_authenticated
+    def get(self, request):
+        user = request.user
+        reception_list = AdReception.objects.filter(owner=user).order_by('-recept_time')
+        post_by_userid = [model_to_dict(reception.adpost) for reception in reception_list]
         list_process(post_by_userid)
         return JsonResponse(post_by_userid, status=200, safe=False)
 
@@ -390,11 +392,23 @@ class adReception(View):
     def post(self, request):
         req_data = json.loads(request.body.decode())
         id = req_data['adpost']
+        if AdReception.objects.filter(adpost = id, owner = request.user.id).exists():
+            return HttpResponseForbidden()
         recept_time = datetime.now()
         target_post = AdPost.objects.get(id = id)
         unique_link = encode(request.user.id, recept_time, id)
         response_dict = model_to_dict(AdReception.objects.create(owner = request.user, adpost = target_post, views = 0, recept_time=recept_time, unique_link = unique_link, closed = False))
         return JsonResponse(response_dict, status = 201)
+
+class adReceptionByPostID(View):
+    @check_is_authenticated
+    @check_is_permitted(object_type=AdReception)  # 주의: ad의 주인도 확인할 수 있어야 함. if 문으로 처리해야 할 듯?
+    def get(self, request, id):
+        response_reception = AdReception.objects.filter(owner = request.user, adpost = id)
+        if not response_reception.exists():
+            return HttpResponseNotFound()
+        response_dict = model_to_dict(response_reception.get())
+        return JsonResponse(response_dict)
 
 class adReceptionByID(View):
     @check_is_authenticated
@@ -408,6 +422,8 @@ class adReceptionOutRedirect(View):
     ### ad closed ==> 410
     def get(self, request, str):
         print(str)
+        base_link = 'http://localhost:3000/redirectfrom='
+        str = base_link+str
         for reception_object in AdReception.objects.all():
             print(reception_object)
             print(str)
@@ -417,8 +433,15 @@ class adReceptionOutRedirect(View):
                 if post.closed:
                     return HttpResponse(status = 410)
                 else:
-                    print(post.ad_link)# Redirect to = post.ad_link
-                    return HttpResponse(status=204)
+                    reception_object.views +=1
+                    reception_object.save()
+                    post.total_views += 1
+                    post.save()
+                    if post.total_views == post.target_views:
+                        post.closed = True
+                        post.save()
+                    response_dict = {'ad_link':post.ad_link}# Redirect to = post.ad_link
+                    return JsonResponse(response_dict)
                 break
 
         return HttpResponse(status=404)
@@ -434,9 +457,8 @@ class adReceptionRedirect(View):
         if post.closed:
             return HttpResponse(status = 410)
         else:
-            print(post.ad_link)# Redirect to = post.ad_link
-        return HttpResponse(status=204)
-
+            response_dict = {'ad_link': post.ad_link}  # Redirect to = post.ad_link
+        return JsonResponse(response_dict)
 
 class tag(View):
     item_list = ['content']
