@@ -53,13 +53,9 @@ class ArticleDetail extends Component {
         this.setState({ ...this.state, mine: tem });
     };
     render() {
-        if(this.props.loaded == true) {
+        if (this.props.loaded == true) {
             const tags = this.props.article.tags.map(td => {
-                return (
-                    <li id="tag-link">
-                        {td}
-                    </li>
-                );
+                return <li id="tag-link">{td}</li>;
             });
             return (
                 <div className="ArticleDetail">
@@ -71,22 +67,22 @@ class ArticleDetail extends Component {
                             width="100%"
                             height="500px"
                         />
-                        <h3 id="description-title-text">Detailed description</h3>
+                        <h3 id="description-title-text">
+                            Detailed description
+                        </h3>
                         <p id="description-text">
                             {this.props.article.content}
                         </p>
                     </div>
                     <h1 id="post-title-text">{this.props.article.title}</h1>
-                    <h3 id="post-subtitle-text">{this.props.article.subtitle}</h3>
+                    <h3 id="post-subtitle-text">
+                        {this.props.article.subtitle}
+                    </h3>
                     <p id="due-date-text">{this.props.article.expiry_date}</p>
                     <ul id="tag-link-list">{tags}</ul>
                     <div>
-                        {this.state.is_owner && (
+                        {this.props.article.is_owner && (
                             <div>
-                                <Image
-                                    id="statistics-image"
-                                    src={statistics_image}
-                                />
                                 <button
                                     id="post-edit-button"
                                     onClick={this.postEditHandler}>
@@ -96,30 +92,50 @@ class ArticleDetail extends Component {
                                     <p id="achieve-bar-name">achieve rate</p>
                                     <ProgressBar
                                         id="achieve-bar"
-                                        now={this.state.now}
-                                        label={`${this.state.now}%`}></ProgressBar>
+                                        now={
+                                            (this.props.article.total_views /
+                                                this.props.article
+                                                    .target_views) *
+                                            100
+                                        }
+                                        label={`${(this.props.article
+                                            .total_views /
+                                            this.props.article.target_views) *
+                                            100}%`}></ProgressBar>
                                 </div>
                             </div>
                         )}
-                        {!this.props.article.is_owner && /*!this.props.article.info_aditee.is_participating*/ this.state.participated && (
-                            <div className="url-component">
-                                <p id="unique-url-text">{this.props.article.info_aditee.unique_url}</p>
-                                <CopyToClipboard text={this.props.article.info_aditee.unique_url}>
-                                    <button id="url-copy-button">Copy</button>
-                                </CopyToClipboard>
-                            </div>
-                        )}
-                        {!this.props.article.is_owner && /*!this.props.article.info_aditee.is_participating*/ this.state.participated && (
-                            <button
-                                id="participate-button"
-                                onClick={this.participateHandler}>
-                                Participate
-                            </button>
-                        )}
+                        {!this.props.article.is_owner &&
+                            /*!this.props.article.info_aditee.is_participating*/ this
+                                .state.participated && (
+                                <div className="url-component">
+                                    <p id="unique-url-text">
+                                        {
+                                            this.props.article.info_aditee
+                                                .unique_url
+                                        }
+                                    </p>
+                                    <CopyToClipboard
+                                        text={
+                                            this.props.article.info_aditee
+                                                .unique_url
+                                        }>
+                                        <button id="url-copy-button">
+                                            Copy
+                                        </button>
+                                    </CopyToClipboard>
+                                </div>
+                            )}
+                        {!this.props.article.is_owner &&
+                            /*!this.props.article.info_aditee.is_participating*/ !this
+                                .state.participated && (
+                                <button
+                                    id="participate-button"
+                                    onClick={this.participateHandler}>
+                                    Participate
+                                </button>
+                            )}
                     </div>
-                    <button onClick={this.toggleMine} id="toggle-mine-button">
-                        Toggle Mine
-                    </button>
                     <button
                         onClick={this.toggleParticipate}
                         id="toggle-participate-button">
@@ -127,26 +143,26 @@ class ArticleDetail extends Component {
                     </button>
                 </div>
             );
-        }
-        else {
-            return(
-                <h1>LOADING</h1>
-            );
+        } else {
+            return <h1>LOADING</h1>;
         }
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        ongetArticle: (id) => dispatch(actionCreators.getAdpost(id))
+        ongetArticle: id => dispatch(actionCreators.getAdpost(id))
     };
-}
+};
 
 const mapStateToProps = state => {
     return {
         loaded: state.adpost.loaded,
-        article: state.adpost.adpost_detailed_item,
-    }
-}
+        article: state.adpost.adpost_detailed_item
+    };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleDetail);

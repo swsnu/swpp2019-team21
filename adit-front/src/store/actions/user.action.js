@@ -96,6 +96,7 @@ export const putUser = user => {
             .then(res => dispatch(putUser_()))
             .catch(error => {
                 console.log('put user failed');
+                alert('Put user failed zz');
             });
     };
 };
