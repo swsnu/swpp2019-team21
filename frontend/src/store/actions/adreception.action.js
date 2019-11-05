@@ -17,7 +17,9 @@ export const postReception = data => {
             .then(res => dispatch(postReception_(res.data)))
             .catch(error => {
                 console.log('posting reception failed');
-                alert('post failed...');
+                alert('Please Sign-in to Participate!');
             });
     };
 };
+
+

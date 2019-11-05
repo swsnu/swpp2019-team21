@@ -60,87 +60,96 @@ class ArticleDetail extends Component {
     };
     render() {
         if (this.props.loaded == true) {
-            const tags = this.props.article.tags.map(td => {
-                return <li id="tag-link">{td}</li>;
-            });
+            const taglist = this.props.article.tags.reduce((acc, cur, i) => {
+                return acc + '#' + cur + ' ';
+            }, '');
+            const tags = <p id="tag-link">{taglist}</p>;
             return (
                 <div className="ArticleDetail">
-                    <div className="left-component">
-                        <img
-                            id="article-thumbnail"
-                            src={this.props.article.thumbnail}
-                            alt="first_picture"
-                            width="100%"
-                            height="500px"
-                        />
-                        <h3 id="description-title-text">
-                            Detailed description
-                        </h3>
-                        <p id="description-text">
-                            {this.props.article.content}
-                        </p>
-                    </div>
-                    <h1 id="post-title-text">{this.props.article.title}</h1>
-                    <h3 id="post-subtitle-text">
-                        {this.props.article.subtitle}
-                    </h3>
-                    <p id="due-date-text">{this.props.article.expiry_date}</p>
-                    <ul id="tag-link-list">{tags}</ul>
-                    <div>
-                        {this.props.article.is_owner && (
+                    <div className="upper-component">
+                        <div className="left-component">
+                            <img
+                                id="article-thumbnail"
+                                src={this.props.article.thumbnail}
+                                alt="first_picture"
+                                width="90%"
+                                height="400px"
+                            />
+                        </div>
+                        <div className="right-component">
+                            <h1 id="post-title-text">
+                                {this.props.article.title}
+                            </h1>
+                            <h2 id="post-subtitle-text">
+                                {this.props.article.subtitle}
+                            </h2>
+                            {tags}
+                            <h3 id="due-date-title">Due Date</h3>
+                            <h3 id="due-date-text">
+                                {this.props.article.expiry_date}
+                            </h3>
                             <div>
-                                <button
-                                    id="post-edit-button"
-                                    onClick={this.postEditHandler}>
-                                    Edit
-                                </button>
-                                <div className="achieve-bar-component">
-                                    <p id="achieve-bar-name">achieve rate</p>
-                                    <ProgressBar
-                                        id="achieve-bar"
-                                        now={
-                                            (this.props.article.total_views /
+                                <div>
+                                    {/*<button
+                                        id="post-edit-button"
+                                        onClick={this.postEditHandler}>
+                                        Edit
+                                    </button>*/}
+                                    <div className="achieve-bar-component">
+                                        <h4 id="achieve-bar-name">
+                                            Achieve Rate
+                                        </h4>
+                                        <ProgressBar
+                                            id="achieve-bar"
+                                            now={
+                                                (this.props.article
+                                                    .total_views /
+                                                    this.props.article
+                                                        .target_views) *
+                                                100
+                                            }
+                                            label={`${(this.props.article
+                                                .total_views /
                                                 this.props.article
                                                     .target_views) *
-                                            100
-                                        }
-                                        label={`${(this.props.article
-                                            .total_views /
-                                            this.props.article.target_views) *
-                                            100}%`}></ProgressBar>
+                                                100}%`}></ProgressBar>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                        {!this.props.article.is_owner &&
-                            /*!this.props.article.info_aditee.is_participating*/ this
-                                .state.participated && (
-                                <div className="url-component">
-                                    <p id="unique-url-text">
-                                        {this.props.unique_link}
-                                    </p>
-                                    <CopyToClipboard
-                                        text={this.props.unique_link}>
-                                        <button id="url-copy-button">
-                                            Copy
+                                {!this.props.article.is_owner &&
+                                    /*!this.props.article.info_aditee.is_participating*/ this
+                                        .state.participated && (
+                                        <div className="url-component">
+                                            <p id="unique-url-text">
+                                                {this.props.unique_link}
+                                            </p>
+                                            <CopyToClipboard
+                                                text={this.props.unique_link}>
+                                                <button id="url-copy-button">
+                                                    Copy
+                                                </button>
+                                            </CopyToClipboard>
+                                        </div>
+                                    )}
+                                { !this.state.participated && (
+                                        <button
+                                            className="btn btn-primary"
+                                            id="participate-button"
+                                            disabled={this.props.article.is_owner}
+                                            onClick={this.participateHandler}>
+                                            Participate
                                         </button>
-                                    </CopyToClipboard>
-                                </div>
-                            )}
-                        {!this.props.article.is_owner &&
-                            /*!this.props.article.info_aditee.is_participating*/ !this
-                                .state.participated && (
-                                <button
-                                    id="participate-button"
-                                    onClick={this.participateHandler}>
-                                    Participate
-                                </button>
-                            )}
+                                    )}
+                            </div>
+                            {/*<button
+                                className="btn btn-primary"
+                                onClick={this.toggleParticipate}
+                                id="toggle-participate-button">
+                                Toggle Participate
+                            </button>*/}
+                        </div>
                     </div>
-                    <button
-                        onClick={this.toggleParticipate}
-                        id="toggle-participate-button">
-                        Toggle Participate
-                    </button>
+                    <h3 id="description-title-text">Detailed description</h3>
+                    <p id="description-text">{this.props.article.content}</p>
                 </div>
             );
         } else {

@@ -1,53 +1,89 @@
+.ArticleDetail{
+    position: absolute;
+    left: 50%;
+    margin-left:-600px;
+    width : 1200px;
+    padding-top:50px;
+}
 @media screen and (min-width: 1101px)
 {
     
     .left-component{
         float: left;
-        width: 50%;
+        width: 70%;
+        height: 400px;
     }
-    
+    .right-component{
+        float: right;
+        width: 30%;
+        height: 400px;
+        position:relative; 
+    }
+
+    #post-subtitle-text{
+        font-size: 25px;
+        text-align: left;
+        font-weight: 350;
+        color: #707070;
+    }
 
     #post-title-text{
-        float: right;
-        width: 50%;
+        font-size: 40px;
+        text-align: left;
     }
-    
-    #post-subtitle-text{
-        float: right;
-        width: 50%;
+
+    #tag-link{
+        font-size: 20px;
+        text-align: left;
+        color: #808080;
+    }
+
+    #due-date-title{
+        font-size: 18px;
+        text-align: left;
+        color: #404040;
+        margin-top:30px;
     }
     
     #due-date-text{
-        float: right;
-        width: 50%;
+        font-size: 18px;
+        text-align: left;
+        font-weight: 350;
+        color: #707070;
     }
+    /*
+
     
     #tag-link-list{
         float: left;
         width: 50%;
     }
-    
+    */
     .achieve-bar-component{
-        float: right;
-        width: 50%;
+        margin-top:25px;
+    }
+
+    #achieve-bar-name{
+        font-size: 18px;
+        text-align: left;
+        color: #404040;
     }
     
     #statistics-image{
         float: right;
         width: 50%;
     }
-
-    #participate-button{
-        float: left;
-        width: 25%;
-    }
     
     #toggle-mine-button{
         float: left;
     }
 
-    #toggle-participate-button{
-        float: left;
+    #participate-button{
+        width: 160px;
+        position: absolute;
+        right: 100px;
+        bottom: 0px;
+        margin-bottom: 10px;
     }
     #url-component{
         float: right;
