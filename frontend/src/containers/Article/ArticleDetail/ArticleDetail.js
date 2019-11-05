@@ -155,8 +155,10 @@ class ArticleDetail extends Component {
                             </button>*/}
                         </div>
                     </div>
+                    <div className="down-component">
                     <h3 id="description-title-text">Detailed description</h3>
                     <p id="description-text">{this.props.article.content}</p>
+                    </div>
                 </div>
             );
         } else {

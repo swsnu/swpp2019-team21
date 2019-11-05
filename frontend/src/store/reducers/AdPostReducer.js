@@ -1,6 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 import axios from 'axios';
 
+// state.adpost
+
 const initialState = {
     loaded: false,
     adpost_list_item: null,
@@ -55,7 +57,8 @@ const initialState = {
         info_aditee: { is_participating: false, unique_url: null, views: null },
         // Should be added at latter..
         info_aditor: { statistics: null }
-    }
+    },
+    adpost_searched_item: []
 };
 
 export const adpost_reducer = (state = initialState, action) => {
@@ -105,6 +108,11 @@ export const adpost_reducer = (state = initialState, action) => {
                 ...state,
                 adpost_participated_item: action.adpost_list_item
             };
+        case actionTypes.GET_SEARCH_ARTICLE:
+            return {
+                ...state,
+                adpost_searched_item: action.adpost_list_item
+            }
         default:
             break;
     }
