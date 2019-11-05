@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../store/actions/adpost.action';
+import { tagActions } from '../../../store/actions/tag.action';
 import './ArticleCreate.css';
 import Calendar from 'react-calendar';
 
@@ -29,9 +30,16 @@ class ArticleCreate extends Component {
         ],
         imagePreviewUrl: ''
     };
+
+    componentDidMount() {
+        this.props.onTagReload();
+    }
+
     render() {
         let imagePreview = null;
         let imagePreviewUrl = this.state.imagePreviewUrl;
+        console.log(this.props.allTags);
+        console.log("MAMA");
         if (imagePreviewUrl) {
             imagePreview = (
                 <img id="post-thumbnail-preview" src={imagePreviewUrl} />
@@ -206,7 +214,7 @@ class ArticleCreate extends Component {
             return (
                 <div>
                     <div
-                        class="configuration"
+                        className="configuration"
                         style={{
                             display:
                                 this.state.currentPage == 1 ? 'block' : 'none'
@@ -283,14 +291,14 @@ class ArticleCreate extends Component {
                         </button>
                     </div>
                     <div
-                        class="tagSelect"
+                        className="tagSelect"
                         style={{
                             display:
                                 this.state.currentPage == 2 ? 'block' : 'none'
                         }}>
                         <ReactTags
                             tags={this.state.postTag}
-                            suggestions={this.state.mockSuggestion}
+                            suggestions={this.props.allTags}
                             handleDelete={handleDelete.bind(this)}
                             handleAddition={handleAddition.bind(this)}
                             allowNew={true}
@@ -305,7 +313,7 @@ class ArticleCreate extends Component {
                         </button>
                     </div>
                     <div
-                        class="adGoal"
+                        className="adGoal"
                         style={{
                             display:
                                 this.state.currentPage == 3 ? 'block' : 'none'
@@ -342,7 +350,7 @@ class ArticleCreate extends Component {
                         </button>
                     </div>
                     <div
-                        class="payment"
+                        className="payment"
                         style={{
                             display:
                                 this.state.currentPage == 4 ? 'block' : 'none'
@@ -371,11 +379,16 @@ const mapDispatchToProps = dispatch => {
     return {
         onPostArticle: adpost => {
             dispatch(actionCreators.postAdpost(adpost));
-        }
+        },
+        onTagReload: () => dispatch(tagActions.getAllTag())
     };
 };
 
-const mapStateToProps = state => {};
+const mapStateToProps = state => {
+    return {
+        allTags: state.tag.all_tags
+    }
+};
 
 export default connect(
     mapStateToProps,

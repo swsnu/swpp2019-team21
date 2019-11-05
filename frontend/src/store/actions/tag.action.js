@@ -13,18 +13,24 @@ const getAllTag_ = tag => {
     };
 };
 
-const getAllTag = () => {
+function getAllTag() {
     return dispatch => {
         return axios
-            .get('/api/tag/search/')
+            .get('/api/tag/')
             .then(res => {
-                dispatch(getAllTag_(res.data));
+                dispatch(
+                    getAllTag_(
+                        res.data.map(item => {
+                            return { id: item.id, name: item.content };
+                        })
+                    )
+                );
             })
             .catch(error => {
                 console.log(error);
             });
     };
-};
+}
 
 const postTag_ = tag => {
     return {
@@ -33,7 +39,7 @@ const postTag_ = tag => {
     };
 };
 
-const postTag = tag => {
+function postTag(tag) {
     return dispatch => {
         return axios
             .post('/api/tag/search/' + tag)
@@ -44,4 +50,4 @@ const postTag = tag => {
                 console.log(error);
             });
     };
-};
+}
