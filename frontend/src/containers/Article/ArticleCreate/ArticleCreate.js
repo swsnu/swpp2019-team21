@@ -379,7 +379,7 @@ class ArticleCreate extends Component {
                         />
                         <button
                             className="btn btn-primary"
-                            id="next-button"
+                            id="next-tag-button"
                             disabled={!this.state.postTag.length}
                             onClick={nextOnClick}>
                             Next
