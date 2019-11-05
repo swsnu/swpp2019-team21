@@ -98,7 +98,7 @@ class ArticlePreview extends Component {
                 </div>
                 <div className="down-component">
                     <h3 id="description-title-text">Detailed description</h3>
-                    <p id="description-text">{this.props.article.content}</p>
+                    <pre><p id="description-text">{this.props.article.content}</p></pre>
                 </div>
             </div>
         );
