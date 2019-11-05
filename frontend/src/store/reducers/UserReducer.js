@@ -8,6 +8,7 @@ const initialState = {
         last_name: null,
         nickname: null,
         email: null,
+        point: null,
         tags: []
     }
 };
@@ -24,6 +25,8 @@ export const user_reducer = (state = initialState, action) => {
             return { ...state, user: action.user, logged_in: true };
         case actionTypes.PUT_USER:
             return { ...state, user: action.user };
+        case actionTypes.PUT_POINT:
+            return { ...state, user: { ...state.user, point: action.point } };
         default:
             break;
     }
