@@ -34,7 +34,7 @@ class SignUp extends Component {
 
     signUpHandler = () => {
         if (this.state.password.toString().length <= 8) {
-            alert('password should be longer than 8 characters');
+            alert('password should be longer than 8 alphabets');
             return;
         } else if (this.state.password_check !== this.state.password) {
             alert('password_check different with password');
@@ -59,6 +59,7 @@ class SignUp extends Component {
             tags: this.state.tags.map(item => item.name)
         };
         this.props.onSignUp(user);
+        alert('User created');
         this.props.history.push();
         return;
     };

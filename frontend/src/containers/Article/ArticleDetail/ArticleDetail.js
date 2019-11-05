@@ -109,15 +109,18 @@ class ArticleDetail extends Component {
                                                         .target_views) *
                                                 100
                                             }
-                                            label={`${(this.props.article
-                                                .total_views /
-                                                this.props.article
-                                                    .target_views) *
-                                                100}%`}></ProgressBar>
+                                            label={`${Math.floor(
+                                                (this.props.article
+                                                    .total_views /
+                                                    this.props.article
+                                                        .target_views) *
+                                                    10000
+                                            ) / 100}%`}></ProgressBar>
                                     </div>
                                 </div>
                                 {!this.props.article.is_owner &&
-                                    /*!this.props.article.info_aditee.is_participating*/ 
+                                    /*!this.props.article.info_aditee.is_participating*/
+
                                     this.props.is_participated && (
                                         <div className="url-component">
                                             <p id="unique-url-text">
@@ -125,7 +128,8 @@ class ArticleDetail extends Component {
                                             </p>
                                             <CopyToClipboard
                                                 text={this.props.unique_link}>
-                                                <button id="url-copy-button"
+                                                <button
+                                                    id="url-copy-button"
                                                     className="btn btn-primary">
                                                     Copy
                                                 </button>
@@ -133,15 +137,15 @@ class ArticleDetail extends Component {
                                         </div>
                                     )}
                                 <div></div>
-                                { !this.props.is_participated && (
-                                        <button
-                                            className="btn btn-primary"
-                                            id="participate-button"
-                                            disabled={this.props.article.is_owner}
-                                            onClick={this.participateHandler}>
-                                            Participate
-                                        </button>
-                                    )}
+                                {!this.props.is_participated && (
+                                    <button
+                                        className="btn btn-primary"
+                                        id="participate-button"
+                                        disabled={this.props.article.is_owner}
+                                        onClick={this.participateHandler}>
+                                        Participate
+                                    </button>
+                                )}
                             </div>
                             {/*<button
                                 className="btn btn-primary"
