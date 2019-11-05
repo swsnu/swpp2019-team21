@@ -5,6 +5,8 @@ import Preview from '../Preview/Preview';
 import { history } from '../../store';
 import 'react-multi-carousel/lib/styles.css';
 import './PreviewList.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Route, Link } from 'react-router-dom';
 
 const responsive = {
@@ -74,11 +76,13 @@ class PreviewList extends React.Component {
                           ))
                         : null}
                     <div id="search-more-btn">
-                        <button
+                        <FontAwesomeIcon
                             id="search-more"
-                            onClick={this.clickSearchMoreHandler}>
-                            Search More!
-                        </button>
+                            icon={faPlusCircle}
+                            aria-hidden="true"
+                            onClick={this.clickSearchMoreHandler}
+                            size='10x'
+                        />
                     </div>
                 </Carousel>
             </div>
