@@ -1,0 +1,144 @@
+.PreviewForCreate {
+    margin-left: 15%;
+    margin-right: 15%;
+    width: 70%;
+    padding-top: 50px;
+    color: #404040;
+}
+@media screen and (min-width: 1101px) {
+    .PreviewForCreate .right-component {
+        float: right;
+        width: 30%;
+        height: 400px;
+        position: relative;
+    }
+    .PreviewForCreate .down-component {
+        float: left;
+        width: 70%;
+        min-height: 500px;
+        padding: 50px 4%;
+    }
+    .PreviewForCreate #post-subtitle-text {
+        font-size: 25px;
+        text-align: left;
+        font-weight: 350;
+        color: #707070;
+    }
+
+    .PreviewForCreate #post-title-text {
+        color: #404040;
+        border-top-style: groove;
+        padding-top: 15px;
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    .PreviewForCreate #tag-link {
+        font-size: 20px;
+        text-align: left;
+        color: #808080;
+    }
+
+    .PreviewForCreate #due-date-title {
+        font-size: 18px;
+        text-align: left;
+        color: #404040;
+        margin-top: 15px;
+    }
+
+    .PreviewForCreate #due-date-text {
+        font-size: 18px;
+        text-align: left;
+        font-weight: 350;
+        color: #707070;
+    }
+
+    .PreviewForCreate #unique-url-text {
+        width: 200px;
+        overflow: auto;
+        -ms-overflow-style: none;
+    }
+    .PreviewForCreate #unique-url-text::-webkit-scrollbar {
+        display: none !important;
+    }
+    /*
+
+    
+    #tag-link-list{
+        float: left;
+        width: 50%;
+    }
+    */
+    .PreviewForCreate .url-component {
+        border-bottom-style: groove;
+        width: 100%;
+        margin-top: 50px;
+        padding-bottom: 50px;
+        height: 50px;
+    }
+
+    .PreviewForCreate .earn-point {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        border-bottom-style: groove;
+    }
+
+    .PreviewForCreate .achieve-bar-component {
+        margin-top: 25px;
+    }
+
+    #achieve-bar-name {
+        font-size: 18px;
+        text-align: left;
+        color: #404040;
+    }
+
+    .PreviewForCreate .participate {
+        border-bottom-style: groove;
+        padding-top: 20px;
+        width: 100%;
+    }
+
+    #participate-button {
+        width: 160px;
+        margin-bottom: 20px;
+    }
+}
+@media screen and (max-width: 1100px) {
+    .PreviewForCreate .left-component {
+        float: left;
+        width: 100%;
+    }
+
+    #post-title-text {
+        float: left;
+        width: 100%;
+    }
+
+    #post-subtitle-text {
+        float: left;
+        width: 100%;
+    }
+
+    #due-date-text {
+        float: left;
+        width: 100%;
+    }
+
+    #tag-link-list {
+        float: left;
+        width: 100%;
+    }
+
+    #participate-button {
+        width: 100%;
+    }
+
+    #url-component {
+        width: 100%;
+    }
+
+    .achieve-bar-component {
+        width: 100%;
+    }
+}
