@@ -1,5 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
+import {history} from '../../store'
 
 const base_url = '/api';
 
@@ -18,6 +19,7 @@ export const postReception = data => {
             .catch(error => {
                 console.log('posting reception failed');
                 alert('Please Sign-in to Participate!');
+                history.push('/sign-in/')
             });
     };
 };
@@ -40,3 +42,24 @@ export const postRedirect = data => {
             });
     };
 };
+
+export const getReception_ = (data) => {
+    return {
+        type: actionTypes.GET_PARTICIPATED,
+        data: data
+    };
+}
+
+export const getReception = (id) => {
+    return dispatch => {
+        return axios
+            .get(base_url + '/adreception/by-post/'+id)
+            .then(res => {
+                console.log(res.data);
+                dispatch(getReception_(res.data))
+            })
+            .catch(error => {
+                dispatch({type:actionTypes.NOT_PARTICIPATED})
+            })
+    }
+}

@@ -25,6 +25,17 @@ export const adreception_reducer = (state = initialState, action) => {
                     views: null,
                     unique_link: action.ad_link
                 };
+            case actionTypes.GET_PARTICIPATED:
+                return {
+                    ...state,
+                    unique_link: action.data.unique_link,
+                    is_participated: true
+                }
+            case actionTypes.NOT_PARTICIPATED:
+                return {
+                    ...state,
+                    is_participated: false
+                }
         default:
             break;
     }
