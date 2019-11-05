@@ -1,7 +1,5 @@
 .UserInfo #title-background {
-    position: absolute;
-    left: 0;
-    right: 0;
+    margin-bottom: -300px;
     width: 100%;
     opacity: 0.6;
     max-height: 350px;
@@ -15,6 +13,10 @@
     );
 }
 
+.UserInfo {
+    position: relative;
+    
+}
 .TitleBox {
     position: relative;
     color: #303234;
@@ -48,19 +50,14 @@ ttl {
 
 @media (min-width: 960px) {
     .UserDetail {
-        position: absolute;
+        float:right;
         right: 15%;
-        max-width: 350px;
         width: 20%;
     }
     .AdList {
-        position: absolute;
-        left: 12%;
-        width: 40%;
-    }
-    .BottomBox {
-        position: absolute;
-        top: 1550px;
+        float:left;
+        margin-left: 10%;
+        width: 45%;
     }
 }
 
@@ -73,7 +70,7 @@ t {
 .UserDetail {
     min-width: 300px;
     margin-top: 100px;
-}
+}   
 
 .AdList {
     margin-top: 10px;
