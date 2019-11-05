@@ -157,9 +157,11 @@ class ArticleDetail extends Component {
                         <h3 id="description-title-text">
                             Detailed description
                         </h3>
-                        <p id="description-text">
-                            {this.props.article.content}
-                        </p>
+                        <pre>
+                            <p id="description-text">
+                                {this.props.article.content}
+                            </p>
+                        </pre>
                     </div>
                 </div>
             );
