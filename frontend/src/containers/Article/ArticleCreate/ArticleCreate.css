@@ -47,6 +47,11 @@
     margin-bottom: 500px;
 }
 
+#submit {
+    clear:both;
+    margin-bottom: 30px;
+}
+
 .tagSelect .react-tags {
     position: relative;
     padding: 6px 0 0 6px;

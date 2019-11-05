@@ -30,6 +30,12 @@ class ArticlePreview extends Component {
                             {this.props.article.subtitle}
                         </h2>
                         {tags}
+                        <h3 id="ad-link-title">AD link</h3>
+                        <a href={this.props.article.ad_link}>
+                            <h2 id="ad-link-text">
+                                {this.props.article.ad_link}
+                            </h2>
+                        </a>
                         <h3 id="due-date-title">Due Date</h3>
                         <h3 id="due-date-text">
                             {this.props.article.expiry_date}
@@ -98,7 +104,11 @@ class ArticlePreview extends Component {
                 </div>
                 <div className="down-component">
                     <h3 id="description-title-text">Detailed description</h3>
-                    <pre><p id="description-text">{this.props.article.content}</p></pre>
+                    <pre>
+                        <p id="description-text">
+                            {this.props.article.content}
+                        </p>
+                    </pre>
                 </div>
             </div>
         );

@@ -35,6 +35,7 @@
         border-top-style: groove;
     }
     #description-text {
+        word-break: break-all;
         color: #303030;
         font-weight: 100;
 
@@ -44,6 +45,7 @@
         line-height: 1.2em;
     }
     #post-subtitle-text{
+        word-break: break-all;
         font-size: 25px;
         text-align: left;
         font-weight: 350;
@@ -51,6 +53,7 @@
     }
 
     #post-title-text{
+        word-break: break-all;
         color: #404040;
         border-top-style: groove;
         padding-top: 15px;
@@ -64,6 +67,22 @@
         color: #808080;
     }
 
+    #ad-link-title{
+        word-break: break-all;
+        font-size: 18px;
+        text-align: left;
+        color: #404040;
+        margin-top: 15px;
+    }
+    
+    #ad-link-text{
+        word-break: break-all;
+        font-size: 18px;
+        text-align: left;
+        font-weight: 350;
+        color: #707070;
+    }
+
     #due-date-title{
         font-size: 18px;
         text-align: left;
@@ -72,6 +91,7 @@
     }
     
     #due-date-text{
+        word-break: break-all;
         font-size: 18px;
         text-align: left;
         font-weight: 350;

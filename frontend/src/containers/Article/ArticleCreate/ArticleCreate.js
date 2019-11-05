@@ -465,12 +465,14 @@ class ArticleCreate extends Component {
                                 })
                             }}
                         />
-                        <button
-                            className="btn btn-primary"
-                            id="confirm-button"
-                            onClick={confirmOnClick}>
-                            Submit
-                        </button>
+                        <div id="submit">
+                            <button
+                                className="btn btn-primary"
+                                id="confirm-button"
+                                onClick={confirmOnClick}>
+                                Submit
+                            </button>
+                        </div>
                     </div>
                 </div>
             );
