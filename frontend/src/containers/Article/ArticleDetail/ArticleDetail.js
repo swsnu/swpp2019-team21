@@ -124,7 +124,7 @@ class ArticleDetail extends Component {
                                                     {this.props.views *
                                                         multiplier}
                                                 </h2>
-                                                points!
+                                                Points!
                                                 {console.log(this.props.views)}
                                                 {console.log(this.props)}
                                             </h2>

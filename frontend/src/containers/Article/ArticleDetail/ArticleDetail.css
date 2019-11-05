@@ -1,8 +1,7 @@
 .ArticleDetail{
-    position: absolute;
-    left: 50%;
-    margin-left:-600px;
-    width : 1200px;
+    margin-left: 15%;
+    margin-right: 15%;
+    width : 70%;
     padding-top:50px;
     color: #404040;
 
@@ -24,6 +23,7 @@
     .down-component{
         float: left;
         width: 70%;
+        min-height: 500px;
         padding: 50px 4%;
     }
     #post-subtitle-text{
