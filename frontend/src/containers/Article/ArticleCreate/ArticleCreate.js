@@ -155,6 +155,7 @@ class ArticleCreate extends Component {
             });
         };
         const nextOnClick = () => {
+            window.scrollTo(0, 0);
             if (this.state.donePage === this.state.currentPage) {
                 this.setState({
                     ...this.state,
