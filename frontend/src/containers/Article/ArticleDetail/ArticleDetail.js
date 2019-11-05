@@ -33,6 +33,7 @@ class ArticleDetail extends Component {
 
     componentDidMount() {
         this.props.ongetArticle(this.props.match.params.id);
+        this.props.ongetReception(this.props.match.params.id);
     }
 
     participateHandler = () => {
@@ -116,22 +117,23 @@ class ArticleDetail extends Component {
                                     </div>
                                 </div>
                                 {!this.props.article.is_owner &&
-                                    /*!this.props.article.info_aditee.is_participating*/ this
-                                        .state.participated && (
+                                    /*!this.props.article.info_aditee.is_participating*/ 
+                                    this.props.is_participated && (
                                         <div className="url-component">
                                             <p id="unique-url-text">
                                                 {this.props.unique_link}
                                             </p>
                                             <CopyToClipboard
                                                 text={this.props.unique_link}>
-                                                <button id="url-copy-button">
+                                                <button id="url-copy-button"
+                                                    className="btn btn-primary">
                                                     Copy
                                                 </button>
                                             </CopyToClipboard>
                                         </div>
                                     )}
                                 <div></div>
-                                { !this.state.participated && (
+                                { !this.props.is_participated && (
                                         <button
                                             className="btn btn-primary"
                                             id="participate-button"
@@ -149,8 +151,10 @@ class ArticleDetail extends Component {
                             </button>*/}
                         </div>
                     </div>
+                    <div className="down-component">
                     <h3 id="description-title-text">Detailed description</h3>
                     <p id="description-text">{this.props.article.content}</p>
+                    </div>
                 </div>
             );
         } else {
@@ -162,7 +166,8 @@ class ArticleDetail extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         ongetArticle: id => dispatch(actionCreators.getAdpost(id)),
-        onpostReception: id => dispatch(receptionCreators.postReception(id))
+        onpostReception: id => dispatch(receptionCreators.postReception(id)),
+        ongetReception: id => dispatch(receptionCreators.getReception(id))
     };
 };
 
@@ -171,7 +176,8 @@ const mapStateToProps = state => {
         loaded: state.adpost.loaded,
         article: state.adpost.adpost_detailed_item,
         views: state.adreception.views,
-        unique_link: state.adreception.unique_link
+        unique_link: state.adreception.unique_link,
+        is_participated: state.adreception.is_participated
     };
 };
 

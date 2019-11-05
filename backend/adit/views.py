@@ -467,7 +467,7 @@ class adReception(View):
 
 class adReceptionByPostID(View):
     @check_is_authenticated
-    @check_is_permitted(object_type=AdReception)  # 주의: ad의 주인도 확인할 수 있어야 함. if 문으로 처리해야 할 듯?
+     # 주의: ad의 주인도 확인할 수 있어야 함. if 문으로 처리해야 할 듯?
     def get(self, request, id):
         response_reception = AdReception.objects.filter(owner=request.user, adpost=id)
         if not response_reception.exists():

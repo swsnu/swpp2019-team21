@@ -184,3 +184,25 @@ export const getAdpost = id => {
             });
     };
 };
+
+function getSearchList_(data) {
+    return {
+        type: actionTypes.GET_SEARCH_ARTICLE,
+        adpost_list_item: data
+    };
+}
+
+export const getSearchList = str => {
+    return dispatch => {
+        console.log(str);
+        axios
+            .get(`/api/adpost/search/${str}`)
+            .then(res => {
+                console.log(res.data);
+                dispatch(getSearchList_(res.data));
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+};
