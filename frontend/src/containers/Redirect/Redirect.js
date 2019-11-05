@@ -2,11 +2,12 @@ import React, { Component, Profiler } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions/adreception.action';
 
-class UserDetail extends Component {
+class Redirect extends Component {
     componentDidMount() {
         this.props.getRedirectAddr(this.props.match.params.str)
-        if(this.state.link == null) window.close()
-        else this.props.history.push(this.state.link)
+        console.log(this.props.link)
+        if(this.props.link == null) window.close()
+        else this.props.history.push(this.props.link)
     }
     render() {
         return (
@@ -19,7 +20,7 @@ class UserDetail extends Component {
 
 const mapStateToProps = state => {
     return {
-        link: state.adreception.unique_link
+        link: state.adreception.ad_link
     }
 }
 
@@ -32,4 +33,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(UserDetail);
+)(Redirect);
