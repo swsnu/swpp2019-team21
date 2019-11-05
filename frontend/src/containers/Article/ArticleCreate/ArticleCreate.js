@@ -4,9 +4,12 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../../../store/actions/adpost.action';
 import * as userActionCreators from '../../../store/actions/user.action';
 import { tagActions } from '../../../store/actions/tag.action';
+import ArticlePreview from '../ArticlePreview/ArticlePreview';
+import Preview from '../../../components/Preview/Preview';
 import './ArticleCreate.css';
 import Calendar from 'react-calendar';
 
+var multiplier = 10;
 class ArticleCreate extends Component {
     state = {
         donePage: 1,
@@ -167,7 +170,7 @@ class ArticleCreate extends Component {
 
             if (
                 (e.target.value == '' || re.test(e.target.value)) &&
-                this.state.nowpoint - Number(e.target.value) * 10 >= 0
+                this.state.nowpoint - Number(e.target.value) * multiplier >= 0
             ) {
                 this.setState({
                     ...this.state,
@@ -244,7 +247,7 @@ class ArticleCreate extends Component {
             const request = {
                 points: {
                     point: Number(
-                        this.state.nowpoint - this.state.postGoal * 10
+                        this.state.nowpoint - this.state.postGoal * multiplier
                     )
                 },
                 adpost: {
@@ -403,7 +406,7 @@ class ArticleCreate extends Component {
                                 className="form-control"
                                 id="post-point-deduction">
                                 {this.state.postGoal
-                                    ? this.state.postGoal * 10
+                                    ? this.state.postGoal * multiplier
                                     : 0}{' '}
                                 points will be deducted
                             </p>
@@ -412,7 +415,7 @@ class ArticleCreate extends Component {
                                 id="post-point-deduction">
                                 {this.state.postGoal
                                     ? this.state.nowpoint -
-                                      this.state.postGoal * 10
+                                      this.state.postGoal * multiplier
                                     : this.state.nowpoint}{' '}
                                 points will be left
                             </p>
@@ -443,6 +446,25 @@ class ArticleCreate extends Component {
                             display:
                                 this.state.currentPage == 4 ? 'block' : 'none'
                         }}>
+                        <ArticlePreview
+                            article={{
+                                title: this.state.postTitle,
+                                subtitle: this.state.postSubtitle,
+                                content: this.state.postExplain,
+                                thumbnail: [this.state.imagePreviewUrl],
+                                ad_link: this.state.postUrl,
+                                target_views: this.state.postGoal,
+                                expiry_date:
+                                    this.state.postDeadline.year +
+                                    '-' +
+                                    this.state.postDeadline.month +
+                                    '-' +
+                                    this.state.postDeadline.date,
+                                tags: this.state.postTag.map(tag => {
+                                    return tag.name;
+                                })
+                            }}
+                        />
                         <button
                             className="btn btn-primary"
                             id="confirm-button"
