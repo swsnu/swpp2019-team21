@@ -1,18 +1,18 @@
 import React, { Component, Profiler } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions/adreception.action';
+import { Spinner } from 'react-bootstrap';
+import './Redirect.css';
 
 class Redirect extends Component {
     componentDidMount() {
         this.props.getRedirectAddr(this.props.match.params.str)
-        console.log(this.props.link)
-        if(this.props.link == null) window.close()
-        else this.props.history.push(this.props.link)
     }
     render() {
         return (
             <div className='Redirect'>
-                <h1>{this.props.match.params.str}</h1>
+                <Spinner animation="grow" id="redirecting_spinner"/>
+                <h2 id="redirecting_text">Redirecting...</h2>
             </div>   
         );
     }
