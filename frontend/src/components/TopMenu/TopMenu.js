@@ -91,7 +91,7 @@ class TopMenu extends Component {
                                 })
                             }
                         />
-                        <FontAwesomeIcon
+                        <FontAwesomeIcon color='#f1f2f3'
                             icon={faSearch}
                             onClick={this.searchConfirmHandler}
                         />
