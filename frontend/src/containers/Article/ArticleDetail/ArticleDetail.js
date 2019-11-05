@@ -63,6 +63,12 @@ class ArticleDetail extends Component {
                                 {this.props.article.subtitle}
                             </h2>
                             {tags}
+                            <h3 id="ad-link-title">AD link</h3>
+                            <a href={this.props.article.ad_link}>
+                                <h2 id="ad-link-text">
+                                    {this.props.article.ad_link}
+                                </h2>
+                            </a>
                             <h3 id="due-date-title">Due Date</h3>
                             <h3 id="due-date-text">
                                 {this.props.article.expiry_date}
