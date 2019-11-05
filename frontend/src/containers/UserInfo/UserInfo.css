@@ -25,6 +25,10 @@
     padding-bottom: 30px;
 }
 
+.ReceptionTable{
+    font-size: 1.1em;
+}
+
 ttl {
     font-size: 80px;
     font-weight: 550;
@@ -46,19 +50,43 @@ ttl {
     .AdList {
         padding: 0 10%;
     }
+    .ReceptionTable {
+        width: 100%;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
 }
 
 @media (min-width: 960px) {
     .UserDetail {
         float:right;
-        right: 15%;
+        right: 10%;
         width: 20%;
     }
     .AdList {
         float:left;
         margin-left: 10%;
-        width: 45%;
+        width: 50%;
     }
+    .ReceptionTable {
+        float: left;
+        width: 150%;
+        padding-top: 50px;
+        margin-left: 4%;
+        padding-bottom: 50px;
+    }
+}
+
+.ReceptionTable td{
+    overflow:hidden;
+    height: 1.2em; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#table_contents:hover{
+    cursor: pointer;
+    background: #f0f1f2;
 }
 
 t {

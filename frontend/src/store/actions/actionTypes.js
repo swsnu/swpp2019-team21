@@ -19,4 +19,5 @@ export const POST_RECEPTION = 'POST_RECEPTION';
 export const GET_RECEPTION = 'GET_RECEPTION';
 export const POST_TAG = 'POST_TAG';
 export const GET_PARTICIPATED = 'GET_IF_PARTICIPATED';
+export const GET_BYUSER = 'GET_BYUSER';
 export const NOT_PARTICIPATED = 'NOT_PARTICIPATED';
