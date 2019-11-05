@@ -42,6 +42,11 @@
     margin-bottom: 50px;
 }
 
+#next-tag-button {
+    margin-top: 50px;
+    margin-bottom: 500px;
+}
+
 .tagSelect .react-tags {
     position: relative;
     padding: 6px 0 0 6px;
