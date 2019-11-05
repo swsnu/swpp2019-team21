@@ -46,6 +46,11 @@ class UserInfo extends Component {
     componentDidMount() {
         this.props.onGetOwnList();
         this.props.onGetParticipatedList();
+        if(this.state.user){
+            if(!this.state.user.logged_in){
+                this.props.history.push('/home')
+            }    
+        }
     }
 
     render() {

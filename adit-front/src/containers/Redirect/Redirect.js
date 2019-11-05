@@ -1,7 +1,6 @@
 import React, { Component, Profiler } from 'react';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions/adreception.action';
-import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
 
 class UserDetail extends Component {
     componentDidMount() {
