@@ -193,8 +193,9 @@ class changePW(View):
         if check_password(current_password, user.password):
             user.set_password(new_password)
             user.save()
-            login(request, user)
-            return redirect('')
+            #login(request, user)
+            #print(user.is_authenticated)
+            return HttpResponse(status=204)
         else:
             return HttpResponseNotAllowed()
 

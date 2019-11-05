@@ -55,7 +55,7 @@ function App(props) {
                         exact
                         component={Redirect}
                     />
-                    <Route component={() => (window.location = '/signin')} />
+                    <Route component={() => (window.location = '/home')} />
                 </Switch>
                 <BottomBox />
             </div>

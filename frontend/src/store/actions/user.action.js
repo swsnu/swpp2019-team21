@@ -130,12 +130,13 @@ export const updatePoint_ = () => {
     };
 };
 
-export const updatePoint = pw => {
+export const updatePoint = point => {
     return dispatch => {
         return axios
-            .put(base_url + '/user/point/', pw)
+            .put(base_url + '/user/point/', point)
             .then(res => 
-                dispatch(updatePoint_())
+                {console.log(res)
+                dispatch(updatePoint_())}
             )
             .catch(error => {
                 console.log('update Point failed');
