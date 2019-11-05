@@ -51,7 +51,7 @@ function App(props) {
                         component={ArticleEdit}
                     />
                     <Route
-                        path="/redirectto=:str"
+                        path="/redirectfrom=:str"
                         exact
                         component={Redirect}
                     />
