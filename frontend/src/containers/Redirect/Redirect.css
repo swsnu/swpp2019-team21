@@ -1,0 +1,10 @@
+#redirecting_spinner{
+    height: 400px;
+    width: 400px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#redirecting_text{
+    font-size-adjust: 40px;
+}

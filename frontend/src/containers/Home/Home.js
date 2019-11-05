@@ -9,17 +9,6 @@ import intro_first from '../../assets/intro_first.jpg';
 import intro_second from '../../assets/intro_second.jpg';
 import intro_third from '../../assets/intro_third.jpg';
 
-const mockAdPostList = [...Array(10).keys()].map(index => {
-    return {
-        id: index,
-        day: 20,
-        thumbnail: thumbnail,
-        title: 'Mocked Title ' + index.toString(),
-        subtitle: 'Mocked SubTitle ' + index.toString(),
-        acheive_rate: 77
-    };
-});
-
 const mockEventList = [
     {
         id: 1,

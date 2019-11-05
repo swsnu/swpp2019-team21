@@ -5,32 +5,10 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import * as actionCreators from '../../../store/actions/adpost.action';
 import * as receptionCreators from '../../../store/actions/adreception.action';
 import './ArticleDetail.css';
-import intro_first from '../../../assets/intro_first.jpg';
-import intro_second from '../../../assets/intro_second.jpg';
-import intro_third from '../../../assets/intro_third.jpg';
-import statistics_image from '../../../assets/statistics.png';
+
+var multiplier = 7;
 
 class ArticleDetail extends Component {
-    state = {
-        mine: false,
-        participated: false,
-        now: 60,
-        url: 'https://www.thisisurlbutidontknowwhattowrite.com',
-        detailedDescription:
-            "Hello, my name is SeoYeongHo and I don't have any thing to write but I have to write a lot of things in order to write something. It should be four lines but it is only two lines, and I want this to be four lines. Therefore, I am writing useless text in order to make this as four lines. Sorry if this code is unreadable, but I have to make this text to be 4 lines",
-        title: 'Sample title',
-        subtitle: 'Sample subtitle',
-        duedate: '2001/01/16',
-        thumbnail: intro_first,
-        id: 1,
-        posttag: [
-            { id: 3, name: 'Bananas' },
-            { id: 4, name: 'Mango' },
-            { id: 5, name: 'Lemons' },
-            { id: 6, name: 'Apricots' }
-        ]
-    }; // should be props, not state
-
     componentDidMount() {
         this.props.ongetArticle(this.props.match.params.id);
         this.props.ongetReception(this.props.match.params.id);
@@ -137,16 +115,36 @@ class ArticleDetail extends Component {
                                         </div>
                                     )}
                                 <div></div>
+                                {!this.props.article.is_owner &&
+                                    this.props.is_participated && (
+                                        <div className="earn-point">
+                                            <h2 id="earn-point-text">
+                                                You Earned
+                                                <h2 id="point-number">
+                                                    {this.props.views *
+                                                        multiplier}
+                                                </h2>
+                                                Points!
+                                                {console.log(this.props.views)}
+                                                {console.log(this.props)}
+                                            </h2>
+                                        </div>
+                                    )}
                                 {!this.props.is_participated && (
-                                    <button
-                                        className="btn btn-primary"
-                                        id="participate-button"
-                                        disabled={this.props.article.is_owner}
-                                        onClick={this.participateHandler}>
-                                        Participate
-                                    </button>
+                                    <div className="participate">
+                                        <button
+                                            className="btn btn-primary"
+                                            id="participate-button"
+                                            disabled={
+                                                this.props.article.is_owner
+                                            }
+                                            onClick={this.participateHandler}>
+                                            Participate
+                                        </button>
+                                    </div>
                                 )}
                             </div>
+
                             {/*<button
                                 className="btn btn-primary"
                                 onClick={this.toggleParticipate}
@@ -156,8 +154,12 @@ class ArticleDetail extends Component {
                         </div>
                     </div>
                     <div className="down-component">
-                    <h3 id="description-title-text">Detailed description</h3>
-                    <p id="description-text">{this.props.article.content}</p>
+                        <h3 id="description-title-text">
+                            Detailed description
+                        </h3>
+                        <p id="description-text">
+                            {this.props.article.content}
+                        </p>
                     </div>
                 </div>
             );

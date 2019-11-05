@@ -10,6 +10,7 @@ import './UserDetail.css';
 import * as actionCreators from '../../store/actions/user.action';
 import avatar from '../../assets/avatar.png';
 import { history } from '../../store'
+import { tagActions } from '../../store/actions/tag.action';
 
 class UserDetail extends Component {
     state = {
@@ -24,6 +25,7 @@ class UserDetail extends Component {
         addpoint: 0
     };
     componentDidMount() {
+        this.props.onTagReload();
         this.props.reloadUser()
             .then(res => { this.setState({
                 ...this.state,
@@ -84,6 +86,7 @@ class UserDetail extends Component {
             pic = this.props.user.pic
             email = this.props.user.email
         }
+        console.log(this.props.allTags);
         return (
             <div className="UserDetail">
                 <Modal
@@ -329,6 +332,7 @@ class UserDetail extends Component {
 const mapStateToProps = state => {
     return {
         user: state.user.user,
+        allTags: state.tag.all_tags
     };
 };
 
@@ -338,7 +342,8 @@ const mapDispatchToProps = dispatch => {
         putUser: (user) => dispatch(actionCreators.putUser(user)),
         changePW: (pw) => dispatch(actionCreators.changePW(pw)),
         updatePoint: (point) => dispatch(actionCreators.updatePoint(point)),
-        signOut: () => dispatch(actionCreators.signOut())
+        signOut: () => dispatch(actionCreators.signOut()),
+        onTagReload: () => dispatch(tagActions.getAllTag())
     };
 };
 
