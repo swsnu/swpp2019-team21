@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { arrowFunctionExpression } from '@babel/types';
 
 const initialState = {
     submitted: false,
@@ -19,17 +20,19 @@ export const adreception_reducer = (state = initialState, action) => {
                 unique_link: action.data.unique_link
             };
             case actionTypes.GET_RECEPTION:
+                console.log(action.data)
                 return {
                     ...state,
                     submitted: true,
                     is_participated: true,
-                    views: null,
+                    views: action.data.views,
                     ad_link: action.data.ad_link
                 };
             case actionTypes.GET_PARTICIPATED:
                 return {
                     ...state,
                     unique_link: action.data.unique_link,
+                    views: action.data.views,
                     is_participated: true
                 }
             case actionTypes.NOT_PARTICIPATED:
