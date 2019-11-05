@@ -41,7 +41,7 @@ class UserDetail extends Component {
     }
     changePWHandler = () => this.setState({ showChangePW: true });
     changePWFinishHandler = () => {
-        sessionStorage.setItem('logged_in', 'false');
+        localStorage.setItem('logged_in', 'false');
         this.props.changePW(this.state.password)
         history.push('/signin')
     };

@@ -69,7 +69,7 @@ class Home extends Component {
                             />
                         </div>
                     )}
-                    {sessionStorage.getItem('logged_in') === 'true' &&
+                    {localStorage.getItem('logged_in') === 'true' &&
                         this.props.interestedList &&
                         Object.keys(this.props.interestedList).map(
                             list_name => (

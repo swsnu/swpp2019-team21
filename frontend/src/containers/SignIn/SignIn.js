@@ -17,7 +17,7 @@ import * as actionCreators from '../../store/actions/user.action';
 
 class SignIn extends Component {
     componentDidMount() {
-        if (sessionStorage.getItem('logged_in') === 'true') {
+        if (localStorage.getItem('logged_in') === 'true') {
             this.props.history.push('/home');
         }
     }

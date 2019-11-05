@@ -201,3 +201,7 @@
         width: 100%;
     }
 }
+
+#description-text{
+    white-space: pre-line;
+}
