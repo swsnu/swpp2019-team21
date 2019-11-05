@@ -59,7 +59,6 @@ class SignUp extends Component {
             tags: this.state.tags.map(item => item.name)
         };
         this.props.onSignUp(user);
-        alert('User created');
         this.props.history.push();
         return;
     };

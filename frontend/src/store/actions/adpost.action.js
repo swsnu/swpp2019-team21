@@ -149,10 +149,17 @@ function postAdpost_(data) {
     };
 }
 
+function postAdpost__(data) {
+    return {
+        type: actionTypes.PUT_POINT,
+        point: data
+    };
+}
+
 export const postAdpost = data => {
     return dispatch => {
         axios
-            .post('/api/adpost/', data)
+            .post('/api/adpost/', data.adpost)
             .then(res => {
                 dispatch(postAdpost_(res.data));
                 dispatch(push('/article/' + res.data.id));
@@ -160,6 +167,15 @@ export const postAdpost = data => {
             .catch(e => {
                 alert('Post failed...');
                 console.log(e);
+            });
+        axios
+            .put('/api/user/point/', data.points)
+            .then(res => {
+                dispatch(postAdpost__(res.data));
+            })
+            .catch(e => {
+                console.log(e);
+                alert('Put failed bb');
             });
     };
 };
