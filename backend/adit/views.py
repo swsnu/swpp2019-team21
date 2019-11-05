@@ -502,6 +502,10 @@ class adReceptionOutRedirect(View):
                 else:
                     reception_object.views += 1
                     reception_object.save()
+                    print(reception_object.views)
+                    owner = reception_object.owner
+                    owner.point += 7
+                    owner.save()
                     post.total_views += 1
                     post.save()
                     if post.total_views == post.target_views:

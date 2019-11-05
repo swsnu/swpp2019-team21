@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
@@ -15,52 +15,61 @@ import ResetPW from './containers/UserInfo/ResetPW/ResetPW';
 import BottomBox from './components/BottomBox/BottomBox';
 import Redirect from './containers/Redirect/Redirect'
 import { ScrollToTop } from './test/utils/ScrollToTop';
+import { connect } from 'react-redux';
 
-function App(props) {
-    return (
-        <ConnectedRouter
-            history={props.history}
-            onUpdate={() => window.scrollTo(0, 0)}>
-            <div className="App">
-                <ScrollToTop />
-                <TopMenu />
-                <Switch>
-                    <Route path="/signin" exact component={SignIn} />
-                    <Route path="/signup" exact component={SignUp} />
-                    <Route path="/home" exact component={Home} />
-                    <Route
-                        path="/adposts/search=:tag"
-                        exact
-                        component={ArticleSearch}
-                    />
-                    <Route path="/mypage" exact component={UserInfo} />
-                    <Route
-                        path="/article/create"
-                        exact
-                        component={ArticleCreate}
-                    />
-                    <Route path="/resetpw" exact component={ResetPW} />
-                    <Route
-                        path="/article/:id"
-                        exact
-                        component={ArticleDetail}
-                    />
-                    <Route
-                        path="/article/:id/edit"
-                        exact
-                        component={ArticleEdit}
-                    />
-                    <Route
-                        path="/redirectfrom=:str"
-                        exact
-                        component={Redirect}
-                    />
-                    <Route component={() => (window.location = '/home')} />
-                </Switch>
-                <BottomBox />
-            </div>
-        </ConnectedRouter>
-    );
+
+class App extends Component {
+    render() {
+        return (
+            <ConnectedRouter
+                history={this.props.history}
+                onUpdate={() => window.scrollTo(0, 0)}>
+                <div className="App">
+                    <ScrollToTop />
+                    <TopMenu />
+                    <Switch>
+                        <Route path="/signin" exact component={SignIn} />
+                        <Route path="/signup" exact component={SignUp} />
+                        <Route path="/home" exact component={Home} />
+                        <Route
+                            path="/adposts/search=:tag"
+                            exact
+                            component={ArticleSearch}
+                        />
+                        <Route path="/mypage" exact component={UserInfo} />
+                        <Route
+                            path="/article/create"
+                            exact
+                            component={ArticleCreate}
+                        />
+                        <Route path="/resetpw" exact component={ResetPW} />
+                        <Route
+                            path="/article/:id"
+                            exact
+                            component={ArticleDetail}
+                        />
+                        <Route
+                            path="/article/:id/edit"
+                            exact
+                            component={ArticleEdit}
+                        />
+                        <Route
+                            path="/redirectfrom=:str"
+                            exact
+                            component={Redirect}
+                        />
+                        <Route
+                            component={() => (window.location = '/signin')}
+                        />
+                    </Switch>
+                    <BottomBox />
+                </div>
+            </ConnectedRouter>
+        );
+    }
 }
 
-export default App;
+export default connect(
+    null,
+    null
+)(App);
