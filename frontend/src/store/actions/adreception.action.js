@@ -67,3 +67,23 @@ export const getReception = (id) => {
             })
     }
 }
+
+export const getReceptionByUser_ = (data) => {
+    return {
+        type: actionTypes.GET_BYUSER,
+        data: data,
+    };
+}
+
+export const getReceptionByUser = (id) => {
+    return dispatch => {
+        return axios
+            .get(base_url + '/adreception/')
+            .then(res => {
+                dispatch(getReceptionByUser_(res.data))
+            })
+            .catch(error => {
+                console.log('Server error')
+            })
+    }
+}
