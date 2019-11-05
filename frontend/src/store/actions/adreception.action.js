@@ -19,7 +19,7 @@ export const postReception = data => {
             .catch(error => {
                 console.log('posting reception failed');
                 alert('Please Sign-in to Participate!');
-                history.push('/sign-in/')
+                history.push('/signin/')
             });
     };
 };
@@ -35,7 +35,11 @@ export const postRedirect = data => {
     return dispatch => {
         return axios
             .get(base_url + '/adreception/redirectto='+data+'/')
-            .then(res => dispatch(postReception_(res)))
+            .then(res => {
+                dispatch(postReception_(res.data))
+                console.log(res.data)
+                window.location.assign(res.data.ad_link);
+            })
             .catch(error => {
                 console.log('redirect failed');
                 alert('closed or non-exist ad');
