@@ -13,6 +13,7 @@ import ArticleEdit from './containers/Article/ArticleEdit/ArticleEdit';
 import ArticleCreate from './containers/Article/ArticleCreate/ArticleCreate';
 import ResetPW from './containers/UserInfo/ResetPW/ResetPW';
 import BottomBox from './components/BottomBox/BottomBox';
+import Redirect from './containers/Redirect/Redirect'
 import { ScrollToTop } from './test/utils/ScrollToTop';
 
 function App(props) {
@@ -48,6 +49,11 @@ function App(props) {
                         path="/article/:id/edit"
                         exact
                         component={ArticleEdit}
+                    />
+                    <Route
+                        path="/redirectto=:str"
+                        exact
+                        component={Redirect}
                     />
                     <Route component={() => (window.location = '/signin')} />
                 </Switch>

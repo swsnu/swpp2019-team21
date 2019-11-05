@@ -21,3 +21,22 @@ export const postReception = data => {
             });
     };
 };
+
+export const postRedirect_ = data => {
+    return {
+        type: actionTypes.POST_RECEPTION,
+        data: data
+    };
+};
+
+export const postRedirect = data => {
+    return dispatch => {
+        return axios
+            .get(base_url + '/adreception/redirectto='+data+'/')
+            .then(res => dispatch(postReception_(res)))
+            .catch(error => {
+                console.log('redirect failed');
+                alert('closed or non-exist ad');
+            });
+    };
+};

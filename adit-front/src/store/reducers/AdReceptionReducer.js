@@ -17,6 +17,14 @@ export const adreception_reducer = (state = initialState, action) => {
                 views: action.data.views,
                 unique_link: action.data.unique_link
             };
+            case actionTypes.GET_RECEPTION:
+                return {
+                    ...state,
+                    submitted: true,
+                    is_participated: true,
+                    views: null,
+                    unique_link: action.ad_link
+                };
         default:
             break;
     }

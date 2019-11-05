@@ -14,4 +14,5 @@ export const GET_DETAILED_ARTICLE = 'GET_DETAILED_ARTICLE';
 export const POST_ARTICLE = 'POST_ARTICLE';
 export const GET_ALL_TAG = 'GET_TAG';
 export const POST_RECEPTION = 'POST_RECEPTION';
+export const GET_RECEPTION = 'GET_RECEPTION';
 export const POST_TAG = 'POST_TAG';
