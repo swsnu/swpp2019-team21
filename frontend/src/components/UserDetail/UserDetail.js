@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import ReactTags from 'react-tag-autocomplete';
 import './UserDetail.css';
 import * as actionCreators from '../../store/actions/user.action';
-import avatar from '../../assets/avatar.png';
+import avatar from '../../assets/iu_profile.png';
 import { history } from '../../store'
 import { tagActions } from '../../store/actions/tag.action';
 
