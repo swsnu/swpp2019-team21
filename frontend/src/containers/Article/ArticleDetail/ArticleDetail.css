@@ -26,6 +26,23 @@
         min-height: 500px;
         padding: 50px 4%;
     }
+
+    #description-title-text{
+        color: #404040;
+        font-weight: 350;
+        padding: 20px;
+        border-bottom-style: groove;
+        border-top-style: groove;
+    }
+    #description-text {
+        color: #303030;
+        font-weight: 100;
+
+        padding-top: 30px; 
+        word-break: break-all;
+        font-size: 1.4em;
+        line-height: 1.2em;
+    }
     #post-subtitle-text{
         font-size: 25px;
         text-align: left;
