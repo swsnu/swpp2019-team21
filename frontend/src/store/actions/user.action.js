@@ -78,6 +78,7 @@ export const getUser = user => {
             .get(base_url + '/user/')
             .then(res => dispatch(getUser_(res.data)))
             .catch(error => {
+                localStorage.setItem('logged_in', 'false');
                 console.log('getUser failed');
             });
     };
