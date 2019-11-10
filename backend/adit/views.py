@@ -193,8 +193,9 @@ class changePW(View):
         if check_password(current_password, user.password):
             user.set_password(new_password)
             user.save()
-            login(request, user)
-            return redirect('')
+            #login(request, user)
+            #print(user.is_authenticated)
+            return HttpResponse(status=204)
         else:
             return HttpResponseNotAllowed()
 
@@ -452,7 +453,8 @@ class adReception(View):
     def post(self, request):
         req_data = json.loads(request.body.decode())
         id = req_data['adpost']
-        if AdReception.objects.filter(adpost=id, owner=request.user.id).exists():
+        print(id)
+        if AdReception.objects.filter(adpost=id, owner=request.user).exists():
             return HttpResponseForbidden()
         recept_time = datetime.now()
         target_post = AdPost.objects.get(id=id)
@@ -461,12 +463,13 @@ class adReception(View):
         response_dict = model_to_dict(
             AdReception.objects.create(owner=request.user, adpost=target_post, views=0, recept_time=recept_time,
                                        unique_link=unique_link, closed=False))
+        print(response_dict)
         return JsonResponse(response_dict, status=201)
 
 
 class adReceptionByPostID(View):
     @check_is_authenticated
-    @check_is_permitted(object_type=AdReception)  # 주의: ad의 주인도 확인할 수 있어야 함. if 문으로 처리해야 할 듯?
+     # 주의: ad의 주인도 확인할 수 있어야 함. if 문으로 처리해야 할 듯?
     def get(self, request, id):
         response_reception = AdReception.objects.filter(owner=request.user, adpost=id)
         if not response_reception.exists():
@@ -487,28 +490,33 @@ class adReceptionByID(View):
 class adReceptionOutRedirect(View):
     ### ad closed ==> 410
     def get(self, request, str):
-        print(str)
+        #TODO: Revise Hard Coding
         base_link = 'http://localhost:3000/redirectfrom='
-        str = base_link + str
-        for reception_object in AdReception.objects.all():
-            print(reception_object)
-            print(str)
-            if decode(str, reception_object) is not None:
-                post_id = decode(str, reception_object)
-                post = AdPost.objects.get(id=post_id)
-                if post.closed:
-                    return HttpResponse(status=410)
-                else:
-                    reception_object.views += 1
-                    reception_object.save()
-                    post.total_views += 1
-                    post.save()
-                    if post.total_views == post.target_views:
-                        post.closed = True
-                        post.save()
-                    response_dict = {'ad_link': post.ad_link}  # Redirect to = post.ad_link
-                    return JsonResponse(response_dict)
-                break
+        print("DEBUG:: " + base_link+str)
+        print(AdReception.objects.all())
+        if not AdReception.objects.filter(unique_link=base_link+str).exists():
+            return HttpResponseNotFound()
+        reception_object = AdReception.objects.get(unique_link=base_link+str)
+        post_id = reception_object.adpost.id
+        post = AdPost.objects.get(id=post_id)
+        if post.closed:
+            return HttpResponse(status=410)
+        else:
+            reception_object.views += 1
+            reception_object.save()
+            print(reception_object.views)
+            owner = reception_object.owner
+            print(owner)
+            print(request.user)
+            owner.point += 7
+            owner.save()
+            post.total_views += 1
+            post.save()
+            if post.total_views == post.target_views:
+                post.closed = True
+                post.save()
+            response_dict = {'ad_link': post.ad_link}  # Redirect to = post.ad_link
+            return JsonResponse(response_dict)
 
         return HttpResponse(status=404)
 

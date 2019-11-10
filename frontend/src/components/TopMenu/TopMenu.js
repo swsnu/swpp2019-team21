@@ -30,10 +30,13 @@ class TopMenu extends Component {
     };
 
     componentDidMount() {
-        if (
-            sessionStorage.getItem('logged_in') === 'true' &&
-            !this.props.user.user_id
-        ) {
+        if (localStorage.getItem('logged_in') === 'true') {
+            this.props.reloadUser();
+        }
+    }
+
+    componentDidUpdate() {
+        if (localStorage.getItem('logged_in') === 'true') {
             this.props.reloadUser();
         }
     }
@@ -92,6 +95,7 @@ class TopMenu extends Component {
                             }
                         />
                         <FontAwesomeIcon
+                            color="#f1f2f3"
                             icon={faSearch}
                             onClick={this.searchConfirmHandler}
                         />

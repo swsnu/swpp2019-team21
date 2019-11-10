@@ -16,6 +16,8 @@ import './ArticleSearch.css';
 import intro_first from '../../../assets/intro_first.jpg';
 import intro_second from '../../../assets/intro_second.jpg';
 import intro_third from '../../../assets/intro_third.jpg';
+import * as actionCreators from '../../../store/actions/adpost.action';
+import { connect } from 'react-redux';
 
 const mockAdPostList = [...Array(30).keys()].map(index => {
     return {
@@ -49,14 +51,35 @@ const mockEventList = [
 ];
 
 class ArticleSearch extends Component {
+    componentDidMount() {
+        this.props.onSearchArticle(this.props.match.params.tag);
+    }
+
     render() {
         return (
             <div className="ArticleSearch">
                 <h1>Search by {this.props.match.params.tag}</h1>
-                <PreviewGrid articles={mockAdPostList} />
+                {this.props.searchArticle && (
+                    <PreviewGrid articles={this.props.searchArticle} />
+                )}
             </div>
         );
     }
 }
 
-export default ArticleSearch;
+const mapStateToProps = state => {
+    return {
+        searchArticle: state.adpost.adpost_searched_item
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSearchArticle: (str) => dispatch(actionCreators.getSearchList(str))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleSearch);

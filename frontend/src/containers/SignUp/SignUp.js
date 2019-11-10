@@ -33,6 +33,23 @@ class SignUp extends Component {
     };
 
     signUpHandler = () => {
+        if (this.state.password.toString().length <= 8) {
+            alert('password should be longer than 8 alphabets');
+            return;
+        } else if (this.state.password_check !== this.state.password) {
+            alert('password_check different with password');
+            this.setState({ ...this.state, password_check: '' });
+            return;
+        } else if (
+            this.state.first_name === '' ||
+            this.state.last_name === ''
+        ) {
+            alert('name section cannot be empty');
+            return;
+        } else if (this.state.nickname === '') {
+            alert('nickname cannot be empty');
+            return;
+        }
         const user = {
             email: this.state.email,
             password: this.state.password,

@@ -8,7 +8,9 @@ import { connect } from 'react-redux';
 import ReactTags from 'react-tag-autocomplete';
 import './UserDetail.css';
 import * as actionCreators from '../../store/actions/user.action';
-import avatar from '../../assets/avatar.png';
+import avatar from '../../assets/iu_profile.png';
+import { history } from '../../store'
+import { tagActions } from '../../store/actions/tag.action';
 
 class UserDetail extends Component {
     state = {
@@ -23,6 +25,7 @@ class UserDetail extends Component {
         addpoint: 0
     };
     componentDidMount() {
+        this.props.onTagReload();
         this.props.reloadUser()
             .then(res => { this.setState({
                 ...this.state,
@@ -34,25 +37,22 @@ class UserDetail extends Component {
                     tags: res.user.tags.map(str => ({name:str})),
                 }
             })
-            console.log(res)
-            console.log(res.user.tags.map(str => ({name:str})))
         })
     }
     changePWHandler = () => this.setState({ showChangePW: true });
     changePWFinishHandler = () => {
+        localStorage.setItem('logged_in', 'false');
         this.props.changePW(this.state.password)
-        alert('Done!');
-        this.setState({ showChangePW: false });
+        history.push('/signin')
     };
     chargePointHandler = () => this.setState({ showChargePoint: true });
     chargePointFinishHandler = () => {
         this.props.updatePoint({point:this.props.user.point * 1 + this.state.addpoint * 1})
         this.setState({ showChargePoint: false });
         alert('Done!');
-        
+        window.location.reload()
     };
     saveChangesHandler = () => {    
-        console.log(this.state.user)
         const user = {
             nickname: this.state.user.nickname, 
             first_name: this.state.user.first_name,
@@ -61,6 +61,7 @@ class UserDetail extends Component {
         }
         this.props.putUser(user)
         alert('Saved!');
+        window.location.reload()
     };
     withdrawalHandler = () => {
         alert('Noooo.....');
@@ -74,10 +75,18 @@ class UserDetail extends Component {
     addTagHandler = tag => {
         const tags = [].concat(this.state.user.tags, tag);
         this.setState({ ...this.state, user:{...this.state.user, tags: tags}});
-        console.log(this.state.user.tags)
     };
 
     render() {
+        var point = null;
+        var pic = null;
+        var email = null;
+        if(this.props.user){
+            point = this.props.user.point
+            pic = this.props.user.pic
+            email = this.props.user.email
+        }
+        console.log(this.props.allTags);
         return (
             <div className="UserDetail">
                 <Modal
@@ -162,7 +171,7 @@ class UserDetail extends Component {
                                 Current Point
                             </p>
                             <text className="form-fixed" id="point">
-                                {this.props.user.point}
+                                {point}
                             </text>
                         </div>
                         <div className="form-group" align="left">
@@ -187,7 +196,7 @@ class UserDetail extends Component {
                                 Point Expected
                             </p>
                             <text className="form-fixed" id="point">
-                                {this.props.user.point * 1 + this.state.addpoint * 1}
+                                {point * 1 + this.state.addpoint * 1}
                             </text>
                         </div>
                     </Modal.Body>
@@ -204,8 +213,8 @@ class UserDetail extends Component {
                 <div className="avatar">
                     <img
                         src={
-                            this.props.user.pic
-                                ? this.props.user.pic
+                            pic
+                                ? pic
                                 : avatar
                         }
                         className="Avatar"
@@ -216,7 +225,7 @@ class UserDetail extends Component {
                         Email
                     </p>
                     <text className="form-fixed" id="email">
-                        {this.props.user.email}
+                        {email}
                     </text>
                 </div>
                 <div className="form-group">
@@ -285,7 +294,7 @@ class UserDetail extends Component {
                         Points Available
                     </p>
                     <text className="form-fixed" id="point">
-                        {this.props.user.point}
+                        {point}
                     </text>
                 </div>
                 <div className="form-group" align="left">
@@ -323,6 +332,7 @@ class UserDetail extends Component {
 const mapStateToProps = state => {
     return {
         user: state.user.user,
+        allTags: state.tag.all_tags
     };
 };
 
@@ -331,7 +341,9 @@ const mapDispatchToProps = dispatch => {
         reloadUser: () => dispatch(actionCreators.getUser()),
         putUser: (user) => dispatch(actionCreators.putUser(user)),
         changePW: (pw) => dispatch(actionCreators.changePW(pw)),
-        updatePoint: (point) => dispatch(actionCreators.updatePoint(point))
+        updatePoint: (point) => dispatch(actionCreators.updatePoint(point)),
+        signOut: () => dispatch(actionCreators.signOut()),
+        onTagReload: () => dispatch(tagActions.getAllTag())
     };
 };
 

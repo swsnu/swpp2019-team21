@@ -14,17 +14,23 @@ class Preview extends Component {
                         id="thumbnail"
                     />
                     <Card.Body>
-                        <Card.Title>{this.props.preview.title}</Card.Title>
-                        <Card.Text>{this.props.preview.subtitle}</Card.Text>
+                        <Card.Title id='card-title'>{this.props.preview.title}</Card.Title>
+                        <Card.Text id='card-text'>{this.props.preview.subtitle}</Card.Text>
                     </Card.Body>
                     <ListGroup variant="flush">
                         <ListGroup.Item>
-                            {'Until ' + this.props.preview.expiry_date.toString()}
+                            {'Until ' +
+                                this.props.preview.expiry_date.toString()}
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <small className="text-muted">
-                                {(Number(this.props.preview.total_views) / Number(this.props.preview.target_views)).toString() +
-                                    '% reached'}
+                                {(
+                                    Math.floor(
+                                        (this.props.preview.total_views /
+                                            this.props.preview.target_views) *
+                                            10000
+                                    ) / 100
+                                ).toString() + '% reached'}
                             </small>
                         </ListGroup.Item>
                     </ListGroup>

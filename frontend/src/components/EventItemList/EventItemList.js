@@ -17,9 +17,6 @@ class EventItemList extends React.Component {
                         key={item.id}
                         onClick={() => this.clickEventHandler(item.id)}>
                         <img src={item.url} alt={item.title} width="100%" />
-                        <Carousel.Caption>
-                            <h3>{item.title}</h3>
-                        </Carousel.Caption>
                     </Carousel.Item>
                 ))}
             </Carousel>

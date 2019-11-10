@@ -1,7 +1,5 @@
 .UserInfo #title-background {
-    position: absolute;
-    left: 0;
-    right: 0;
+    margin-bottom: -300px;
     width: 100%;
     opacity: 0.6;
     max-height: 350px;
@@ -15,12 +13,20 @@
     );
 }
 
+.UserInfo {
+    position: relative;
+    
+}
 .TitleBox {
     position: relative;
     color: #303234;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
     padding-top: 30px;
     padding-bottom: 30px;
+}
+
+.ReceptionTable{
+    font-size: 1.1em;
 }
 
 ttl {
@@ -44,24 +50,43 @@ ttl {
     .AdList {
         padding: 0 10%;
     }
+    .ReceptionTable {
+        width: 100%;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
 }
 
 @media (min-width: 960px) {
     .UserDetail {
-        position: absolute;
-        right: 15%;
-        max-width: 350px;
+        float:right;
+        right: 10%;
         width: 20%;
     }
     .AdList {
-        position: absolute;
-        left: 12%;
-        width: 40%;
+        float:left;
+        margin-left: 10%;
+        width: 50%;
     }
-    .BottomBox {
-        position: absolute;
-        top: 1550px;
+    .ReceptionTable {
+        float: left;
+        width: 150%;
+        padding-top: 50px;
+        margin-left: 4%;
+        padding-bottom: 50px;
     }
+}
+
+.ReceptionTable td{
+    overflow:hidden;
+    height: 1.2em; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#table_contents:hover{
+    cursor: pointer;
+    background: #f0f1f2;
 }
 
 t {
@@ -73,7 +98,7 @@ t {
 .UserDetail {
     min-width: 300px;
     margin-top: 100px;
-}
+}   
 
 .AdList {
     margin-top: 10px;

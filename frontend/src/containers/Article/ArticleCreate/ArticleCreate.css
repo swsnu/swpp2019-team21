@@ -15,6 +15,10 @@
     height: 200px;
 }
 
+#post-point-deduction {
+    border: none;
+}
+
 .ArticleCreate .form-control {
     width: 500px;
 }
@@ -34,7 +38,18 @@
 }
 
 #next-button {
+    margin-top: 50px;
     margin-bottom: 50px;
+}
+
+#next-tag-button {
+    margin-top: 50px;
+    margin-bottom: 500px;
+}
+
+#submit {
+    clear:both;
+    margin-bottom: 30px;
 }
 
 .tagSelect .react-tags {
@@ -121,7 +136,7 @@
     display: none;
 }
 
-.tagSelect .react-tags__suggestions {
+.react-tags__suggestions {
     position: absolute;
     top: 100%;
     left: 0;
@@ -129,12 +144,12 @@
 }
 
 @media screen and (min-width: 30em) {
-    .tagSuggest .react-tags__suggestions {
-        width: 240px;
+    .react-tags__suggestions {
+        width: 200px;
     }
 }
 
-.tagSuggest .react-tags__suggestions ul {
+.react-tags__suggestions ul {
     margin: 4px -1px;
     padding: 0;
     list-style: none;
@@ -144,27 +159,27 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.tagSuggest .react-tags__suggestions li {
+.react-tags__suggestions li {
     border-bottom: 1px solid #ddd;
     padding: 6px 8px;
 }
 
-.tagSuggest .react-tags__suggestions li mark {
+.react-tags__suggestions li mark {
     text-decoration: underline;
     background: none;
     font-weight: 600;
 }
 
-.tagSuggest .react-tags__suggestions li:hover {
+.react-tags__suggestions li:hover {
     cursor: pointer;
     background: #eee;
 }
 
-.tagSuggest .react-tags__suggestions li.is-active {
+.react-tags__suggestions li.is-active {
     background: #b7cfe0;
 }
 
-.tagSuggest .react-tags__suggestions li.is-disabled {
+.react-tags__suggestions li.is-disabled {
     opacity: 0.5;
     cursor: auto;
 }
