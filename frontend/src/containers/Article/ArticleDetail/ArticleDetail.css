@@ -1,33 +1,30 @@
-.ArticleDetail{
+.ArticleDetail {
     margin-left: 15%;
     margin-right: 15%;
-    width : 70%;
-    padding-top:50px;
+    width: 70%;
+    padding-top: 50px;
     color: #404040;
-
 }
-@media screen and (min-width: 1101px)
-{
-    
-    .left-component{
+@media screen and (min-width: 1101px) {
+    .left-component {
         float: left;
         width: 70%;
         height: 400px;
     }
-    .right-component{
+    .right-component {
         float: right;
         width: 30%;
         height: 400px;
-        position:relative; 
+        position: relative;
     }
-    .down-component{
+    .down-component {
         float: left;
         width: 70%;
         min-height: 500px;
         padding: 50px 4%;
     }
 
-    #description-title-text{
+    #description-title-text {
         color: #404040;
         font-weight: 350;
         padding: 20px;
@@ -38,13 +35,11 @@
         word-break: break-all;
         color: #303030;
         font-weight: 100;
-
-        padding-top: 30px; 
-        word-break: break-all;
+        padding-top: 30px;
         font-size: 1.4em;
         line-height: 1.2em;
     }
-    #post-subtitle-text{
+    #post-subtitle-text {
         word-break: break-all;
         font-size: 25px;
         text-align: left;
@@ -52,7 +47,7 @@
         color: #707070;
     }
 
-    #post-title-text{
+    #post-title-text {
         word-break: break-all;
         color: #404040;
         border-top-style: groove;
@@ -61,21 +56,21 @@
         text-align: left;
     }
 
-    #tag-link{
+    #tag-link {
         font-size: 20px;
         text-align: left;
         color: #808080;
     }
 
-    #ad-link-title{
+    #ad-link-title {
         word-break: break-all;
         font-size: 18px;
         text-align: left;
         color: #404040;
         margin-top: 15px;
     }
-    
-    #ad-link-text{
+
+    #ad-link-text {
         word-break: break-all;
         font-size: 18px;
         text-align: left;
@@ -83,14 +78,14 @@
         color: #707070;
     }
 
-    #due-date-title{
+    #due-date-title {
         font-size: 18px;
         text-align: left;
         color: #404040;
         margin-top: 15px;
     }
-    
-    #due-date-text{
+
+    #due-date-text {
         word-break: break-all;
         font-size: 18px;
         text-align: left;
@@ -98,14 +93,16 @@
         color: #707070;
     }
 
-    #unique-url-text{
-        width: 200px;
+    #unique-url-text {
+        margin-top: 10px;
+        float: left;
+        width: 74%;
         overflow: auto;
-        -ms-overflow-style: none;  
+        -ms-overflow-style: none;
     }
-    #unique-url-text::-webkit-scrollbar { 
+    #unique-url-text::-webkit-scrollbar {
         display: none !important;
-        }
+    }
     /*
 
     
@@ -114,7 +111,7 @@
         width: 50%;
     }
     */
-    .url-component{
+    .url-component {
         border-bottom-style: groove;
         width: 100%;
         margin-top: 50px;
@@ -122,106 +119,99 @@
         height: 50px;
     }
 
-    .earn-point{
+    .earn-point {
         padding-top: 30px;
         padding-bottom: 30px;
-        border-bottom-style:groove;
+        border-bottom-style: groove;
     }
-    
-    #earn-point-text{
+
+    #earn-point-text {
         font-weight: 350;
     }
 
-    #point-number{
+    #point-number {
         margin-top: 10px;
         font-size: 1.5em;
     }
 
-    .achieve-bar-component{
-        margin-top:25px;
+    .achieve-bar-component {
+        margin-top: 25px;
     }
 
-    #achieve-bar-name{
+    #achieve-bar-name {
         font-size: 18px;
         text-align: left;
         color: #404040;
     }
-    
-    #statistics-image{
+
+    #statistics-image {
         float: right;
     }
-    
-    #toggle-mine-button{
+
+    #toggle-mine-button {
         float: left;
     }
 
-    .participate{
+    .participate {
         border-bottom-style: groove;
         padding-top: 20px;
         width: 100%;
     }
 
-    #participate-button{
+    #participate-button {
         width: 160px;
-        margin-bottom: 20px;    
+        margin-bottom: 20px;
     }
-    #unique-url-text{
-        margin-top: 10px;
-        float: left;
-        width: 74%;
-    }
-    #url-copy-button{
+    #url-copy-button {
         margin-bottom: 10px;
         margin-left: 5%;
         float: right;
         width: 21%;
     }
 }
-@media screen and (max-width: 1100px)
-{
-    
-    .left-component{
+@media screen and (max-width: 1100px) {
+    .left-component {
         float: left;
         width: 100%;
     }
-    
-    #post-title-text{
+
+    #post-title-text {
         float: left;
         width: 100%;
     }
-    
-    #post-subtitle-text{
+
+    #post-subtitle-text {
         float: left;
         width: 100%;
     }
-    
-    #due-date-text{
+
+    #due-date-text {
         float: left;
         width: 100%;
     }
-    
-    #tag-link-list{
+
+    #tag-link-list {
         float: left;
         width: 100%;
     }
-    
-    #participate-button{
+
+    #participate-button {
         width: 100%;
     }
-    
-    #url-component{
+
+    #url-component {
         width: 100%;
     }
-    
-    .achieve-bar-component{
+
+    .achieve-bar-component {
         width: 100%;
     }
-    
-    #statistics-image{
+
+    #statistics-image {
         width: 100%;
     }
 }
 
-#description-text{
+#description-text {
     white-space: pre-line;
 }

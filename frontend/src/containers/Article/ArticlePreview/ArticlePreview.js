@@ -1,5 +1,5 @@
 import React, { Component, Profiler } from 'react';
-import { Image, Carousel, ProgressBar } from 'react-bootstrap';
+import { ProgressBar } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './ArticlePreview.css';

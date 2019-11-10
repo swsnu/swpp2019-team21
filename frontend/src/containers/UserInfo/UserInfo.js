@@ -47,11 +47,13 @@ class UserInfo extends Component {
         if (this.props.reception_list && this.props.participated_article) {
             reception_table = this.props.reception_list.map(rcp => {
                 var acl = this.props.participated_article.filter(
-                    acl => acl.id == rcp.adpost
+                    item => item.id == rcp.adpost
                 )[0];
                 console.log(acl);
                 return (
-                    <tr id='table_contents'onClick={() => history.push('/article/' + rcp.adpost)}>
+                    <tr
+                        id="table_contents"
+                        onClick={() => history.push('/article/' + rcp.adpost)}>
                         <td id="post">{acl.title}</td>
                         <td id="link">{rcp.unique_link}</td>
                         <td id="view">{rcp.views}</td>
