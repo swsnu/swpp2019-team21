@@ -7,7 +7,8 @@ const mockPriview = {
     subtitle: 'Mock Subtitle',
     day: 10,
     thumbnail: 'Mock Image URI',
-    acheive_rate: 50
+    acheive_rate: 50,
+    expiry_date: '2019-11-12'
 };
 
 const mockClickHandler = jest.fn();
