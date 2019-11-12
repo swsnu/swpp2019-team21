@@ -1,8 +1,8 @@
-import React, { Component, Profiler } from 'react';
-import { Image, Carousel, ProgressBar } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { ProgressBar } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import * as actionCreators from '../../../store/actions/adpost.action';
+import { adpostActions } from '../../../store/actions';
 import * as receptionCreators from '../../../store/actions/adreception.action';
 import './ArticleDetail.css';
 
@@ -19,7 +19,6 @@ class ArticleDetail extends Component {
             adpost: this.props.match.params.id
         };
         this.props.onpostReception(adpost);
-
         this.setState({ ...this.state, participated: true });
     };
 
@@ -170,14 +169,18 @@ class ArticleDetail extends Component {
                 </div>
             );
         } else {
-            return <h1>LOADING</h1>;
+            return (
+                <div>
+                    <h1>LOADING</h1>
+                </div>
+            );
         }
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        ongetArticle: id => dispatch(actionCreators.getAdpost(id)),
+        ongetArticle: id => dispatch(adpostActions.getAdpost(id)),
         onpostReception: id => dispatch(receptionCreators.postReception(id)),
         ongetReception: id => dispatch(receptionCreators.getReception(id))
     };
@@ -185,7 +188,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        loaded: state.adpost.loaded,
+        loaded: !state.adpost.adpost_detailed_item.is_loading,
         article: state.adpost.adpost_detailed_item,
         views: state.adreception.views,
         unique_link: state.adreception.unique_link,

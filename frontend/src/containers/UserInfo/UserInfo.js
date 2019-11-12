@@ -6,7 +6,7 @@ import UserDetail from '../../components/UserDetail/UserDetail';
 import PreviewList from '../../components/PreviewList/PreviewList';
 import './UserInfo.css';
 import * as actionCreators from '../../store/actions/user.action';
-import * as adpostCreators from '../../store/actions/adpost.action';
+import { adpostActions } from '../../store/actions/adpost.action';
 import * as adreceptCreators from '../../store/actions/adreception.action';
 import background from '../../assets/userinfo_background.jpg';
 import { history } from '../../store';
@@ -113,7 +113,7 @@ const mapStateToProps = state => {
     return {
         logged_in: state.user.logged_in,
         user: state.user.user,
-        own_article: state.adpost.adpost_own_item,
+        own_article: state.adpost.adpost_items['special_owner'],
         participated_article: state.adpost.adpost_participated_item,
         reception_list: state.adreception.byuser_list
     };
@@ -123,9 +123,10 @@ const mapDispatchToProps = dispatch => {
     return {
         onsignOut: () => dispatch(actionCreators.signOut()),
         reloadUser: () => dispatch(actionCreators.getUser()),
-        onGetOwnList: () => dispatch(adpostCreators.getUserOwnList()),
+        onGetOwnList: () =>
+            dispatch(adpostActions.getAdpostList('special_owner')),
         onGetParticipatedList: () =>
-            dispatch(adpostCreators.getUserParticipatedList()),
+            dispatch(adpostActions.getAdpostList('special_participant')),
         onGetReceptionList: () =>
             dispatch(adreceptCreators.getReceptionByUser())
     };

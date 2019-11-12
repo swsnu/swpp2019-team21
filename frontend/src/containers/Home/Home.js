@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import PreviewList from '../../components/PreviewList/PreviewList';
 import EventItemList from '../../components/EventItemList/EventItemList';
 import thumbnail from '../../assets/thumbnail_example.png';
-import * as actionCreators from '../../store/actions/adpost.action';
+import { adpostActions } from '../../store/actions';
 import './Home.css';
 import { connect } from 'react-redux';
 import intro_first from '../../assets/intro_first.jpg';
 import intro_second from '../../assets/intro_second.jpg';
 import intro_third from '../../assets/intro_third.jpg';
+import { withRouter } from 'react-router-dom';
 
 const mockEventList = [
     {
@@ -31,59 +32,37 @@ class Home extends Component {
     state = {
         updated: false
     };
+
     componentDidMount() {
-        this.props.onGetCustomList();
         this.props.onGetHottestList();
         this.props.onGetRecentList();
+        this.props.onGetCustomList();
     }
 
-    /*componentDidUpdate() {
-        if(this.state.updated === false) {
-            this.props.onGetCustomList();
-            this.props.onGetHottestList();
-            this.props.onGetRecentList();
-            this.state.updated = true;
-        }
-    }*/
-
     render() {
+        const { adpost_items } = this.props;
         return (
             <div className="home">
                 <EventItemList eventItems={mockEventList} />
                 <div className="home-aggregated-list">
-                    {this.props.loaded && (
-                        <div>
-                            <PreviewList
-                                articles={this.props.hotList.adpost_item}
-                                list_name={'Hottest'}
-                                compact={false}
-                            />
-                        </div>
-                    )}
-                    {this.props.loaded && (
-                        <div>
-                            <PreviewList
-                                articles={this.props.recentList.adpost_item}
-                                list_name={'Newest'}
-                                compact={false}
-                            />
-                        </div>
-                    )}
-                    {localStorage.getItem('logged_in') === 'true' &&
-                        this.props.interestedList &&
-                        Object.keys(this.props.interestedList).map(
-                            list_name => (
-                                <div>
+                    {Object.keys(adpost_items)
+                        .filter(
+                            query => query && !adpost_items[query].is_loading
+                        )
+                        .map(query => {
+                            return (
+                                <div key={query}>
                                     <PreviewList
-                                        articles={
-                                            this.props.interestedList[list_name]
+                                        articles={adpost_items[query].list}
+                                        query={query}
+                                        query_type={
+                                            adpost_items[query].query_type
                                         }
-                                        list_name={list_name}
                                         compact={false}
                                     />
                                 </div>
-                            )
-                        )}
+                            );
+                        })}
                 </div>
             </div>
         );
@@ -92,31 +71,27 @@ class Home extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGetRecentList: () => {
-            dispatch(actionCreators.getRecentList());
+        onGetCustomList: () => {
+            dispatch(adpostActions.getCustomList());
         },
         onGetHottestList: () => {
-            dispatch(actionCreators.getHottestList());
+            dispatch(adpostActions.getAdpostList('hottest', 'special'));
         },
-        onGetCustomList: () => {
-            dispatch(actionCreators.getCustomList());
-        },
-        onGetListByTags: tag_list => {
-            dispatch(actionCreators.getArticleList(tag_list));
+        onGetRecentList: () => {
+            dispatch(adpostActions.getAdpostList('recent', 'special'));
         }
     };
 };
 
 const mapStateToProps = state => {
     return {
-        hotList: state.adpost.adpost_hottest_item,
-        recentList: state.adpost.adpost_recent_item,
-        interestedList: state.adpost.adpost_list_item,
-        loaded: state.adpost.loaded
+        adpost_items: state.adpost.adpost_items
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Home);
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(Home)
+);

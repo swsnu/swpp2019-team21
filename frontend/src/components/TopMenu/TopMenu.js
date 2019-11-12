@@ -1,14 +1,5 @@
-import React, { Component, Profiler } from 'react';
-import {
-    Dropdown,
-    DropdownButton,
-    Navbar,
-    Image,
-    OverlayTrigger,
-    Popover,
-    ListGroup,
-    ListGroupItem
-} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Navbar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import './TopMenu.css';
@@ -59,7 +50,8 @@ class TopMenu extends Component {
 
     searchConfirmHandler = () => {
         if (!this.state.searchkey) alert('Input your Search Words.');
-        else history.push(`/adposts/search=${this.state.searchkey}`);
+        else
+            history.push(`/adposts/search/${this.state.searchkey}/${'string'}`);
     };
 
     keyPressHandler = e => {

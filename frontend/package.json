@@ -33,7 +33,9 @@
         "react-tag-autocomplete": "^5.11.2",
         "react-test-renderer": "^16.9.0",
         "redux": "^4.0.4",
+        "redux-actions": "^2.6.5",
         "redux-mock-store": "^1.5.3",
+        "redux-pender": "^2.0.12",
         "redux-thunk": "^2.3.0"
     },
     "scripts": {
