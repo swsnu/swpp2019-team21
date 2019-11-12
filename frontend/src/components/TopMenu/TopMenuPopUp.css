@@ -3,15 +3,12 @@
     padding-bottom: 5px;
 }
 
-u1 {
+.popover #title {
     font-size: 18px;
     color: #5e5e5e;
 }
-u0 {
-    font-size: 20px;
-}
 
-up {
+.popover #userPoint {
     color: crimson;
 }
 

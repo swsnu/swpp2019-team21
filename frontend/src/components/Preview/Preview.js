@@ -6,7 +6,7 @@ import './Preview.css';
 class Preview extends Component {
     render() {
         return (
-            <div className="Preview" onClick={this.props.clickPreview}>
+            <div className="Preview" onClick={this.props.clickPreview} key={this.props.key}>
                 <Card className="ArticlePreview">
                     <Card.Img
                         variant="top"

@@ -69,7 +69,7 @@ class PreviewList extends React.Component {
                     {this.props.articles
                         ? this.props.articles.map(item => (
                               <Preview
-                                  key={item.id}
+                                  key={item}
                                   preview={item}
                                   clickPreview={() =>
                                       this.clickPreviewHandler(item.id)
