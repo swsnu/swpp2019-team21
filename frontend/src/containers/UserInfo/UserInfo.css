@@ -29,7 +29,7 @@
     font-size: 1.1em;
 }
 
-ttl {
+#userinfo_title {
     font-size: 80px;
     font-weight: 550;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
@@ -89,7 +89,7 @@ ttl {
     background: #f0f1f2;
 }
 
-t {
+#tags {
     font-size: 35px;
     font-weight: 400;
     color: auto;

@@ -26,8 +26,6 @@ const mockStore = getMockStore(stubInitialState);
 describe('<Sign In />', () => {
     let signin, spyOnSignIn, spyHistoryPush;
     beforeEach(() => {
-        global.window = {}
-        window.localStorage = global.localStorage
         localStorage.clear();
         localStorage.setItem('logged_in', 'false');
         signin = (

@@ -35,11 +35,12 @@ class TopMenu extends Component {
         }
     }
 
+    /*
     componentDidUpdate() {
         if (localStorage.getItem('logged_in') === 'true') {
             this.props.reloadUser();
         }
-    }
+    } */
 
     signInHandler = () => {
         history.push('/signin');

@@ -1,3 +1,5 @@
+
+
 import React, { Component } from 'react';
 import profile from './../../assets/iu_profile.png';
 import { connect } from 'react-redux';
@@ -37,7 +39,7 @@ class UserInfo extends Component {
         var reception_table = null;
         if (this.props.user) {
             tags = this.props.user.tags.map(tg => {
-                return <t>#{tg} </t>;
+                return <text id='tags'>#{tg} </text>;
             });
             nickname = this.props.user.nickname;
         }
@@ -68,9 +70,9 @@ class UserInfo extends Component {
             <div className="UserInfo">
                 <img src={background} id="title-background" />
                 <div className="TitleBox" id="userinfo-titlebox">
-                    <ttl className="Title" id="userinfo_title">
+                    <text className="Title" id="userinfo_title">
                         Hello, {nickname}!
-                    </ttl>
+                    </text>
                     <p>
                         <tgs>{tags}</tgs>
                     </p>
