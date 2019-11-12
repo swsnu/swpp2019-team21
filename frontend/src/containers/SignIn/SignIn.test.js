@@ -7,8 +7,7 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { getMockStore } from '../../test/utils/mockStore';
-import * as actionCreators from '../../store/actions/user.action';
-import 'mock-local-storage'
+import { userActions } from '../../store/actions';
 
 const stubInitialState = {
     logged_in: false,
@@ -33,12 +32,12 @@ describe('<Sign In />', () => {
                 <ConnectedRouter history={history}>
                     <Switch>
                         <Route path="/" exact component={SignIn} />
-                </Switch>
+                    </Switch>
                 </ConnectedRouter>
             </Provider>
         );
         spyOnSignIn = jest
-            .spyOn(actionCreators, 'signIn')
+            .spyOn(userActions, 'signIn')
             .mockImplementation(() => {
                 return dispatch => {};
             });
@@ -46,7 +45,9 @@ describe('<Sign In />', () => {
             .spyOn(history, 'push')
             .mockImplementation(() => {});
     });
-    afterEach(() => { jest.clearAllMocks() });
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
     it('should render without errors', () => {
         const component = mount(signin);
         const wrapper = component.find('.sign-in');
@@ -72,7 +73,7 @@ describe('<Sign In />', () => {
     it('should push signup page when signup-link is clicked', () => {
         const component = mount(signin);
         const wrapper = component.find('#signup-link');
-        wrapper.simulate('click')
-        expect(spyHistoryPush).toHaveBeenCalledTimes(1)
+        wrapper.simulate('click');
+        expect(spyHistoryPush).toHaveBeenCalledTimes(1);
     });
 });

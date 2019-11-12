@@ -1,5 +1,3 @@
-
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
@@ -41,7 +39,7 @@ class UserInfo extends Component {
         var reception_table = null;
         if (this.props.user) {
             tags = this.props.user.tags.map(tg => {
-                return <text id='tags'>#{tg} </text>;
+                return <text id="tags">#{tg} </text>;
             });
             nickname = this.props.user.nickname;
         }
