@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Navbar } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import './TopMenu.css';
-import profile from './../../assets/iu_profile.png';
 import { connect } from 'react-redux';
+import profile from './../../assets/iu_profile.png';
 import { history } from '../../store';
-import * as actionCreators from '../../store/actions/user.action';
+import { userActions } from '../../store/actions';
 import TopMenuPopUp from './TopMenuPopUp';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './TopMenu.css';
 
 class TopMenu extends Component {
     state = {
@@ -26,11 +26,11 @@ class TopMenu extends Component {
         }
     }
 
-    componentDidUpdate() {
-        if (localStorage.getItem('logged_in') === 'true') {
-            this.props.reloadUser();
-        }
-    }
+    // componentDidUpdate() {
+    //     if (localStorage.getItem('logged_in') === 'true') {
+    //         this.props.reloadUser();
+    //     }
+    // }
 
     signInHandler = () => {
         history.push('/signin');
@@ -130,8 +130,8 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => {
     return {
-        onsignOut: () => dispatch(actionCreators.signOut()),
-        reloadUser: () => dispatch(actionCreators.getUser())
+        onsignOut: () => dispatch(userActions.signOut()),
+        reloadUser: () => dispatch(userActions.getUser())
     };
 };
 

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { adpostActions } from '../../store/actions';
 import PreviewList from '../../components/PreviewList/PreviewList';
 import EventItemList from '../../components/EventItemList/EventItemList';
-import thumbnail from '../../assets/thumbnail_example.png';
-import { adpostActions } from '../../store/actions';
-import './Home.css';
-import { connect } from 'react-redux';
 import intro_first from '../../assets/intro_first.jpg';
 import intro_second from '../../assets/intro_second.jpg';
 import intro_third from '../../assets/intro_third.jpg';
-import { withRouter } from 'react-router-dom';
+import './Home.css';
 
 const mockEventList = [
     {

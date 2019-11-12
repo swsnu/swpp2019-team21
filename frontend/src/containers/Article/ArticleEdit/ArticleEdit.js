@@ -1,11 +1,7 @@
-import React, { Component, Profiler } from 'react';
-import { Carousel } from 'react-bootstrap';
-import { connect } from 'net';
+import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
 import './ArticleEdit.css';
 import intro_first from '../../../assets/intro_first.jpg';
-import intro_second from '../../../assets/intro_second.jpg';
-import intro_third from '../../../assets/intro_third.jpg';
 
 class ArticleEdit extends Component {
     state = {

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
 import { connect } from 'react-redux';
-import { adpostActions } from '../../../store/actions/adpost.action';
-import * as userActionCreators from '../../../store/actions/user.action';
-import { tagActions } from '../../../store/actions/tag.action';
+import Calendar from 'react-calendar';
+import { adpostActions, userActions, tagActions } from '../../../store/actions';
 import ArticlePreview from '../ArticlePreview/ArticlePreview';
 import './ArticleCreate.css';
-import Calendar from 'react-calendar';
 
 var multiplier = 10;
 class ArticleCreate extends Component {
@@ -489,7 +487,7 @@ const mapDispatchToProps = dispatch => {
         onPostArticle: adpost => {
             dispatch(adpostActions.postAdpost(adpost));
         },
-        reloadUser: () => dispatch(userActionCreators.getUser()),
+        reloadUser: () => dispatch(userActions.getUser()),
         onTagReload: () => dispatch(tagActions.getAllTag())
     };
 };

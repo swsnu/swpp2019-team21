@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { ProgressBar } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { adpostActions } from '../../../store/actions';
-import * as receptionCreators from '../../../store/actions/adreception.action';
+import { adpostActions, adreceptionActions } from '../../../store/actions';
 import './ArticleDetail.css';
 
 var multiplier = 7;
@@ -181,8 +180,8 @@ class ArticleDetail extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         ongetArticle: id => dispatch(adpostActions.getAdpost(id)),
-        onpostReception: id => dispatch(receptionCreators.postReception(id)),
-        ongetReception: id => dispatch(receptionCreators.getReception(id))
+        onpostReception: id => dispatch(adreceptionActions.postReception(id)),
+        ongetReception: id => dispatch(adreceptionActions.getReception(id))
     };
 };
 

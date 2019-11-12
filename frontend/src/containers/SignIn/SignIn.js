@@ -1,19 +1,8 @@
-import React, { Component, Profiler } from 'react';
-import {
-    Dropdown,
-    DropdownButton,
-    Navbar,
-    Image,
-    OverlayTrigger,
-    Popover,
-    ListGroup,
-    ListGroupItem
-} from 'react-bootstrap';
-import profile from './../../assets/iu_profile.png';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './SignIn.css';
+import { userActions } from '../../store/actions';
 import avatar from '../../assets/avatar.png';
-import * as actionCreators from '../../store/actions/user.action';
+import './SignIn.css';
 
 class SignIn extends Component {
     componentDidMount() {
@@ -113,7 +102,7 @@ class SignIn extends Component {
 
 export const mapDispatchToProps = dispatch => {
     return {
-        onSignIn: user => dispatch(actionCreators.signIn(user))
+        onSignIn: user => dispatch(userActions.signIn(user))
     };
 };
 

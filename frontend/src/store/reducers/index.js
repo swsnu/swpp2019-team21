@@ -1,4 +1,4 @@
 export { adpost_reducer } from './adpost.reducer';
-export * from './AdReceptionReducer';
+export { adreception_reducer } from './adreception.reducer';
 export * from './TagReducer';
 export * from './UserReducer';
