@@ -31,4 +31,11 @@ describe('<EventItemList />', () => {
         const wrapper = component.find('.EventItemList');
         expect(wrapper.length).toBe(1);
     });
+    it('should alert when clicked', () => {
+        window.alert = jest.fn();
+        const component = shallow(<EventItemList eventItems={mockedItem} />);
+        const wrapper = component.find('.EventItemListItem');
+        wrapper.at(0).simulate('click');
+        expect(window.alert).toHaveBeenCalledTimes(1);
+    });
 });

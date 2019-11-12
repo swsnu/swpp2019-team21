@@ -25,7 +25,7 @@ class ResetPW extends Component {
             <div className="ResetPW">
                 <img src={background} id="title-background" />
                 <div className="ResetTitle" id="resetpw-title">
-                    <ttl>Reset Password</ttl>
+                <text id="reset-title">Reset Password</text>
                 </div>
                 <div className="ResetPWForm">
                     <div className="form-group">

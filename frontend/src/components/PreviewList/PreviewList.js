@@ -67,7 +67,7 @@ class PreviewList extends React.Component {
                     {this.props.articles
                         ? this.props.articles.map(item => (
                               <Preview
-                                  key={item.id}
+                                  key={item}
                                   preview={item}
                                   clickPreview={() =>
                                       this.clickPreviewHandler(item.id)
@@ -81,7 +81,7 @@ class PreviewList extends React.Component {
                             icon={faPlusCircle}
                             aria-hidden="true"
                             onClick={this.clickSearchMoreHandler}
-                            size='10x'
+                            size="10x"
                         />
                     </div>
                 </Carousel>

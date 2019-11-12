@@ -1,14 +1,4 @@
 import React, { Component, Profiler } from 'react';
-import {
-    Dropdown,
-    DropdownButton,
-    Navbar,
-    Image,
-    OverlayTrigger,
-    Popover,
-    ListGroup,
-    ListGroupItem
-} from 'react-bootstrap';
 import profile from './../../assets/iu_profile.png';
 import { connect } from 'react-redux';
 import './SignIn.css';

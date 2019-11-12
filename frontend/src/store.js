@@ -1,11 +1,10 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import {
     adpost_reducer,
     adreception_reducer,
     user_reducer,
     tag_reducer
 } from './store/reducers';
-import { applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware, connectRouter } from 'connected-react-router';
@@ -19,8 +18,10 @@ const rootReducer = combineReducers({
     tag: tag_reducer,
     router: connectRouter(history)
 });
+export const middlewares = [thunk, routerMiddleware(history)];
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(
     rootReducer,
-    applyMiddleware(thunk, routerMiddleware(history))
+    composeEnhancers(applyMiddleware(...middlewares))
 );
