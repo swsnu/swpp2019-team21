@@ -9,6 +9,8 @@ from django.http import HttpResponseNotAllowed, HttpResponse, HttpResponseBadReq
     Usage:  @check_valid_method(valid_method=['GET', 'POST'])
 """
 
+"""
+Seems not necessary to me
 
 def check_valid_method(valid_method):
     def wrapper(func):
@@ -22,6 +24,8 @@ def check_valid_method(valid_method):
         return decorator
 
     return wrapper
+"""
+
 
 
 """
