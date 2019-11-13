@@ -1,6 +1,7 @@
 import React from 'react';
 import Preview from '../Preview/Preview';
 import PropTypes from 'prop-types';
+import { history } from '../../store';
 
 class PreviewGrid extends React.Component {
     sliceArray(arr, chunk) {
@@ -14,7 +15,9 @@ class PreviewGrid extends React.Component {
         return ret;
     }
 
-    clickPreviewHandler = id => {};
+    clickPreviewHandler = id => {
+        history.push('/article/' + id);
+    };
 
     render() {
         return (

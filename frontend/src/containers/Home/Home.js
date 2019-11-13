@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PreviewList from '../../components/PreviewList/PreviewList';
 import EventItemList from '../../components/EventItemList/EventItemList';
-import thumbnail from '../../assets/thumbnail_example.png';
 import * as actionCreators from '../../store/actions/adpost.action';
 import './Home.css';
 import { connect } from 'react-redux';
@@ -36,15 +35,6 @@ class Home extends Component {
         this.props.onGetHottestList();
         this.props.onGetRecentList();
     }
-
-    /*componentDidUpdate() {
-        if(this.state.updated === false) {
-            this.props.onGetCustomList();
-            this.props.onGetHottestList();
-            this.props.onGetRecentList();
-            this.state.updated = true;
-        }
-    }*/
 
     render() {
         return (
@@ -101,9 +91,6 @@ const mapDispatchToProps = dispatch => {
         onGetCustomList: () => {
             dispatch(actionCreators.getCustomList());
         },
-        onGetListByTags: tag_list => {
-            dispatch(actionCreators.getArticleList(tag_list));
-        }
     };
 };
 
