@@ -14,8 +14,12 @@ class Preview extends Component {
                         id="thumbnail"
                     />
                     <Card.Body>
-                        <Card.Title id='card-title'>{this.props.preview.title}</Card.Title>
-                        <Card.Text id='card-text'>{this.props.preview.subtitle}</Card.Text>
+                        <Card.Title id="card-title">
+                            {this.props.preview.title}
+                        </Card.Title>
+                        <Card.Text id="card-text">
+                            {this.props.preview.subtitle}
+                        </Card.Text>
                     </Card.Body>
                     <ListGroup variant="flush">
                         <ListGroup.Item>

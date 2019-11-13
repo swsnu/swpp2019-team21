@@ -2,223 +2,131 @@ import * as actionTypes from '../actions/actionTypes';
 import { push } from 'connected-react-router';
 import axios from 'axios';
 
-function makeUrl(tag) {
-    switch (tag) {
-        case 'hottest':
-            return '/adpost/hottest';
-        case 'recent':
-            return '/adpost/recent';
+const SPECIAL = 'special';
+const STRING = 'string';
+const TAG = 'tag';
+
+const baseUrl = '/api';
+
+export const adpostActions = {
+    getAdpostList,
+    getCustomList,
+    getAdpost,
+    postAdpost
+};
+
+function makeUrl(query, query_type) {
+    switch (query_type) {
+        case SPECIAL:
+            if (query === 'hottest') {
+                return '/adpost/hottest';
+            } else if (query === 'recent') {
+                return '/adpost/recent';
+            } else if (query === 'custom') {
+                return '/adpost/custom';
+            } else if (query === 'participant') {
+                return '/adpost/by-partid';
+            } else if (query === 'owner') {
+                return '/adpost/by-userid';
+            } else {
+                return null;
+            }
+        case STRING:
+            return '/adpost/search/' + query;
+        case TAG:
+            return '/adpost/by-tag/' + query;
         default:
-            return '/adpost/by-tag/' + tag;
+            return null;
     }
 }
 
-function getArticleList_(data) {
-    return {
-        type: actionTypes.GET_LISTED_ARTICLE,
-        adpost_list_item: data
-    };
-}
-
-export const getArticleList = tag_list => {
+function getAdpostList(query, query_type) {
     return dispatch => {
-        tag_list.forEach(tag => {
-            axios
-                .get(makeUrl(tag))
-                .then(res => {
-                    var data = {
-                        list_tag: tag,
-                        adpost_items: res.data
-                    };
-                    dispatch(getArticleList_(data));
-                })
-                .catch(e => {
-                    console.log(e);
+        dispatch({ type: actionTypes.GET_ADLIST_PENDING, query: query });
+        var url = makeUrl(query, query_type);
+        return axios
+            .get(baseUrl + url)
+            .then(response => {
+                dispatch({
+                    type: actionTypes.GET_ADLIST_SUCCESS,
+                    query: query,
+                    query_type: query_type,
+                    payload: response.data
                 });
-        });
-    };
-};
-
-function getHottestList_(data) {
-    return {
-        type: actionTypes.GET_HOTTEST_ARTICLE,
-        adpost_list_item: data
+            })
+            .catch(error => {
+                dispatch({
+                    type: actionTypes.GET_ADLIST_FAILURE,
+                    error_code: error
+                });
+            });
     };
 }
 
-export const getHottestList = () => {
+function getCustomList() {
     return dispatch => {
+        dispatch({ type: actionTypes.GET_ADLIST_PENDING, query: 'hottest' });
         axios
-            .get('/api/adpost/hottest/')
+            .get(baseUrl + '/adpost/custom/')
             .then(res => {
-                dispatch(getHottestList_(res.data));
+                for (var key in res.data) {
+                    dispatch({
+                        type: actionTypes.GET_ADLIST_SUCCESS,
+                        query: key,
+                        query_type: TAG,
+                        payload: res.data[key]
+                    });
+                }
             })
-            .catch(e => {
-                console.log(e);
+            .catch(error => {
+                dispatch({
+                    type: actionTypes.GET_ADLIST_FAILURE,
+                    error_code: error
+                });
             });
-    };
-};
-
-function getRecentList_(data) {
-    return {
-        type: actionTypes.GET_RECENT_ARTICLE,
-        adpost_list_item: data
     };
 }
 
-export const getRecentList = () => {
+function getAdpost(id) {
     return dispatch => {
+        dispatch({ type: actionTypes.GET_DETAILED_ADPOST_PENDING });
         axios
-            .get('/api/adpost/recent/')
-            .then(res => {
-                dispatch(getRecentList_(res.data));
+            .get(baseUrl + `/adpost/${id}/`)
+            .then(response => {
+                dispatch({
+                    type: actionTypes.GET_DETAILED_ADPOST_SUCCESS,
+                    detailed_item: response.data
+                });
             })
-            .catch(e => {
-                console.log(e);
+            .catch(error => {
+                dispatch({
+                    type: actionTypes.GET_DETAILED_ADPOST_FAILURE,
+                    error_code: error
+                });
             });
-    };
-};
-
-function getCustomList_(data) {
-    return {
-        type: actionTypes.GET_CUSTOM_ARTICLE,
-        adpost_list_item: data
     };
 }
 
-export const getCustomList = () => {
+function postAdpost(data) {
     return dispatch => {
-        axios
-            .get('/api/adpost/custom/')
-            .then(res => {
-                console.log(res.data);
-                dispatch(getCustomList_(res.data));
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
-};
+        var id;
 
-function getUserOwnList_(data) {
-    return {
-        type: actionTypes.GET_OWN_ARTICLE,
-        adpost_list_item: data
+        axios
+            .post(baseUrl + '/adpost/', data.adpost)
+            .then(response => {
+                id = response.data.id;
+                dispatch({ type: actionTypes.POST_ADPOST_PENDING });
+                return axios.put(baseUrl + '/user/point/', data.points);
+            })
+            .then(response => {
+                dispatch({ type: actionTypes.POST_ADPOST_SUCCESS });
+                dispatch(push(`/article/${id}`));
+            })
+            .catch(error => {
+                dispatch({
+                    type: actionTypes.POST_ADPOST_FAILURE,
+                    error: error
+                });
+            });
     };
 }
-
-export const getUserOwnList = () => {
-    return dispatch => {
-        axios
-            .get('/api/adpost/by-userid/')
-            .then(res => {
-                console.log(res.data);
-                dispatch(getUserOwnList_(res.data));
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
-};
-
-function getUserParticipatedList_(data) {
-    return {
-        type: actionTypes.GET_PARTICIPATED_ARTICLE,
-        adpost_list_item: data
-    };
-}
-
-export const getUserParticipatedList = () => {
-    return dispatch => {
-        axios
-            .get('/api/adpost/by-partid/')
-            .then(res => {
-                console.log(res.data);
-                dispatch(getUserParticipatedList_(res.data));
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
-};
-
-function postAdpost_(data) {
-    return {
-        type: actionTypes.POST_ARTICLE,
-        adpost_list_item: data
-    };
-}
-
-function postAdpost__(data) {
-    return {
-        type: actionTypes.PUT_POINT,
-        point: data
-    };
-}
-
-export const postAdpost = data => {
-    return dispatch => {
-        axios
-            .post('/api/adpost/', data.adpost)
-            .then(res => {
-                dispatch(postAdpost_(res.data));
-                dispatch(push('/article/' + res.data.id));
-            })
-            .catch(e => {
-                alert('Post failed...');
-                console.log(e);
-            });
-        axios
-            .put('/api/user/point/', data.points)
-            .then(res => {
-                dispatch(postAdpost__(res.data));
-            })
-            .catch(e => {
-                console.log(e);
-                alert('Put failed bb');
-            });
-    };
-};
-
-function getAdpost_(data) {
-    return {
-        type: actionTypes.GET_DETAILED_ARTICLE,
-        adpost_detailed_item: data
-    };
-}
-
-export const getAdpost = id => {
-    return dispatch => {
-        axios
-            .get('/api/adpost/' + id + '/')
-            .then(res => {
-                dispatch(getAdpost_(res.data));
-            })
-            .catch(e => {
-                alert('Get failed...');
-                console.log(e);
-            });
-    };
-};
-
-function getSearchList_(data) {
-    return {
-        type: actionTypes.GET_SEARCH_ARTICLE,
-        adpost_list_item: data
-    };
-}
-
-export const getSearchList = str => {
-    return dispatch => {
-        console.log(str);
-        axios
-            .get(`/api/adpost/search/${str}`)
-            .then(res => {
-                console.log(res.data);
-                dispatch(getSearchList_(res.data));
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    };
-};

@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../../store/actions/adpost.action';
-import * as userActionCreators from '../../../store/actions/user.action';
-import { tagActions } from '../../../store/actions/tag.action';
-import ArticlePreview from '../ArticlePreview/ArticlePreview';
-import Preview from '../../../components/Preview/Preview';
-import './ArticleCreate.css';
 import Calendar from 'react-calendar';
+import { adpostActions, userActions, tagActions } from '../../../store/actions';
+import ArticlePreview from '../ArticlePreview/ArticlePreview';
+import './ArticleCreate.css';
 
 var multiplier = 10;
 class ArticleCreate extends Component {
@@ -47,8 +44,6 @@ class ArticleCreate extends Component {
     render() {
         let imagePreview = null;
         let imagePreviewUrl = this.state.imagePreviewUrl;
-        console.log(this.props.allTags);
-        console.log('MAMA');
         if (imagePreviewUrl) {
             imagePreview = (
                 <img id="post-thumbnail-preview" src={imagePreviewUrl} />
@@ -490,9 +485,9 @@ class ArticleCreate extends Component {
 const mapDispatchToProps = dispatch => {
     return {
         onPostArticle: adpost => {
-            dispatch(actionCreators.postAdpost(adpost));
+            dispatch(adpostActions.postAdpost(adpost));
         },
-        reloadUser: () => dispatch(userActionCreators.getUser()),
+        reloadUser: () => dispatch(userActions.getUser()),
         onTagReload: () => dispatch(tagActions.getAllTag())
     };
 };

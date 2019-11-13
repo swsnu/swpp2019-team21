@@ -1,17 +1,17 @@
-
-
 import React, { Component } from 'react';
-import profile from './../../assets/iu_profile.png';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import {
+    userActions,
+    adpostActions,
+    adreceptionActions
+} from '../../store/actions';
 import UserDetail from '../../components/UserDetail/UserDetail';
 import PreviewList from '../../components/PreviewList/PreviewList';
-import './UserInfo.css';
-import * as actionCreators from '../../store/actions/user.action';
-import * as adpostCreators from '../../store/actions/adpost.action';
-import * as adreceptCreators from '../../store/actions/adreception.action';
 import background from '../../assets/userinfo_background.jpg';
-import { history } from '../../store';
+import profile from './../../assets/iu_profile.png';
+import './UserInfo.css';
 
 const multiply = 7;
 class UserInfo extends Component {
@@ -39,23 +39,35 @@ class UserInfo extends Component {
         var reception_table = null;
         if (this.props.user) {
             tags = this.props.user.tags.map(tg => {
-                return <text id='tags'>#{tg} </text>;
+                return <text id="tags">#{tg} </text>;
             });
             nickname = this.props.user.nickname;
         }
-        if (this.props.own_article) own_article = this.props.own_article;
-        if (this.props.participated_article)
-            participated_article = this.props.participated_article;
-        if (this.props.reception_list && this.props.participated_article) {
+        if (
+            this.props.adpost_items['owner'] &&
+            !this.props.adpost_items['owner'].is_loading
+        ) {
+            own_article = this.props.adpost_items['owner'].list;
+        }
+        if (
+            this.props.adpost_items['participant'] &&
+            !this.props.adpost_items['participant'].is_loading
+        ) {
+            participated_article = this.props.adpost_items['participant'].list;
+        }
+        /*
+        if (this.props.reception_list && participated_article) {
             reception_table = this.props.reception_list.map(rcp => {
-                var acl = this.props.participated_article.filter(
+                var acl = participated_article.filter(
                     item => item.id == rcp.adpost
                 )[0];
                 console.log(acl);
                 return (
                     <tr
                         id="table_contents"
-                        onClick={() => history.push('/article/' + rcp.adpost)}>
+                        onClick={() =>
+                            this.props.history.push('/article/' + rcp.adpost)
+                        }>
                         <td id="post">{acl.title}</td>
                         <td id="link">{rcp.unique_link}</td>
                         <td id="view">{rcp.views}</td>
@@ -65,7 +77,7 @@ class UserInfo extends Component {
                 );
             });
             console.log(this.props.reception_list);
-        }
+        }*/
         return (
             <div className="UserInfo">
                 <img src={background} id="title-background" />
@@ -80,12 +92,12 @@ class UserInfo extends Component {
                 <div className="AdList">
                     <PreviewList
                         articles={own_article}
-                        list_name={'Your Request'}
+                        query={'Your Request'}
                         compact={true}
                     />
                     <PreviewList
                         articles={participated_article}
-                        list_name={'Participated'}
+                        query={'Participated'}
                         compact={true}
                     />
                     <div className="ReceptionTable">
@@ -115,25 +127,27 @@ const mapStateToProps = state => {
     return {
         logged_in: state.user.logged_in,
         user: state.user.user,
-        own_article: state.adpost.adpost_own_item,
-        participated_article: state.adpost.adpost_participated_item,
+        adpost_items: state.adpost.adpost_items,
         reception_list: state.adreception.byuser_list
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onsignOut: () => dispatch(actionCreators.signOut()),
-        reloadUser: () => dispatch(actionCreators.getUser()),
-        onGetOwnList: () => dispatch(adpostCreators.getUserOwnList()),
+        onsignOut: () => dispatch(userActions.signOut()),
+        reloadUser: () => dispatch(userActions.getUser()),
+        onGetOwnList: () =>
+            dispatch(adpostActions.getAdpostList('owner', 'special')),
         onGetParticipatedList: () =>
-            dispatch(adpostCreators.getUserParticipatedList()),
+            dispatch(adpostActions.getAdpostList('participant', 'special')),
         onGetReceptionList: () =>
-            dispatch(adreceptCreators.getReceptionByUser())
+            dispatch(adreceptionActions.getReceptionByUser())
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UserInfo);
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(UserInfo)
+);
