@@ -170,24 +170,90 @@ class AditTestCase(TestCase):
         # signing up
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
-             'nickname': 'digdhg', 'tags': ['a', 'b']}),
+             'nickname': 'digdhg', 'tags': ['a']}),
+                               content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+
+        # signing up
+        response = client.post('/api/sign-up/', json.dumps(
+            {'email': 'abcd@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
+             'nickname': 'digdhg2', 'tags': ['b']}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
         client.login(email='abc@snu.ac.kr', password='def')
 
+        # Posting new article
         req_data = {'title': "abc", 'subtitle': "", 'content': "",
                     'image': [mocked_image, mocked_image, mocked_image, mocked_image], 'ad_link': "",
-                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': ['a', 'b', 'c']}
+                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': ['a', 'b', 'c', 'd']}
         response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["title"], req_data["title"])
 
+        # Posting another article
         req_data["title"] = "abcd"
+        req_data["tags"] = ['c']
         response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
 
+        req_data["title"] = "abcde"
+        req_data["tags"] = ['a']
+        response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
+
+        # If article is got, it is ordered by id
         response = client.get('/api/adpost/')
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]["title"], "abc")
+        self.assertEqual(response.json()[1]["title"], "abcd")
+        self.assertEqual(response.json()[2]["title"], "abcde")
+
+        # Recent article comes first
+        response = client.get('/api/adpost/recent/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]["title"], "abcde")
+        self.assertEqual(response.json()[1]["title"], "abcd")
+        self.assertEqual(response.json()[2]["title"], "abc")
+
+        # Custom only gets articles that user is interested in
+        response = client.get('/api/adpost/custom/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['a'][0]["title"], "abcde")
+        self.assertEqual(response.json()['a'][1]["title"], "abc")
+
+        # Get articles user posted
+        response = client.get('/api/adpost/by-userid/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]["title"], "abcde")
+        self.assertEqual(response.json()[1]["title"], "abcd")
+        self.assertEqual(response.json()[2]["title"], "abc")
+
+        # Get articles tagged with 'c
+        response = client.get('/api/adpost/by-tag/c/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]["title"], "abcd")
+        self.assertEqual(response.json()[1]["title"], "abc")
+
+        # Get article with id 1
+        response = client.get('/api/adpost/1/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["title"], "abc")
+        self.assertEqual(response.json()["is_owner"], True)
+
+        req_data["title"] = "hungry"
+        req_data["tags"] = ['e']
+        response = client.put('/api/adpost/1/', json.dumps(req_data, ), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["title"], "hungry")
+
+        client.logout()
+
+        client.login(email='abcd@snu.ac.kr', password='def')
+
+        # Get article with id 1
+        response = client.get('/api/adpost/1/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["title"], "hungry")
+        self.assertEqual(response.json()["is_owner"], False)
 
 
 
