@@ -163,6 +163,35 @@ class AditTestCase(TestCase):
         response = client.get('/api/sign-out/')
         self.assertEqual(response.status_code, 204)
 
+    def test_adpost(self):
+        # Testing adposts
+        client = Client();
+
+        # signing up
+        response = client.post('/api/sign-up/', json.dumps(
+            {'email': 'abc@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
+             'nickname': 'digdhg', 'tags': ['a', 'b']}),
+                               content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+
+        client.login(email='abc@snu.ac.kr', password='def')
+
+        req_data = {'title': "abc", 'subtitle': "", 'content': "",
+                    'image': [mocked_image, mocked_image, mocked_image, mocked_image], 'ad_link': "",
+                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': ['a', 'b', 'c']}
+        response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["title"], req_data["title"])
+
+        req_data["title"] = "abcd"
+        response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
+
+        response = client.get('/api/adpost/')
+        self.assertEqual(response.status_code, 200)
+
+
+
+
     def test_not_important(self):
         client = Client();
 
