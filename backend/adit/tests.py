@@ -185,7 +185,7 @@ class AditTestCase(TestCase):
 
         # Posting new article
         req_data = {'title': "abc", 'subtitle': "", 'content': "",
-                    'image': [mocked_image, mocked_image, mocked_image, mocked_image], 'ad_link': "",
+                    'image': [mocked_image, mocked_image, mocked_image, mocked_image], 'ad_link': "https://www.naver.com",
                     'target_views': "321", 'expiry_date': "2019-11-15", 'tags': ['a', 'b', 'c', 'd']}
         response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
         self.assertEqual(response.status_code, 200)
@@ -239,11 +239,20 @@ class AditTestCase(TestCase):
         self.assertEqual(response.json()["title"], "abc")
         self.assertEqual(response.json()["is_owner"], True)
 
+        # Editing article with id 1
         req_data["title"] = "hungry"
-        req_data["tags"] = ['e']
+        req_data["tags"] = ['c', 'e']
         response = client.put('/api/adpost/1/', json.dumps(req_data, ), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["title"], "hungry")
+        self.assertEqual(response.json()["tags"], ['c', 'e'])
+
+        # Deleting article with id 3
+        response = client.delete('/api/adpost/3/')
+        self.assertEqual(response.status_code, 204)
+
+        response = client.get('/api/adpost/3/')
+        self.assertEqual(response.status_code, 404)
 
         client.logout()
 
@@ -255,8 +264,37 @@ class AditTestCase(TestCase):
         self.assertEqual(response.json()["title"], "hungry")
         self.assertEqual(response.json()["is_owner"], False)
 
+        # Participate adpost 1
+        response = client.post('/api/adreception/', json.dumps({'adpost': '1'}, ), content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        unique_link = response.json()['unique_link']
 
+        # Participate adpost 2
+        response = client.post('/api/adreception/', json.dumps({'adpost': '2'}, ), content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        unique_link2 = response.json()['unique_link']
 
+        # Get all adreceptions
+        response = client.get('/api/adreception/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]['unique_link'], unique_link2)
+        self.assertEqual(response.json()[1]['unique_link'], unique_link)
+
+        # Get adreception which id is 1
+        response = client.get('/api/adreception/1/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['unique_link'], unique_link)
+
+        # Get my adreception of adpost 2
+        response = client.get('/api/adreception/by-post/2/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['unique_link'], unique_link2)
+
+        redirected_link = unique_link.replace("http://localhost:3000/redirectfrom=", "")
+
+        response = client.get('/api/adreception/redirectto='+redirected_link+'/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["ad_link"], "https://www.naver.com")
 
     def test_not_important(self):
         client = Client();
