@@ -7,7 +7,7 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { getMockStore } from '../../test/utils/mockStore';
-import * as actionCreators from '../../store/actions/user.action';
+import { userActions } from '../../store/actions';
 
 const stubInitialState = {
     logged_in: false,

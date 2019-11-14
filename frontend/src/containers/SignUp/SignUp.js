@@ -1,20 +1,9 @@
-import React, { Component, Profiler } from 'react';
-import {
-    Dropdown,
-    DropdownButton,
-    Navbar,
-    Image,
-    OverlayTrigger,
-    Popover,
-    ListGroup,
-    ListGroupItem
-} from 'react-bootstrap';
-import profile from './../../assets/iu_profile.png';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './SignUp.css';
 import ReactTags from 'react-tag-autocomplete';
+import { userActions } from '../../store/actions';
 import avatar from '../../assets/avatar.png';
-import * as actionCreators from '../../store/actions/user.action';
+import './SignUp.css';
 
 class SignUp extends Component {
     state = {
@@ -244,7 +233,7 @@ const mapStateToProps = status => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSignUp: user => dispatch(actionCreators.signUp(user))
+        onSignUp: user => dispatch(userActions.signUp(user))
     };
 };
 
