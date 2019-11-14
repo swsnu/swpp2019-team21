@@ -107,7 +107,7 @@ class UserDetail extends Component {
                                 className="form-fixed"
                                 id="password"
                                 value={this.state.password.current_password}
-                                onChange={event =>
+                                onChange={event =>{
                                     this.setState({
                                         ...this.state,
                                         password: {
@@ -115,6 +115,7 @@ class UserDetail extends Component {
                                             current_password: event.target.value
                                         }
                                     })
+                                }
                                 }
                             />
                         </div>
@@ -162,6 +163,7 @@ class UserDetail extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
+                            id="password-confirm"
                             variant="primary"
                             onClick={this.changePWFinishHandler}>
                             Save
@@ -211,6 +213,7 @@ class UserDetail extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
+                            id="charge-confirm"
                             variant="primary"
                             onClick={this.chargePointFinishHandler}>
                             Save
@@ -236,7 +239,7 @@ class UserDetail extends Component {
                     </p>
                     <input
                         className="form-control"
-                        id="fname"
+                        id="nickname"
                         type="text"
                         value={this.state.user.nickname}
                         onChange={event =>
@@ -339,7 +342,7 @@ class UserDetail extends Component {
                         </ListGroup.Item>
                     </ListGroup>
                     <p className="form-select" align="right">
-                        <a href="#" onClick={this.withdrawalHandler}>
+                        <a id="withdrawal" href="#" onClick={this.withdrawalHandler}>
                             Withrawal
                         </a>
                     </p>
@@ -362,7 +365,6 @@ const mapDispatchToProps = dispatch => {
         putUser: user => dispatch(userActions.putUser(user)),
         changePW: pw => dispatch(userActions.changePW(pw)),
         updatePoint: point => dispatch(userActions.updatePoint(point)),
-        signOut: () => dispatch(userActions.signOut()),
         onTagReload: () => dispatch(tagActions.getAllTag())
     };
 };

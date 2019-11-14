@@ -40,7 +40,10 @@ const stubInitialState = {
 const stubInitialStateN = {
     logged_in: false,
     reception_list: [],
-    adpost_items: {},
+    adpost_items: {
+        owner: { is_loading: true, list: [{ id: 1, preview: mockPriview }] },
+        participant: { is_loading: true, list: [{ id: 2, preview: mockPriview }] }
+    },
     byuser_list: []
 };
 jest.mock('../../components/UserDetail/UserDetail', () => {
