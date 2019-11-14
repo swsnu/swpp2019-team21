@@ -60,7 +60,6 @@ describe('<SignUp />', () => {
         var change = (target, to, content) => {
             target.simulate('change', { target: { value: content } });
             cls.update();
-            console.log(cls.instance().state[to]);
             expect(cls.instance().state[to]).toBe(content);
         };
         var no_verify = () => {
