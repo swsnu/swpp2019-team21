@@ -23,21 +23,25 @@ class PreviewGrid extends React.Component {
         return (
             <div>
                 <table id="preview-table" align="center">
-                    {this.sliceArray(this.props.articles, 4).map(row => (
-                        <tr>
-                            {row.map(item => (
-                                <td>
-                                    <Preview
-                                        key={item.id}
-                                        preview={item}
-                                        clickPreview={() =>
-                                            this.clickPreviewHandler(item.id)
-                                        }
-                                    />
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
+                    <tbody>
+                        {this.sliceArray(this.props.articles, 4).map(row => (
+                            <tr>
+                                {row.map(item => (
+                                    <td>
+                                        <Preview
+                                            key={item.preview.id}
+                                            preview={item}
+                                            clickPreview={() =>
+                                                this.clickPreviewHandler(
+                                                    item.id
+                                                )
+                                            }
+                                        />
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
             </div>
         );

@@ -22,8 +22,7 @@ class App extends Component {
     render() {
         return (
             <ConnectedRouter
-                history={this.props.history}
-                onUpdate={() => window.scrollTo(0, 0)}>
+                history={this.props.history}>
                 <div className="App">
                     <ScrollToTop />
                     <TopMenu />
@@ -59,7 +58,7 @@ class App extends Component {
                             component={Redirect}
                         />
                         <Route
-                            component={() => (window.location = '/signin')}
+                            component={() => (window.location = '/home')}
                         />
                     </Switch>
                     <BottomBox />
