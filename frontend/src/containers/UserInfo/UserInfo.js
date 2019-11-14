@@ -116,7 +116,6 @@ class UserInfo extends Component {
                         </Table>
                     </div>
                 </div>
-
                 <UserDetail />
             </div>
         );
@@ -134,8 +133,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onsignOut: () => dispatch(userActions.signOut()),
-        reloadUser: () => dispatch(userActions.getUser()),
         onGetOwnList: () =>
             dispatch(adpostActions.getAdpostList('owner', 'special')),
         onGetParticipatedList: () =>
