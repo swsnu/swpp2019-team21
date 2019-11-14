@@ -39,13 +39,15 @@ export default function TopMenuPopUp(props) {
                     </ListGroup.Item>
                     <ListGroup.Item
                         action
-                        variant="light"i
+                        variant="light"
+                        id="my-page-btn"
                         onClick={props.mypageHandler}>
                         My Page
                     </ListGroup.Item>
                     <ListGroup.Item
                         action
                         variant="light"
+                        id="sign-out-btn"
                         onClick={props.signOutHandler}>
                         Sign Out
                     </ListGroup.Item>

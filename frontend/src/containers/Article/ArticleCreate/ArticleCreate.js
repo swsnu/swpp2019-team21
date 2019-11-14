@@ -204,11 +204,6 @@ class ArticleCreate extends Component {
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
-            if (!this.state.imagePreviewUrl) {
-                alert('You should upload image');
-                this.setState({ ...this.state, currentPage: 1 });
-                return;
-            }
             if (!this.state.postUrl) {
                 alert('Ad url should not be empty');
                 this.setState({ ...this.state, currentPage: 1 });
@@ -237,6 +232,12 @@ class ArticleCreate extends Component {
             if (!this.state.postGoal) {
                 alert('Ad goal should not be empty');
                 this.setState({ ...this.state, currentPage: 3 });
+                return;
+            }
+            if (!this.state.imagePreviewUrl) {
+                alert('You should upload image');
+                this.setState({ ...this.state, currentPage: 1 });
+                return;
             }
 
             const request = {
@@ -280,7 +281,7 @@ class ArticleCreate extends Component {
             let tenDay = new Date();
             tenDay.setTime(tenDay.getTime() + 10 * 24 * 3600 * 1000);
             return (
-                <div>
+                <div className="article-create">
                     <div
                         className="configuration"
                         style={{
@@ -498,7 +499,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ArticleCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleCreate);

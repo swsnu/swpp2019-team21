@@ -7,23 +7,15 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { getMockStore } from '../../test/utils/mockStore';
+import { adreceptionActions } from '../../store/actions/adreception.action';
 
 const stubInitialState = {
-    logged_in: false,
-    user: {
-        user_id: null,
-        first_name: null,
-        last_name: null,
-        nickname: null,
-        email: null,
-        point: null,
-        tags: []
-    }
+    ad_link: ''
 };
 
 const mockStore = getMockStore(stubInitialState);
 describe('<Redirect />', () => {
-    let redirect;
+    let redirect, mockRedir;
     beforeEach(() => {
         localStorage.clear();
         localStorage.setItem('updated', 'false');
@@ -37,6 +29,11 @@ describe('<Redirect />', () => {
                 </ConnectedRouter>
             </Provider>
         );
+        mockRedir = jest
+            .spyOn(adreceptionActions, 'postRedirect')
+            .mockImplementation(() => {
+                return dispatch => null;
+            });
     });
     it('should render without errors', () => {
         const component = mount(redirect);
