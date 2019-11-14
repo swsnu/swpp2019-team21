@@ -7,24 +7,23 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { getMockStore } from '../../test/utils/mockStore';
-import { userActions } from '../../store/actions';
+import { adpostActions } from '../../store/actions';
 
 const stubInitialState = {
-    logged_in: false,
-    user: {
-        user_id: null,
-        first_name: null,
-        last_name: null,
-        nickname: null,
-        email: null,
-        point: null,
-        tags: []
+    adpost_items: {
+        test: {
+            is_loading: false,
+            list: []
+        }
     }
 };
 
+const stubInitialState_null = {};
+
 const mockStore = getMockStore(stubInitialState);
+const mockStore_null = getMockStore(stubInitialState_null);
 describe('<Home />', () => {
-    let home, spyHistoryPush;
+    let home, spyHistoryPush, mockList, mockCustom;
     beforeEach(() => {
         localStorage.clear();
         localStorage.setItem('updated', 'false');
@@ -34,22 +33,49 @@ describe('<Home />', () => {
                 <ConnectedRouter history={history}>
                     <Switch>
                         <Route path="/" exact component={Home} />
-                </Switch>
+                    </Switch>
                 </ConnectedRouter>
             </Provider>
         );
         spyHistoryPush = jest
             .spyOn(history, 'push')
             .mockImplementation(() => {});
-            afterEach(() => { jest.clearAllMocks() });
-        });
+        mockList = jest
+            .spyOn(adpostActions, 'getAdpostList')
+            .mockImplementation(() => {
+                return dispatch => null;
+            });
+        mockCustom = jest
+            .spyOn(adpostActions, 'getCustomList')
+            .mockImplementation(() => {
+                return dispatch => null;
+            });
+    });
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
     it('should render without errors', () => {
         const component = mount(home);
         const wrapper = component.find('Home');
         expect(wrapper.length).toBe(1);
     });
     it('should render without errors when not logged_in', () => {
-        localStorage.setItem('logged_in', 'false')
+        localStorage.setItem('logged_in', 'false');
+        const component = mount(home);
+        const wrapper = component.find('Home');
+        expect(wrapper.length).toBe(1);
+    });
+    it('should render without errors when adpost_items exists', () => {
+        home = (
+            <Provider store={mockStore_null}>
+                <ConnectedRouter history={history}>
+                    <Switch>
+                        <Route path="/" exact component={Home} />
+                    </Switch>
+                </ConnectedRouter>
+            </Provider>
+        );
+
         const component = mount(home);
         const wrapper = component.find('Home');
         expect(wrapper.length).toBe(1);

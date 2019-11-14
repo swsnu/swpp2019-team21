@@ -47,7 +47,6 @@ const responsive_compact = {
 
 class PreviewList extends React.Component {
     clickPreviewHandler = id => {
-        //alert('PREVIEW ID:' + id);
         history.push(`/article/${id}`);
     };
 
