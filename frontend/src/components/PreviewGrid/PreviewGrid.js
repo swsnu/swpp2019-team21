@@ -29,7 +29,6 @@ class PreviewGrid extends React.Component {
                                 {row.map(item => (
                                     <td>
                                         <Preview
-                                            key={item.preview.id}
                                             preview={item}
                                             clickPreview={() =>
                                                 this.clickPreviewHandler(
