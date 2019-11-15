@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import TopMenu from './TopMenu';
+import TopMenuPopUp from './TopMenuPopUp';
 import { history } from '../../store';
 import { ConnectedRouter } from 'connected-react-router';
 import { mount } from 'enzyme';
@@ -129,12 +130,11 @@ describe('<TopMenu/>', () => {
         btn_wrapper.simulate('click');
         expect(spyHistoryPush).toHaveBeenCalledTimes(1);
 
-        /*btn_wrapper = component.find('#my-page-btn');
-        btn_wrapper.simulate('click');
+        let popup_wrapper = component.find('#pop-up-menu');
+        popup_wrapper.props().mypageHandler();
         expect(spyHistoryPush).toHaveBeenCalledTimes(2);
 
-        btn_wrapper = component.find('#sign-out-btn');
-        btn_wrapper.simulate('click');
-        expect(spyHistoryPush).toHaveBeenCalledTimes(3);*/
+        popup_wrapper.props().signOutHandler();
+        expect(spyOnSignOut).toHaveBeenCalledTimes(1);
     });
 });

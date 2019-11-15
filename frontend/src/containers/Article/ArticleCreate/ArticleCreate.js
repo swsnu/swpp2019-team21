@@ -41,6 +41,17 @@ class ArticleCreate extends Component {
         });
         this.props.onTagReload();
     }
+    handleDelete = i => {
+        const tags = this.state.postTag.slice(0);
+        tags.splice(i, 1);
+        this.setState({ postTag: tags });
+    };
+
+    handleAddition = tag => {
+        const tags = [].concat(this.state.postTag, tag);
+        this.setState({ postTag: tags });
+    };
+
     render() {
         let imagePreview = null;
         let imagePreviewUrl = this.state.imagePreviewUrl;
@@ -55,16 +66,6 @@ class ArticleCreate extends Component {
                 </div>
             );
         }
-        const handleDelete = i => {
-            const tags = this.state.postTag.slice(0);
-            tags.splice(i, 1);
-            this.setState({ postTag: tags });
-        };
-
-        const handleAddition = tag => {
-            const tags = [].concat(this.state.postTag, tag);
-            this.setState({ postTag: tags });
-        };
 
         const tabOnClick = n => {
             if (n <= this.state.donePage) {
@@ -350,10 +351,10 @@ class ArticleCreate extends Component {
                             className="btn btn-primary"
                             id="next-button"
                             disabled={
-                                !this.state.postFile ||
                                 !this.state.postTitle ||
                                 !this.state.postUrl ||
-                                !this.state.postSubtitle
+                                !this.state.postSubtitle ||
+                                !this.state.postFile
                             }
                             onClick={nextOnClick}>
                             Next
@@ -368,8 +369,8 @@ class ArticleCreate extends Component {
                         <ReactTags
                             tags={this.state.postTag}
                             suggestions={this.props.allTags}
-                            handleDelete={handleDelete.bind(this)}
-                            handleAddition={handleAddition.bind(this)}
+                            handleDelete={this.handleDelete.bind(this)}
+                            handleAddition={this.handleAddition.bind(this)}
                             allowNew={true}
                             minQueryLength={1}
                         />
@@ -420,6 +421,7 @@ class ArticleCreate extends Component {
                         <br />
                         <h3 className="label">Choose Ad Expiry Date</h3>
                         <Calendar
+                            id="post-calendar-input"
                             minDate={tenDay}
                             onChange={onCalendarChange}
                         />

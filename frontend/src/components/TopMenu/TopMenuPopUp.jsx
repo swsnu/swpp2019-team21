@@ -5,14 +5,9 @@ import { Image, OverlayTrigger, Popover, ListGroup } from 'react-bootstrap';
 import './TopMenuPopUp.css';
 
 export default function TopMenuPopUp(props) {
-    var pic = null;
-    var nickname = null;
-    var point = null;
-    if (props.user) {
-        nickname = props.user.nickname;
-        pic = props.user.pic ? props.user.pic : profile;
-        point = props.user.point;
-    }
+    var nickname = props.user.nickname;
+    var pic = props.user.pic ? props.user.pic : profile;
+    var point = props.user.point;
     var popuserinfo = (
         <Popover id="PopUserInfo">
             <Popover.Title id="title" as="h3">
@@ -57,7 +52,11 @@ export default function TopMenuPopUp(props) {
     );
 
     return (
-        <OverlayTrigger trigger="click" placement="auto" overlay={popuserinfo}>
+        <OverlayTrigger
+            id="user-popup"
+            trigger="click"
+            placement="auto"
+            overlay={popuserinfo}>
             <Image id="UserImage" src={pic} width="55px" roundedCircle />
         </OverlayTrigger>
     );

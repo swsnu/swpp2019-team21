@@ -48,7 +48,8 @@ describe('<ArticleCreate/>', () => {
         spyOnGetAllTag,
         spyOnPostAdPost,
         spyHistoryPush,
-        spyOnAlert;
+        spyOnAlert,
+        spyOnConfirm;
     beforeEach(() => {
         articleCreate = (
             <Provider store={mockStore}>
@@ -68,6 +69,9 @@ describe('<ArticleCreate/>', () => {
                 };
             });
         spyOnAlert = jest.spyOn(window, 'alert').mockImplementation(() => {});
+        spyOnConfirm = jest.spyOn(window, 'confirm').mockImplementation(() => {
+            return true;
+        });
     });
     afterEach(() => {
         jest.clearAllMocks();
@@ -142,5 +146,26 @@ describe('<ArticleCreate/>', () => {
 
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(8);
+
+        const detailinstance = component
+            .find(ArticleCreate.WrappedComponent)
+            .instance();
+
+        const mocktags = ['SNU', 'Mock tags', 'HaHa'];
+        detailinstance.handleAddition(mocktags);
+        detailinstance.handleDelete(1);
+
+        const calendar_wrapper = component.find('#post-calendar-input');
+        calendar_wrapper.simulate('change', {
+            getYear: () => {
+                return 119;
+            },
+            getMonth: () => {
+                return 1;
+            },
+            getDate: () => {
+                return 1;
+            }
+        });
     });
 });
