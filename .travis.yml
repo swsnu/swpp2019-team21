@@ -20,7 +20,7 @@ matrix:
         - sonar-scanner
     - language: python
       python: "3.6"
-      dist: trusty
+      dist: xenial
       addons:
         sonarcloud:
           organization: "swsnu"
@@ -32,7 +32,7 @@ matrix:
         - pip3 install -r requirements.txt
       script:
         #- pylint **/*.py
-        - python manage.py migrate
+        #- python manage.py migrate
         - coverage run --source="." manage.py test adit
         - coverage report
         - coverage xml
