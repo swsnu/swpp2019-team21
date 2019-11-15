@@ -11,7 +11,7 @@ class ArticleSearch extends Component {
     }
 
     render() {
-        var { query, query_type } = this.props.match.params;
+        var { query, } = this.props.match.params;
         var { adpost_items } = this.props;
         return (
             <div className="ArticleSearch">

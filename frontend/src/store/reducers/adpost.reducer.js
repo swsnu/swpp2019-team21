@@ -29,7 +29,7 @@ const initialState = {
     adpost_post: { is_loading: false }
 };
 
-export const adpost_reducer = (state = initialState, action) => {
+export const adpost_reducer = (state = initialState, action = null) => {
     switch (action.type) {
         case actionTypes.GET_ADLIST_PENDING:
             return {

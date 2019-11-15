@@ -13,7 +13,7 @@ const initialState = {
     }
 };
 
-export const user_reducer = (state = initialState, action) => {
+export const user_reducer = (state = initialState, action = null) => {
     switch (action.type) {
         case actionTypes.SIGN_IN:
             localStorage.setItem('logged_in', 'true');
