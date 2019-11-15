@@ -2,8 +2,8 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { connectRouter } from 'connected-react-router';
 import { history, middlewares } from '../../store';
 
-const mockfunction = jest.fn(initialState => (action, state = initialState) => {
-    return state;
+const mockfunction = jest.fn(initialState => (state, action) => {
+    return initialState;
 });
 export const getMockStore = initialState => {
     const mockAdPostReducer = mockfunction(initialState);
