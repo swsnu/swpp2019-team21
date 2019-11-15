@@ -30,8 +30,8 @@ class SignUp extends Component {
             this.setState({ ...this.state, password_check: '' });
             return;
         } else if (
-            this.state.first_name === '' ||
-            this.state.last_name === ''
+            this.state.fname === '' ||
+            this.state.lname === ''
         ) {
             alert('name section cannot be empty');
             return;
@@ -63,9 +63,9 @@ class SignUp extends Component {
         this.setState({ tags: tags });
     };
 
-    passwordCheckerHandler = () => {
+/*    passwordCheckerHandler = () => {
         // TODO Inputbox Get Red
-    };
+    };*/
 
     render() {
         return (
@@ -183,6 +183,7 @@ class SignUp extends Component {
                         <input
                             className="form-control"
                             type="text"
+                            id="nickname"
                             value={this.state.nickname}
                             required="required"
                             onChange={event =>
@@ -196,6 +197,7 @@ class SignUp extends Component {
                         </p>
                         <ReactTags
                             tags={this.state.tags}
+                            id="reacttags"
                             suggestions={this.props.allTags}
                             handleDelete={this.deleteTagHandler}
                             handleAddition={this.addTagHandler}
@@ -225,9 +227,9 @@ class SignUp extends Component {
     }
 }
 
-const mapStateToProps = status => {
+const mapStateToProps = state => {
     return {
-        allTags: status.tag.all_tags
+        allTags: state.tag.all_tags
     };
 };
 

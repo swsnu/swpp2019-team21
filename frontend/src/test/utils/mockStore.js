@@ -1,53 +1,15 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
 import { connectRouter } from 'connected-react-router';
 import { history, middlewares } from '../../store';
 
-const getAdPostReducer = jest.fn(
-    initialState => (state = initialState, action) => {
-        switch (action.type) {
-            default:
-                break;
-        }
-        return state;
-    }
-);
-
-const getAdReceptionReducer = jest.fn(
-    initialState => (state = initialState, action) => {
-        switch (action.type) {
-            default:
-                break;
-        }
-        return state;
-    }
-);
-
-const getUserReducer = jest.fn(
-    initialState => (state = initialState, action) => {
-        switch (action.type) {
-            default:
-                break;
-        }
-        return state;
-    }
-);
-
-const getTagReducer = jest.fn(
-    initialState => (state = initialState, action) => {
-        switch (action.type) {
-            default:
-                break;
-        }
-        return state;
-    }
-);
-
+const mockfunction = jest.fn(initialState => (action, state = initialState) => {
+    return state;
+});
 export const getMockStore = initialState => {
-    const mockAdPostReducer = getAdPostReducer(initialState);
-    const mockAdReceptionReducer = getAdReceptionReducer(initialState);
-    const mockUserReducer = getUserReducer(initialState);
-    const mockTagReducer = getTagReducer(initialState);
+    const mockAdPostReducer = mockfunction(initialState);
+    const mockAdReceptionReducer = mockfunction(initialState);
+    const mockUserReducer = mockfunction(initialState);
+    const mockTagReducer = mockfunction(initialState);
     const rootReducer = combineReducers({
         adpost: mockAdPostReducer,
         adreception: mockAdReceptionReducer,

@@ -11,11 +11,16 @@ import { getMockStore } from '../../../test/utils/mockStore';
 import { userActions, adpostActions, tagActions } from '../../../store/actions';
 
 const stubInitialState = {
-    tags: {
-        all_tags: []
-    },
+    all_tags: [],
     user: {
-        nowpoint: 1000
+        user_id: 1,
+        first_name: 'Mocked_firstname',
+        last_name: 'Mocked_lastname',
+        nickname: 'Mocked_nickname',
+        email: 'Mocked_email',
+        point: 10000,
+        tags: ['test', 'test2'],
+        pic: '123'
     }
 };
 const mockStore = getMockStore(stubInitialState);
@@ -48,7 +53,9 @@ describe('<ArticleCreate/>', () => {
         spyOnGetAllTag,
         spyOnPostAdPost,
         spyHistoryPush,
-        spyOnAlert;
+        spyOnAlert,
+        spyOnConfirm,
+        varConfirm;
     beforeEach(() => {
         articleCreate = (
             <Provider store={mockStore}>
@@ -59,26 +66,51 @@ describe('<ArticleCreate/>', () => {
                 </ConnectedRouter>
             </Provider>
         );
+        varConfirm = false;
         spyOnGetUser = jest
             .spyOn(userActions, 'getUser')
             .mockImplementation(() => {
                 return dispatch => {
-                    const res = { user: { point: 10000 } };
-                    return Promise.resolve(res);
+                    return new Promise((resolve, reject) =>
+                        resolve(stubInitialState)
+                    );
+                };
+            });
+        spyOnGetAllTag = jest
+            .spyOn(tagActions, 'getAllTag')
+            .mockImplementation(() => {
+                return dispatch => {
+                    return new Promise((resolve, reject) =>
+                        resolve(stubInitialState)
+                    );
                 };
             });
         spyOnAlert = jest.spyOn(window, 'alert').mockImplementation(() => {});
+        spyOnConfirm = jest
+            .spyOn(window, 'confirm')
+            .mockImplementation(input => {
+                return varConfirm;
+            });
     });
     afterEach(() => {
         jest.clearAllMocks();
     });
-    it('should render without errors', () => {
+    it('should render without errors', async done => {
         const component = mount(articleCreate);
+        setTimeout(() => {
+            done();
+        }, 1000);
+        await component.update();
+        expect(spyOnGetUser).toHaveBeenCalledTimes(1);
         const wrapper = component.find('.article-create');
         expect(wrapper.length).toBe(1);
     });
-    it('should not be confirmed if something is empty', () => {
+    it('should not be confirmed if something is empty', async done => {
         const component = mount(articleCreate);
+        setTimeout(() => {
+            done();
+        }, 1000);
+        await component.update();
         const wrapper = component.find('#confirm-button');
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(1);
@@ -132,6 +164,18 @@ describe('<ArticleCreate/>', () => {
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(7);
 
+        varConfirm = true;
+        wrapper.simulate('click');
+        expect(spyOnAlert).toHaveBeenCalledTimes(8);
+
+        const detailinstance = component
+            .find(ArticleCreate.WrappedComponent)
+            .instance();
+
+        const mocktags = ['SNU', 'Mock tags', 'HaHa'];
+        detailinstance.handleAddition(mocktags);
+        detailinstance.handleDelete(1);
+
         const goal_wrapper = component.find('#post-goal-input');
         goal_wrapper.simulate('change', {
             target: { value: 'a' }
@@ -141,6 +185,19 @@ describe('<ArticleCreate/>', () => {
         });
 
         wrapper.simulate('click');
-        expect(spyOnAlert).toHaveBeenCalledTimes(8);
+        expect(spyOnAlert).toHaveBeenCalledTimes(9);
+
+        const calendar_wrapper = component.find('#post-calendar-input');
+        calendar_wrapper.simulate('change', {
+            getYear: () => {
+                return 119;
+            },
+            getMonth: () => {
+                return 1;
+            },
+            getDate: () => {
+                return 1;
+            }
+        });
     });
 });

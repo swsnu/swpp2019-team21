@@ -39,7 +39,7 @@ class ResetPW extends Component {
                         </p>
                         <input
                             className="form-control"
-                            id="new-pw-input"
+                            id="new-pw-input-check"
                             type="password"
                             value={this.state.password_valid}
                             onChange={event =>
