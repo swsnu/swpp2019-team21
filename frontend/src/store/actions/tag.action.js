@@ -22,7 +22,7 @@ function getAllTag() {
             })
             .catch(error => {
                 // TODO: error handling
-                console.log(error);
+                // console.log(error);
             });
     };
 }
@@ -42,7 +42,7 @@ function postTag(tag) {
             })
             .catch(error => {
                 // TODO: error handling
-                console.log(error);
+                // console.log(error);
             });
     };
 }
