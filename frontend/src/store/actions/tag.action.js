@@ -22,7 +22,7 @@ function getAllTag() {
             })
             .catch(error => {
                 // TODO: error handling
-                console.log(error);
+                // console.log(error);
             });
     };
 }
@@ -32,14 +32,17 @@ function postTag(tag) {
         return axios
             .post(baseUrl + `/tag/search/${tag}`)
             .then(response => {
+                var data = response.data.map(item => {
+                    return { id: item.id, name: item.content };
+                });
                 dispatch({
                     type: actionTypes.POST_TAG,
-                    tag: response.data
+                    all_tags: data
                 });
             })
             .catch(error => {
                 // TODO: error handling
-                console.log(error);
+                // console.log(error);
             });
     };
 }

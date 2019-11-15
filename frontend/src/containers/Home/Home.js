@@ -44,7 +44,7 @@ class Home extends Component {
             <div className="home">
                 <EventItemList eventItems={mockEventList} />
                 <div className="home-aggregated-list">
-                    {Object.keys(adpost_items)
+                    {Object.keys(adpost_items ? adpost_items : [])
                         .filter(
                             query => query && !adpost_items[query].is_loading
                         )

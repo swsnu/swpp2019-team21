@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 export var ScrollToTop = withRouter(
     class ScrollToTopWithoutRouter extends React.Component {

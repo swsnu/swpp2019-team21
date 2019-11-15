@@ -38,7 +38,8 @@ function signOut() {
                 dispatch(push('/signin'));
             })
             .catch(error => {
-                console.log(error);
+                //console.log(error);
+                alert('failed signout');
             });
     };
 }
@@ -57,7 +58,7 @@ function signUp(user) {
     };
 }
 
-function getUser(user) {
+function getUser() {
     return dispatch => {
         return axios
             .get(base_url + '/user/')
@@ -69,7 +70,7 @@ function getUser(user) {
             )
             .catch(error => {
                 localStorage.setItem('logged_in', 'false');
-                console.log('getUser failed');
+                //console.log('getUser failed');
             });
     };
 }
@@ -85,8 +86,8 @@ function putUser(user) {
                 })
             )
             .catch(error => {
-                console.log('put user failed');
-                alert('Put user failed zz');
+                //console.log('put user failed');
+                window.alert('Put user failed zz');
             });
     };
 }
@@ -97,7 +98,7 @@ function changePW(pw) {
             .put(base_url + '/user/pw/', pw)
             .then(response => dispatch({ type: actionTypes.PUT_USER }))
             .catch(error => {
-                console.log('change PW failed');
+                //console.log('change PW failed');
                 alert('Input correct PW');
             });
     };
@@ -108,11 +109,10 @@ function updatePoint(point) {
         return axios
             .put(base_url + '/user/point/', point)
             .then(response => {
-                console.log(response);
                 dispatch({ type: actionTypes.PUT_USER });
             })
             .catch(error => {
-                console.log('update Point failed');
+                //console.log('update Point failed');
                 alert('Input correct Point');
             });
     };

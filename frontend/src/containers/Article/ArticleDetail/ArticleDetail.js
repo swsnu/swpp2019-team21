@@ -21,20 +21,11 @@ class ArticleDetail extends Component {
         this.setState({ ...this.state, participated: true });
     };
 
-    postEditHandler = () => {
+/*    postEditHandler = () => {
         //window.location.assign(window.location.href + '/edit');
         this.props.history.push('/article/1/edit');
-    };
+    };*/
 
-    toggleParticipate = () => {
-        const tem = !this.state.participated;
-        this.setState({ ...this.state, participated: tem });
-    };
-
-    toggleMine = () => {
-        const tem = !this.state.mine;
-        this.setState({ ...this.state, mine: tem });
-    };
     render() {
         if (this.props.loaded == true) {
             const taglist = this.props.article.tags.reduce((acc, cur, i) => {
@@ -129,8 +120,6 @@ class ArticleDetail extends Component {
                                                         multiplier}
                                                 </h2>
                                                 Points!
-                                                {console.log(this.props.views)}
-                                                {console.log(this.props)}
                                             </h2>
                                         </div>
                                     )}
@@ -148,13 +137,6 @@ class ArticleDetail extends Component {
                                     </div>
                                 )}
                             </div>
-
-                            {/*<button
-                                className="btn btn-primary"
-                                onClick={this.toggleParticipate}
-                                id="toggle-participate-button">
-                                Toggle Participate
-                            </button>*/}
                         </div>
                     </div>
                     <div className="down-component">

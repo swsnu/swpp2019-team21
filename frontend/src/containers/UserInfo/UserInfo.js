@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import {
-    userActions,
     adpostActions,
     adreceptionActions
 } from '../../store/actions';
@@ -116,7 +115,6 @@ class UserInfo extends Component {
                         </Table>
                     </div>
                 </div>
-
                 <UserDetail />
             </div>
         );
@@ -134,8 +132,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onsignOut: () => dispatch(userActions.signOut()),
-        reloadUser: () => dispatch(userActions.getUser()),
         onGetOwnList: () =>
             dispatch(adpostActions.getAdpostList('owner', 'special')),
         onGetParticipatedList: () =>

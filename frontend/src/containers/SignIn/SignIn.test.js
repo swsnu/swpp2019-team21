@@ -1,5 +1,4 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import SignIn from './SignIn';
 import { history } from '../../store';
 import { ConnectedRouter } from 'connected-react-router';

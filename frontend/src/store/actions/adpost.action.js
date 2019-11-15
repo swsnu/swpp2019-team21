@@ -66,7 +66,7 @@ function getAdpostList(query, query_type) {
 function getCustomList() {
     return dispatch => {
         dispatch({ type: actionTypes.GET_ADLIST_PENDING, query: 'hottest' });
-        axios
+        return axios
             .get(baseUrl + '/adpost/custom/')
             .then(res => {
                 for (var key in res.data) {
@@ -90,7 +90,7 @@ function getCustomList() {
 function getAdpost(id) {
     return dispatch => {
         dispatch({ type: actionTypes.GET_DETAILED_ADPOST_PENDING });
-        axios
+        return axios
             .get(baseUrl + `/adpost/${id}/`)
             .then(response => {
                 dispatch({
@@ -111,7 +111,7 @@ function postAdpost(data) {
     return dispatch => {
         var id;
 
-        axios
+        return axios
             .post(baseUrl + '/adpost/', data.adpost)
             .then(response => {
                 id = response.data.id;

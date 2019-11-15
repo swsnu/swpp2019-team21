@@ -41,6 +41,17 @@ class ArticleCreate extends Component {
         });
         this.props.onTagReload();
     }
+    handleDelete = i => {
+        const tags = this.state.postTag.slice(0);
+        tags.splice(i, 1);
+        this.setState({ postTag: tags });
+    };
+
+    handleAddition = tag => {
+        const tags = [].concat(this.state.postTag, tag);
+        this.setState({ postTag: tags });
+    };
+
     render() {
         let imagePreview = null;
         let imagePreviewUrl = this.state.imagePreviewUrl;
@@ -55,16 +66,6 @@ class ArticleCreate extends Component {
                 </div>
             );
         }
-        const handleDelete = i => {
-            const tags = this.state.postTag.slice(0);
-            tags.splice(i, 1);
-            this.setState({ postTag: tags });
-        };
-
-        const handleAddition = tag => {
-            const tags = [].concat(this.state.postTag, tag);
-            this.setState({ postTag: tags });
-        };
 
         const tabOnClick = n => {
             if (n <= this.state.donePage) {
@@ -161,7 +162,7 @@ class ArticleCreate extends Component {
             reader.readAsDataURL(file);
         };
         const goalChangeHandler = e => {
-            const re = /^[1-9]+[0-9\b]*$/;
+            const re = /^[0-9]*$/;
 
             if (
                 (e.target.value == '' || re.test(e.target.value)) &&
@@ -204,11 +205,6 @@ class ArticleCreate extends Component {
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
-            if (!this.state.imagePreviewUrl) {
-                alert('You should upload image');
-                this.setState({ ...this.state, currentPage: 1 });
-                return;
-            }
             if (!this.state.postUrl) {
                 alert('Ad url should not be empty');
                 this.setState({ ...this.state, currentPage: 1 });
@@ -237,6 +233,12 @@ class ArticleCreate extends Component {
             if (!this.state.postGoal) {
                 alert('Ad goal should not be empty');
                 this.setState({ ...this.state, currentPage: 3 });
+                return;
+            }
+            if (!this.state.imagePreviewUrl) {
+                alert('You should upload image');
+                this.setState({ ...this.state, currentPage: 1 });
+                return;
             }
 
             const request = {
@@ -280,7 +282,7 @@ class ArticleCreate extends Component {
             let tenDay = new Date();
             tenDay.setTime(tenDay.getTime() + 10 * 24 * 3600 * 1000);
             return (
-                <div>
+                <div className="article-create">
                     <div
                         className="configuration"
                         style={{
@@ -349,10 +351,10 @@ class ArticleCreate extends Component {
                             className="btn btn-primary"
                             id="next-button"
                             disabled={
-                                !this.state.postFile ||
                                 !this.state.postTitle ||
                                 !this.state.postUrl ||
-                                !this.state.postSubtitle
+                                !this.state.postSubtitle ||
+                                !this.state.postFile
                             }
                             onClick={nextOnClick}>
                             Next
@@ -367,8 +369,8 @@ class ArticleCreate extends Component {
                         <ReactTags
                             tags={this.state.postTag}
                             suggestions={this.props.allTags}
-                            handleDelete={handleDelete.bind(this)}
-                            handleAddition={handleAddition.bind(this)}
+                            handleDelete={this.handleDelete.bind(this)}
+                            handleAddition={this.handleAddition.bind(this)}
                             allowNew={true}
                             minQueryLength={1}
                         />
@@ -419,6 +421,7 @@ class ArticleCreate extends Component {
                         <br />
                         <h3 className="label">Choose Ad Expiry Date</h3>
                         <Calendar
+                            id="post-calendar-input"
                             minDate={tenDay}
                             onChange={onCalendarChange}
                         />
@@ -498,7 +501,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ArticleCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleCreate);

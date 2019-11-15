@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import PreviewList from './PreviewList';
 import { history } from '../../store';
 
@@ -41,7 +41,11 @@ describe('<PreviewList />', () => {
     });
     it('should load list of articles when clicked', () => {
         const component = shallow(
-            <PreviewList compact={false} list_name={mockedListName} articles={mockedArticles} />
+            <PreviewList
+                compact={false}
+                list_name={mockedListName}
+                articles={mockedArticles}
+            />
         );
         const wrapper = component.find('Preview');
         const id = wrapper.props().preview.id;
@@ -50,7 +54,11 @@ describe('<PreviewList />', () => {
     });
     it('should have no Previews when no article exists', () => {
         const component = shallow(
-            <PreviewList compact={true} list_name={mockedListName} articles={null} />
+            <PreviewList
+                compact={true}
+                list_name={mockedListName}
+                articles={null}
+            />
         );
         const wrapper = component.find('Preview');
         expect(wrapper.length).toBe(0);
