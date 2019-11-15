@@ -55,7 +55,6 @@ def model_process(response_dict):
 def list_process(post_list_by):
     for i in range(len(post_list_by)):
         model_process(post_list_by[i])
-    return
 
 
 class SignUpView(View):
@@ -193,8 +192,6 @@ class ChangePWView(View):
         if check_password(current_password, user.password):
             user.set_password(new_password)
             user.save()
-            #login(request, user)
-            #print(user.is_authenticated)
             return HttpResponse(status=204)
         else:
             return HttpResponseNotAllowed()
@@ -433,7 +430,6 @@ def encode(userid, time, postid):
 
 def decode(code, object):
     base_link = 'http://localhost:3000/redirectfrom='
-    time = object.recept_time.strftime("%y%m%d%H%M%S")
     hashids = Hashids()
     res = hashids.decode(code.replace(base_link, ''))
     if not res:
@@ -546,16 +542,3 @@ class TagSearchView(View):
         tags_by_searchkey = [model_to_dict(tag) for tag in
                              InterestedTags.objects.all().filter(content__startswith=pattern)]
         return JsonResponse(tags_by_searchkey, safe=False)
-
-
-"""
-def questionPostIdView(request, adpostid):
-    if request.method == 'GET':
-        # TODO
-        return HttpResponse(status=201)
-    elif request.method == 'POST':
-        # TODO
-        return HttpResponse(status=201)
-    else:
-        return HttpResponseNotAllowed(["GET", "POST"])
-"""
