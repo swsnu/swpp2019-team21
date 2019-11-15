@@ -162,7 +162,7 @@ class ArticleCreate extends Component {
             reader.readAsDataURL(file);
         };
         const goalChangeHandler = e => {
-            const re = /^[1-9]+[0-9\b]*$/;
+            const re = /^[0-9]*$/;
 
             if (
                 (e.target.value == '' || re.test(e.target.value)) &&
