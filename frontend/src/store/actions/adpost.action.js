@@ -19,7 +19,7 @@ function makeUrl(query, query_type) {
     switch (query_type) {
         case SPECIAL:
             if (query === 'hottest') {
-                return '/adpost/hotte에st';
+                return '/adpost/hottest';
             } else if (query === 'recent') {
                 return '/adpost/recent';
             } else if (query === 'custom') {
