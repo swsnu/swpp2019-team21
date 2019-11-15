@@ -87,7 +87,7 @@ function putUser(user) {
             )
             .catch(error => {
                 //console.log('put user failed');
-                alert('Put user failed zz');
+                window.alert('Put user failed zz');
             });
     };
 }

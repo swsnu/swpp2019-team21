@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import {
-    userActions,
     adpostActions,
     adreceptionActions
 } from '../../store/actions';
