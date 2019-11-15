@@ -1,7 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import TopMenu from './TopMenu';
-import TopMenuPopUp from './TopMenuPopUp';
 import { history } from '../../store';
 import { ConnectedRouter } from 'connected-react-router';
 import { mount } from 'enzyme';
@@ -67,11 +65,6 @@ describe('<TopMenu/>', () => {
         );
         spyOnSignOut = jest
             .spyOn(userActions, 'signOut')
-            .mockImplementation(() => {
-                return dispatch => {};
-            });
-        spyOnGetUser = jest
-            .spyOn(userActions, 'getUser')
             .mockImplementation(() => {
                 return dispatch => {};
             });

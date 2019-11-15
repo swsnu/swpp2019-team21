@@ -1,13 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import TopMenuPopUp from './TopMenuPopUp';
-import { history } from '../../store';
-import { ConnectedRouter } from 'connected-react-router';
 import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
-import { getMockStore } from '../../test/utils/mockStore';
-import { userActions } from '../../store/actions';
+
 
 const mockuser = {
     user_id: 1,

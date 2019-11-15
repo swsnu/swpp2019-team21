@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import UserDetail from './UserDetail';
 import { history } from '../../store';
 import { ConnectedRouter } from 'connected-react-router';
@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { getMockStore } from '../../test/utils/mockStore';
 import { tagActions, userActions } from '../../store/actions';
-import { doesNotReject } from 'assert';
 const stubInitialState = {
     all_tags: ['tag', 'snu'],
     user: {

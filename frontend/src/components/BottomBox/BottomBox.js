@@ -1,11 +1,4 @@
-import React, { Component, Profiler } from 'react';
-import {
-    Navbar,
-    Image,
-    OverlayTrigger,
-    Popover,
-    ListGroup
-} from 'react-bootstrap';
+import React, { Component } from 'react';
 import './BottomBox.css';
 
 const mockInfoContent = {

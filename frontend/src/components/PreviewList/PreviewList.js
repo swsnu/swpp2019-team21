@@ -7,7 +7,6 @@ import 'react-multi-carousel/lib/styles.css';
 import './PreviewList.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { Route, Link } from 'react-router-dom';
 
 const responsive = {
     desktop: {
