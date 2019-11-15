@@ -110,13 +110,10 @@ def check_valid_json(item_list):
         def decorator(*args, **kwargs):
             request = args[1]
             if request.method == 'POST' or request.method == 'PUT':
-                try:
-                    req_data = json.loads(request.body.decode())
-                    print(req_data)
-                    for item in item_list:
-                        tmp = req_data[item]
-                except (KeyError, json.JSONDecodeError) as e:
-                    return HttpResponseBadRequest(400)
+                req_data = json.loads(request.body.decode())
+                for item in item_list:
+                    if not item in req_data.keys():
+                        return HttpResponseBadRequest(400)
             return func(*args, **kwargs)
 
         return decorator
