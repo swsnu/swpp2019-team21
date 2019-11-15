@@ -62,8 +62,52 @@ describe('Adreception Reducer', () => {
         expect(nextState).toEqual({
             ...prevState,
             is_participated: true,
+            ad_link: undefined,
             views: 1,
-            unique_link: 'mocklink'
+            submitted: true,
+        });
+    });
+
+    it('Get participate', () => {
+        const action = {
+            type: actionTypes.GET_PARTICIPATED,
+            data: {
+                views: 1,
+                unique_link: 'mocklink'
+            }
+        };
+        var prevState = initialState;
+        var nextState = adreception_reducer(prevState, action);
+        expect(nextState).toEqual({
+            ...prevState,
+            is_participated: true,
+            unique_link: 'mocklink',
+            views: 1
+        });
+    });
+
+    it('Get by user', () => {
+        const action = {
+            type: actionTypes.GET_BYUSER,
+            data: "payload"
+        };
+        var prevState = initialState;
+        var nextState = adreception_reducer(prevState, action);
+        expect(nextState).toEqual({
+            ...prevState,
+            byuser_list: "payload"
+        });
+    });
+
+    it('User not participate', () => {
+        const action = {
+            type: actionTypes.NOT_PARTICIPATED,
+        };
+        var prevState = initialState;
+        var nextState = adreception_reducer(prevState, action);
+        expect(nextState).toEqual({
+            ...prevState,
+            is_participated: false
         });
     });
 });
