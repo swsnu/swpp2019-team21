@@ -1,20 +1,17 @@
-.preview-list {
-}
-
 #list-title {
     text-align: left;
     margin-left: 30px;
     margin-top: 50px;
 }
 
-#search-more-btn{
-    padding:90px;
+#search-more-btn {
+    padding: 90px;
 }
 
-#search-more{
-    color:#c1c2c3;
+#search-more {
+    color: #c1c2c3;
 }
-#search-more:hover{
-    cursor:pointer;
-    color:#616263;
+#search-more:hover {
+    cursor: pointer;
+    color: #616263;
 }

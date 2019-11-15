@@ -87,14 +87,19 @@ class ArticleCreate extends Component {
             }
         };
         const tabtext = n => {
-            let tabs = ['Configure Info', 'Select Tag', 'Ad Goal', 'Preview'];
+            let tempTabs = [
+                'Configure Info',
+                'Select Tag',
+                'Ad Goal',
+                'Preview'
+            ];
             if (this.state.currentPage == n) {
                 return (
                     <text
                         id={'tab-text' + n}
                         style={{ color: color(n) }}
                         onClick={tabOnClick(n)}>
-                        <strong>{tabs[n - 1]}</strong>
+                        <strong>{tempTabs[n - 1]}</strong>
                     </text>
                 );
             } else {
@@ -104,7 +109,7 @@ class ArticleCreate extends Component {
                         style={{ color: color(n) }}
                         onClick={tabOnClick(n)}>
                         {' '}
-                        {tabs[n - 1]}
+                        {tempTabs[n - 1]}
                     </text>
                 );
             }
