@@ -6,7 +6,7 @@ import './Preview.css';
 class Preview extends Component {
     render() {
         return (
-            <div className="Preview" onClick={this.props.clickPreview}>
+            <div className="Preview" onClick={this.props.clickPreview} key={this.props.key}>
                 <Card className="ArticlePreview">
                     <Card.Img
                         variant="top"
@@ -14,8 +14,12 @@ class Preview extends Component {
                         id="thumbnail"
                     />
                     <Card.Body>
-                        <Card.Title id='card-title'>{this.props.preview.title}</Card.Title>
-                        <Card.Text id='card-text'>{this.props.preview.subtitle}</Card.Text>
+                        <Card.Title id="card-title">
+                            {this.props.preview.title}
+                        </Card.Title>
+                        <Card.Text id="card-text">
+                            {this.props.preview.subtitle}
+                        </Card.Text>
                     </Card.Body>
                     <ListGroup variant="flush">
                         <ListGroup.Item>

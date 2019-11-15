@@ -1,89 +1,82 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
-import {history} from '../../store'
+import { push } from 'connected-react-router';
 
 const base_url = '/api';
 
-export const postReception_ = data => {
-    return {
-        type: actionTypes.POST_RECEPTION,
-        data: data
-    };
+export const adreceptionActions = {
+    postReception,
+    postRedirect,
+    getReception,
+    getReceptionByUser
 };
 
-export const postReception = data => {
+function postReception(data) {
     return dispatch => {
         return axios
             .post(base_url + '/adreception/', data)
-            .then(res => dispatch(postReception_(res.data)))
+            .then(response =>
+                dispatch({
+                    type: actionTypes.POST_RECEPTION,
+                    data: response.data
+                })
+            )
             .catch(error => {
-                console.log('posting reception failed');
-                alert('Please Sign-in to Participate!');
-                history.push('/signin/')
+                // TODO: do not use alert, use modal
+                // console.log('reception failed', error);
+                dispatch(push('/signin/'));
             });
     };
-};
+}
 
-export const postRedirect_ = data => {
-    return {
-        type: actionTypes.POST_RECEPTION,
-        data: data
-    };
-};
-
-export const postRedirect = data => {
+function postRedirect(data) {
     return dispatch => {
         return axios
-            .get(base_url + '/adreception/redirectto='+data+'/')
-            .then(res => {
-                dispatch(postReception_(res.data))
-                console.log(res.data)
-                window.location.assign(res.data.ad_link);
+            .get(base_url + `/adreception/redirectto=${data}/`)
+            .then(response => {
+                dispatch({
+                    type: actionTypes.POST_RECEPTION,
+                    data: response.data
+                });
+                window.location.assign(response.data.ad_link);
             })
             .catch(error => {
-                console.log('redirect failed');
-                alert('closed or non-exist ad');
+                // TODO: do not use alert, use modal
+                // console.log('redirect failed', error);
+                dispatch(push('/home'));
             });
     };
-};
-
-export const getReception_ = (data) => {
-    return {
-        type: actionTypes.GET_PARTICIPATED,
-        data: data
-    };
 }
 
-export const getReception = (id) => {
+function getReception(id) {
     return dispatch => {
         return axios
-            .get(base_url + '/adreception/by-post/'+id)
-            .then(res => {
-                console.log(res.data);
-                dispatch(getReception_(res.data))
+            .get(base_url + `/adreception/by-post/${id}`)
+            .then(response => {
+                dispatch({
+                    type: actionTypes.GET_PARTICIPATED,
+                    data: response.data
+                });
             })
             .catch(error => {
-                dispatch({type:actionTypes.NOT_PARTICIPATED})
-            })
-    }
-}
-
-export const getReceptionByUser_ = (data) => {
-    return {
-        type: actionTypes.GET_BYUSER,
-        data: data,
+                dispatch({ type: actionTypes.NOT_PARTICIPATED });
+            });
     };
 }
 
-export const getReceptionByUser = (id) => {
+function getReceptionByUser(id) {
     return dispatch => {
         return axios
             .get(base_url + '/adreception/')
-            .then(res => {
-                dispatch(getReceptionByUser_(res.data))
+            .then(response => {
+                // console.log('meme', response.data);
+                dispatch({
+                    type: actionTypes.GET_BYUSER,
+                    data: response.data
+                });
             })
             .catch(error => {
-                console.log('Server error')
-            })
-    }
+                // console.log('Server error', error);
+            });
+    };
 }

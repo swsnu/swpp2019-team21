@@ -1,31 +1,22 @@
-import React, { Component, Profiler } from 'react';
-import {
-    Dropdown,
-    DropdownButton,
-    Navbar,
-    Image,
-    OverlayTrigger,
-    Popover,
-    ListGroup,
-    ListGroupItem
-} from 'react-bootstrap';
-import { connect } from 'net';
+import React, { Component } from 'react';
 import './ResetPW.css';
 import background from '../../../assets/userinfo_background.jpg';
 import { history } from '../../../store';
 
 class ResetPW extends Component {
     state = { password: null, password_valid: null };
+
     confirmResetHandler() {
         alert('Done!');
         history.push('/home');
     }
+
     render() {
         return (
             <div className="ResetPW">
                 <img src={background} id="title-background" />
                 <div className="ResetTitle" id="resetpw-title">
-                    <ttl>Reset Password</ttl>
+                <text id="reset-title">Reset Password</text>
                 </div>
                 <div className="ResetPWForm">
                     <div className="form-group">
@@ -48,7 +39,7 @@ class ResetPW extends Component {
                         </p>
                         <input
                             className="form-control"
-                            id="new-pw-input"
+                            id="new-pw-input-check"
                             type="password"
                             value={this.state.password_valid}
                             onChange={event =>

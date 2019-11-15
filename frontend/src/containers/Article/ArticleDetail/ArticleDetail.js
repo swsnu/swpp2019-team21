@@ -1,9 +1,8 @@
-import React, { Component, Profiler } from 'react';
-import { Image, Carousel, ProgressBar } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { ProgressBar } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import * as actionCreators from '../../../store/actions/adpost.action';
-import * as receptionCreators from '../../../store/actions/adreception.action';
+import { adpostActions, adreceptionActions } from '../../../store/actions';
 import './ArticleDetail.css';
 
 var multiplier = 7;
@@ -19,24 +18,14 @@ class ArticleDetail extends Component {
             adpost: this.props.match.params.id
         };
         this.props.onpostReception(adpost);
-
         this.setState({ ...this.state, participated: true });
     };
 
-    postEditHandler = () => {
+/*    postEditHandler = () => {
         //window.location.assign(window.location.href + '/edit');
         this.props.history.push('/article/1/edit');
-    };
+    };*/
 
-    toggleParticipate = () => {
-        const tem = !this.state.participated;
-        this.setState({ ...this.state, participated: tem });
-    };
-
-    toggleMine = () => {
-        const tem = !this.state.mine;
-        this.setState({ ...this.state, mine: tem });
-    };
     render() {
         if (this.props.loaded == true) {
             const taglist = this.props.article.tags.reduce((acc, cur, i) => {
@@ -131,8 +120,6 @@ class ArticleDetail extends Component {
                                                         multiplier}
                                                 </h2>
                                                 Points!
-                                                {console.log(this.props.views)}
-                                                {console.log(this.props)}
                                             </h2>
                                         </div>
                                     )}
@@ -150,13 +137,6 @@ class ArticleDetail extends Component {
                                     </div>
                                 )}
                             </div>
-
-                            {/*<button
-                                className="btn btn-primary"
-                                onClick={this.toggleParticipate}
-                                id="toggle-participate-button">
-                                Toggle Participate
-                            </button>*/}
                         </div>
                     </div>
                     <div className="down-component">
@@ -170,22 +150,26 @@ class ArticleDetail extends Component {
                 </div>
             );
         } else {
-            return <h1>LOADING</h1>;
+            return (
+                <div>
+                    <h1>LOADING</h1>
+                </div>
+            );
         }
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        ongetArticle: id => dispatch(actionCreators.getAdpost(id)),
-        onpostReception: id => dispatch(receptionCreators.postReception(id)),
-        ongetReception: id => dispatch(receptionCreators.getReception(id))
+        ongetArticle: id => dispatch(adpostActions.getAdpost(id)),
+        onpostReception: id => dispatch(adreceptionActions.postReception(id)),
+        ongetReception: id => dispatch(adreceptionActions.getReception(id))
     };
 };
 
 const mapStateToProps = state => {
     return {
-        loaded: state.adpost.loaded,
+        loaded: !state.adpost.adpost_detailed_item.is_loading,
         article: state.adpost.adpost_detailed_item,
         views: state.adreception.views,
         unique_link: state.adreception.unique_link,

@@ -1,6 +1,7 @@
 import React from 'react';
 import Preview from '../Preview/Preview';
 import PropTypes from 'prop-types';
+import { history } from '../../store';
 
 class PreviewGrid extends React.Component {
     sliceArray(arr, chunk) {
@@ -14,27 +15,32 @@ class PreviewGrid extends React.Component {
         return ret;
     }
 
-    clickPreviewHandler = id => {};
+    clickPreviewHandler = id => {
+        history.push('/article/' + id);
+    };
 
     render() {
         return (
             <div>
                 <table id="preview-table" align="center">
-                    {this.sliceArray(this.props.articles, 4).map(row => (
-                        <tr>
-                            {row.map(item => (
-                                <td>
-                                    <Preview
-                                        key={item.id}
-                                        preview={item}
-                                        clickPreview={() =>
-                                            this.clickPreviewHandler(item.id)
-                                        }
-                                    />
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
+                    <tbody>
+                        {this.sliceArray(this.props.articles, 4).map(row => (
+                            <tr>
+                                {row.map(item => (
+                                    <td>
+                                        <Preview
+                                            preview={item}
+                                            clickPreview={() =>
+                                                this.clickPreviewHandler(
+                                                    item.id
+                                                )
+                                            }
+                                        />
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
             </div>
         );

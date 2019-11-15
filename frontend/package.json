@@ -19,7 +19,9 @@
         "enzyme-adapter-react-16": "^1.15.1",
         "enzyme-to-json": "^3.4.3",
         "eslint-plugin-jest": "^23.0.2",
+        "fetch-mock": "^8.0.0",
         "jest": "^24.9.0",
+        "moxios": "^0.4.0",
         "prop-types": "^15.7.2",
         "react": "^16.10.2",
         "react-bootstrap": "^1.0.0-beta.14",
@@ -33,7 +35,9 @@
         "react-tag-autocomplete": "^5.11.2",
         "react-test-renderer": "^16.9.0",
         "redux": "^4.0.4",
+        "redux-actions": "^2.6.5",
         "redux-mock-store": "^1.5.3",
+        "redux-pender": "^2.0.12",
         "redux-thunk": "^2.3.0"
     },
     "scripts": {
@@ -78,5 +82,12 @@
         "eslint-plugin-react": "^7.16.0",
         "eslint-plugin-react-hooks": "^1.7.0",
         "prettier": "^1.18.2"
+    },
+    "jest": {
+        "collectCoverageFrom": [
+            "src/**/*.{js,jsx}",
+            "!src/index.js",
+            "!src/serviceWorker.js"
+        ]
     }
 }

@@ -1,22 +1,13 @@
-import React, { Component, Profiler } from 'react';
-import {
-    Dropdown,
-    DropdownButton,
-    Navbar,
-    Image,
-    OverlayTrigger,
-    Popover,
-    ListGroup,
-    ListGroupItem
-} from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import './TopMenu.css';
-import profile from './../../assets/iu_profile.png';
+import React, { Component } from 'react';
+import { Navbar } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import profile from './../../assets/iu_profile.png';
 import { history } from '../../store';
-import * as actionCreators from '../../store/actions/user.action';
+import { userActions } from '../../store/actions';
 import TopMenuPopUp from './TopMenuPopUp';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './TopMenu.css';
 
 class TopMenu extends Component {
     state = {
@@ -35,11 +26,11 @@ class TopMenu extends Component {
         }
     }
 
-    componentDidUpdate() {
-        if (localStorage.getItem('logged_in') === 'true') {
-            this.props.reloadUser();
-        }
-    }
+    // componentDidUpdate() {
+    //     if (localStorage.getItem('logged_in') === 'true') {
+    //         this.props.reloadUser();
+    //     }
+    // }
 
     signInHandler = () => {
         history.push('/signin');
@@ -59,7 +50,8 @@ class TopMenu extends Component {
 
     searchConfirmHandler = () => {
         if (!this.state.searchkey) alert('Input your Search Words.');
-        else history.push(`/adposts/search=${this.state.searchkey}`);
+        else
+            history.push(`/adposts/search/${this.state.searchkey}/${'string'}`);
     };
 
     keyPressHandler = e => {
@@ -67,8 +59,7 @@ class TopMenu extends Component {
     };
 
     newArticleHandler = () => {
-        if (this.props.logged_in) history.push('/article/create');
-        else history.push('/signin');
+        history.push('/article/create');
     };
 
     render() {
@@ -112,6 +103,7 @@ class TopMenu extends Component {
                     )}
                     {this.props.logged_in && (
                         <TopMenuPopUp
+                            id="pop-up-menu"
                             user={this.props.user}
                             mypageHandler={this.clickMyPageHandler}
                             signOutHandler={this.clickSignOutHandler}
@@ -138,12 +130,9 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => {
     return {
-        onsignOut: () => dispatch(actionCreators.signOut()),
-        reloadUser: () => dispatch(actionCreators.getUser())
+        onsignOut: () => dispatch(userActions.signOut()),
+        reloadUser: () => dispatch(userActions.getUser())
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TopMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);

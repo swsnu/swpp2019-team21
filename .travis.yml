@@ -3,7 +3,7 @@ matrix:
     - language: node_js
       node_js:
         - "10"
-      dist: trusty
+      dist: xenial
       addons:
         sonarcloud:
           organization: "swsnu"
@@ -16,9 +16,16 @@ matrix:
       script:
         - ./node_modules/.bin/eslint src
         - yarn test --coverage --watchAll=false
+      after_success:
         - sonar-scanner
     - language: python
       python: "3.6"
+      dist: xenial
+      addons:
+        sonarcloud:
+          organization: "swsnu"
+          token:
+            secure: "MA+LnEsKKHIFiYxfGrwlv+DkRRiIKY7xjU/Maqd4LYjowM2gYCaBgWK3/HRAd0VkyrB+8a8XNtrCt5EBKWUYCqDV83CrdV0Kvi5XD9GYyUZjWQ7ZG0Z0e6+hGkOaBz/NVJ15cmB/22DnadW0UDJME9nIx8+dMj9Lp47t4Y+6iPvS0DMT5KJIQq4NRi0iFe6DFVPp2Kmuv/zH0rOHUvD2wmoEu1M5u5+a6jxXDou+KCwMttQc8L8tWFeM1bGiM8UabDIODaQsnAEBcnIv+POar3e9CGdFgulJcWjT4OYog36r52QiqayJMg1d68oO2/b1KCUCrcRBQCMJx4mi6Z5d46LPTUdXOwnVt/1LEXKf3JO4nx22PwDlY9L62CPl3wj28b1vUgvaVBKQKNuWA8DR8ysSkiQFIQs4aTAeMPpz0I+rfTj2DoZWB/3weEUdBC8uwJTr1jsqTxXQmsNKc65pBvv+VZaMrBQ/L6aC2D67dks6EiyZ/rfxmTgEQ6myOoytYxEQiWt4KmQYFhJj0d0TlLNkW8jB0eMAkYrFg9PhDCn8xuMIlsKHF0mCEwvpGjV/jO2daHvHaXcRP+8qnJiNbQ8fLTxnj9VYx8P/oUip90uHAlRUfTIplfx0fO/NYvkrQAu7gOU8y1gE5VJUJSoLUYGoViTQJgl7fRXaQmMP5ZI="
       before_install:
         - cd backend
       install:
@@ -27,3 +34,6 @@ matrix:
         #- pylint **/*.py
         - coverage run --source="." manage.py test adit
         - coverage report
+        - coverage xml
+      after_success:
+        - sonar-scanner

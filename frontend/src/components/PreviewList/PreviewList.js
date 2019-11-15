@@ -7,7 +7,6 @@ import 'react-multi-carousel/lib/styles.css';
 import './PreviewList.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { Route, Link } from 'react-router-dom';
 
 const responsive = {
     desktop: {
@@ -47,18 +46,19 @@ const responsive_compact = {
 
 class PreviewList extends React.Component {
     clickPreviewHandler = id => {
-        //alert('PREVIEW ID:' + id);
-        history.push('/article/' + id);
+        history.push(`/article/${id}`);
     };
 
     clickSearchMoreHandler = () => {
-        history.push(`/adposts/search=${this.props.list_name}`);
+        history.push(
+            `/adposts/search/${this.props.query}/${this.props.query_type}`
+        );
     };
 
     render() {
         return (
             <div className="PreviewList">
-                <h1 id="list-title">{this.props.list_name}</h1>
+                <h1 id="list-title">{this.props.query}</h1>
                 <Carousel
                     id="list-carousel"
                     responsive={
@@ -67,7 +67,7 @@ class PreviewList extends React.Component {
                     {this.props.articles
                         ? this.props.articles.map(item => (
                               <Preview
-                                  key={item.id}
+                                  key={item}
                                   preview={item}
                                   clickPreview={() =>
                                       this.clickPreviewHandler(item.id)
@@ -81,7 +81,7 @@ class PreviewList extends React.Component {
                             icon={faPlusCircle}
                             aria-hidden="true"
                             onClick={this.clickSearchMoreHandler}
-                            size='10x'
+                            size="10x"
                         />
                     </div>
                 </Carousel>
@@ -92,7 +92,8 @@ class PreviewList extends React.Component {
 
 PreviewList.propTypes = {
     articles: PropTypes.any,
-    list_name: PropTypes.string
+    query: PropTypes.string,
+    query_type: PropTypes.string
 };
 
 export default PreviewList;

@@ -58,7 +58,7 @@ def list_process(post_list_by):
     return
 
 
-class signUp(View):
+class SignUpView(View):
     item_list = ['email', 'password', 'first_name', 'last_name', 'nickname', 'tags']
 
     @check_valid_json(item_list=item_list)
@@ -91,7 +91,7 @@ class signUp(View):
         return HttpResponse(status=201)
 
 
-class signIn(View):
+class SignInView(View):
     item_list = ['email', 'password']
 
     @check_valid_json(item_list=item_list)
@@ -107,14 +107,14 @@ class signIn(View):
             return HttpResponse(status=401)
 
 
-class signOut(View):
+class SignOutView(View):
     @check_is_authenticated
     def get(self, request):
         logout(request)
         return HttpResponse(status=204)
 
 
-class getUser(View):
+class GetUserView(View):
     item_list = ['first_name', 'last_name', 'nickname', 'tags']
 
     @check_is_authenticated
@@ -174,7 +174,7 @@ class getUser(View):
         tag_process(response_dict)
         return JsonResponse(response_dict)
 
-class updatePoint(View):
+class UpdatePointView(View):
     @check_is_authenticated
     def put(self, request):
         user = request.user
@@ -183,7 +183,7 @@ class updatePoint(View):
         user.save()
         return HttpResponse(status=204)
 
-class changePW(View):
+class ChangePWView(View):
     @check_is_authenticated
     def put(self, request):
         user = request.user
@@ -199,7 +199,7 @@ class changePW(View):
         else:
             return HttpResponseNotAllowed()
 
-class adPost(View):
+class AdPostView(View):
     item_list = ['title', 'subtitle', 'content', 'image', 'ad_link', 'target_views', 'expiry_date',
                  'tags']
 
@@ -255,7 +255,7 @@ class adPost(View):
         return JsonResponse(response_dict, safe=False)
 
 
-class adPostByID(View):
+class AdPostByIDView(View):
     item_list = ['id', 'title', 'subtitle', 'content', 'image', 'ad_link', 'closed']
     item_put_list = ['title', 'subtitle', 'content', 'image']
 
@@ -355,7 +355,7 @@ class adPostByID(View):
         return HttpResponse(status=204)
 
 
-class adPostByOwnerID(View):
+class AdPostByOwnerIDView(View):
     @check_is_authenticated
     def get(self, request):
         post_by_userid = [model_to_dict(post) for post in
@@ -364,7 +364,7 @@ class adPostByOwnerID(View):
         return JsonResponse(post_by_userid, status=200, safe=False)
 
 
-class adPostByParticipantID(View):
+class AdPostByParticipantIDView(View):
     @check_is_authenticated
     def get(self, request):
         user = request.user
@@ -374,7 +374,7 @@ class adPostByParticipantID(View):
         return JsonResponse(post_by_userid, status=200, safe=False)
 
 
-class adPostByTag(View):
+class AdPostByTagView(View):
     def get(self, request, tag):
         post_by_tag = [model_to_dict(post) for tagrelated in InterestedTags.objects.filter(content=tag).all() for post
                        in tagrelated.topost.all().order_by('-upload_date')]  # all()? not all()?
@@ -382,21 +382,21 @@ class adPostByTag(View):
         return JsonResponse(post_by_tag, status=200, safe=False)
 
 
-class adPostByHot(View):
+class AdPostByHotView(View):
     def get(self, request):
         post_by_hot = [model_to_dict(post) for post in AdPost.objects.all().order_by('-total_views', '-upload_date')]
         list_process(post_by_hot)
         return JsonResponse(post_by_hot, status=200, safe=False)
 
 
-class adPostByRecent(View):
+class AdPostByRecentView(View):
     def get(self, request):
         post_by_recent = [model_to_dict(post) for post in AdPost.objects.all().order_by('-upload_date')]
         list_process(post_by_recent)
         return JsonResponse(post_by_recent, status=200, safe=False)
 
 
-class adPostBySearch(View):
+class AdPostBySearchView(View):
     def get(self, request, str):
         post_by_search = [model_to_dict(post) for post in
                           AdPost.objects.all().filter(Q(title__icontains=str) | Q(subtitle__icontains=str)).order_by(
@@ -405,7 +405,7 @@ class adPostBySearch(View):
         return JsonResponse(post_by_search, status=200, safe=False)
 
 
-class adPostByCustom(View):
+class AdPostByCustomView(View):
     @check_is_authenticated
     def get(self, request):
         user_tags = list(request.user.tags.all())
@@ -441,7 +441,7 @@ def decode(code, object):
     return res[1]
 
 
-class adReception(View):
+class AdReceptionView(View):
     @check_is_authenticated
     def get(self, request):
         reception_by_userid = [model_to_dict(rcpt) for rcpt in
@@ -467,7 +467,7 @@ class adReception(View):
         return JsonResponse(response_dict, status=201)
 
 
-class adReceptionByPostID(View):
+class AdReceptionByPostIDView(View):
     @check_is_authenticated
     # 주의: ad의 주인도 확인할 수 있어야 함. if 문으로 처리해야 할 듯?
     def get(self, request, id):
@@ -478,7 +478,7 @@ class adReceptionByPostID(View):
         return JsonResponse(response_dict)
 
 
-class adReceptionByID(View):
+class AdReceptionByIDView(View):
     @check_is_authenticated
     @check_object_exist(object_type=AdReception)
     @check_is_permitted(object_type=AdReception)  # 주의: ad의 주인도 확인할 수 있어야 함. if 문으로 처리해야 할 듯?
@@ -487,7 +487,7 @@ class adReceptionByID(View):
         return JsonResponse(response_dict)
 
 
-class adReceptionOutRedirect(View):
+class AdReceptionOutRedirectView(View):
     ### ad closed ==> 410
     def get(self, request, str):
         #TODO: Revise Hard Coding
@@ -517,11 +517,7 @@ class adReceptionOutRedirect(View):
                 post.save()
             response_dict = {'ad_link': post.ad_link}  # Redirect to = post.ad_link
             return JsonResponse(response_dict)
-
-        return HttpResponse(status=404)
-
-
-class adReceptionRedirect(View):
+class AdReceptionRedirectView(View):
     ### ad closed ==> 410
     def get(self, request, id):
         reception_object = AdReception.objects.filter(id=id)
@@ -535,7 +531,7 @@ class adReceptionRedirect(View):
         return JsonResponse(response_dict)
 
 
-class tag(View):
+class TagView(View):
     item_list = ['content']
 
     @check_is_authenticated
@@ -545,7 +541,7 @@ class tag(View):
         return JsonResponse(taglist, safe=False)
 
 
-class tagSearch(View):
+class TagSearchView(View):
     def get(self, request, pattern):
         tags_by_searchkey = [model_to_dict(tag) for tag in
                              InterestedTags.objects.all().filter(content__startswith=pattern)]
@@ -553,7 +549,7 @@ class tagSearch(View):
 
 
 """
-def questionPostId(request, adpostid):
+def questionPostIdView(request, adpostid):
     if request.method == 'GET':
         # TODO
         return HttpResponse(status=201)

@@ -13,17 +13,15 @@ import ArticleEdit from './containers/Article/ArticleEdit/ArticleEdit';
 import ArticleCreate from './containers/Article/ArticleCreate/ArticleCreate';
 import ResetPW from './containers/UserInfo/ResetPW/ResetPW';
 import BottomBox from './components/BottomBox/BottomBox';
-import Redirect from './containers/Redirect/Redirect'
+import Redirect from './containers/Redirect/Redirect';
 import { ScrollToTop } from './test/utils/ScrollToTop';
 import { connect } from 'react-redux';
-
 
 class App extends Component {
     render() {
         return (
             <ConnectedRouter
-                history={this.props.history}
-                onUpdate={() => window.scrollTo(0, 0)}>
+                history={this.props.history}>
                 <div className="App">
                     <ScrollToTop />
                     <TopMenu />
@@ -32,7 +30,7 @@ class App extends Component {
                         <Route path="/signup" exact component={SignUp} />
                         <Route path="/home" exact component={Home} />
                         <Route
-                            path="/adposts/search=:tag"
+                            path="/adposts/search/:query/:query_type"
                             exact
                             component={ArticleSearch}
                         />
@@ -59,7 +57,7 @@ class App extends Component {
                             component={Redirect}
                         />
                         <Route
-                            component={() => (window.location = '/signin')}
+                            component={() => (window.location = '/home')}
                         />
                     </Switch>
                     <BottomBox />

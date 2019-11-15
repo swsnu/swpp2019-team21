@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import EventItemList from './EventItemList';
 
 const mockedState = {
@@ -30,5 +30,12 @@ describe('<EventItemList />', () => {
         const component = shallow(<EventItemList eventItems={mockedItem} />);
         const wrapper = component.find('.EventItemList');
         expect(wrapper.length).toBe(1);
+    });
+    it('should alert when clicked', () => {
+        window.alert = jest.fn();
+        const component = shallow(<EventItemList eventItems={mockedItem} />);
+        const wrapper = component.find('.EventItemListItem');
+        wrapper.at(0).simulate('click');
+        expect(window.alert).toHaveBeenCalledTimes(1);
     });
 });

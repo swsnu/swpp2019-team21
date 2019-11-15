@@ -1,24 +1,19 @@
 import React, { Component } from 'react';
-import {
-    Modal,
-    Button,
-    ListGroup,
-} from 'react-bootstrap';
+import { Modal, Button, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import ReactTags from 'react-tag-autocomplete';
-import './UserDetail.css';
-import * as actionCreators from '../../store/actions/user.action';
+import { history } from '../../store';
+import { tagActions, userActions } from '../../store/actions';
 import avatar from '../../assets/iu_profile.png';
-import { history } from '../../store'
-import { tagActions } from '../../store/actions/tag.action';
+import './UserDetail.css';
 
 class UserDetail extends Component {
     state = {
         user: { first_name: '', last_name: '', nickname: '', tags: [] },
         password: {
-            current_password:'',
-            new_password:'',
-            new_password_check:'',
+            current_password: '',
+            new_password: '',
+            new_password_check: ''
         },
         showChangePW: false,
         showChargePoint: false,
@@ -26,42 +21,44 @@ class UserDetail extends Component {
     };
     componentDidMount() {
         this.props.onTagReload();
-        this.props.reloadUser()
-            .then(res => { this.setState({
+        this.props.reloadUser().then(res => {
+            this.setState({
                 ...this.state,
-                user:{
+                user: {
                     ...this.state.user,
                     first_name: res.user.first_name,
                     last_name: res.user.last_name,
                     nickname: res.user.nickname,
-                    tags: res.user.tags.map(str => ({name:str})),
+                    tags: res.user.tags.map(str => ({ name: str }))
                 }
-            })
-        })
+            });
+        });
     }
     changePWHandler = () => this.setState({ showChangePW: true });
     changePWFinishHandler = () => {
         localStorage.setItem('logged_in', 'false');
-        this.props.changePW(this.state.password)
-        history.push('/signin')
+        this.props.changePW(this.state.password);
+        history.push('/signin');
     };
     chargePointHandler = () => this.setState({ showChargePoint: true });
     chargePointFinishHandler = () => {
-        this.props.updatePoint({point:this.props.user.point * 1 + this.state.addpoint * 1})
+        this.props.updatePoint({
+            point: this.props.user.point * 1 + this.state.addpoint * 1
+        });
         this.setState({ showChargePoint: false });
         alert('Done!');
-        window.location.reload()
+        window.location.reload();
     };
-    saveChangesHandler = () => {    
+    saveChangesHandler = () => {
         const user = {
-            nickname: this.state.user.nickname, 
+            nickname: this.state.user.nickname,
             first_name: this.state.user.first_name,
             last_name: this.state.user.last_name,
             tags: this.state.user.tags.map(str => str.name)
-        }
-        this.props.putUser(user)
+        };
+        this.props.putUser(user);
         alert('Saved!');
-        window.location.reload()
+        window.location.reload();
     };
     withdrawalHandler = () => {
         alert('Noooo.....');
@@ -69,24 +66,29 @@ class UserDetail extends Component {
     deleteTagHandler = i => {
         const tags = this.state.user.tags.slice(0);
         tags.splice(i, 1);
-        this.setState({ ...this.state, user:{...this.state.user, tags: tags}});
+        this.setState({
+            ...this.state,
+            user: { ...this.state.user, tags: tags }
+        });
     };
 
     addTagHandler = tag => {
         const tags = [].concat(this.state.user.tags, tag);
-        this.setState({ ...this.state, user:{...this.state.user, tags: tags}});
+        this.setState({
+            ...this.state,
+            user: { ...this.state.user, tags: tags }
+        });
     };
 
     render() {
         var point = null;
         var pic = null;
         var email = null;
-        if(this.props.user){
-            point = this.props.user.point
-            pic = this.props.user.pic
-            email = this.props.user.email
+        if (this.props.user) {
+            point = this.props.user.point;
+            pic = this.props.user.pic;
+            email = this.props.user.email;
         }
-        console.log(this.props.allTags);
         return (
             <div className="UserDetail">
                 <Modal
@@ -105,13 +107,16 @@ class UserDetail extends Component {
                                 className="form-fixed"
                                 id="password"
                                 value={this.state.password.current_password}
-                                onChange={event => this.setState({
-                                    ...this.state,
-                                    password:{
-                                        ...this.state.password,
-                                        current_password:event.target.value
-                                    }
-                                })}
+                                onChange={event =>{
+                                    this.setState({
+                                        ...this.state,
+                                        password: {
+                                            ...this.state.password,
+                                            current_password: event.target.value
+                                        }
+                                    })
+                                }
+                                }
                             />
                         </div>
                         <div className="form-group" align="left">
@@ -123,13 +128,15 @@ class UserDetail extends Component {
                                 className="form-fixed"
                                 id="new-password"
                                 value={this.state.password.new_password}
-                                onChange={event => this.setState({
-                                    ...this.state,
-                                    password:{
-                                        ...this.state.password,
-                                        new_password:event.target.value
-                                    }
-                                })}
+                                onChange={event =>
+                                    this.setState({
+                                        ...this.state,
+                                        password: {
+                                            ...this.state.password,
+                                            new_password: event.target.value
+                                        }
+                                    })
+                                }
                             />
                         </div>
                         <div className="form-group" align="left">
@@ -141,18 +148,22 @@ class UserDetail extends Component {
                                 className="form-fixed"
                                 id="new-password-check"
                                 value={this.state.password.new_password_check}
-                                onChange={event => this.setState({
-                                    ...this.state,
-                                    password:{
-                                        ...this.state.password,
-                                        new_password_check:event.target.value
-                                    }
-                                })}
+                                onChange={event =>
+                                    this.setState({
+                                        ...this.state,
+                                        password: {
+                                            ...this.state.password,
+                                            new_password_check:
+                                                event.target.value
+                                        }
+                                    })
+                                }
                             />
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
+                            id="password-confirm"
                             variant="primary"
                             onClick={this.changePWFinishHandler}>
                             Save
@@ -202,6 +213,7 @@ class UserDetail extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
+                            id="charge-confirm"
                             variant="primary"
                             onClick={this.chargePointFinishHandler}>
                             Save
@@ -211,14 +223,7 @@ class UserDetail extends Component {
 
                 <h2 className="UserInfoTitle">User Info</h2>
                 <div className="avatar">
-                    <img
-                        src={
-                            pic
-                                ? pic
-                                : avatar
-                        }
-                        className="Avatar"
-                    />
+                    <img src={pic ? pic : avatar} className="Avatar" />
                 </div>
                 <div className="form-group" align="left">
                     <p className="label-tag" align="left">
@@ -234,11 +239,17 @@ class UserDetail extends Component {
                     </p>
                     <input
                         className="form-control"
-                        id="fname"
+                        id="nickname"
                         type="text"
                         value={this.state.user.nickname}
                         onChange={event =>
-                            this.setState({...this.state, user: { ...this.state.user, nickname: event.target.value }})
+                            this.setState({
+                                ...this.state,
+                                user: {
+                                    ...this.state.user,
+                                    nickname: event.target.value
+                                }
+                            })
                         }
                     />
                 </div>
@@ -254,7 +265,13 @@ class UserDetail extends Component {
                                 type="text"
                                 value={this.state.user.first_name}
                                 onChange={event =>
-                                    this.setState({...this.state, user: { ...this.state.user, first_name: event.target.value }})
+                                    this.setState({
+                                        ...this.state,
+                                        user: {
+                                            ...this.state.user,
+                                            first_name: event.target.value
+                                        }
+                                    })
                                 }
                             />
                         </div>
@@ -270,24 +287,30 @@ class UserDetail extends Component {
                                 type="text"
                                 value={this.state.user.last_name}
                                 onChange={event =>
-                                    this.setState({...this.state, user: { ...this.state.user, last_name: event.target.value }})
+                                    this.setState({
+                                        ...this.state,
+                                        user: {
+                                            ...this.state.user,
+                                            last_name: event.target.value
+                                        }
+                                    })
                                 }
                             />
                         </div>
                     </td>
                 </table>
                 <div className="tagSelect">
-                        <p className="input-tag" align="left">
-                            Tags
-                        </p>
-                        <ReactTags
-                            tags={this.state.user.tags}
-                            suggestions={this.props.allTags}
-                            handleDelete={this.deleteTagHandler}
-                            handleAddition={this.addTagHandler}
-                            allowNew={true}
-                            minQueryLength={1}
-                        />
+                    <p className="input-tag" align="left">
+                        Tags
+                    </p>
+                    <ReactTags
+                        tags={this.state.user.tags}
+                        suggestions={this.props.allTags}
+                        handleDelete={this.deleteTagHandler}
+                        handleAddition={this.addTagHandler}
+                        allowNew={true}
+                        minQueryLength={1}
+                    />
                 </div>
                 <div className="form-group" align="left">
                     <p className="label-tag" align="left">
@@ -319,7 +342,7 @@ class UserDetail extends Component {
                         </ListGroup.Item>
                     </ListGroup>
                     <p className="form-select" align="right">
-                        <a href="#" onClick={this.withdrawalHandler}>
+                        <a id="withdrawal" href="#" onClick={this.withdrawalHandler}>
                             Withrawal
                         </a>
                     </p>
@@ -338,11 +361,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        reloadUser: () => dispatch(actionCreators.getUser()),
-        putUser: (user) => dispatch(actionCreators.putUser(user)),
-        changePW: (pw) => dispatch(actionCreators.changePW(pw)),
-        updatePoint: (point) => dispatch(actionCreators.updatePoint(point)),
-        signOut: () => dispatch(actionCreators.signOut()),
+        reloadUser: () => dispatch(userActions.getUser()),
+        putUser: user => dispatch(userActions.putUser(user)),
+        changePW: pw => dispatch(userActions.changePW(pw)),
+        updatePoint: point => dispatch(userActions.updatePoint(point)),
         onTagReload: () => dispatch(tagActions.getAllTag())
     };
 };

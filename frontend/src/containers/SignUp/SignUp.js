@@ -1,20 +1,9 @@
-import React, { Component, Profiler } from 'react';
-import {
-    Dropdown,
-    DropdownButton,
-    Navbar,
-    Image,
-    OverlayTrigger,
-    Popover,
-    ListGroup,
-    ListGroupItem
-} from 'react-bootstrap';
-import profile from './../../assets/iu_profile.png';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './SignUp.css';
 import ReactTags from 'react-tag-autocomplete';
+import { userActions } from '../../store/actions';
 import avatar from '../../assets/avatar.png';
-import * as actionCreators from '../../store/actions/user.action';
+import './SignUp.css';
 
 class SignUp extends Component {
     state = {
@@ -41,8 +30,8 @@ class SignUp extends Component {
             this.setState({ ...this.state, password_check: '' });
             return;
         } else if (
-            this.state.first_name === '' ||
-            this.state.last_name === ''
+            this.state.fname === '' ||
+            this.state.lname === ''
         ) {
             alert('name section cannot be empty');
             return;
@@ -74,9 +63,9 @@ class SignUp extends Component {
         this.setState({ tags: tags });
     };
 
-    passwordCheckerHandler = () => {
+/*    passwordCheckerHandler = () => {
         // TODO Inputbox Get Red
-    };
+    };*/
 
     render() {
         return (
@@ -99,7 +88,7 @@ class SignUp extends Component {
                         </p>
                         <input
                             className={`form-control${
-                                this.state.valid.email ? '' : ''
+                                this.state.valid.email ? '' : '-unvalid'
                             }`}
                             id="email-input"
                             type="text"
@@ -194,6 +183,7 @@ class SignUp extends Component {
                         <input
                             className="form-control"
                             type="text"
+                            id="nickname"
                             value={this.state.nickname}
                             required="required"
                             onChange={event =>
@@ -207,6 +197,7 @@ class SignUp extends Component {
                         </p>
                         <ReactTags
                             tags={this.state.tags}
+                            id="reacttags"
                             suggestions={this.props.allTags}
                             handleDelete={this.deleteTagHandler}
                             handleAddition={this.addTagHandler}
@@ -236,15 +227,15 @@ class SignUp extends Component {
     }
 }
 
-const mapStateToProps = status => {
+const mapStateToProps = state => {
     return {
-        allTags: status.tag.all_tags
+        allTags: state.tag.all_tags
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSignUp: user => dispatch(actionCreators.signUp(user))
+        onSignUp: user => dispatch(userActions.signUp(user))
     };
 };
 

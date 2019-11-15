@@ -1,6 +1,5 @@
-import React, { Component, Profiler } from 'react';
+import React, { Component } from 'react';
 import { ProgressBar } from 'react-bootstrap';
-import { connect } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './ArticlePreview.css';
 
@@ -84,8 +83,6 @@ class ArticlePreview extends Component {
                                                 {this.props.views * multiplier}
                                             </h2>
                                             Points!
-                                            {console.log(this.props.views)}
-                                            {console.log(this.props)}
                                         </h2>
                                     </div>
                                 )}
