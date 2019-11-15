@@ -13,11 +13,13 @@ matrix:
         - cd frontend
       install:
         - yarn install
+        - yarn install coveralls
       script:
         - ./node_modules/.bin/eslint src
         - yarn test --coverage --watchAll=false
       after_success:
         - sonar-scanner
+        - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
     - language: python
       python: "3.6"
       dist: xenial
@@ -30,6 +32,7 @@ matrix:
         - cd backend
       install:
         - pip3 install -r requirements.txt
+        - pip3 install coveralls
       script:
         #- pylint **/*.py
         - coverage run --source="." manage.py test adit
@@ -37,3 +40,4 @@ matrix:
         - coverage xml
       after_success:
         - sonar-scanner
+        - coveralls
