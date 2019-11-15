@@ -9,7 +9,7 @@ const initialState = {
     byuser_list: []
 };
 
-export const adreception_reducer = (state = initialState, action) => {
+export const adreception_reducer = (state = initialState, action = null) => {
     switch (action.type) {
         case actionTypes.POST_RECEPTION:
             return {
