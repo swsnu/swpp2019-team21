@@ -22,7 +22,7 @@ function getAllTag() {
             })
             .catch(error => {
                 // TODO: error handling
-                console.log(error);
+                //console.log(error);
             });
     };
 }
