@@ -20,7 +20,6 @@ export const adreception_reducer = (state = initialState, action) => {
                 unique_link: action.data.unique_link
             };
         case actionTypes.GET_RECEPTION:
-            console.log(action.data);
             return {
                 ...state,
                 submitted: true,
@@ -36,7 +35,6 @@ export const adreception_reducer = (state = initialState, action) => {
                 is_participated: true
             };
         case actionTypes.GET_BYUSER:
-            console.log(action.data);
             return {
                 ...state,
                 byuser_list: action.data
