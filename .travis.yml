@@ -3,7 +3,7 @@ matrix:
     - language: node_js
       node_js:
         - "10"
-      dist: trusty
+      dist: xenial
       addons:
         sonarcloud:
           organization: "swsnu"
