@@ -20,7 +20,7 @@ matrix:
         - sonar-scanner
     - language: python
       python: "3.6"
-      dist: trusty
+      dist: xenial
       addons:
         sonarcloud:
           organization: "swsnu"
