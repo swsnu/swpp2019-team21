@@ -21,13 +21,13 @@ class ArticleDetail extends Component {
         this.setState({ ...this.state, participated: true });
     };
 
-/*    postEditHandler = () => {
+    /*    postEditHandler = () => {
         //window.location.assign(window.location.href + '/edit');
         this.props.history.push('/article/1/edit');
     };*/
 
     render() {
-        if (this.props.loaded == true) {
+        if (this.props.loaded) {
             const taglist = this.props.article.tags.reduce((acc, cur, i) => {
                 return acc + '#' + cur + ' ';
             }, '');
@@ -177,7 +177,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ArticleDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);
