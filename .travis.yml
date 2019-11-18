@@ -19,7 +19,7 @@ matrix:
         - yarn test --coverage --watchAll=false
       after_success:
         - sonar-scanner
-        - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+        - coveralls-lcov -v -n coverage/lcov.info > coverage.json
     - language: python
       python: "3.6"
       dist: xenial
