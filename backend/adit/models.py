@@ -1,6 +1,7 @@
 from builtins import ValueError
 from django.db import models
-from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser, PermissionsMixin)
+from django.contrib.auth.models import (
+    BaseUserManager, AbstractBaseUser, PermissionsMixin)
 
 
 class AditUserManager(BaseUserManager):
@@ -187,6 +188,9 @@ class AdReception(models.Model):
     unique_link = models.TextField()
     closed = models.BooleanField()
     recept_time = models.DateTimeField()
+
+    def __str__(self):
+        return self.unique_link
 
 
 class Question(models.Model):
