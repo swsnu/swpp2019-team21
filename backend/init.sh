@@ -1,3 +1,4 @@
+sudo apt-get install mysql-client mysql-server
 virtualenv venv
 source venv/bin/activate
 rm -rf ./adit/0001_initial.py
