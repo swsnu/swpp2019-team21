@@ -173,6 +173,7 @@ class GetUserView(View):
         tag_process(response_dict)
         return JsonResponse(response_dict)
 
+
 class UpdatePointView(View):
     @check_is_authenticated
     def put(self, request):
@@ -181,6 +182,7 @@ class UpdatePointView(View):
         user.point = req_data['point']
         user.save()
         return HttpResponse(status=204)
+
 
 class ChangePWView(View):
     @check_is_authenticated
@@ -195,6 +197,7 @@ class ChangePWView(View):
             return HttpResponse(status=204)
         else:
             return HttpResponseNotAllowed()
+
 
 class AdPostView(View):
     item_list = ['title', 'subtitle', 'content', 'image', 'ad_link', 'target_views', 'expiry_date',
@@ -258,10 +261,10 @@ class AdPostByIDView(View):
 
     @check_object_exist(object_type=AdPost)
     def get(self, request, id):
-        response_dict = model_to_dict(AdPost.objects.get(id = id))
-        if response_dict['owner'] ==  request.user.id:
+        response_dict = model_to_dict(AdPost.objects.get(id=id))
+        if response_dict['owner'] == request.user.id:
             response_dict['is_owner'] = True;
-        else :
+        else:
             response_dict['is_owner'] = False;
 
         model_process(response_dict)
@@ -485,34 +488,62 @@ class AdReceptionByIDView(View):
 
 class AdReceptionOutRedirectView(View):
     ### ad closed ==> 410
-    def get(self, request, str):
-        #TODO: Revise Hard Coding
+    def get(self, request, query_str):
+        # TODO: Revise Hard Coding
         base_link = 'http://localhost:3000/redirectfrom='
-        print("DEBUG:: " + base_link+str)
-        print(AdReception.objects.all())
-        if not AdReception.objects.filter(unique_link=base_link+str).exists():
+        if not AdReception.objects.filter(unique_link=base_link + query_str).exists():
             return HttpResponseNotFound()
-        reception_object = AdReception.objects.get(unique_link=base_link+str)
+        reception_object = AdReception.objects.get(unique_link=base_link + query_str)
         post_id = reception_object.adpost.id
         post = AdPost.objects.get(id=post_id)
+
+        # return on post closed
         if post.closed:
             return HttpResponse(status=410)
+
+        # make redirect data for frontend
+        owner = reception_object.owner
+        response_dict = {'ad_link': post.ad_link}
+        response = JsonResponse(response_dict)
+
+        if request.user.is_authenticated:
+            cookie_name = f'hit:{request.user.id}'
         else:
-            reception_object.views += 1
-            reception_object.save()
-            print(reception_object.views)
-            owner = reception_object.owner
-            print(owner)
-            print(request.user)
-            owner.point += 7
-            owner.save()
-            post.total_views += 1
-            post.save()
-            if post.total_views == post.target_views:
-                post.closed = True
+            cookie_name = 'hit'
+
+        tomorrow = datetime.replace(datetime.now(), hour=23, minute=59, second=0)
+        expires = datetime.strftime(tomorrow, "%a, %d-%b-%Y %H:%M:%S GMT")
+
+        if request.COOKIES.get(cookie_name) is not None:
+            cookies = request.COOKIES.get(cookie_name)
+            cookies_list = cookies.split('|')
+            if str(reception_object.id) not in cookies_list:
+                response.set_cookie(cookie_name, cookies + f'|{post_id}', expires=expires)
+
+                reception_object.views += 1
+                owner.point += 7
+                post.total_views += 1
+
+                reception_object.save()
+                owner.save()
                 post.save()
-            response_dict = {'ad_link': post.ad_link}  # Redirect to = post.ad_link
-            return JsonResponse(response_dict)
+        else:
+            response.set_cookie(cookie_name, post_id, expires=expires)
+
+            reception_object.views += 1
+            owner.point += 7
+            post.total_views += 1
+
+            reception_object.save()
+            owner.save()
+            post.save()
+
+        if post.total_views == post.target_views:
+            post.closed = True
+            post.save()
+        return response
+
+
 class AdReceptionRedirectView(View):
     ### ad closed ==> 410
     def get(self, request, id):

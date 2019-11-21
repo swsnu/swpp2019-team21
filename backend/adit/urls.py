@@ -22,7 +22,7 @@ urlpatterns = [
     path('adreception/by-post/<int:id>/', views.AdReceptionByPostIDView.as_view()),
     path('adreception/<int:id>/', views.AdReceptionByIDView.as_view()),
     path('adreception/redirect/<int:id>/', views.AdReceptionRedirectView.as_view()),
-    path('adreception/redirectto=<str:str>/', views.AdReceptionOutRedirectView.as_view()),
+    path('adreception/redirectto=<str:query_str>/', views.AdReceptionOutRedirectView.as_view()),
     path('tag/', views.TagView.as_view()),
     path('tag/search/<str:pattern>/', views.TagSearchView.as_view())
     # path('question/<int:adpostid>/', views.questionPostId)
