@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-import {
-    adpostActions,
-    adreceptionActions
-} from '../../store/actions';
+import { adpostActions, adreceptionActions } from '../../store/actions';
 import UserDetail from '../../components/UserDetail/UserDetail';
 import PreviewList from '../../components/PreviewList/PreviewList';
 import background from '../../assets/userinfo_background.jpg';
@@ -54,13 +51,16 @@ class UserInfo extends Component {
         ) {
             participated_article = this.props.adpost_items['participant'].list;
         }
-        /*
-        if (this.props.reception_list && participated_article) {
+
+        if (
+            this.props.reception_list.length > 0 &&
+            participated_article.length > 0
+        ) {
+            console.log(this.props.reception_list, participated_article);
             reception_table = this.props.reception_list.map(rcp => {
                 var acl = participated_article.filter(
                     item => item.id == rcp.adpost
                 )[0];
-                console.log(acl);
                 return (
                     <tr
                         id="table_contents"
@@ -75,8 +75,8 @@ class UserInfo extends Component {
                     </tr>
                 );
             });
-            console.log(this.props.reception_list);
-        }*/
+        }
+
         return (
             <div className="UserInfo">
                 <img src={background} id="title-background" />

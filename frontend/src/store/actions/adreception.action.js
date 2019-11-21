@@ -64,7 +64,7 @@ function getReception(id) {
     };
 }
 
-function getReceptionByUser(id) {
+function getReceptionByUser() {
     return dispatch => {
         return axios
             .get(base_url + '/adreception/')
