@@ -20,7 +20,7 @@ from .ml import suggest
 import gensim
 import os
 
-word_model = gensim.models.Word2Vec.load('./adit/ml/ko.bin')
+word_model = gensim.models.Word2Vec.load('./adit/ml/model.bin')
 
 def user_related_post(request):
     return suggest.post_suggest(word_model, AdPost.objects.filter(open_for_all = False), request.user.tags)
