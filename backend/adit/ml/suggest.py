@@ -1,6 +1,18 @@
 import gensim
 import numpy as np, pandas as pd
+import random
 from adit.models import *
+from adit.views import word_model
+
+def update_tag(tag_list, shuffle_size):
+    sentence = []
+    for _ in range(shuffle_size):
+        sentence.append(tag_list)
+        random.shuffle(tag_list)
+    print(sentence)
+    word_model.build_vocab(sentences=sentence, update=True, min_count=shuffle_size)
+    word_model.train(sentences=sentence,epochs=300, total_examples=shuffle_size)
+    word_model.save('models.bin')
 
 def tag_similarity(model, data_exist, data_input):
     #data_exist = ['전시회', '서울대', '박람회', '동아리', '공연', '휴대폰', '태블릿', '노트북스', '사랑', '어린이', '봉사', '날씨', '취업', '개발', '컴퓨터', '개발자', '코딩', '커피', '카페인']
@@ -23,7 +35,6 @@ def tag_similarity(model, data_exist, data_input):
                     pass
 
     return sim.items()/(data.shape[0] * len(sim))
-    
 
 def tag_suggest(model, data_exist, data_input, TH = -1):
     #data_exist = ['전시회', '서울대', '박람회', '동아리', '공연', '휴대폰', '태블릿', '노트북스', '사랑', '어린이', '봉사', '날씨', '취업', '개발', '컴퓨터', '개발자', '코딩', '커피', '카페인']
