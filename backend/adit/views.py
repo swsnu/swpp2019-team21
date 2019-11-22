@@ -23,7 +23,7 @@ import os
 word_model = gensim.models.Word2Vec.load('./adit/ml/ko.bin')
 
 def user_related_post(request):
-    return suggest.post_suggest(word_model, AdPost.objects.filter(open_for_all = False), request.user.tags)
+    return suggest.post_suggest(word_model, AdPost.objects.filter(open_for_all = True), request.user.tags)
 
 
 def target_post(request):
@@ -584,7 +584,7 @@ class TagView(View):
 class TagRec(View):
 #    @check_is_authenticated
     def get(self, request):
-        taglist = suggest.tag_suggest(word_model, InterestedTags, request.user.tags.content, 0.02)
+        taglist = suggest.tag_suggest(word_model, list(InterestedTags.objects.all()), list(request.user.tags.all()), 0.02)
         return JsonResponse(taglist, safe=False)
 
 
