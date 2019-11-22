@@ -1,5 +1,4 @@
 from builtins import KeyError
-
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from adit.models import AdPost
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -17,6 +16,18 @@ from datetime import datetime
 from django.core.files.base import ContentFile
 from hashids import Hashids
 import base64
+from .ml import suggest
+import gensim
+import os
+
+word_model = gensim.models.Word2Vec.load('./adit/ml/ko.bin')
+
+def user_related_post(request):
+    return suggest.post_suggest(word_model, AdPost.objects.filter(open_for_all = False), request.user.tags)
+
+
+def target_post(request):
+    return AdPost.objects.all().filter(Q(open_for_all=True) | Q(__in=user_related_post(request)))
 
 
 @ensure_csrf_cookie
@@ -201,7 +212,7 @@ class ChangePWView(View):
 
 class AdPostView(View):
     item_list = ['title', 'subtitle', 'content', 'image', 'ad_link', 'target_views', 'expiry_date',
-                 'tags']
+                 'tags', 'open_for_all']
 
     def post_to_dict(self, adpost):
         response_dict = model_to_dict(adpost)
@@ -224,12 +235,13 @@ class AdPostView(View):
         target_views = req_data['target_views']
         expiry_date = req_data['expiry_date']
         post_tags = req_data['tags']
+        open_for_all = req_data['open_for_all']
         upload_date = datetime.now()
         thumbnail = img_process(req_data['image'][0])
 
         adpost = AdPost(owner=request.user, title=title, subtitle=subtitle, content=content, ad_link=ad_link,
                         target_views=target_views, total_views=0, expiry_date=expiry_date, upload_date=upload_date,
-                        closed=False, thumbnail=thumbnail)
+                        closed=False, thumbnail=thumbnail, open_for_all=open_for_all)
         adpost.save()
 
         for tag in post_tags:
@@ -252,6 +264,7 @@ class AdPostView(View):
         adpost.save()
         response_dict = model_to_dict(adpost)
         model_process(response_dict)
+
         return JsonResponse(response_dict, safe=False)
 
 
@@ -277,11 +290,11 @@ class AdPostByIDView(View):
     def put(self, request, id):
         adpost = get_object_or_404(AdPost, id=id)
         req_data = json.loads(request.body.decode())
-        upload_date = datetime.now()
         adpost.title = req_data['title']
         adpost.subtitle = req_data['subtitle']
         adpost.content = req_data['content']
-        adpost.upload_date = upload_date
+        adpost.upload_date = datetime.now()
+        adpost.open_for_all = req_data['open_for_all']
         post_new_images = req_data['image'][1:]
         post_new_tags = req_data['tags']
         post_new_thumbnail = req_data['image'][0]
@@ -377,21 +390,21 @@ class AdPostByParticipantIDView(View):
 class AdPostByTagView(View):
     def get(self, request, tag):
         post_by_tag = [model_to_dict(post) for tagrelated in InterestedTags.objects.filter(content=tag).all() for post
-                       in tagrelated.topost.all().order_by('-upload_date')]  # all()? not all()?
+                       in tagrelated.topost.all().filter(Q(open_for_all=True) | Q(__in=user_related_post(request))).order_by('-upload_date')]  # all()? not all()?
         list_process(post_by_tag)
         return JsonResponse(post_by_tag, status=200, safe=False)
 
 
 class AdPostByHotView(View):
     def get(self, request):
-        post_by_hot = [model_to_dict(post) for post in AdPost.objects.all().order_by('-total_views', '-upload_date')]
+        post_by_hot = [model_to_dict(post) for post in target_post(request).order_by('-total_views', '-upload_date')]
         list_process(post_by_hot)
         return JsonResponse(post_by_hot, status=200, safe=False)
 
 
 class AdPostByRecentView(View):
     def get(self, request):
-        post_by_recent = [model_to_dict(post) for post in AdPost.objects.all().order_by('-upload_date')]
+        post_by_recent = [model_to_dict(post) for post in target_post(request).order_by('-upload_date')]
         list_process(post_by_recent)
         return JsonResponse(post_by_recent, status=200, safe=False)
 
@@ -399,7 +412,7 @@ class AdPostByRecentView(View):
 class AdPostBySearchView(View):
     def get(self, request, str):
         post_by_search = [model_to_dict(post) for post in
-                          AdPost.objects.all().filter(Q(title__icontains=str) | Q(subtitle__icontains=str)).order_by(
+                          target_post(request).filter(Q(title__icontains=str) | Q(subtitle__icontains=str)).order_by(
                               '-upload_date')]
         list_process(post_by_search)
         return JsonResponse(post_by_search, status=200, safe=False)
@@ -412,7 +425,7 @@ class AdPostByCustomView(View):
         post_by_custom = {}
         for tag in user_tags:
             tags_custom = [post for tagrelated in InterestedTags.objects.filter(content=tag.content).all() for post in
-                           tagrelated.topost.all().order_by('-upload_date')]
+                           tagrelated.topost.all().filterQ(open_for_all=True) | Q(__in=user_related_post(request)).order_by('-upload_date')]
 
             post_by_custom[tag.content] = [model_to_dict(post) for post in tags_custom]  # all()? not all()?
             list_process(post_by_custom[tag.content])
@@ -568,8 +581,15 @@ class TagView(View):
         return JsonResponse(taglist, safe=False)
 
 
+class TagRec(View):
+#    @check_is_authenticated
+    def get(self, request):
+        taglist = [suggest.tag_suggest(word_model, InterestedTags.content, InterestedTags.postcount, request.user.tags, 0.02)]
+        return JsonResponse(taglist, safe=False)
+
+
 class TagSearchView(View):
-    def get(self, request, pattern):
+    def get(self, pattern):
         tags_by_searchkey = [model_to_dict(tag) for tag in
                              InterestedTags.objects.all().filter(content__startswith=pattern)]
         return JsonResponse(tags_by_searchkey, safe=False)

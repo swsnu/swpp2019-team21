@@ -152,6 +152,9 @@ class AdPost(models.Model):
         max_length=64
     )
     content = models.TextField()
+    open_for_all = models.BooleanField(
+        default = True
+    )
     thumbnail = models.ForeignKey(
         to=PostImage,
         related_name='thumbnail_topost',
