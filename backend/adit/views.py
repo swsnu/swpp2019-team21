@@ -27,7 +27,7 @@ def user_related_post(request):
 
 
 def target_post(request):
-    return AdPost.objects.all().filter(Q(open_for_all=True) | Q(__in=user_related_post(request)))
+    return AdPost.objects.all().filter(open_for_all=True).union(user_related_post(request))
 
 
 @ensure_csrf_cookie
@@ -390,7 +390,7 @@ class AdPostByParticipantIDView(View):
 class AdPostByTagView(View):
     def get(self, request, tag):
         post_by_tag = [model_to_dict(post) for tagrelated in InterestedTags.objects.filter(content=tag).all() for post
-                       in tagrelated.topost.all().filter(Q(open_for_all=True) | Q(__in=user_related_post(request))).order_by('-upload_date')]  # all()? not all()?
+                       in tagrelated.topost.all().filter(open_for_all=True).union(user_related_post(request)).order_by('-upload_date')]  # all()? not all()?
         list_process(post_by_tag)
         return JsonResponse(post_by_tag, status=200, safe=False)
 
@@ -425,7 +425,7 @@ class AdPostByCustomView(View):
         post_by_custom = {}
         for tag in user_tags:
             tags_custom = [post for tagrelated in InterestedTags.objects.filter(content=tag.content).all() for post in
-                           tagrelated.topost.all().filterQ(open_for_all=True) | Q(__in=user_related_post(request)).order_by('-upload_date')]
+                           tagrelated.topost.all().filter(open_for_all=True).union(user_related_post(request)).order_by('-upload_date')]
 
             post_by_custom[tag.content] = [model_to_dict(post) for post in tags_custom]  # all()? not all()?
             list_process(post_by_custom[tag.content])
@@ -584,7 +584,7 @@ class TagView(View):
 class TagRec(View):
 #    @check_is_authenticated
     def get(self, request):
-        taglist = [suggest.tag_suggest(word_model, InterestedTags.content, InterestedTags.postcount, request.user.tags, 0.02)]
+        taglist = suggest.tag_suggest(word_model, InterestedTags, request.user.tags.content, 0.02)
         return JsonResponse(taglist, safe=False)
 
 
