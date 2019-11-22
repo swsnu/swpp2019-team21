@@ -174,6 +174,9 @@ class AdPost(models.Model):
         to=InterestedTags,
         related_name='topost'
     )
+"""    def save(self, *args, **kwargs):
+        super(AdPost, self).save(*args, **kwargs)
+        print(args, kwargs)"""
 
 
 class AdReception(models.Model):

@@ -23,7 +23,7 @@ import os
 word_model = gensim.models.Word2Vec.load('./adit/ml/model.bin')
 
 def user_related_post(request):
-    return suggest.post_suggest(word_model, AdPost.objects.filter(open_for_all = True), request.user.tags)
+    return suggest.post_suggest(word_model, AdPost.objects.filter(open_for_all = False), request.user.tags)
 
 
 def target_post(request):
@@ -212,7 +212,7 @@ class ChangePWView(View):
 
 class AdPostView(View):
     item_list = ['title', 'subtitle', 'content', 'image', 'ad_link', 'target_views', 'expiry_date',
-                 'tags', 'open_for_all']
+                 'tags']
 
     def post_to_dict(self, adpost):
         response_dict = model_to_dict(adpost)
@@ -235,7 +235,7 @@ class AdPostView(View):
         target_views = req_data['target_views']
         expiry_date = req_data['expiry_date']
         post_tags = req_data['tags']
-        open_for_all = req_data['open_for_all']
+        open_for_all = False
         upload_date = datetime.now()
         thumbnail = img_process(req_data['image'][0])
 
