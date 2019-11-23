@@ -54,7 +54,7 @@ class AditTestCase(TestCase):
         # Testing not logged user blocked
         response = client.post('/api/adpost/', json.dumps(
             {'title': '', 'subtitle': '', 'content': '',
-             'image': '', 'tags': '', 'ad_link': '', 'target_views': '', 'expiry_date': ''}, ),
+             'image': '', 'tags': '', 'ad_link': '', 'target_views': '', 'expiry_date': '', 'open_for_all':'False'}, ),
                                content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
@@ -77,7 +77,7 @@ class AditTestCase(TestCase):
 
         req_data = {'title': "", 'subtitle': "", 'content': "",
                     'image': [mocked_image, mocked_image], 'ad_link': "",
-                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': ""}
+                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': "", 'open_for_all':'False'}
         response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
@@ -86,7 +86,7 @@ class AditTestCase(TestCase):
         client.login(email='abcd@snu.ac.kr', password='def')
 
         response = client.put('/api/adpost/1/', json.dumps(req_data, ), content_type='application/json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 404)
 
     def test_users(self):
         # Testing Users
@@ -186,7 +186,7 @@ class AditTestCase(TestCase):
         # Posting new article
         req_data = {'title': "abc", 'subtitle': "", 'content': "",
                     'image': [mocked_image, mocked_image, mocked_image, mocked_image], 'ad_link': "https://www.naver.com",
-                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': ['a', 'b', 'c', 'd']}
+                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': ['a', 'b', 'c', 'd'], 'open_for_all':'False'}
         response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["title"], req_data["title"])
