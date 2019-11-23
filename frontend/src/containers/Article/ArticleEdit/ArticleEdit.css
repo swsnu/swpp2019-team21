@@ -1,6 +1,10 @@
-#description-input{
+#description-input {
     resize: none;
-    height:500px;
+    height: 500px;
+}
+
+.edit-article-box {
+    margin-bottom: 50px;
 }
 
 .thumbnail_image {
@@ -9,3 +13,29 @@
     object-fit: cover;
 }
 
+#post-explain-input {
+    resize: none;
+    height: 200px;
+}
+
+#post-point-deduction {
+    border: none;
+}
+
+.form-control {
+    width: 500px;
+}
+
+#createTabs text {
+    font-size: 20px;
+}
+
+#post-thumbnail-preview {
+    width: 500px;
+    border: 1px solid #c0c0c0;
+    margin-top: 5px;
+}
+
+.previewText {
+    margin-top: 5px;
+}

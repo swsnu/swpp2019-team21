@@ -12,7 +12,8 @@ export const adpostActions = {
     getAdpostList,
     getCustomList,
     getAdpost,
-    postAdpost
+    postAdpost,
+    putAdpost
 };
 
 function makeUrl(query, query_type) {
@@ -81,7 +82,7 @@ function getCustomList() {
             .catch(error => {
                 dispatch({
                     type: actionTypes.GET_ADLIST_FAILURE,
-                    error_code: error,
+                    error_code: error
                 });
             });
     };
@@ -128,5 +129,15 @@ function postAdpost(data) {
                     error: error
                 });
             });
+    };
+}
+
+function putAdpost(data) {
+    return dispatch => {
+        var id;
+        return axios.put(baseUrl + '/adpost/', data.adpost).then(response => {
+            id = response.data.id;
+            dispatch(push(`/article/${id}`));
+        });
     };
 }

@@ -21,10 +21,9 @@ class ArticleDetail extends Component {
         this.setState({ ...this.state, participated: true });
     };
 
-    /*    postEditHandler = () => {
-        //window.location.assign(window.location.href + '/edit');
-        this.props.history.push('/article/1/edit');
-    };*/
+    postEditHandler = () => {
+        this.props.history.push(`/article/${this.props.match.params.id}/edit`);
+    };
 
     render() {
         if (this.props.loaded) {
@@ -64,11 +63,13 @@ class ArticleDetail extends Component {
                             </h3>
                             <div>
                                 <div>
-                                    {/*<button
-                                        id="post-edit-button"
-                                        onClick={this.postEditHandler}>
-                                        Edit
-                                    </button>*/}
+                                    {
+                                        <button
+                                            id="post-edit-button"
+                                            onClick={this.postEditHandler}>
+                                            Edit
+                                        </button>
+                                    }
                                     <div className="achieve-bar-component">
                                         <h4 id="achieve-bar-name">
                                             Achieve Rate
@@ -177,4 +178,7 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleDetail);

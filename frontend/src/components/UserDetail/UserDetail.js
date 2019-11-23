@@ -19,6 +19,7 @@ class UserDetail extends Component {
         showChargePoint: false,
         addpoint: 0
     };
+
     componentDidMount() {
         this.props.onTagReload();
         this.props.reloadUser().then(res => {
@@ -34,13 +35,16 @@ class UserDetail extends Component {
             });
         });
     }
+
     changePWHandler = () => this.setState({ showChangePW: true });
     changePWFinishHandler = () => {
         localStorage.setItem('logged_in', 'false');
         this.props.changePW(this.state.password);
         history.push('/signin');
     };
+
     chargePointHandler = () => this.setState({ showChargePoint: true });
+
     chargePointFinishHandler = () => {
         this.props.updatePoint({
             point: this.props.user.point * 1 + this.state.addpoint * 1
@@ -49,6 +53,7 @@ class UserDetail extends Component {
         alert('Done!');
         window.location.reload();
     };
+
     saveChangesHandler = () => {
         const user = {
             nickname: this.state.user.nickname,
@@ -60,9 +65,11 @@ class UserDetail extends Component {
         alert('Saved!');
         window.location.reload();
     };
+
     withdrawalHandler = () => {
         alert('Noooo.....');
     };
+
     deleteTagHandler = i => {
         const tags = this.state.user.tags.slice(0);
         tags.splice(i, 1);
@@ -107,16 +114,15 @@ class UserDetail extends Component {
                                 className="form-fixed"
                                 id="password"
                                 value={this.state.password.current_password}
-                                onChange={event =>{
+                                onChange={event => {
                                     this.setState({
                                         ...this.state,
                                         password: {
                                             ...this.state.password,
                                             current_password: event.target.value
                                         }
-                                    })
-                                }
-                                }
+                                    });
+                                }}
                             />
                         </div>
                         <div className="form-group" align="left">
@@ -342,7 +348,10 @@ class UserDetail extends Component {
                         </ListGroup.Item>
                     </ListGroup>
                     <p className="form-select" align="right">
-                        <a id="withdrawal" href="#" onClick={this.withdrawalHandler}>
+                        <a
+                            id="withdrawal"
+                            href="#"
+                            onClick={this.withdrawalHandler}>
                             Withrawal
                         </a>
                     </p>
