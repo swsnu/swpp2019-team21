@@ -86,7 +86,7 @@ class AditTestCase(TestCase):
         client.login(email='abcd@snu.ac.kr', password='def')
 
         response = client.put('/api/adpost/1/', json.dumps(req_data, ), content_type='application/json')
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 404)
 
     def test_users(self):
         # Testing Users
