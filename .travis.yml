@@ -36,7 +36,7 @@ matrix:
         - pip3 install -r requirements.txt
         - pip3 install coveralls
         - sudo mysql < db_set
-        - service mysql restart
+        - sudo service mysql restart
         - sudo mysql < db_create
         - mysql -uroot adit_db < adit_db.sql
       script:
