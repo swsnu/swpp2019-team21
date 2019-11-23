@@ -23,8 +23,8 @@ import os
 def user_related_post(request):
     if not request.user.is_authenticated:
         return AdPost.objects.none()
-    return suggest.post_suggest(AdPost.objects.filter(open_for_all = False), request.user.tags)
-
+    res = suggest.post_suggest(AdPost.objects.filter(open_for_all = False), request.user.tags)
+    return AdPost.objects.filter(pk__in = res)
 
 def target_post(request):
     return AdPost.objects.all().filter(open_for_all=True).union(user_related_post(request))

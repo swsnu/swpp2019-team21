@@ -1,7 +1,6 @@
 import gensim
 import numpy as np, pandas as pd
 import random
-from adit.models import *
 
 model = gensim.models.Word2Vec.load('./adit/ml/models.bin')
 
@@ -11,7 +10,6 @@ def update_tag(tag_list, shuffle_size):
         mock_list = tag_list[:]
         random.shuffle(mock_list)
         sentence.append(mock_list)
-    print(sentence)
     model.build_vocab(sentences=sentence, update=True, min_count=shuffle_size)
     model.train(sentences=sentence, epochs=100, total_examples=shuffle_size)
     model.save('./adit/ml/models.bin')
@@ -25,8 +23,12 @@ def tag_similarity(data_exist, data_input):
                 suma += model.wv.similarity(word,tar)
             except:
                 pass
-    
-    return suma/(len(data)*len(data_input))
+    res = ''
+    try:
+        res = suma/(len(data)*len(data_input))
+    except:
+        return 0
+    return res
 
 def tag_suggest(data_exist, data_input, TH = 0.2):
     data_num = np.array(list(map(lambda x : x.postcount, data_exist)))#np.array([80,20,40,65,95,18,20,32,5,10,45,15,85,34,75,85,15,19,68])
@@ -55,8 +57,8 @@ def post_suggest(adposts, data_input, TH = 0.2):
     for post in adposts:
         tag = list(map(lambda x:x.content, post.tags.all()))
         tag_input = list(map(lambda x:x.content, data_input.all()))
-        sim.append((post, tag_similarity(model, tag, tag_input)))
+        sim.append((post, tag_similarity(tag, tag_input)))
 
     res = sorted(sim, key = lambda x : -x[1])
     res = list(map(lambda x: x[0].pk, list(filter(lambda x: x[1]>TH, res))[:100]))
-    return AdPost.objects.filter(pk__in = res)
+    return res
