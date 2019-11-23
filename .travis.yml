@@ -24,11 +24,6 @@ matrix:
       python: "3.6"
       dist: xenial
       addons:
-        apt:
-          packages:
-            - mysql-client-5.7
-            - mysql-server-5.7
-            - libmysqlclient-dev
         sonarcloud:
           organization: "swsnu"
           token:
