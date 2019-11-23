@@ -559,7 +559,7 @@ class AdReceptionOutRedirectView(View):
 
 
 class AdReceptionRedirectView(View):
-    ### ad closed ==> 410
+    # ad closed ==> 410
     def get(self, request, id):
         reception_object = AdReception.objects.filter(id=id)
         post_id = decode(reception_object.get().unique_link, reception_object.get())
@@ -582,10 +582,17 @@ class TagView(View):
         return JsonResponse(taglist, safe=False)
 
 
-class TagRec(View):
-#    @check_is_authenticated
+class TagRecommend(View):
+    #  @check_is_authenticated
     def get(self, request):
         taglist = suggest.tag_suggest(list(InterestedTags.objects.all()), list(request.user.tags.all()), 0.02)
+        return JsonResponse(taglist, safe=False)
+
+
+class TagRecent(View):
+    #  @check_is_authenticated
+    def get(self, request):
+        taglist = [model_to_dict(tag) for tag in InterestedTags.objects.all().order_by('-create_time')]
         return JsonResponse(taglist, safe=False)
 
 
