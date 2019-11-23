@@ -20,7 +20,6 @@ mysqlclient==1.4.6
 numpy==1.17.4
 pandas==0.25.3
 Pillow==6.2.1
-pkg-resources==0.0.0
 pylint==2.4.3
 pylint-django==2.0.11
 pylint-plugin-utils==0.6
