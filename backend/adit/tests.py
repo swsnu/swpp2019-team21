@@ -54,7 +54,7 @@ class AditTestCase(TestCase):
         # Testing not logged user blocked
         response = client.post('/api/adpost/', json.dumps(
             {'title': '', 'subtitle': '', 'content': '',
-             'image': '', 'tags': '', 'ad_link': '', 'target_views': '', 'expiry_date': '', , 'open_for_all':'False'}, ),
+             'image': '', 'tags': '', 'ad_link': '', 'target_views': '', 'expiry_date': '', 'open_for_all':'False'}, ),
                                content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
