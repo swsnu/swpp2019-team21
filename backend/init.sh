@@ -1,8 +1,13 @@
 sudo apt-get install mysql-client mysql-server
-virtualenv venv
+sudo apt-get install libmysqlclient-dev -y
+virtualenv venv --python=python3
 source venv/bin/activate
 rm -rf ./adit/0001_initial.py
 pip install -r requirements.txt
+sudo mysql < db_set
+service mysql restart
+sudo mysql < db_create
+mysql -uroot adit_db < adit_db.sql
 python manage.py makemigrations
 python manage.py migrate
 rm -rf media
