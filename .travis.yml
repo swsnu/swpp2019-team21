@@ -26,10 +26,9 @@ matrix:
       addons:
         apt:
           packages:
-            - mysql-client-core-5.7
             - mysql-client-5.7
-            - mysql-server-core-5.7
             - mysql-server-5.7
+            - libmysqlclient-dev
         sonarcloud:
           organization: "swsnu"
           token:
@@ -38,10 +37,13 @@ matrix:
         - mysql
       before_install:
         - cd backend
-        - mysql -e 'CREATE DATABASE adit_db'
       install:
         - pip3 install -r requirements.txt
         - pip3 install coveralls
+        - sudo mysql < db_set
+        - service mysql restart
+        - sudo mysql < db_create
+        - mysql -uroot adit_db < adit_db.sql
       script:
         #- pylint **/*.py
         - coverage run --source="." manage.py test adit
