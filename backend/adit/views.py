@@ -389,8 +389,9 @@ class AdPostByParticipantIDView(View):
 
 class AdPostByTagView(View):
     def get(self, request, tag):
-        post_by_tag = [model_to_dict(post) for tagrelated in InterestedTags.objects.filter(content=tag).all() for post
-                       in tagrelated.topost.all().filter(open_for_all=True).union(user_related_post(request)).order_by('-upload_date')]  # all()? not all()?
+        post_by_tag = [model_to_dict(post) for tagrelated in InterestedTags.objects.filter(content=tag).all() for post in 
+                       tagrelated.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(pk__in = list(map(lambda x : x.pk, tagrelated.topost.all().filter(open_for_all=False))))).order_by('-upload_date')]  # all()? not all()?
+
         list_process(post_by_tag)
         return JsonResponse(post_by_tag, status=200, safe=False)
 
@@ -425,7 +426,7 @@ class AdPostByCustomView(View):
         post_by_custom = {}
         for tag in user_tags:
             tags_custom = [post for tagrelated in InterestedTags.objects.filter(content=tag.content).all() for post in
-                           tagrelated.topost.all().filter(open_for_all=True).union(user_related_post(request)).order_by('-upload_date')]
+                           tagrelated.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(pk__in = list(map(lambda x : x.pk, tagrelated.topost.all().filter(open_for_all=False))))).order_by('-upload_date')]
 
             post_by_custom[tag.content] = [model_to_dict(post) for post in tags_custom]  # all()? not all()?
             list_process(post_by_custom[tag.content])
