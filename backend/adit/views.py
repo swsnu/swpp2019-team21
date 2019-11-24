@@ -610,11 +610,17 @@ class TagView(View):
         return JsonResponse(taglist, safe=False)
 
 
-class TagRec(View):
+class TagRecommendByUser(View):
     #    @check_is_authenticated
     def get(self, request):
         taglist = suggest.tag_suggest(list(InterestedTags.objects.all()), list(request.user.tags.all()), 0.02)
         return JsonResponse(taglist, safe=False)
+
+
+class TagRecommendByRecent(View):
+    def get(self, request):
+        taglist = [model_to_dict(tag) for tag in InterestedTags.objects.all().order_by('-created_time')]
+        return JsonResponse(taglist[:20], safe=False)
 
 
 class TagSearchView(View):
