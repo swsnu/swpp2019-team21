@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin)
 from .ml import suggest
+from django.db.models.functions import datetime
 
 
 class AditUserManager(BaseUserManager):
@@ -51,6 +52,7 @@ class InterestedTags(models.Model):
     )
     usercount = models.IntegerField()
     postcount = models.IntegerField()
+    created_time = models.DateTimeField(auto_now_add = True)
 
 
 class AditUser(AbstractBaseUser, PermissionsMixin):
