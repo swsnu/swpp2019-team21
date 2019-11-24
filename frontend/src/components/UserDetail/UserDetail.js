@@ -80,6 +80,10 @@ class UserDetail extends Component {
         });
     };
 
+    imageChangeHandler = () => {
+        alert('image clicked');
+    };
+
     render() {
         var point = null;
         var pic = null;
@@ -107,16 +111,15 @@ class UserDetail extends Component {
                                 className="form-fixed"
                                 id="password"
                                 value={this.state.password.current_password}
-                                onChange={event =>{
+                                onChange={event => {
                                     this.setState({
                                         ...this.state,
                                         password: {
                                             ...this.state.password,
                                             current_password: event.target.value
                                         }
-                                    })
-                                }
-                                }
+                                    });
+                                }}
                             />
                         </div>
                         <div className="form-group" align="left">
@@ -223,7 +226,11 @@ class UserDetail extends Component {
 
                 <h2 className="UserInfoTitle">User Info</h2>
                 <div className="avatar">
-                    <img src={pic ? pic : avatar} className="Avatar" />
+                    <img
+                        src={pic ? pic : avatar}
+                        className="Avatar"
+                        onClick={this.imageChangeHandler}
+                    />
                 </div>
                 <div className="form-group" align="left">
                     <p className="label-tag" align="left">
@@ -308,7 +315,7 @@ class UserDetail extends Component {
                         suggestions={this.props.allTags}
                         handleDelete={this.deleteTagHandler}
                         handleAddition={this.addTagHandler}
-                        allowNew={true}
+                        allowNew={false}
                         minQueryLength={1}
                     />
                 </div>
@@ -342,7 +349,10 @@ class UserDetail extends Component {
                         </ListGroup.Item>
                     </ListGroup>
                     <p className="form-select" align="right">
-                        <a id="withdrawal" href="#" onClick={this.withdrawalHandler}>
+                        <a
+                            id="withdrawal"
+                            href="#"
+                            onClick={this.withdrawalHandler}>
                             Withrawal
                         </a>
                     </p>
@@ -369,7 +379,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UserDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(UserDetail);

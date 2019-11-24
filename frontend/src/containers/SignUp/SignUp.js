@@ -14,6 +14,8 @@ class SignUp extends Component {
         lname: '',
         nickname: '',
         tags: [],
+        postFile: null,
+        imageURL: null,
         valid: {
             email: true,
             password_check: true,
@@ -29,10 +31,7 @@ class SignUp extends Component {
             alert('password_check different with password');
             this.setState({ ...this.state, password_check: '' });
             return;
-        } else if (
-            this.state.fname === '' ||
-            this.state.lname === ''
-        ) {
+        } else if (this.state.fname === '' || this.state.lname === '') {
             alert('name section cannot be empty');
             return;
         } else if (this.state.nickname === '') {
@@ -63,9 +62,32 @@ class SignUp extends Component {
         this.setState({ tags: tags });
     };
 
-/*    passwordCheckerHandler = () => {
+    /*    passwordCheckerHandler = () => {
         // TODO Inputbox Get Red
     };*/
+
+    imageOnChange = e => {
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        reader.onloadend = () => {
+            this.setState({
+                postFile: file,
+                imageURL: reader.result
+            });
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            this.setState({
+                postFile: null,
+                imageURL: null
+            });
+        }
+    };
 
     render() {
         return (
@@ -201,7 +223,7 @@ class SignUp extends Component {
                             suggestions={this.props.allTags}
                             handleDelete={this.deleteTagHandler}
                             handleAddition={this.addTagHandler}
-                            allowNew={true}
+                            allowNew={false}
                             minQueryLength={1}
                         />
                     </div>
@@ -212,6 +234,27 @@ class SignUp extends Component {
                             <a href="#">terms of service</a>
                         </label>
                     </div>
+                    <input
+                        type="file"
+                        id="user-profile-input"
+                        onChange={e => {
+                            this.imageOnChange(e);
+                        }}
+                    />
+                    {this.state.imageURL && (
+                        <img
+                            className="user_profille_preview"
+                            src={this.state.imageURL}
+                            alt="first_picture"
+                            width="100%"
+                            height="200px"
+                        />
+                    )}
+                    {!this.state.imageURL && (
+                        <div className="previewText">
+                            <strong>Please select an Image for Preview</strong>
+                        </div>
+                    )}
                     <div className="form-group">
                         <button
                             type="submit"
@@ -239,7 +282,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
