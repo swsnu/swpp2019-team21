@@ -94,3 +94,8 @@
 .form-group .input-tag-unvalid {
     color: red;
 }
+
+.user-profile-preview {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

@@ -2,6 +2,8 @@ from builtins import ValueError
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin)
+from django.db.models.functions import datetime
+
 from .ml import suggest
 
 class AditUserManager(BaseUserManager):
@@ -49,6 +51,7 @@ class InterestedTags(models.Model):
     )
     usercount = models.IntegerField()
     postcount = models.IntegerField()
+    create_time = models.DateTimeField(auto_now_add=True)
 
 
 class AditUser(AbstractBaseUser, PermissionsMixin):

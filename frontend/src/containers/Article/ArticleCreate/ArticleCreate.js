@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Calendar from 'react-calendar';
 import { adpostActions, userActions, tagActions } from '../../../store/actions';
 import ArticlePreview from '../ArticlePreview/ArticlePreview';
+import ImagesUploader from 'react-images-uploader';
 import './ArticleCreate.css';
 
 var multiplier = 10;
@@ -165,7 +166,14 @@ class ArticleCreate extends Component {
                 });
             };
 
-            reader.readAsDataURL(file);
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                this.setState({
+                    postFile: null,
+                    imagePreviewUrl: null
+                });
+            }
         };
         const goalChangeHandler = e => {
             const re = /^[0-9]*$/;

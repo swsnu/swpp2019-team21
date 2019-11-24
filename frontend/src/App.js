@@ -8,6 +8,7 @@ import ArticleSearch from './containers/Article/ArticleSearch/ArticleSearch';
 import SignUp from './containers/SignUp/SignUp';
 import UserInfo from './containers/UserInfo/UserInfo';
 import Home from './containers/Home/Home';
+import NewHome from './containers/NewHome/NewHome';
 import ArticleDetail from './containers/Article/ArticleDetail/ArticleDetail';
 import ArticleEdit from './containers/Article/ArticleEdit/ArticleEdit';
 import ArticleCreate from './containers/Article/ArticleCreate/ArticleCreate';
@@ -55,6 +56,7 @@ class App extends Component {
                             exact
                             component={Redirect}
                         />
+                        <Route path="/test" exact component={NewHome} />
                         <Route component={() => (window.location = '/home')} />
                     </Switch>
                     <BottomBox />
@@ -64,7 +66,4 @@ class App extends Component {
     }
 }
 
-export default connect(
-    null,
-    null
-)(App);
+export default connect(null, null)(App);

@@ -10,6 +10,8 @@ export const tag_reducer = (state = initialState, action = null) => {
             return { ...state, all_tags: action.all_tags };
         case actionTypes.POST_TAG:
             return { ...state, all_tags: state.all_tags.concat(action.tag) };
+        case actionTypes.GET_RECENT_TAG:
+            return { ...state, all_tags: action.all_tags };
         default:
             break;
     }
