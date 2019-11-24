@@ -54,7 +54,7 @@ class AditTestCase(TestCase):
         # Testing not logged user blocked
         response = client.post('/api/adpost/', json.dumps(
             {'title': '', 'subtitle': '', 'content': '',
-             'image': '', 'tags': '', 'ad_link': '', 'target_views': '', 'expiry_date': '', 'open_for_all':'False'}, ),
+             'image': '', 'tags': '', 'ad_link': '', 'target_views': '', 'expiry_date': '', 'open_for_all': 'False'}, ),
                                content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
@@ -77,7 +77,7 @@ class AditTestCase(TestCase):
 
         req_data = {'title': "", 'subtitle': "", 'content': "",
                     'image': [mocked_image, mocked_image], 'ad_link': "",
-                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': "", 'open_for_all':'False'}
+                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': "", 'open_for_all': 'False'}
         response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
@@ -185,8 +185,10 @@ class AditTestCase(TestCase):
 
         # Posting new article
         req_data = {'title': "abc", 'subtitle': "", 'content': "",
-                    'image': [mocked_image, mocked_image, mocked_image, mocked_image], 'ad_link': "https://www.naver.com",
-                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': ['a', 'b', 'c', 'd'], 'open_for_all':'False'}
+                    'image': [mocked_image, mocked_image, mocked_image, mocked_image],
+                    'ad_link': "https://www.naver.com",
+                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': ['a', 'b', 'c', 'd'],
+                    'open_for_all': 'False'}
         response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["title"], req_data["title"])
@@ -219,6 +221,10 @@ class AditTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['a'][0]["title"], "abcde")
         self.assertEqual(response.json()['a'][1]["title"], "abc")
+
+        # Recommended Tags By ML System
+        response = client.get('/api/tag/recommend/')
+        self.assertEqual(response.status_code, 200)
 
         # Get articles user posted
         response = client.get('/api/adpost/by-userid/')
@@ -292,7 +298,7 @@ class AditTestCase(TestCase):
 
         redirected_link = unique_link.replace("http://localhost:3000/redirectfrom=", "")
 
-        response = client.get('/api/adreception/redirectto='+redirected_link+'/')
+        response = client.get('/api/adreception/redirectto=' + redirected_link + '/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["ad_link"], "https://www.naver.com")
 

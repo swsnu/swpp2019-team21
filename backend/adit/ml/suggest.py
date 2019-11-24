@@ -26,7 +26,7 @@ def tag_similarity(data_exist, data_input):
     res = ''
     try:
         res = suma/(len(data)*len(data_input))
-    except:
+    except ZeroDivisionError:
         return 0
     return res
 
