@@ -39,7 +39,6 @@ class AditUserManager(BaseUserManager):
                              last_name=last_name,
                              tags=[],
                              password=password,
-                             point=0
                              )
         u.is_admin = True
         u.save(using=self._db)

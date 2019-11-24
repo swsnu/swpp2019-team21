@@ -2,8 +2,6 @@ from builtins import KeyError
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from adit.models import AdPost
 from django.views.decorators.csrf import ensure_csrf_cookie
-import json
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .decorators import *
 from .models import *
@@ -20,11 +18,13 @@ from .ml import suggest
 import gensim
 import os
 
+
 def user_related_post(request):
     if not request.user.is_authenticated:
         return AdPost.objects.none()
-    res = suggest.post_suggest(AdPost.objects.filter(open_for_all = False), request.user.tags)
-    return AdPost.objects.filter(pk__in = res)
+    res = suggest.post_suggest(AdPost.objects.filter(open_for_all=False), request.user.tags)
+    return AdPost.objects.filter(pk__in=res)
+
 
 def target_post(request):
     return AdPost.objects.all().filter(open_for_all=True).union(user_related_post(request))
@@ -80,6 +80,7 @@ class SignUpView(View):
         lastname = req_data['last_name']
         nickname = req_data['nickname']
         newtags = req_data['tags']
+
         if AditUser.objects.filter(email=email).exists():
             return HttpResponseBadRequest()
 
@@ -309,15 +310,20 @@ class AdPostByIDView(View):
                 tag.delete()
         adpost.tags.clear()
 
-        for image in post_old_images:
-            PostImage.delete(image)
-        adpost.image.clear()
+        if adpost.image == "not_changed":
+            for image in post_old_images:
+                PostImage.delete(image)
+            adpost.image.clear()
 
-        img_new = img_process(post_new_thumbnail)
-        adpost.thumbnail = img_new
-        post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
-        adpost.save()
-        PostImage.delete(post_old_thumbnail)
+            img_new = img_process(post_new_thumbnail)
+            adpost.thumbnail = img_new
+            post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
+            adpost.save()
+            PostImage.delete(post_old_thumbnail)
+
+            for i in range(len(post_new_images)):
+                newimg = img_process(post_new_images[i])
+                adpost.image.add(newimg)
 
         for tag in post_new_tags:
             if InterestedTags.objects.filter(content=tag).exists():
@@ -329,12 +335,6 @@ class AdPostByIDView(View):
                 tag_new = InterestedTags(content=tag, usercount=1, postcount=0)
                 tag_new.save()
                 adpost.tags.add(tag_new)
-
-        adpost.save()
-
-        for i in range(len(post_new_images)):
-            newimg = img_process(post_new_images[i])
-            adpost.image.add(newimg)
 
         adpost.save()
 
@@ -389,8 +389,12 @@ class AdPostByParticipantIDView(View):
 
 class AdPostByTagView(View):
     def get(self, request, tag):
-        post_by_tag = [model_to_dict(post) for tagrelated in InterestedTags.objects.filter(content=tag).all() for post in 
-                       tagrelated.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(pk__in = list(map(lambda x : x.pk, tagrelated.topost.all().filter(open_for_all=False))))).order_by('-upload_date')]  # all()? not all()?
+        post_by_tag = [model_to_dict(post) for tagrelated in InterestedTags.objects.filter(content=tag).all() for post
+                       in
+                       tagrelated.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(
+                           pk__in=list(
+                               map(lambda x: x.pk, tagrelated.topost.all().filter(open_for_all=False))))).order_by(
+                           '-upload_date')]  # all()? not all()?
 
         list_process(post_by_tag)
         return JsonResponse(post_by_tag, status=200, safe=False)
@@ -426,7 +430,10 @@ class AdPostByCustomView(View):
         post_by_custom = {}
         for tag in user_tags:
             tags_custom = [post for tagrelated in InterestedTags.objects.filter(content=tag.content).all() for post in
-                           tagrelated.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(pk__in = list(map(lambda x : x.pk, tagrelated.topost.all().filter(open_for_all=False))))).order_by('-upload_date')]
+                           tagrelated.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(
+                               pk__in=list(
+                                   map(lambda x: x.pk, tagrelated.topost.all().filter(open_for_all=False))))).order_by(
+                               '-upload_date')]
 
             post_by_custom[tag.content] = [model_to_dict(post) for post in tags_custom]  # all()? not all()?
             list_process(post_by_custom[tag.content])
@@ -500,8 +507,17 @@ class AdReceptionByIDView(View):
         return JsonResponse(response_dict)
 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 class AdReceptionOutRedirectView(View):
-    ### ad closed ==> 410
+    # ad closed ==> 410
     def get(self, request, query_str):
         # TODO: Revise Hard Coding
         base_link = 'http://localhost:3000/redirectfrom='
@@ -528,11 +544,19 @@ class AdReceptionOutRedirectView(View):
         tomorrow = datetime.replace(datetime.now(), hour=23, minute=59, second=0)
         expires = datetime.strftime(tomorrow, "%a, %d-%b-%Y %H:%M:%S GMT")
 
+        print("CLIENT IP" + get_client_ip(request))
+
+
         if request.COOKIES.get(cookie_name) is not None:
             cookies = request.COOKIES.get(cookie_name)
             cookies_list = cookies.split('|')
-            if str(reception_object.id) not in cookies_list:
-                response.set_cookie(cookie_name, cookies + f'|{post_id}', expires=expires)
+
+            if str(reception_object.id) not in cookies_list and not IpAddressDuplication.objects.filter(
+                    ip_address=get_client_ip(request)).exists:
+                new_ip = IpAddressDuplication(ip_address=get_client_ip(request))
+                new_ip.save()
+
+                response.set_cookie(cookie_name, cookies + f'|{reception_object.id}', expires=expires)
 
                 reception_object.views += 1
                 owner.point += 7

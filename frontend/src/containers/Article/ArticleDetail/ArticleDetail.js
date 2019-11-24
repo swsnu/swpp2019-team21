@@ -21,10 +21,9 @@ class ArticleDetail extends Component {
         this.setState({ ...this.state, participated: true });
     };
 
-    /*    postEditHandler = () => {
-        //window.location.assign(window.location.href + '/edit');
-        this.props.history.push('/article/1/edit');
-    };*/
+    postEditHandler = () => {
+        this.props.history.push(`/article/${this.props.match.params.id}/edit`);
+    };
 
     render() {
         if (this.props.loaded) {
@@ -64,11 +63,6 @@ class ArticleDetail extends Component {
                             </h3>
                             <div>
                                 <div>
-                                    {/*<button
-                                        id="post-edit-button"
-                                        onClick={this.postEditHandler}>
-                                        Edit
-                                    </button>*/}
                                     <div className="achieve-bar-component">
                                         <h4 id="achieve-bar-name">
                                             Achieve Rate
@@ -92,8 +86,6 @@ class ArticleDetail extends Component {
                                     </div>
                                 </div>
                                 {!this.props.article.is_owner &&
-                                    /*!this.props.article.info_aditee.is_participating*/
-
                                     this.props.is_participated && (
                                         <div className="url-component">
                                             <p id="unique-url-text">
@@ -136,6 +128,14 @@ class ArticleDetail extends Component {
                                         </button>
                                     </div>
                                 )}
+                                {this.props.article.is_owner && (
+                                    <button
+                                        className="btn btn-primary"
+                                        id="post-edit-button"
+                                        onClick={this.postEditHandler}>
+                                        Edit
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -177,4 +177,7 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleDetail);

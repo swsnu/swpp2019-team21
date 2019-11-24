@@ -30,7 +30,7 @@ class App extends Component {
                         <Route path="/signup" exact component={SignUp} />
                         <Route path="/home" exact component={Home} />
                         <Route
-                            path="/adposts/search/:query/:query_type"
+                            path="/adposts/search/:query_type/:query+"
                             exact
                             component={ArticleSearch}
                         />

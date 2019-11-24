@@ -42,6 +42,7 @@ class ArticleCreate extends Component {
         });
         this.props.onTagReload();
     }
+
     handleDelete = i => {
         const tags = this.state.postTag.slice(0);
         tags.splice(i, 1);
@@ -356,7 +357,7 @@ class ArticleCreate extends Component {
                                 placeholder=" input url of ad"
                                 id="post-url-input"
                                 onChange={urlChangeHandler}
-                                value={this.state.postUrl.bind}></input>
+                                value={this.state.postUrl}></input>
                         </div>
                         <p />
                         <br />
@@ -500,9 +501,7 @@ class ArticleCreate extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPostArticle: adpost => {
-            dispatch(adpostActions.postAdpost(adpost));
-        },
+        onPostArticle: adpost => dispatch(adpostActions.postAdpost(adpost)),
         reloadUser: () => dispatch(userActions.getUser()),
         onTagReload: () => dispatch(tagActions.getAllTag())
     };
@@ -514,4 +513,7 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleCreate);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleCreate);
