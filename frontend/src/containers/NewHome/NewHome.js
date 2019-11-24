@@ -24,7 +24,7 @@ class NewHome extends Component {
     render() {
         const { adpost_items } = this.props;
         return (
-            <div className="home">
+            <div className="newhome">
                 <ol className="recent-tag-list">
                     {this.props.recent_tags &&
                         this.props.recent_tags.map(tags => {
