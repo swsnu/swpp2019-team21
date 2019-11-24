@@ -15,6 +15,7 @@ export const GET_SEARCH_ARTICLE = 'GET_SEARCH_ARTICLE';
 export const GET_DETAILED_ARTICLE = 'GET_DETAILED_ARTICLE';
 export const POST_ARTICLE = 'POST_ARTICLE';
 export const GET_ALL_TAG = 'GET_TAG';
+export const GET_RECENT_TAG = 'GET_RECENT_TAG'
 export const POST_RECEPTION = 'POST_RECEPTION';
 export const GET_RECEPTION = 'GET_RECEPTION';
 export const POST_TAG = 'POST_TAG';

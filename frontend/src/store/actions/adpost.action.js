@@ -12,7 +12,8 @@ export const adpostActions = {
     getAdpostList,
     getCustomList,
     getAdpost,
-    postAdpost
+    postAdpost,
+    putAdpost
 };
 
 function makeUrl(query, query_type) {
@@ -43,7 +44,7 @@ function makeUrl(query, query_type) {
 function getAdpostList(query, query_type) {
     return dispatch => {
         dispatch({ type: actionTypes.GET_ADLIST_PENDING, query: query });
-        var url = makeUrl(query, query_type);
+        var url = makeUrl(query, query_type) + '/';
         return axios
             .get(baseUrl + url)
             .then(response => {
@@ -81,7 +82,7 @@ function getCustomList() {
             .catch(error => {
                 dispatch({
                     type: actionTypes.GET_ADLIST_FAILURE,
-                    error_code: error,
+                    error_code: error
                 });
             });
     };
@@ -128,5 +129,15 @@ function postAdpost(data) {
                     error: error
                 });
             });
+    };
+}
+
+function putAdpost(id, data) {
+    return dispatch => {
+        console.log(data);
+        return axios.put(baseUrl + `/adpost/${id}/`, data).then(response => {
+            id = response.data.id;
+            dispatch(push(`/article/${id}`));
+        });
     };
 }

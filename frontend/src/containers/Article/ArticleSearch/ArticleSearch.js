@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 
 class ArticleSearch extends Component {
     componentDidMount() {
-        var { query, query_type } = this.props.match.params;
+        var { query_type, query } = this.props.match.params;
         this.props.onSearchArticle(query, query_type);
     }
 
     render() {
-        var { query, } = this.props.match.params;
+        var { query } = this.props.match.params;
         var { adpost_items } = this.props;
         return (
             <div className="ArticleSearch">

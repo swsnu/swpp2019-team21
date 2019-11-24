@@ -1,11 +1,5 @@
-from io import BytesIO
-
-from PIL import Image
-from PIL.ImageFile import ImageFile
 from django.test import TestCase, Client
 import json
-import base64
-from .models import InterestedTags, AditUser, AditUserManager, AdPost, AdReception
 
 # Create your tests here.
 
@@ -20,27 +14,29 @@ class AditTestCase(TestCase):
         client = Client(enforce_csrf_checks=True)
         response = client.post('/api/sign-up/', json.dumps({'username': 'Seo', 'password': 'YeongHo'}),
                                content_type='application/json')
-        self.assertEqual(response.status_code, 403)  # Request without csrf token returns 403 response
+        # Request without csrf token returns 403 response
+        self.assertEqual(response.status_code, 403)
 
         response = client.get('/api/token/')
         self.assertEqual(response.status_code, 204)
-        csrftoken = response.cookies['csrftoken'].value  # Get csrf token from cookie
+        # Get csrf token from cookie
+        csrftoken = response.cookies['csrftoken'].value
 
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
              'nickname': 'digdhg', 'tags': ''}),
-                               content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
         self.assertEqual(response.status_code, 201)  # Pass csrf protection
 
     def test_decorators(self):
         # Testing decorators
-        client = Client();
+        client = Client()
 
         # Testing non-existig methods
         response = client.put('/api/sign-up/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
              'nickname': 'digdhg', 'tags': ''}),
-                              content_type='application/json')
+            content_type='application/json')
         self.assertEqual(response.status_code, 405)
 
         # Testing Json decode error
@@ -48,14 +44,14 @@ class AditTestCase(TestCase):
         response = client.post('/api/sign-up/', json.dumps(
             {'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
              'nickname': 'digdhg', 'tags': ''}),
-                               content_type='application/json')
+            content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
         # Testing not logged user blocked
         response = client.post('/api/adpost/', json.dumps(
             {'title': '', 'subtitle': '', 'content': '',
              'image': '', 'tags': '', 'ad_link': '', 'target_views': '', 'expiry_date': '', 'open_for_all': 'False'}, ),
-                               content_type='application/json')
+            content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
         # Testing article not found error
@@ -66,12 +62,12 @@ class AditTestCase(TestCase):
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
              'nickname': 'digdhg', 'tags': ''}),
-                               content_type='application/json')
+            content_type='application/json')
 
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abcd@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
              'nickname': 'digdhg2', 'tags': ''}),
-                               content_type='application/json')
+            content_type='application/json')
 
         client.login(email='abc@snu.ac.kr', password='def')
 
@@ -85,12 +81,13 @@ class AditTestCase(TestCase):
 
         client.login(email='abcd@snu.ac.kr', password='def')
 
-        response = client.put('/api/adpost/1/', json.dumps(req_data, ), content_type='application/json')
+        response = client.put(
+            '/api/adpost/1/', json.dumps(req_data, ), content_type='application/json')
         self.assertEqual(response.status_code, 404)
 
     def test_users(self):
         # Testing Users
-        client = Client();
+        client = Client()
 
         # signing up
         response = client.post('/api/sign-up/', json.dumps(
@@ -116,13 +113,13 @@ class AditTestCase(TestCase):
         # Trying to log in with different password
         response = client.post('/api/sign-in/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'defa'}),
-                               content_type='application/json')
+            content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
         # Successfully logged in
         response = client.post('/api/sign-in/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'def'}),
-                               content_type='application/json')
+            content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
         # Add new tag
@@ -142,7 +139,7 @@ class AditTestCase(TestCase):
 
         response = client.put('/api/user/point/', json.dumps(
             {'point': '1234'}),
-                              content_type='application/json')
+            content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
         # Check user info is successfully modified
@@ -156,7 +153,7 @@ class AditTestCase(TestCase):
         # Change user password
         response = client.put('/api/user/pw/', json.dumps(
             {'current_password': 'def', 'new_password': 'abcd'}),
-                              content_type='application/json')
+            content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
         # Cannot log in with Previous password
@@ -173,7 +170,7 @@ class AditTestCase(TestCase):
 
     def test_adpost(self):
         # Testing adposts
-        client = Client();
+        client = Client()
 
         # signing up
         response = client.post('/api/sign-up/', json.dumps(
@@ -275,12 +272,14 @@ class AditTestCase(TestCase):
         self.assertEqual(response.json()["is_owner"], False)
 
         # Participate adpost 1
-        response = client.post('/api/adreception/', json.dumps({'adpost': '1'}, ), content_type='application/json')
+        response = client.post(
+            '/api/adreception/', json.dumps({'adpost': '1'}, ), content_type='application/json')
         self.assertEqual(response.status_code, 201)
         unique_link = response.json()['unique_link']
 
         # Participate adpost 2
-        response = client.post('/api/adreception/', json.dumps({'adpost': '2'}, ), content_type='application/json')
+        response = client.post(
+            '/api/adreception/', json.dumps({'adpost': '2'}, ), content_type='application/json')
         self.assertEqual(response.status_code, 201)
         unique_link2 = response.json()['unique_link']
 
@@ -300,14 +299,15 @@ class AditTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['unique_link'], unique_link2)
 
-        redirected_link = unique_link.replace("http://localhost:3000/redirectfrom=", "")
+        redirected_link = unique_link.replace(
+            "http://localhost:3000/redirectfrom=", "")
 
         response = client.get('/api/adreception/redirectto=' + redirected_link + '/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["ad_link"], "https://www.naver.com")
 
     def test_not_important(self):
-        client = Client();
+        client = Client()
 
         # We can only get tokens
         response = client.put('/api/token/')

@@ -2,8 +2,6 @@ from builtins import KeyError
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from adit.models import AdPost
 from django.views.decorators.csrf import ensure_csrf_cookie
-import json
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .decorators import *
 from .models import *
@@ -27,7 +25,7 @@ def get_client_ip(request):
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
-    return ip
+    return i
 
 def user_related_post(request):
     if not request.user.is_authenticated:
@@ -90,6 +88,7 @@ class SignUpView(View):
         lastname = req_data['last_name']
         nickname = req_data['nickname']
         newtags = req_data['tags']
+
         if AditUser.objects.filter(email=email).exists():
             return HttpResponseBadRequest()
 
@@ -337,15 +336,20 @@ class AdPostByIDView(View):
                 tag.delete()
         adpost.tags.clear()
 
-        for image in post_old_images:
-            PostImage.delete(image)
-        adpost.image.clear()
+        if adpost.image == "not_changed":
+            for image in post_old_images:
+                PostImage.delete(image)
+            adpost.image.clear()
 
-        img_new = img_process(post_new_thumbnail)
-        adpost.thumbnail = img_new
-        post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
-        adpost.save()
-        PostImage.delete(post_old_thumbnail)
+            img_new = img_process(post_new_thumbnail)
+            adpost.thumbnail = img_new
+            post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
+            adpost.save()
+            PostImage.delete(post_old_thumbnail)
+
+            for i in range(len(post_new_images)):
+                newimg = img_process(post_new_images[i])
+                adpost.image.add(newimg)
 
         for tag in post_new_tags:
             if InterestedTags.objects.filter(content=tag).exists():
@@ -357,12 +361,6 @@ class AdPostByIDView(View):
                 tag_new = InterestedTags(content=tag, usercount=1, postcount=0)
                 tag_new.save()
                 adpost.tags.add(tag_new)
-
-        adpost.save()
-
-        for i in range(len(post_new_images)):
-            newimg = img_process(post_new_images[i])
-            adpost.image.add(newimg)
 
         adpost.save()
 
@@ -535,8 +533,17 @@ class AdReceptionByIDView(View):
         return JsonResponse(response_dict)
 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 class AdReceptionOutRedirectView(View):
-    ### ad closed ==> 410
+    # ad closed ==> 410
     def get(self, request, query_str):
         # TODO: Revise Hard Coding
         base_link = 'http://localhost:3000/redirectfrom='
@@ -562,6 +569,9 @@ class AdReceptionOutRedirectView(View):
 
         tomorrow = datetime.replace(datetime.now(), hour=23, minute=59, second=0)
         expires = datetime.strftime(tomorrow, "%a, %d-%b-%Y %H:%M:%S GMT")
+
+        print("CLIENT IP" + get_client_ip(request))
+
 
         if request.COOKIES.get(cookie_name) is not None:
             cookies = request.COOKIES.get(cookie_name)
@@ -596,7 +606,7 @@ class AdReceptionOutRedirectView(View):
 
 
 class AdReceptionRedirectView(View):
-    ### ad closed ==> 410
+    # ad closed ==> 410
     def get(self, request, id):
         reception_object = AdReception.objects.filter(id=id)
         post_id = decode(reception_object.get().unique_link, reception_object.get())

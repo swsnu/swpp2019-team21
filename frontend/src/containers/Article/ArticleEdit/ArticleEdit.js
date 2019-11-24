@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
-import './ArticleEdit.css';
+import { connect } from 'react-redux';
+import { adpostActions } from '../../../store/actions/adpost.action';
 import intro_first from '../../../assets/intro_first.jpg';
+import './ArticleEdit.css';
 
 class ArticleEdit extends Component {
     state = {
-        detailedDescription:
-            "Hello, my name is SeoYeongHo and I don't have any thing to write but I have to write a lot of things in order to write something. It should be four lines but it is only two lines, and I want this to be four lines. Therefore, I am writing useless text in order to make this as four lines. Sorry if this code is unreadable, but I have to make this text to be 4 lines",
+        is_loadcomplete: false,
         title: 'Sample title',
         subtitle: 'Sample subtitle',
         duedate: '2001/01/16',
+        content: '',
         id: 1,
         thumbnail: intro_first,
         imageURL: intro_first,
         valid: false,
+        postUrl: null,
         postTag: [{ id: 1, name: 'iluvswpp' }],
         mockSuggestion: [
             { id: 3, name: 'Bananas' },
@@ -22,6 +25,10 @@ class ArticleEdit extends Component {
             { id: 6, name: 'Apricots' }
         ]
     }; // should be props, not state
+
+    componentDidMount() {
+        // this.props.ongetArticle(this.props.match.params.id);
+    }
 
     titleChangeHandler = t => {
         this.setState({
@@ -40,7 +47,7 @@ class ArticleEdit extends Component {
     detailedChangeHandler = d => {
         this.setState({
             ...this.state,
-            detailedDescription: d.target.value
+            content: d.target.value
         });
     };
 
@@ -54,97 +61,192 @@ class ArticleEdit extends Component {
         }
     };
 
+    imageOnChange = e => {
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        reader.onloadend = () => {
+            this.setState({
+                postFile: file,
+                imagePreviewUrl: reader.result
+            });
+        };
+
+        reader.readAsDataURL(file);
+    };
+
     editConfirmHandler = () => {
-        window.alert('not submitted zz');
-        this.props.history.push('/article/1');
-    };
-
-    handleDelete = i => {
-        const tags = this.state.postTag.slice(0);
-        tags.splice(i, 1);
-        this.setState({ postTag: tags });
-    };
-
-    handleAddition = tag => {
-        const tags = [].concat(this.state.postTag, tag);
-        this.setState({ postTag: tags });
+        if (!this.state.title) {
+            alert('Title should not be empty');
+            this.setState({ ...this.state, currentPage: 1 });
+            return;
+        }
+        if (!this.state.subtitle) {
+            alert('Subtitle should not be empty');
+            this.setState({ ...this.state, currentPage: 1 });
+            return;
+        }
+        if (!this.state.content) {
+            alert('Content should not be empty');
+            this.setState({ ...this.state, currentPage: 1 });
+            return;
+        }
+        if (!this.state.postUrl) {
+            alert('Ad url should not be empty');
+            this.setState({ ...this.state, currentPage: 1 });
+            return;
+        }
+        if (
+            this.state.postUrl.toString().length < 9 ||
+            (this.state.postUrl.toString().substring(0, 7) !== 'http://' &&
+                this.state.postUrl.toString().substring(0, 8) !== 'https://')
+        ) {
+            alert('Ad url should start with http:// or https://');
+            this.setState({ ...this.state, currentPage: 1 });
+            return;
+        }
+        if (!this.state.imagePreviewUrl) {
+            alert('You should upload image');
+            this.setState({ ...this.state, currentPage: 1 });
+            return;
+        }
+        const adpost = {
+            title: this.state.title,
+            subtitle: this.state.subtitle,
+            content: this.state.content,
+            image:
+                this.state.imagePreviewUrl === this.props.article.thumbnail
+                    ? 'not_changed'
+                    : [this.state.imagePreviewUrl],
+            ad_link: this.state.postUrl,
+            tags: this.props.article.tags
+        };
+        this.props.onputArticle(this.props.match.params.id, adpost);
     };
 
     render() {
+        let imagePreview = null;
+        let imagePreviewUrl = this.state.imagePreviewUrl;
+
+        if (imagePreviewUrl) {
+            imagePreview = (
+                <img id="post-thumbnail-preview" src={imagePreviewUrl} />
+            );
+        }
+
+        if (!this.state.is_loadcomplete && this.props.loaded) {
+            this.setState({
+                ...this.state,
+                title: this.props.article.title,
+                subtitle: this.props.article.subtitle,
+                content: this.props.article.content,
+                imagePreviewUrl: this.props.article.thumbnail,
+                postUrl: this.props.article.ad_link,
+                is_loadcomplete: true
+            });
+        }
+
         return (
-            <div className="ArticleEdit">
-                {this.state.imageURL && (
-                    <img
-                        className="thumbnail_image"
-                        src={this.state.imageURL}
-                        alt="first_picture"
-                        width="100%"
-                        height="200px"
-                    />
-                )}
-                {!this.state.imageURL && (
-                    <div className="previewText">
-                        <strong>Please select an Image for Preview</strong>
+            <div>
+                {this.props.loaded && (
+                    <div className="ArticleEdit">
+                        <div className="edit-article-box">
+                            <h1>Edit Article</h1>
+                        </div>
+                        <div className="configuration">
+                            <div className="form-group" align="center">
+                                <h3 className="form-label">Title</h3>
+                                <input
+                                    className="form-control"
+                                    placeholder=" input title"
+                                    id="post-title-input"
+                                    onChange={this.titleChangeHandler}
+                                    defaultValue={this.props.article.title}
+                                    value={this.state.postTitle}
+                                />
+                            </div>
+                            <p />
+                            <br />
+                            <div className="form-group" align="center">
+                                <h3 className="form-label">Subtitle</h3>
+                                <input
+                                    className="form-control"
+                                    placeholder=" input subtitle"
+                                    id="post-subtitle-input"
+                                    onChange={this.subtitleChangeHandler}
+                                    defaultValue={this.props.article.subtitle}
+                                    value={this.state.postSubtitle}></input>
+                            </div>
+                            <p />
+                            <br />
+                            <div className="form-group" align="center">
+                                <h3 className="form-label">Ad Description</h3>
+                                <textarea
+                                    className="form-control"
+                                    placeholder=" explain your ad"
+                                    id="post-explain-input"
+                                    onChange={this.detailedChangeHandler}
+                                    value={this.state.content}></textarea>
+                            </div>
+                            <p />
+                            <br />
+                            <div className="form-group" align="center">
+                                <h3 className="form-label">Select Thumbnail</h3>
+                                <input
+                                    className="form-control"
+                                    type="file"
+                                    id="post-thumbnail-input"
+                                    multiple={false}
+                                    onChange={this.imageOnChange}
+                                />
+                                <div>{imagePreview}</div>
+                            </div>
+                            <p />
+                            <br />
+                            <div className="form-group" align="center">
+                                <h3 className="form-label">Ad Url</h3>
+                                <input
+                                    className="form-control"
+                                    placeholder=" input url of ad"
+                                    id="post-url-input"
+                                    onChange={this.urlChangeHandler}
+                                    defaultValue={this.props.article.ad_link}
+                                    value={this.state.postUrl}></input>
+                            </div>
+                            <p />
+                            <br />
+                            <button
+                                className="btn btn-primary"
+                                id="next-button"
+                                onClick={this.editConfirmHandler}>
+                                Submit
+                            </button>
+                        </div>
                     </div>
                 )}
-                <input
-                    type="file"
-                    id="edit-picture-input"
-                    onChange={e => {
-                        this.changePictureHandler(e);
-                    }}
-                />
-                <input
-                    className="form-control"
-                    value={this.state.title}
-                    onChange={e => {
-                        this.titleChangeHandler(e);
-                    }}
-                    id="post-title-input"
-                />
-                <input
-                    className="form-control"
-                    value={this.state.subtitle}
-                    onChange={e => {
-                        this.subtitleChangeHandler(e);
-                    }}
-                    id="post-subtitle-input"
-                />
-                <p id="due-date-text">{this.state.duedate}</p>
-                <div class="tagSelect">
-                    <ReactTags
-                        tags={this.state.postTag}
-                        suggestions={this.state.mockSuggestion}
-                        handleDelete={this.handleDelete.bind(this)}
-                        handleAddition={this.handleAddition.bind(this)}
-                        allowNew={true}
-                        minQueryLength={1}
-                    />
-                </div>
-                <div className="description-component">
-                    <textarea
-                        className="form-control"
-                        value={this.state.detailedDescription}
-                        onChange={e => {
-                            this.detailedChangeHandler(e);
-                        }}
-                        id="description-input"
-                    />
-                </div>
-                <button
-                    id="confirm-edit-button"
-                    onClick={this.editConfirmHandler}
-                    disabled={
-                        !this.state.thumbnail ||
-                        !this.state.detailedDescription ||
-                        !this.state.title ||
-                        !this.state.subtitle
-                    }>
-                    Confirm
-                </button>
             </div>
         );
     }
 }
 
-export default ArticleEdit;
+const mapDispatchToProps = dispatch => {
+    return {
+        ongetArticle: id => dispatch(adpostActions.getAdpost(id)),
+        onputArticle: (id, adpost) =>
+            dispatch(adpostActions.putAdpost(id, adpost))
+    };
+};
+
+const mapStateToProps = state => {
+    return {
+        loaded: !state.adpost.adpost_detailed_item.is_loading,
+        article: state.adpost.adpost_detailed_item
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleEdit);
