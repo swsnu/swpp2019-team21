@@ -126,6 +126,26 @@ class SignOutView(View):
         return HttpResponse(status=204)
 
 
+class NewTagView(View):
+    item_list = ['content']
+    @check_is_authenticated
+    @check_valid_json(item_list=item_list)
+    def post(self, request):
+        req_data = json.loads(request.body.decode())
+        tag_content = req_data['content']
+        try:
+            new_tag = InterestedTags.objects.get(content=tag_content)
+        except InterestedTags.DoesNotExist:
+            return HttpResponseNotFound()
+        if not request.user.tags.filter(content=tag_content).exists():
+            request.user.tags.add(new_tag)
+            request.user.save()
+            new_tag.usercount += 1
+            new_tag.save()
+            return HttpResponse(status=201)
+        return HttpResponse(status=200)
+
+
 class GetUserView(View):
     item_list = ['first_name', 'last_name', 'nickname', 'tags']
 

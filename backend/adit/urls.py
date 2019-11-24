@@ -24,6 +24,7 @@ urlpatterns = [
     path('adreception/redirect/<int:id>/', views.AdReceptionRedirectView.as_view()),
     path('adreception/redirectto=<str:query_str>/', views.AdReceptionOutRedirectView.as_view()),
     path('tag/', views.TagView.as_view()),
+    path('tag/add/', views.NewTagView.as_view()),
     path('tag/recommend/', views.TagRec.as_view()),
     path('tag/search/<str:pattern>/', views.TagSearchView.as_view())
     # path('question/<int:adpostid>/', views.questionPostId)

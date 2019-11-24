@@ -102,14 +102,14 @@ class AditTestCase(TestCase):
         # signing up with duplicated email
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'defa', 'first_name': 'Kim', 'last_name': 'Sangmin',
-             'nickname': 'bird', 'tags': ''}),
+             'nickname': 'bird', 'tags': ['c']}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
         # signing up with another email
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abcd@snu.ac.kr', 'password': 'defa', 'first_name': 'Kim', 'last_name': 'Sangmin',
-             'nickname': 'bird', 'tags': ['a']}),
+             'nickname': 'bird', 'tags': ['c']}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
@@ -124,6 +124,14 @@ class AditTestCase(TestCase):
             {'email': 'abc@snu.ac.kr', 'password': 'def'}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 204)
+
+        # Add new tag
+        response = client.post('/api/tag/add/', json.dumps(
+            {'content': 'c'}), content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        response = client.post('/api/tag/add/', json.dumps(
+            {'content': 'k'}), content_type='application/json')
+        self.assertEqual(response.status_code, 404)
 
         # Change user's first name, last name, nickname, interested tags
         response = client.put('/api/user/', json.dumps(
@@ -142,7 +150,7 @@ class AditTestCase(TestCase):
         self.assertEqual(response.json()['first_name'], 'Choi')
         self.assertEqual(response.json()['last_name'], 'Seong Hwan')
         self.assertEqual(response.json()['nickname'], 'iluvswpp')
-        self.assertEqual(response.json()['tags'], ['a', 'c'])
+        self.assertEqual(response.json()['tags'], ['c'])
         self.assertEqual(response.json()['point'], 1234)
 
         # Change user password
