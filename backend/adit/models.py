@@ -2,7 +2,7 @@ from builtins import ValueError
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin)
-
+from .ml import suggest
 
 class AditUserManager(BaseUserManager):
     def create_user(self, email, nickname, first_name, last_name, tags, password=None):
@@ -152,6 +152,9 @@ class AdPost(models.Model):
         max_length=64
     )
     content = models.TextField()
+    open_for_all = models.BooleanField(
+        default = True
+    )
     thumbnail = models.ForeignKey(
         to=PostImage,
         related_name='thumbnail_topost',
@@ -171,6 +174,10 @@ class AdPost(models.Model):
         to=InterestedTags,
         related_name='topost'
     )
+    def save(self, *args, **kwargs):
+        super(AdPost, self).save(*args, **kwargs)
+        if self.tags.count() > 0:
+            suggest.update_tag(list(map(lambda x: x.content, self.tags.all())), 5)
 
 
 class AdReception(models.Model):
