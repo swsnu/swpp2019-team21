@@ -4,6 +4,7 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin)
 from .ml import suggest
 
+
 class AditUserManager(BaseUserManager):
     def create_user(self, email, nickname, first_name, last_name, tags, password=None):
         if not email:
@@ -153,7 +154,7 @@ class AdPost(models.Model):
     )
     content = models.TextField()
     open_for_all = models.BooleanField(
-        default = True
+        default=True
     )
     thumbnail = models.ForeignKey(
         to=PostImage,
@@ -174,6 +175,7 @@ class AdPost(models.Model):
         to=InterestedTags,
         related_name='topost'
     )
+
     def save(self, *args, **kwargs):
         super(AdPost, self).save(*args, **kwargs)
         if self.tags.count() > 0:
