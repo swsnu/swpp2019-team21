@@ -44,7 +44,7 @@ function makeUrl(query, query_type) {
 function getAdpostList(query, query_type) {
     return dispatch => {
         dispatch({ type: actionTypes.GET_ADLIST_PENDING, query: query });
-        var url = makeUrl(query, query_type);
+        var url = makeUrl(query, query_type) + '/';
         return axios
             .get(baseUrl + url)
             .then(response => {
@@ -132,10 +132,10 @@ function postAdpost(data) {
     };
 }
 
-function putAdpost(data) {
+function putAdpost(id, data) {
     return dispatch => {
-        var id;
-        return axios.put(baseUrl + '/adpost/', data.adpost).then(response => {
+        console.log(data);
+        return axios.put(baseUrl + `/adpost/${id}/`, data).then(response => {
             id = response.data.id;
             dispatch(push(`/article/${id}`));
         });

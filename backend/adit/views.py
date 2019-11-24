@@ -296,15 +296,20 @@ class AdPostByIDView(View):
                 tag.delete()
         adpost.tags.clear()
 
-        for image in post_old_images:
-            PostImage.delete(image)
-        adpost.image.clear()
+        if adpost.image == "not_changed":
+            for image in post_old_images:
+                PostImage.delete(image)
+            adpost.image.clear()
 
-        img_new = img_process(post_new_thumbnail)
-        adpost.thumbnail = img_new
-        post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
-        adpost.save()
-        PostImage.delete(post_old_thumbnail)
+            img_new = img_process(post_new_thumbnail)
+            adpost.thumbnail = img_new
+            post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
+            adpost.save()
+            PostImage.delete(post_old_thumbnail)
+
+            for i in range(len(post_new_images)):
+                newimg = img_process(post_new_images[i])
+                adpost.image.add(newimg)
 
         for tag in post_new_tags:
             if InterestedTags.objects.filter(content=tag).exists():
@@ -316,12 +321,6 @@ class AdPostByIDView(View):
                 tag_new = InterestedTags(content=tag, usercount=1, postcount=0)
                 tag_new.save()
                 adpost.tags.add(tag_new)
-
-        adpost.save()
-
-        for i in range(len(post_new_images)):
-            newimg = img_process(post_new_images[i])
-            adpost.image.add(newimg)
 
         adpost.save()
 
@@ -517,8 +516,9 @@ class AdReceptionOutRedirectView(View):
         if request.COOKIES.get(cookie_name) is not None:
             cookies = request.COOKIES.get(cookie_name)
             cookies_list = cookies.split('|')
+
             if str(reception_object.id) not in cookies_list:
-                response.set_cookie(cookie_name, cookies + f'|{post_id}', expires=expires)
+                response.set_cookie(cookie_name, cookies + f'|{reception_object.id}', expires=expires)
 
                 reception_object.views += 1
                 owner.point += 7

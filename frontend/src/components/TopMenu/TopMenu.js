@@ -51,7 +51,7 @@ class TopMenu extends Component {
     searchConfirmHandler = () => {
         if (!this.state.searchkey) alert('Input your Search Words.');
         else
-            history.push(`/adposts/search/${this.state.searchkey}/${'string'}`);
+            history.push(`/adposts/search/${'string'}/${this.state.searchkey}`);
     };
 
     keyPressHandler = e => {
@@ -135,4 +135,7 @@ export const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TopMenu);

@@ -20,8 +20,7 @@ import { connect } from 'react-redux';
 class App extends Component {
     render() {
         return (
-            <ConnectedRouter
-                history={this.props.history}>
+            <ConnectedRouter history={this.props.history}>
                 <div className="App">
                     <ScrollToTop />
                     <TopMenu />
@@ -30,7 +29,7 @@ class App extends Component {
                         <Route path="/signup" exact component={SignUp} />
                         <Route path="/home" exact component={Home} />
                         <Route
-                            path="/adposts/search/:query/:query_type"
+                            path="/adposts/search/:query_type/:query+"
                             exact
                             component={ArticleSearch}
                         />
@@ -56,9 +55,7 @@ class App extends Component {
                             exact
                             component={Redirect}
                         />
-                        <Route
-                            component={() => (window.location = '/home')}
-                        />
+                        <Route component={() => (window.location = '/home')} />
                     </Switch>
                     <BottomBox />
                 </div>

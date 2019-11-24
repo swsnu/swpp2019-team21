@@ -7,6 +7,7 @@ import './ArticleEdit.css';
 
 class ArticleEdit extends Component {
     state = {
+        is_loadcomplete: false,
         title: 'Sample title',
         subtitle: 'Sample subtitle',
         duedate: '2001/01/16',
@@ -26,7 +27,7 @@ class ArticleEdit extends Component {
     }; // should be props, not state
 
     componentDidMount() {
-        this.props.ongetArticle(this.props.match.params.id);
+        // this.props.ongetArticle(this.props.match.params.id);
     }
 
     titleChangeHandler = t => {
@@ -58,6 +59,22 @@ class ArticleEdit extends Component {
                 imageURL: URL.createObjectURL(p.target.files[0])
             });
         }
+    };
+
+    imageOnChange = e => {
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        reader.onloadend = () => {
+            this.setState({
+                postFile: file,
+                imagePreviewUrl: reader.result
+            });
+        };
+
+        reader.readAsDataURL(file);
     };
 
     editConfirmHandler = () => {
@@ -96,15 +113,19 @@ class ArticleEdit extends Component {
             return;
         }
         const adpost = {
-            title: this.state.postTitle,
-            subtitle: this.state.postSubtitle,
-            content: this.state.postExplain,
-            image: [this.state.imagePreviewUrl],
+            title: this.state.title,
+            subtitle: this.state.subtitle,
+            content: this.state.content,
+            image:
+                this.state.imagePreviewUrl === this.props.article.thumbnail
+                    ? 'not_changed'
+                    : [this.state.imagePreviewUrl],
             ad_link: this.state.postUrl,
-            tags: this.article.tags
+            tags: this.props.article.tags
         };
-        this.props.onputArticle(this.props.match.id, adpost);
+        this.props.onputArticle(this.props.match.params.id, adpost);
     };
+
     render() {
         let imagePreview = null;
         let imagePreviewUrl = this.state.imagePreviewUrl;
@@ -113,6 +134,18 @@ class ArticleEdit extends Component {
             imagePreview = (
                 <img id="post-thumbnail-preview" src={imagePreviewUrl} />
             );
+        }
+
+        if (!this.state.is_loadcomplete && this.props.loaded) {
+            this.setState({
+                ...this.state,
+                title: this.props.article.title,
+                subtitle: this.props.article.subtitle,
+                content: this.props.article.content,
+                imagePreviewUrl: this.props.article.thumbnail,
+                postUrl: this.props.article.ad_link,
+                is_loadcomplete: true
+            });
         }
 
         return (
@@ -155,7 +188,6 @@ class ArticleEdit extends Component {
                                     placeholder=" explain your ad"
                                     id="post-explain-input"
                                     onChange={this.detailedChangeHandler}
-                                    defaultValue={this.props.article.content}
                                     value={this.state.content}></textarea>
                             </div>
                             <p />
