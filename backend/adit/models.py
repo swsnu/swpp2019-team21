@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin)
 from .ml import suggest
+from django.db.models.functions import datetime
+
 
 class AditUserManager(BaseUserManager):
     def create_user(self, email, nickname, first_name, last_name, tags, password=None):
@@ -50,6 +52,7 @@ class InterestedTags(models.Model):
     )
     usercount = models.IntegerField()
     postcount = models.IntegerField()
+    created_time = models.DateTimeField(auto_now_add = True)
 
 
 class AditUser(AbstractBaseUser, PermissionsMixin):
@@ -153,7 +156,7 @@ class AdPost(models.Model):
     )
     content = models.TextField()
     open_for_all = models.BooleanField(
-        default = True
+        default=True
     )
     thumbnail = models.ForeignKey(
         to=PostImage,
@@ -170,10 +173,12 @@ class AdPost(models.Model):
     total_views = models.IntegerField()
     upload_date = models.DateTimeField()
     expiry_date = models.DateField()
+    view_by_date = models.TextField()
     tags = models.ManyToManyField(
         to=InterestedTags,
         related_name='topost'
     )
+
     def save(self, *args, **kwargs):
         super(AdPost, self).save(*args, **kwargs)
         if self.tags.count() > 0:
@@ -213,3 +218,7 @@ class Question(models.Model):
     )
     content = models.TextField()
     checked = models.BooleanField()
+
+class IpAddressDuplication(models.Model):
+    ip_address = models.CharField(max_length=16)
+    created = models.DateTimeField(auto_now_add=True)
