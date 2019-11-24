@@ -17,6 +17,7 @@ from django.core.files.base import ContentFile
 from hashids import Hashids
 import base64
 from .ml import suggest
+from . import init_data
 import gensim
 import os
 
@@ -128,6 +129,7 @@ class SignOutView(View):
 
 class NewTagView(View):
     item_list = ['content']
+
     @check_is_authenticated
     @check_valid_json(item_list=item_list)
     def post(self, request):
@@ -262,7 +264,7 @@ class AdPostView(View):
 
         adpost = AdPost(owner=request.user, title=title, subtitle=subtitle, content=content, ad_link=ad_link,
                         target_views=target_views, total_views=0, expiry_date=expiry_date, upload_date=upload_date,
-                        closed=False, thumbnail=thumbnail, open_for_all=open_for_all, view_by_date = '')
+                        closed=False, thumbnail=thumbnail, open_for_all=open_for_all, view_by_date='')
         adpost.save()
 
         for tag in post_tags:
