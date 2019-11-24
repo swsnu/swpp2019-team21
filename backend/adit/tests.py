@@ -95,21 +95,21 @@ class AditTestCase(TestCase):
         # signing up
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
-             'nickname': 'digdhg', 'tags': ['a', 'b']}),
+             'nickname': 'digdhg', 'tags': ['여행', '컴퓨터']}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
         # signing up with duplicated email
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'defa', 'first_name': 'Kim', 'last_name': 'Sangmin',
-             'nickname': 'bird', 'tags': ['c']}),
+             'nickname': 'bird', 'tags': ['공연']}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
         # signing up with another email
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abcd@snu.ac.kr', 'password': 'defa', 'first_name': 'Kim', 'last_name': 'Sangmin',
-             'nickname': 'bird', 'tags': ['c']}),
+             'nickname': 'bird', 'tags': ['공연']}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
@@ -127,7 +127,7 @@ class AditTestCase(TestCase):
 
         # Add new tag
         response = client.post('/api/tag/add/', json.dumps(
-            {'content': 'c'}), content_type='application/json')
+            {'content': '공연'}), content_type='application/json')
         self.assertEqual(response.status_code, 201)
         response = client.post('/api/tag/add/', json.dumps(
             {'content': 'k'}), content_type='application/json')
@@ -136,7 +136,7 @@ class AditTestCase(TestCase):
         # Change user's first name, last name, nickname, interested tags
         response = client.put('/api/user/', json.dumps(
             {'first_name': 'Choi', 'last_name': 'Seong Hwan',
-             'nickname': 'iluvswpp', 'tags': ['a', 'c']}),
+             'nickname': 'iluvswpp', 'tags': ['여행', '공연']}),
                               content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
@@ -150,7 +150,7 @@ class AditTestCase(TestCase):
         self.assertEqual(response.json()['first_name'], 'Choi')
         self.assertEqual(response.json()['last_name'], 'Seong Hwan')
         self.assertEqual(response.json()['nickname'], 'iluvswpp')
-        self.assertEqual(response.json()['tags'], ['c'])
+        self.assertEqual(response.json()['tags'], ['공연'])
         self.assertEqual(response.json()['point'], 1234)
 
         # Change user password
@@ -178,14 +178,14 @@ class AditTestCase(TestCase):
         # signing up
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
-             'nickname': 'digdhg', 'tags': ['a']}),
+             'nickname': 'digdhg', 'tags': ['여행']}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
         # signing up
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abcd@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
-             'nickname': 'digdhg2', 'tags': ['b']}),
+             'nickname': 'digdhg2', 'tags': ['컴퓨터']}),
                                content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
@@ -195,7 +195,7 @@ class AditTestCase(TestCase):
         req_data = {'title': "abc", 'subtitle': "", 'content': "",
                     'image': [mocked_image, mocked_image, mocked_image, mocked_image],
                     'ad_link': "https://www.naver.com",
-                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': ['a', 'b', 'c', 'd'],
+                    'target_views': "321", 'expiry_date': "2019-11-15", 'tags': ['여행', '컴퓨터', '공연', '연극'],
                     'open_for_all': 'False'}
         response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
         self.assertEqual(response.status_code, 200)
@@ -203,11 +203,11 @@ class AditTestCase(TestCase):
 
         # Posting another article
         req_data["title"] = "abcd"
-        req_data["tags"] = ['c']
+        req_data["tags"] = ['공연']
         response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
 
         req_data["title"] = "abcde"
-        req_data["tags"] = ['a']
+        req_data["tags"] = ['여행']
         response = client.post('/api/adpost/', json.dumps(req_data, ), content_type='application/json')
 
         # If article is got, it is ordered by id
@@ -227,12 +227,8 @@ class AditTestCase(TestCase):
         # Custom only gets articles that user is interested in
         response = client.get('/api/adpost/custom/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()['a'][0]["title"], "abcde")
-        self.assertEqual(response.json()['a'][1]["title"], "abc")
-
-        # Recommended Tags By ML System
-        response = client.get('/api/tag/recommend/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()['여행'][0]["title"], "abcde")
+        self.assertEqual(response.json()['여행'][1]["title"], "abc")
 
         # Get articles user posted
         response = client.get('/api/adpost/by-userid/')
@@ -242,7 +238,7 @@ class AditTestCase(TestCase):
         self.assertEqual(response.json()[2]["title"], "abc")
 
         # Get articles tagged with 'c
-        response = client.get('/api/adpost/by-tag/c/')
+        response = client.get('/api/adpost/by-tag/공연/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()[0]["title"], "abcd")
         self.assertEqual(response.json()[1]["title"], "abc")
@@ -255,11 +251,11 @@ class AditTestCase(TestCase):
 
         # Editing article with id 1
         req_data["title"] = "hungry"
-        req_data["tags"] = ['c', 'e']
+        req_data["tags"] = ['공연', '휴대폰']
         response = client.put('/api/adpost/1/', json.dumps(req_data, ), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["title"], "hungry")
-        self.assertEqual(response.json()["tags"], ['c', 'e'])
+        self.assertEqual(response.json()["tags"], ['공연', '휴대폰'])
 
         # Deleting article with id 3
         response = client.delete('/api/adpost/3/')

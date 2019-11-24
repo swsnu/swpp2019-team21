@@ -101,9 +101,7 @@ class SignUpView(View):
                 tag_exist.save()
                 tags.append(tag_exist)
             else:
-                tag_new = InterestedTags(content=tag, usercount=1, postcount=0)
-                tag_new.save()
-                tags.append(tag_new)
+                pass
 
         AditUser.objects.create_user(nickname=nickname, password=password, first_name=firstname, last_name=lastname,
                                      email=email, tags=tags)

@@ -1,3 +1,0 @@
-CREATE DATABASE IF NOT EXISTS adit_db;
-ALTER DATABASE adit_db DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-GRANT ALL PRIVILEGES ON adit_db.* TO root@localhost;
