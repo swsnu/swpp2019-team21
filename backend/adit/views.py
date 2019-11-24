@@ -164,8 +164,7 @@ class GetUserView(View):
 
         for tag in modified_tags:
             if not InterestedTags.objects.filter(content=tag).exists():
-                tag_new = InterestedTags.objects.create(content=tag, usercount=1, postcount=0)
-                user.tags.add(tag_new)
+                pass
             else:
                 tag_old = InterestedTags.objects.get(content=tag)
                 tag_old.usercount += 1
