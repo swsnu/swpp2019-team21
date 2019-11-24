@@ -171,6 +171,7 @@ class AdPost(models.Model):
     total_views = models.IntegerField()
     upload_date = models.DateTimeField()
     expiry_date = models.DateField()
+    view_by_date = models.TextField()
     tags = models.ManyToManyField(
         to=InterestedTags,
         related_name='topost'

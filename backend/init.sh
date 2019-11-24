@@ -5,7 +5,7 @@ source venv/bin/activate
 rm -rf ./adit/0001_initial.py
 pip install -r requirements.txt
 sudo mysql < db_set
-service mysql restart
+sudo service mysql restart
 sudo mysql < db_create
 mysql -uroot adit_db < adit_db.sql
 python manage.py makemigrations
@@ -14,4 +14,7 @@ rm -rf media
 mkdir media
 cp -rf ./initial_data_set/initial_media/* ./media
 python manage.py loaddata ./initial_data_set/initial_data.json
+python manage.py crontab remove
+python manage.py crontab add
+sudo service cron start
 python manage.py runserver

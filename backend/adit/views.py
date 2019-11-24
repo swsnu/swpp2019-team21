@@ -12,7 +12,7 @@ from django.contrib.auth.hashers import check_password
 from django.forms.models import model_to_dict
 from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Q
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from django.core.files.base import ContentFile
 from hashids import Hashids
 import base64
@@ -243,7 +243,7 @@ class AdPostView(View):
 
         adpost = AdPost(owner=request.user, title=title, subtitle=subtitle, content=content, ad_link=ad_link,
                         target_views=target_views, total_views=0, expiry_date=expiry_date, upload_date=upload_date,
-                        closed=False, thumbnail=thumbnail, open_for_all=open_for_all)
+                        closed=False, thumbnail=thumbnail, open_for_all=open_for_all, view_by_date = '')
         adpost.save()
 
         for tag in post_tags:
@@ -278,9 +278,9 @@ class AdPostByIDView(View):
     def get(self, request, id):
         response_dict = model_to_dict(AdPost.objects.get(id=id))
         if response_dict['owner'] == request.user.id:
-            response_dict['is_owner'] = True;
+            response_dict['is_owner'] = True
         else:
-            response_dict['is_owner'] = False;
+            response_dict['is_owner'] = False
 
         model_process(response_dict)
         return JsonResponse(response_dict)
@@ -541,7 +541,7 @@ class AdReceptionOutRedirectView(View):
             cookies = request.COOKIES.get(cookie_name)
             cookies_list = cookies.split('|')
             if str(reception_object.id) not in cookies_list:
-                response.set_cookie(cookie_name, cookies + f'|{post_id}', expires=expires)
+                response.set_cookie(cookie_name, cookies + f'|{reception_object.id}', expires=expires)
 
                 reception_object.views += 1
                 owner.point += 7

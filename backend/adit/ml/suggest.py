@@ -1,8 +1,9 @@
 import gensim
 import numpy as np, pandas as pd
-import random
+import random, os
 
-model = gensim.models.Word2Vec.load('./adit/ml/models.bin')
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+model = gensim.models.Word2Vec.load(BASE_DIR + '/ml/models.bin')
 
 def update_tag(tag_list, shuffle_size):
     sentence = []
@@ -12,7 +13,7 @@ def update_tag(tag_list, shuffle_size):
         sentence.append(mock_list)
     model.build_vocab(sentences=sentence, update=True, min_count=shuffle_size)
     model.train(sentences=sentence, epochs=100, total_examples=shuffle_size)
-    model.save('./adit/ml/models.bin')
+    model.save(BASE_DIR + '/ml/models.bin')
 
 def tag_similarity(data_exist, data_input):
     data = data_exist
