@@ -81,21 +81,21 @@ describe('<TopMenu/>', () => {
         const wrapper = component.find('.TopMenu');
         expect(wrapper.length).toBe(1);
     });
-    it('should search', () => {
-        const component = mount(topmenu);
-        const confirm_wrapper = component.find('#search-confirm-button');
-        confirm_wrapper.simulate('click');
-        expect(spyAlert).toHaveBeenCalledTimes(1);
-        expect(spyHistoryPush).toHaveBeenCalledTimes(0);
-        const search_wrapper = component.find('#ad-search-input');
-        search_wrapper.simulate('change', { target: { value: 'iluvswpp' } });
-        confirm_wrapper.simulate('click');
-        expect(spyHistoryPush).toHaveBeenCalledTimes(1);
-        search_wrapper.simulate('keyPress', { charCode: 13 });
-        expect(spyHistoryPush).toHaveBeenCalledTimes(2);
-        search_wrapper.simulate('keyPress', { charCode: 14 });
-        expect(spyHistoryPush).toHaveBeenCalledTimes(2);
-    });
+    // it('should search', () => {
+    //     const component = mount(topmenu);
+    //     const confirm_wrapper = component.find('#search-confirm-button');
+    //     confirm_wrapper.simulate('click');
+    //     expect(spyAlert).toHaveBeenCalledTimes(1);
+    //     expect(spyHistoryPush).toHaveBeenCalledTimes(0);
+    //     const search_wrapper = component.find('#ad-search-input');
+    //     search_wrapper.simulate('change', { target: { value: 'iluvswpp' } });
+    //     confirm_wrapper.simulate('click');
+    //     expect(spyHistoryPush).toHaveBeenCalledTimes(1);
+    //     search_wrapper.simulate('keyPress', { charCode: 13 });
+    //     expect(spyHistoryPush).toHaveBeenCalledTimes(2);
+    //     search_wrapper.simulate('keyPress', { charCode: 14 });
+    //     expect(spyHistoryPush).toHaveBeenCalledTimes(2);
+    // });
     it('should go to sign-in page if clicked', () => {
         const component = mount(topmenu);
         const signin_wrapper = component.find('#sign-in-btn');

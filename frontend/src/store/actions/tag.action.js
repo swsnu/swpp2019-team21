@@ -17,7 +17,8 @@ function getAllTag() {
                     return { id: item.id, name: item.content };
                 });
                 dispatch({
-                    type: actionTypes.GET_ALL_TAG
+                    type: actionTypes.GET_ALL_TAG,
+                    all_tags: data
                 });
             })
             .catch(error => {
