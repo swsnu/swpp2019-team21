@@ -20,6 +20,13 @@ from .ml import suggest
 import gensim
 import os
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 def user_related_post(request):
     if not request.user.is_authenticated:
@@ -559,7 +566,9 @@ class AdReceptionOutRedirectView(View):
         if request.COOKIES.get(cookie_name) is not None:
             cookies = request.COOKIES.get(cookie_name)
             cookies_list = cookies.split('|')
-            if str(reception_object.id) not in cookies_list:
+            if str(reception_object.id) not in cookies_list and not IpAddressDuplication.objects.filter(ip_address=get_client_ip(request)).exists():
+                new_ip = IpAddressDuplication(ip_address=get_client_ip(request))
+                new_ip.save()
                 response.set_cookie(cookie_name, cookies + f'|{reception_object.id}', expires=expires)
 
                 reception_object.views += 1
