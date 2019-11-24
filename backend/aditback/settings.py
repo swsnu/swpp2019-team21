@@ -82,10 +82,10 @@ DATABASES = {
         'NAME': 'adit_db',
         'HOST': 'localhost',
         'USER': 'root',
+        'PASSWORD': '4534',
         'PORT': '',
         'OPTIONS': {
             'charset': 'utf8mb4',
-
             'use_unicode': True,
         }
     }
