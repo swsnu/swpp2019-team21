@@ -7,7 +7,7 @@ from matplotlib import font_manager, rc
 
 import gensim
 
-model = gensim.models.Word2Vec.load('models.bin')
+model = gensim.models.Word2Vec.load('ko.bin')
 
 import glob
 
