@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Time Setting
 
 
-# Application definition
+# Application definition    'django_crontab',
+
 
 INSTALLED_APPS = [
     'adit.apps.AditConfig',
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -87,10 +89,12 @@ DATABASES = {
         'OPTIONS': {
             'charset': 'utf8mb4',
             'use_unicode': True,
+        },
+        'TEST': {
+            'CHARSET': 'utf8mb4'
         }
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -131,3 +135,7 @@ AUTH_USER_MODEL = "adit.AditUser"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+CRONTAB_COMMAND_SUFFIX = '2>&1'
+CRONJOBS = [
+    ('0 0 * * *', 'adit.sync.set_data_by_day', '>> ' + BASE_DIR + '/data_update.log')
+]

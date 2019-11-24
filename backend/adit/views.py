@@ -10,14 +10,22 @@ from django.contrib.auth.hashers import check_password
 from django.forms.models import model_to_dict
 from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Q
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from django.core.files.base import ContentFile
 from hashids import Hashids
 import base64
 from .ml import suggest
+from . import init_data
 import gensim
 import os
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return i
 
 def user_related_post(request):
     if not request.user.is_authenticated:
@@ -92,9 +100,7 @@ class SignUpView(View):
                 tag_exist.save()
                 tags.append(tag_exist)
             else:
-                tag_new = InterestedTags(content=tag, usercount=1, postcount=0)
-                tag_new.save()
-                tags.append(tag_new)
+                pass
 
         AditUser.objects.create_user(nickname=nickname, password=password, first_name=firstname, last_name=lastname,
                                      email=email, tags=tags)
@@ -123,6 +129,27 @@ class SignOutView(View):
     def get(self, request):
         logout(request)
         return HttpResponse(status=204)
+
+
+class NewTagView(View):
+    item_list = ['content']
+
+    @check_is_authenticated
+    @check_valid_json(item_list=item_list)
+    def post(self, request):
+        req_data = json.loads(request.body.decode())
+        tag_content = req_data['content']
+        try:
+            new_tag = InterestedTags.objects.get(content=tag_content)
+        except InterestedTags.DoesNotExist:
+            return HttpResponseNotFound()
+        if not request.user.tags.filter(content=tag_content).exists():
+            request.user.tags.add(new_tag)
+            request.user.save()
+            new_tag.usercount += 1
+            new_tag.save()
+            return HttpResponse(status=201)
+        return HttpResponse(status=200)
 
 
 class GetUserView(View):
@@ -163,8 +190,7 @@ class GetUserView(View):
 
         for tag in modified_tags:
             if not InterestedTags.objects.filter(content=tag).exists():
-                tag_new = InterestedTags.objects.create(content=tag, usercount=1, postcount=0)
-                user.tags.add(tag_new)
+                pass
             else:
                 tag_old = InterestedTags.objects.get(content=tag)
                 tag_old.usercount += 1
@@ -242,7 +268,7 @@ class AdPostView(View):
 
         adpost = AdPost(owner=request.user, title=title, subtitle=subtitle, content=content, ad_link=ad_link,
                         target_views=target_views, total_views=0, expiry_date=expiry_date, upload_date=upload_date,
-                        closed=False, thumbnail=thumbnail, open_for_all=open_for_all)
+                        closed=False, thumbnail=thumbnail, open_for_all=open_for_all, view_by_date='')
         adpost.save()
 
         for tag in post_tags:
@@ -277,9 +303,9 @@ class AdPostByIDView(View):
     def get(self, request, id):
         response_dict = model_to_dict(AdPost.objects.get(id=id))
         if response_dict['owner'] == request.user.id:
-            response_dict['is_owner'] = True;
+            response_dict['is_owner'] = True
         else:
-            response_dict['is_owner'] = False;
+            response_dict['is_owner'] = False
 
         model_process(response_dict)
         return JsonResponse(response_dict)
@@ -550,12 +576,9 @@ class AdReceptionOutRedirectView(View):
         if request.COOKIES.get(cookie_name) is not None:
             cookies = request.COOKIES.get(cookie_name)
             cookies_list = cookies.split('|')
-
-            if str(reception_object.id) not in cookies_list and not IpAddressDuplication.objects.filter(
-                    ip_address=get_client_ip(request)).exists:
+            if str(reception_object.id) not in cookies_list and not IpAddressDuplication.objects.filter(ip_address=get_client_ip(request)).exists():
                 new_ip = IpAddressDuplication(ip_address=get_client_ip(request))
                 new_ip.save()
-
                 response.set_cookie(cookie_name, cookies + f'|{reception_object.id}', expires=expires)
 
                 reception_object.views += 1
@@ -606,18 +629,17 @@ class TagView(View):
         return JsonResponse(taglist, safe=False)
 
 
-class TagRecommend(View):
-    #  @check_is_authenticated
+class TagRecommendByUser(View):
+    #    @check_is_authenticated
     def get(self, request):
         taglist = suggest.tag_suggest(list(InterestedTags.objects.all()), list(request.user.tags.all()), 0.02)
         return JsonResponse(taglist, safe=False)
 
 
-class TagRecent(View):
-    #  @check_is_authenticated
+class TagRecommendByRecent(View):
     def get(self, request):
-        taglist = [model_to_dict(tag) for tag in InterestedTags.objects.all().order_by('-create_time')]
-        return JsonResponse(taglist, safe=False)
+        taglist = [model_to_dict(tag) for tag in InterestedTags.objects.all().order_by('-created_time')]
+        return JsonResponse(taglist[:20], safe=False)
 
 
 class TagSearchView(View):

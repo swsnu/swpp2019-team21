@@ -3,9 +3,19 @@ import { ProgressBar } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { adpostActions, adreceptionActions } from '../../../store/actions';
+import { LineChart, XAxis, YAxis, Line, Legend } from 'recharts';
 import './ArticleDetail.css';
 
 var multiplier = 7;
+
+const mockPlotData = [
+    { date: '1월 1일', data: 3 },
+    { date: '1월 2일', data: 3.3 },
+    { date: '1월 3일', data: 1.8 },
+    { date: '1월 4일', data: 1.9 },
+    { date: '1월 5일', data: 7.5 },
+    { date: '1월 6일', data: -5 }
+];
 
 class ArticleDetail extends Component {
     componentDidMount() {
@@ -138,6 +148,19 @@ class ArticleDetail extends Component {
                                 )}
                             </div>
                         </div>
+                    </div>
+                    <div className="stat">
+                        <LineChart width={500} height={300} data={mockPlotData}>
+                            <XAxis dataKey="date" interval="preserveEnd" />
+                            <YAxis interval="preserveEnd" />
+                            <Legend />
+                            <Line
+                                type="monotone"
+                                dataKey="data"
+                                stroke="#8884d8"
+                                activeDot={{ r: 8 }}
+                            />
+                        </LineChart>
                     </div>
                     <div className="down-component">
                         <h3 id="description-title-text">
