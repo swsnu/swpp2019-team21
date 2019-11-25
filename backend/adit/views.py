@@ -612,7 +612,6 @@ class AdReceptionRedirectView(View):
 class TagView(View):
     item_list = ['content']
 
-    @check_is_authenticated
     @check_valid_json(item_list=item_list)
     def get(self, request):
         taglist = [model_to_dict(tag) for tag in InterestedTags.objects.all()]
