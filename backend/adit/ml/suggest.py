@@ -23,8 +23,8 @@ def tag_similarity(data_exist, data_input):
     for word in data_input:
         for tar in data:
             try:
-                sim = model.wv.similarity(word, tar)
-                suma += sim * sim
+                sim = 1 + model.wv.similarity(word, tar)
+                suma += sim ** 2
             except:
                 pass
     res = ''
