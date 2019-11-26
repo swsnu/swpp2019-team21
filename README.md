@@ -6,6 +6,7 @@
 ## How to start project
 #### Backend
 ```shell
+    // You should not have password on your local mysql accout.
     $ cd backend
     $ ./init.sh
 ```
