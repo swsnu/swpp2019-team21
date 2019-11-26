@@ -2,6 +2,8 @@ from builtins import ValueError
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin)
+from django.db.models.functions import datetime
+
 from .ml import suggest
 from django.db.models.functions import datetime
 
@@ -39,7 +41,6 @@ class AditUserManager(BaseUserManager):
                              last_name=last_name,
                              tags=[],
                              password=password,
-                             point=0
                              )
         u.is_admin = True
         u.save(using=self._db)

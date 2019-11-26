@@ -7,6 +7,7 @@ import { userActions } from '../../store/actions';
 import TopMenuPopUp from './TopMenuPopUp';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import TagSelector from '../../containers/TagSelector/TagSelector';
 import './TopMenu.css';
 
 class TopMenu extends Component {
@@ -51,7 +52,7 @@ class TopMenu extends Component {
     searchConfirmHandler = () => {
         if (!this.state.searchkey) alert('Input your Search Words.');
         else
-            history.push(`/adposts/search/${this.state.searchkey}/${'string'}`);
+            history.push(`/adposts/search/${'string'}/${this.state.searchkey}`);
     };
 
     keyPressHandler = e => {
@@ -72,6 +73,7 @@ class TopMenu extends Component {
                         onClick={this.clickHomeHandler}>
                         Adit
                     </h1>
+                    {/*                     
                     <div className="Search">
                         <input
                             id="ad-search-input"
@@ -95,7 +97,8 @@ class TopMenu extends Component {
                             id="search-confirm-button"
                             aria-hidden="true"
                             onClick={this.searchConfirmHandler}></i>
-                    </div>
+                    </div> */}
+                    <TagSelector />
                     {this.props.logged_in && (
                         <a id="ad-add-btn" onClick={this.newArticleHandler}>
                             New Ad Request
@@ -135,4 +138,7 @@ export const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TopMenu);

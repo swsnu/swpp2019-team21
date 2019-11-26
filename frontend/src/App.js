@@ -8,6 +8,7 @@ import ArticleSearch from './containers/Article/ArticleSearch/ArticleSearch';
 import SignUp from './containers/SignUp/SignUp';
 import UserInfo from './containers/UserInfo/UserInfo';
 import Home from './containers/Home/Home';
+import NewHome from './containers/NewHome/NewHome';
 import ArticleDetail from './containers/Article/ArticleDetail/ArticleDetail';
 import ArticleEdit from './containers/Article/ArticleEdit/ArticleEdit';
 import ArticleCreate from './containers/Article/ArticleCreate/ArticleCreate';
@@ -20,8 +21,7 @@ import { connect } from 'react-redux';
 class App extends Component {
     render() {
         return (
-            <ConnectedRouter
-                history={this.props.history}>
+            <ConnectedRouter history={this.props.history}>
                 <div className="App">
                     <ScrollToTop />
                     <TopMenu />
@@ -30,7 +30,7 @@ class App extends Component {
                         <Route path="/signup" exact component={SignUp} />
                         <Route path="/home" exact component={Home} />
                         <Route
-                            path="/adposts/search/:query/:query_type"
+                            path="/adposts/search/:query_type/:query+"
                             exact
                             component={ArticleSearch}
                         />
@@ -56,9 +56,8 @@ class App extends Component {
                             exact
                             component={Redirect}
                         />
-                        <Route
-                            component={() => (window.location = '/home')}
-                        />
+                        <Route path="/test" exact component={NewHome} />
+                        <Route component={() => (window.location = '/home')} />
                     </Switch>
                     <BottomBox />
                 </div>
@@ -67,7 +66,4 @@ class App extends Component {
     }
 }
 
-export default connect(
-    null,
-    null
-)(App);
+export default connect(null, null)(App);
