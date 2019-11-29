@@ -9,46 +9,46 @@ import { getMockStore } from '../../../test/utils/mockStore';
 import { adpostActions, adreceptionActions } from '../../../store/actions';
 
 const stubInitialState = {
-    adpost_detailed_item:{
-        tags:[('acc', 'cur', 'i')],
-        is_loading:false
+    adpost_detailed_item: {
+        tags: [('acc', 'cur', 'i')],
+        is_loading: false
     },
-    views:0,
-    unique_link:'test',
-    is_participated:false,
+    views: 0,
+    unique_link: 'test',
+    is_participated: false
 };
 
 const stubInitialState_owner = {
-    adpost_detailed_item:{
-        tags:[],
-        is_loading:false,
-        is_owner: true,
+    adpost_detailed_item: {
+        tags: [],
+        is_loading: false,
+        is_owner: true
     },
-    views:0,
-    unique_link:'test',
-    is_participated:false,
+    views: 0,
+    unique_link: 'test',
+    is_participated: false
 };
 
 const stubInitialState_loading = {
-    adpost_detailed_item:{
-        tags:[],
-        is_loading:true,
-        is_owner: true,
+    adpost_detailed_item: {
+        tags: [],
+        is_loading: true,
+        is_owner: true
     },
-    views:0,
-    unique_link:'test',
-    is_participated:false,
+    views: 0,
+    unique_link: 'test',
+    is_participated: false
 };
 
 const stubInitialState_participate = {
-    adpost_detailed_item:{
-        tags:[],
-        is_loading:false,
-        is_owner: false,
+    adpost_detailed_item: {
+        tags: [],
+        is_loading: false,
+        is_owner: false
     },
-    views:0,
-    unique_link:'test',
-    is_participated:true,
+    views: 0,
+    unique_link: 'test',
+    is_participated: true
 };
 
 const mockStore = getMockStore(stubInitialState);
@@ -56,9 +56,19 @@ const mockStore_owner = getMockStore(stubInitialState_owner);
 const mockStore_loading = getMockStore(stubInitialState_loading);
 const mockStore_participate = getMockStore(stubInitialState_participate);
 describe('<ArticleDetail />', () => {
-    let articledetail, articledetail_owner, articledetail_loading, articledetail_participate, spyHistoryPush, mockPost, mockReceptGet, mockReceptPost;
+    let articledetail,
+        articledetail_owner,
+        articledetail_loading,
+        articledetail_participate,
+        spyHistoryPush,
+        mockPost,
+        mockReceptGet,
+        mockReceptPost;
     const props = {
-        match: { params: { id: '0' } }
+        match: { params: { id: '0' } },
+        history: {
+            push: () => {}
+        }
     };
     beforeEach(() => {
         localStorage.clear();
@@ -146,7 +156,13 @@ describe('<ArticleDetail />', () => {
     it('should react to participate button click', () => {
         const component = mount(articledetail);
         const wrapper = component.find('#participate-button');
-        wrapper.simulate('click')
+        wrapper.simulate('click');
+        expect(wrapper.length).toBe(1);
+    });
+    it('should react to edit button click', () => {
+        const component = mount(articledetail_owner);
+        const wrapper = component.find('#post-edit-button');
+        wrapper.simulate('click');
         expect(wrapper.length).toBe(1);
     });
     it('should render without error when participated', () => {

@@ -4,15 +4,25 @@ import AsyncSelect from 'react-select/async';
 import axios from 'axios';
 import './TagSelector.css';
 import { tagActions } from '../../store/actions';
+import { withRouter } from 'react-router-dom';
 
 class TagSelector extends Component {
-    state = { inputValue: '' };
+    state = { value: '', content: '' };
 
     handleInputChange = newValue => {
         console.log(newValue);
         const inputValue = newValue;
-        this.setState({ inputValue });
+        this.setState({ ...inputValue });
         return inputValue;
+    };
+
+    handleSubmit = event => {
+        if (this.state.value && event.key === 'Enter') {
+            this.props.history.push(
+                `/adposts/search/${'tag'}/${this.state.value}`
+            );
+            this.setState({ value: '', content: '' });
+        }
     };
 
     filterTags = (inputValue, data) => {
@@ -41,7 +51,8 @@ class TagSelector extends Component {
                     cacheOptions
                     loadOptions={this.loadOptions}
                     defaultOptions
-                    onInputChange={this.handleInputChange}
+                    onChange={this.handleInputChange}
+                    onKeyDown={this.handleSubmit}
                 />
             </div>
         );
@@ -60,7 +71,9 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TagSelector);
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(TagSelector)
+);
