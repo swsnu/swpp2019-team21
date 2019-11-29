@@ -19,6 +19,8 @@ from . import init_data
 import gensim
 import os
 
+base_link = 'http://localhost:3000/redirectfrom='
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -99,8 +101,6 @@ class SignUpView(View):
                 tag_exist.usercount += 1
                 tag_exist.save()
                 tags.append(tag_exist)
-            else:
-                pass
 
         AditUser.objects.create_user(nickname=nickname, password=password, first_name=firstname, last_name=lastname,
                                      email=email, tags=tags)
@@ -189,9 +189,7 @@ class GetUserView(View):
                 tag.delete()
 
         for tag in modified_tags:
-            if not InterestedTags.objects.filter(content=tag).exists():
-                pass
-            else:
+            if InterestedTags.objects.filter(content=tag).exists():
                 tag_old = InterestedTags.objects.get(content=tag)
                 tag_old.usercount += 1
                 tag_old.save()
@@ -468,7 +466,7 @@ class AdPostByCustomView(View):
 
 
 def encode(userid, time, postid):
-    base_link = 'http://localhost:3000/redirectfrom='
+    
     time = time.strftime("%y%m%d%H%M%S")
     print('encode : ' + time)
     hashids = Hashids()
@@ -479,7 +477,6 @@ def encode(userid, time, postid):
 
 
 def decode(code, object):
-    base_link = 'http://localhost:3000/redirectfrom='
     hashids = Hashids()
     res = hashids.decode(code.replace(base_link, ''))
     if not res:
@@ -546,7 +543,6 @@ class AdReceptionOutRedirectView(View):
     # ad closed ==> 410
     def get(self, request, query_str):
         # TODO: Revise Hard Coding
-        base_link = 'http://localhost:3000/redirectfrom='
         if not AdReception.objects.filter(unique_link=base_link + query_str).exists():
             return HttpResponseNotFound()
         reception_object = AdReception.objects.get(unique_link=base_link + query_str)
