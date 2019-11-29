@@ -73,31 +73,6 @@ class TopMenu extends Component {
                         onClick={this.clickHomeHandler}>
                         Adit
                     </h1>
-                    {/*                     
-                    <div className="Search">
-                        <input
-                            id="ad-search-input"
-                            type="text"
-                            placeholder="Search"
-                            onKeyPress={this.keyPressHandler}
-                            onChange={event =>
-                                this.setState({
-                                    ...this.state,
-                                    searchkey: event.target.value
-                                })
-                            }
-                        />
-                        <FontAwesomeIcon
-                            color="#f1f2f3"
-                            icon={faSearch}
-                            onClick={this.searchConfirmHandler}
-                        />
-                        <i
-                            className="fa fa-search"
-                            id="search-confirm-button"
-                            aria-hidden="true"
-                            onClick={this.searchConfirmHandler}></i>
-                    </div> */}
                     <TagSelector />
                     {this.props.logged_in && (
                         <a id="ad-add-btn" onClick={this.newArticleHandler}>
