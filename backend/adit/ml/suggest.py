@@ -35,7 +35,7 @@ def tag_similarity(data_exist, data_input):
     return res
 
 
-def tag_suggest(data_exist, data_input, TH=0.2):
+def tag_suggest(data_exist, data_input, threshold=0.2):
     data_num = np.array(list(
         map(lambda x: x.postcount, data_exist)))  # np.array([80,20,40,65,95,18,20,32,5,10,45,15,85,34,75,85,15,19,68])
     data = pd.DataFrame({'tag': list(map(lambda x: x.content, data_exist)), 'val': data_num / sum(data_num)})
@@ -53,10 +53,10 @@ def tag_suggest(data_exist, data_input, TH=0.2):
                     pass
 
     res = sorted(sim.items(), key=lambda x: -x[1])
-    return list(map(lambda x: x[0], list(filter(lambda x: x[1] > TH, res))[:10]))
+    return list(map(lambda x: x[0], list(filter(lambda x: x[1] > threshold, res))[:10]))
 
 
-def post_suggest(adposts, data_input, TH=0.2):
+def post_suggest(adposts, data_input, threshold=0.2):
     sim = []
     for post in adposts:
         tag = list(map(lambda x: x.content, post.tags.all()))
@@ -64,5 +64,5 @@ def post_suggest(adposts, data_input, TH=0.2):
         sim.append((post, tag_similarity(tag, tag_input)))
 
     res = sorted(sim, key=lambda x: -x[1])
-    res = list(map(lambda x: x[0].pk, list(filter(lambda x: x[1] > TH, res))[:100]))
+    res = list(map(lambda x: x[0].pk, list(filter(lambda x: x[1] > threshold, res))[:100]))
     return res
