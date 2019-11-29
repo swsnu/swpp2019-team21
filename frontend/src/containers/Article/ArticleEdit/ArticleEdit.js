@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactTags from 'react-tag-autocomplete';
 import { connect } from 'react-redux';
 import { adpostActions } from '../../../store/actions/adpost.action';
 import intro_first from '../../../assets/intro_first.jpg';
@@ -246,7 +245,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ArticleEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleEdit);

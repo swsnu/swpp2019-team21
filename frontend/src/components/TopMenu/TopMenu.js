@@ -5,8 +5,6 @@ import profile from './../../assets/iu_profile.png';
 import { history } from '../../store';
 import { userActions } from '../../store/actions';
 import TopMenuPopUp from './TopMenuPopUp';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TagSelector from '../../containers/TagSelector/TagSelector';
 import './TopMenu.css';
 
@@ -138,7 +136,4 @@ export const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TopMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);
