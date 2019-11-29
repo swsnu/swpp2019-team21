@@ -119,8 +119,21 @@
         height: 50px;
     }
 
+    .stat {
+        float: right;
+        width: 30%;
+        padding-top: 120px;
+        border-bottom-style: groove;
+    }
+
+    #stat-text {
+        color: #404040;
+        font-weight: 350;
+        padding-bottom: 20px;
+        border-bottom-style: groove;
+    }
+
     .earn-point {
-        padding-top: 30px;
         padding-bottom: 30px;
         border-bottom-style: groove;
     }
@@ -142,10 +155,6 @@
         font-size: 18px;
         text-align: left;
         color: #404040;
-    }
-
-    #statistics-image {
-        float: right;
     }
 
     #toggle-mine-button {

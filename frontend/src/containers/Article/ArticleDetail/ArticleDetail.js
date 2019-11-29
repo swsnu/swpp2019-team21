@@ -150,7 +150,8 @@ class ArticleDetail extends Component {
                         </div>
                     </div>
                     <div className="stat">
-                        <LineChart width={500} height={300} data={mockPlotData}>
+                        <h2 id="stat-text">Stat</h2>
+                        <LineChart width={350} height={300} data={mockPlotData}>
                             <XAxis dataKey="date" interval="preserveEnd" />
                             <YAxis interval="preserveEnd" />
                             <Legend />
@@ -200,7 +201,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ArticleDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);
