@@ -81,8 +81,8 @@ function getCustomList() {
             })
             .catch(error => {
                 dispatch({
-                    type: actionTypes.GET_ADLIST_FAILURE,
-                    error_code: error
+                    error_code: error,
+                    type: actionTypes.GET_ADLIST_FAILURE
                 });
             });
     };
