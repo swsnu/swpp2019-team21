@@ -3,6 +3,9 @@ matrix:
     - language:
         - node_js
         - python
+      cache:
+        yarn: true
+        pip: true
       node_js:
         - "10"
       python:
@@ -21,8 +24,8 @@ matrix:
         - yarn add coveralls
         - gem install coveralls-lcov
         - cd ../backend
-        - pip3 install -r requirements.txt
-        - pip3 install coveralls
+        - pip install -r requirements.txt
+        - pip install coveralls
         - sudo mysql < db_set
         - sudo service mysql restart
         - sudo mysql < db_create
