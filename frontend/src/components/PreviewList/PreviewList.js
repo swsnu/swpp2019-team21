@@ -51,7 +51,7 @@ class PreviewList extends React.Component {
 
     clickSearchMoreHandler = () => {
         history.push(
-            `/adposts/search/${this.props.query}/${this.props.query_type}`
+            `/adposts/search/${this.props.query_type}/${this.props.query}`
         );
     };
 
