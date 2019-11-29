@@ -10,4 +10,3 @@ def set_data_by_day():
         post.view_by_date += ' { date : ' + '\'' + yesterday + '\', view : ' + str(post.total_views)+' },'
         post.save()
         print('set_'+post.title, post.view_by_date, post.closed)
-    return
