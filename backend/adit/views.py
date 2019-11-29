@@ -25,7 +25,7 @@ def get_client_ip(request):
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
-    return i
+    return ip
 
 def user_related_post(request):
     if not request.user.is_authenticated:
