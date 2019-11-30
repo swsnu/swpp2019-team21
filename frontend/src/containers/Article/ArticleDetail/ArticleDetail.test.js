@@ -2,7 +2,7 @@ import React from 'react';
 import ArticleDetail from './ArticleDetail';
 import { history } from '../../../store';
 import { ConnectedRouter } from 'connected-react-router';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { getMockStore } from '../../../test/utils/mockStore';

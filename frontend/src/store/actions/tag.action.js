@@ -5,7 +5,8 @@ const baseUrl = '/api';
 export const tagActions = {
     getAllTag,
     getRecentTag,
-    postTag
+    postTag,
+    getSuggestedTags
 };
 
 function getAllTag() {
@@ -65,5 +66,23 @@ function postTag(tag) {
                 // TODO: error handling
                 // console.log(error);
             });
+    };
+}
+
+function getSuggestedTags(tag) {
+    return dispatch => {
+        return axios
+            .get(baseUrl + `/tag/recommend/by-user`)
+            .then(response => {
+                var data = response.data.map((item, index) => {
+                    return { id: index, name: item };
+                });
+                console.log(data);
+                dispatch({
+                    type: actionTypes.GET_SUGGESTED_TAGS,
+                    suggested_tags: data
+                });
+            })
+            .catch(error => {});
     };
 }
