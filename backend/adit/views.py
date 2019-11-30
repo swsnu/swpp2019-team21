@@ -18,8 +18,10 @@ from .ml import suggest
 from . import init_data
 import gensim
 import os
+from django.contrib.gis.geoip2 import GeoIP2
 
 base_link = 'http://localhost:3000/redirectfrom='
+
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -28,6 +30,7 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
 
 def user_related_post(request):
     if not request.user.is_authenticated:
@@ -466,7 +469,6 @@ class AdPostByCustomView(View):
 
 
 def encode(userid, time, postid):
-    
     time = time.strftime("%y%m%d%H%M%S")
     print('encode : ' + time)
     hashids = Hashids()
@@ -566,13 +568,15 @@ class AdReceptionOutRedirectView(View):
         tomorrow = datetime.replace(datetime.now(), hour=23, minute=59, second=0)
         expires = datetime.strftime(tomorrow, "%a, %d-%b-%Y %H:%M:%S GMT")
 
-        print("CLIENT IP" + get_client_ip(request))
-
+        g = GeoIP2()
+        if g.country_name(request) != 'South Korea':
+            return response
 
         if request.COOKIES.get(cookie_name) is not None:
             cookies = request.COOKIES.get(cookie_name)
             cookies_list = cookies.split('|')
-            if str(reception_object.id) not in cookies_list and not IpAddressDuplication.objects.filter(ip_address=get_client_ip(request)).exists():
+            if str(reception_object.id) not in cookies_list and not IpAddressDuplication.objects.filter(
+                    ip_address=get_client_ip(request)).exists():
                 new_ip = IpAddressDuplication(ip_address=get_client_ip(request))
                 new_ip.save()
                 response.set_cookie(cookie_name, cookies + f'|{reception_object.id}', expires=expires)
