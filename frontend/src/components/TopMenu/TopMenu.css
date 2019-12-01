@@ -10,29 +10,8 @@
 
 .TopMenu #UserInfo {
     margin: auto;
-    width: 1000px;
+    width: 980px;
     height: 60px;
-}
-
-.TopMenu input[type='text'] {
-    font-size: 1.2rem;
-    min-width: 250px;
-    max-width: 250px;
-    border-style: hidden;
-    color: #f0f1f2;
-    box-shadow: 0 1px 0 0 #c2c3c4;
-}
-
-.TopMenu input[type='text']:focus {
-    outline: none;
-    color: #f0f1f2;
-    border-bottom: 1px solid #e2e3e4;
-    box-shadow: 0 1px 0 0 #e2e3e4;
-}
-
-.TopMenu .Search {
-    position: relative;
-    left: 3%;
 }
 
 .TopMenu button {
@@ -51,12 +30,6 @@
 
 .TopMenu #UserImage:hover {
     cursor: pointer;
-}
-
-@media (max-width: 960px) {
-    .Search {
-        visibility: hidden;
-    }
 }
 
 .TopMenu #AditTitle {
@@ -90,10 +63,12 @@
 
 #ad-add-btn {
     position: absolute;
+    padding: 2.5px 15px;
+    border-radius: 15px;
+    border-style: solid;
     color: #fa4252;
     right: 150px;
     font-size: 22px;
-    border-style: hidden;
 }
 
 #sign-in-btn:hover,

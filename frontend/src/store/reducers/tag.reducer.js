@@ -2,7 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     all_tags: [],
-    suggested_tags: []
+    suggested_tags: [],
+    recent_tags: []
 };
 
 export const tag_reducer = (state = initialState, action = null) => {
@@ -12,7 +13,7 @@ export const tag_reducer = (state = initialState, action = null) => {
         case actionTypes.POST_TAG:
             return { ...state, all_tags: state.all_tags.concat(action.tag) };
         case actionTypes.GET_RECENT_TAG:
-            return { ...state, all_tags: action.all_tags };
+            return { ...state, recent_tags: action.recent_tags };
         case actionTypes.GET_SUGGESTED_TAGS:
             return { ...state, suggested_tags: action.suggested_tags };
         default:
