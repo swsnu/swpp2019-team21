@@ -569,7 +569,8 @@ class AdReceptionOutRedirectView(View):
         expires = datetime.strftime(tomorrow, "%a, %d-%b-%Y %H:%M:%S GMT")
 
         g = GeoIP2()
-        if g.country_name(request) != 'South Korea':
+
+        if g.country_name("147.46.10.174") != 'South Korea':
             return response
 
         if request.COOKIES.get(cookie_name) is not None:

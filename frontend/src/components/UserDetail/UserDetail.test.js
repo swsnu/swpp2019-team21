@@ -201,8 +201,8 @@ describe('<UserDetail/>', () => {
         withdrawal.simulate('click');
         expect(window.alert).toHaveBeenCalledTimes(1);
     });
-    it('should not render when not loaded',()=>{
+    it('should not render when not loaded', () => {
         const component = mount(userdetailnotloaded);
-        expect(component.find('#point').text()).toBe("")
-    })
+        expect(component.find('#point').text()).toBe('');
+    });
 });
