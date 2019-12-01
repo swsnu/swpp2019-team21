@@ -270,7 +270,7 @@ class AdPostView(View):
         try:
             ad_link = req_data['ad_link']
         except:
-            ad_link = None
+            ad_link = "toitself"
         open_for_all = False
         upload_date = datetime.now()
         thumbnail = img_process(req_data['image'][0])
@@ -279,7 +279,7 @@ class AdPostView(View):
                         target_views=target_views, total_views=0, expiry_date=expiry_date, upload_date=upload_date,
                         closed=False, thumbnail=thumbnail, open_for_all=open_for_all, view_by_date='')
         adpost.save()
-        if adpost.ad_link is None:
+        if adpost.ad_link == "toitself":
             adpost.ad_link = 'http://localhost:3000/adpost/{}/'.format(str(adpost.id))
 
         for tag in post_tags:
