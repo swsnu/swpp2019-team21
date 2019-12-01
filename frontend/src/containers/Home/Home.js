@@ -87,7 +87,7 @@ class Home extends Component {
                         <p id="MainDesc">당신의 생활 속에서</p>
                     </div>
                     <div className="TagFrame">
-                        {suggested_tag_list}
+                        {this.props.logged_in && suggested_tag_list}
                         {recent_tag_list}
                     </div>
                 </div>
@@ -148,6 +148,9 @@ const mapDispatchToProps = dispatch => {
         onGetRecentTagList: () => {
             dispatch(tagActions.getRecentTag());
         },
+        getUser: user => {
+            dispatch(userActions.getUser(user));
+        },
         putUser: user => {
             dispatch(userActions.putUser(user));
         }
@@ -159,7 +162,8 @@ const mapStateToProps = state => {
         adpost_items: state.adpost.adpost_items,
         suggested_tags: state.tag.suggested_tags,
         recent_tags: state.tag.recent_tags,
-        user: state.user.user
+        user: state.user.user,
+        logged_in: state.user.logged_in
     };
 };
 
