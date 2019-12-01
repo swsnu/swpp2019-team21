@@ -25,6 +25,7 @@ class ArticleCreate extends Component {
             date: ''
         },
         needUrl: false,
+        open_for_all: false,
         mockSuggestion: [
             { id: 3, name: 'Bananas' },
             { id: 4, name: 'Mango' },
@@ -271,6 +272,7 @@ class ArticleCreate extends Component {
                     image: [this.state.imagePreviewUrl],
                     ad_link: this.state.needUrl ? this.state.postUrl : null,
                     target_views: this.state.postGoal,
+                    open_for_all: this.state.open_for_all,
                     expiry_date:
                         this.state.postDeadline.year +
                         '-' +
@@ -410,7 +412,9 @@ class ArticleCreate extends Component {
                             minQueryLength={1}
                         />
                         <div className="url-toggle-group">
-                            <text>Use External ad URL</text>
+                            <div className="form-group" align="center">
+                                <h3 className="form-label">Open for all</h3>
+                            </div>
                             <p />
                             <label class="switch">
                                 <input
@@ -418,7 +422,8 @@ class ArticleCreate extends Component {
                                     onChange={() => {
                                         this.setState({
                                             ...this.state,
-                                            needUrl: !this.state.needUrl
+                                            open_for_all: !this.state
+                                                .open_for_all
                                         });
                                     }}
                                 />
