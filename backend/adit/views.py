@@ -470,17 +470,21 @@ class AdPostBySearchView(View):
 class AdPostByCustomView(View):
     @check_is_authenticated
     def get(self, request):
-        user_tags = list(request.user.tags.all())
+        user_tags = list(request.user.tags.all().values())
         post_by_custom = {}
         for tag in user_tags:
-            tags_custom = [post for tagrelated in InterestedTags.objects.filter(content=tag.content).all() for post in
-                           tagrelated.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(
-                               pk__in=list(
-                                   map(lambda x: x.pk, tagrelated.topost.all().filter(open_for_all=False))))).order_by(
-                               '-upload_date')]
-
-            post_by_custom[tag.content] = [model_to_dict(post) for post in tags_custom]  # all()? not all()?
-            list_process(post_by_custom[tag.content])
+            tags_custom = []
+            if InterestedTags.objects.filter(content=tag['content']).exists():
+                tag_object = InterestedTags.objects.get(content=tag['content'])
+                tags_custom = list(
+                    tag_object.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(
+                        pk__in=list(
+                            map(lambda x: x.pk, tag_object.topost.all().filter(open_for_all=False)))))
+                    .values('id', 'thumbnail', 'title', 'subtitle', 'expiry_date', 'target_views',
+                            'total_views', 'upload_date').order_by('-upload_date'))
+            for dict in tags_custom:
+                dict['thumbnail'] = PostImage.objects.get(id=dict['thumbnail']).image.url
+            post_by_custom[tag['content']] = tags_custom  # all()? not all()?
 
         return JsonResponse(post_by_custom, status=200, safe=False)
 
