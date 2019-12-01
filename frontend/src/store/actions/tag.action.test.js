@@ -83,4 +83,14 @@ describe('Tag Actions', () => {
             expect(store.getActions()).toEqual(expectedActions);
         });
     });
+
+    it('Get Sugguested Tags', () => {
+        moxios.wait(() => {
+            const request = moxios.requests.mostRecent();
+            request.respondWith({
+                status: 200,
+                response: mockTagList
+            });
+        });
+    });
 });

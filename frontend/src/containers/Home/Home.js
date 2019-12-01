@@ -35,39 +35,36 @@ class Home extends Component {
     };
 
     componentDidMount() {
-        this.props.onGetHottestList();
-        this.props.onGetRecentList();
-        this.props.onGetCustomList();
+        this.props.onGetHomeList();
         this.props.onGetSuggestedTag();
     }
 
     render() {
-        const { adpost_items } = this.props;
+        const { adpost_home_list } = this.props;
+
+        const adpost_aggregated_list = (
+            <div className="home-aggregated-list">
+                {adpost_home_list &&
+                    adpost_home_list.map(item => {
+                        return (
+                            <div key={item.query}>
+                                <PreviewList
+                                    articles={item.data}
+                                    query={item.query}
+                                    query_type={item.query_type}
+                                    compact={false}
+                                />
+                            </div>
+                        );
+                    })}
+            </div>
+        );
 
         return (
             <div className="Home">
                 <EventItemList eventItems={mockEventList} />
                 {this.props.logged_in && <TagSugguestion />}
-                <div className="home-aggregated-list">
-                    {Object.keys(adpost_items ? adpost_items : [])
-                        .filter(
-                            query => query && !adpost_items[query].is_loading
-                        )
-                        .map(query => {
-                            return (
-                                <div key={query}>
-                                    <PreviewList
-                                        articles={adpost_items[query].list}
-                                        query={query}
-                                        query_type={
-                                            adpost_items[query].query_type
-                                        }
-                                        compact={false}
-                                    />
-                                </div>
-                            );
-                        })}
-                </div>
+                {adpost_aggregated_list}
             </div>
         );
     }
@@ -75,20 +72,11 @@ class Home extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGetCustomList: () => {
-            dispatch(adpostActions.getCustomList());
-        },
-        onGetHottestList: () => {
-            dispatch(adpostActions.getAdpostList('hottest', 'special'));
-        },
-        onGetRecentList: () => {
-            dispatch(adpostActions.getAdpostList('recent', 'special'));
+        onGetHomeList: () => {
+            dispatch(adpostActions.getHomeAdpostList());
         },
         onGetSuggestedTag: () => {
             dispatch(tagActions.getSuggestedTags());
-        },
-        onAddTag: content => {
-            dispatch(tagActions.addTag(content));
         }
     };
 };
@@ -96,6 +84,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
     return {
         adpost_items: state.adpost.adpost_items,
+        adpost_home_list: state.adpost.adpost_home_list,
         logged_in: state.user.logged_in
     };
 };

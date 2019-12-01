@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     error_code: null,
-    adpost_items: {},
+    adpost_items: null,
     adpost_detailed_item: {
         is_loading: false,
         id: null,
@@ -24,8 +24,7 @@ const initialState = {
         info_aditee: { is_participating: false, unique_url: null, views: null },
         // Should be added at latter..
         info_aditor: { statistics: null }
-    },
-    adpost_post: { is_loading: false }
+    }
 };
 
 describe('Adpost Reducer Test', () => {
@@ -33,7 +32,8 @@ describe('Adpost Reducer Test', () => {
         const actions = [
             {
                 type: actionTypes.GET_ADLIST_PENDING,
-                query: 'mockquery'
+                query: 'mockquery',
+                query_type: 'mocktype'
             },
             {
                 type: actionTypes.GET_ADLIST_SUCCESS,
@@ -46,7 +46,11 @@ describe('Adpost Reducer Test', () => {
         var nextState = adpost_reducer(prevState, actions[0]);
         expect(nextState).toEqual({
             ...prevState,
-            adpost_items: { mockquery: { is_loading: true } }
+            adpost_items: {
+                query: 'mockquery',
+                query_type: 'mocktype',
+                data: []
+            }
         });
 
         prevState = nextState;
@@ -54,11 +58,9 @@ describe('Adpost Reducer Test', () => {
         expect(nextState).toEqual({
             ...prevState,
             adpost_items: {
-                mockquery: {
-                    list: 'payload',
-                    query_type: 'mocktype',
-                    is_loading: false
-                }
+                query: 'mockquery',
+                query_type: 'string',
+                data: 'payload'
             }
         });
     });
@@ -67,7 +69,8 @@ describe('Adpost Reducer Test', () => {
         const actions = [
             {
                 type: actionTypes.GET_ADLIST_PENDING,
-                query: 'mockquery'
+                query: 'mockquery',
+                query_type: 'mocktype'
             },
             {
                 type: actionTypes.GET_ADLIST_FAILURE,
@@ -78,15 +81,18 @@ describe('Adpost Reducer Test', () => {
         var nextState = adpost_reducer(prevState, actions[0]);
         expect(nextState).toEqual({
             ...prevState,
-            adpost_items: { mockquery: { is_loading: true } }
+            adpost_items: {
+                query: 'mockquery',
+                query_type: 'mocktype',
+                data: []
+            }
         });
 
         prevState = nextState;
         nextState = adpost_reducer(nextState, actions[1]);
         expect(nextState).toEqual({
             ...prevState,
-            error_code: 'mockerror',
-            adpost_items: {}
+            error_code: 'mockerror'
         });
     });
 
@@ -105,7 +111,8 @@ describe('Adpost Reducer Test', () => {
         var nextState = adpost_reducer(prevState, actions[0]);
         expect(nextState).toEqual({
             ...prevState,
-            adpost_detailed_item: { is_loading: true }
+            adpost_detailed_item: null,
+            error_code: null
         });
 
         prevState = nextState;

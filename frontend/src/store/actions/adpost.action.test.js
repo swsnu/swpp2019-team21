@@ -126,7 +126,8 @@ describe('Adpost Actions', () => {
             const expectedActions = [
                 {
                     type: actionTypes.GET_ADLIST_PENDING,
-                    query: query
+                    query: query,
+                    query_type: query_type
                 },
                 {
                     type: actionTypes.GET_ADLIST_FAILURE,
