@@ -2,12 +2,19 @@ h1 {
     color: black;
 }
 
-.home {
+.Home {
     width: auto;
 }
 
-.home-aggregated-list {
+.Home .home-aggregated-list {
     padding-left: 75px;
     padding-right: 75px;
     margin-bottom: 75px;
+}
+.Home .suggested-tag-list .tag-item {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    margin: 5px;
 }

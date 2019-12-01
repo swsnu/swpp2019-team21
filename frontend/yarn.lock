@@ -9197,6 +9197,15 @@ react-app-polyfill@^1.0.4:
     regenerator-runtime "0.13.3"
     whatwg-fetch "3.0.0"
 
+react-bootstrap-toggle@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-bootstrap-toggle/-/react-bootstrap-toggle-2.3.2.tgz#999628f6c57642800af82d9e1b55fc5ab2b4d8bd"
+  integrity sha512-OPoPt+z0uu0Y96RXJ57Hq71VJna+RVtCviRsAMu/5OFS7bO80qVhoASuxK/kNsclSrSpHAaBfygHjpf6sd6CLQ==
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.5.10"
+    resize-observer-polyfill "^1.5.0"
+
 react-bootstrap@^1.0.0-beta.14:
   version "1.0.0-beta.14"
   resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-1.0.0-beta.14.tgz#30330df61edbed1f0405f75363ef72d77c1fed57"

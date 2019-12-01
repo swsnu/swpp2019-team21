@@ -16,6 +16,7 @@ import pymysql
 pymysql.install_as_MySQLdb()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -138,3 +139,4 @@ CRONTAB_COMMAND_SUFFIX = '2>&1'
 CRONJOBS = [
     ('* * * * *', 'adit.sync.set_data_by_day', '>> ' + BASE_DIR + '/data_update.log')
 ]
+
