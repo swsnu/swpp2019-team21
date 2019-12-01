@@ -2,11 +2,7 @@ from builtins import ValueError
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin)
-from django.db.models.functions import datetime
-
 from .ml import suggest
-from django.db.models.functions import datetime
-
 
 class AditUserManager(BaseUserManager):
     def create_user(self, email, nickname, first_name, last_name, tags, password=None):
@@ -71,8 +67,7 @@ class AditUser(AbstractBaseUser, PermissionsMixin):
         default=''
     )
     avatar = models.ImageField(
-        null=True,
-        blank=True,
+        default = 'image/avatar/default_avatar.png',
         upload_to='image/avatar/',
     )
     first_name = models.CharField(

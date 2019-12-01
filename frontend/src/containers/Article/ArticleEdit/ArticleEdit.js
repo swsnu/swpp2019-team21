@@ -16,6 +16,7 @@ class ArticleEdit extends Component {
         imageURL: intro_first,
         valid: false,
         postUrl: null,
+        postFile: null,
         postTag: [{ id: 1, name: 'iluvswpp' }],
         mockSuggestion: [
             { id: 3, name: 'Bananas' },
@@ -52,15 +53,11 @@ class ArticleEdit extends Component {
 
     changePictureHandler = p => {
         if (p.target.files[0]) {
-            if (!p.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
-                alert('not an image');
-            } else {
-                this.setState({
-                    ...this.state,
-                    thumbnail: p.target.files[0],
-                    imageURL: URL.createObjectURL(p.target.files[0])
-                });
-            }
+            this.setState({
+                ...this.state,
+                thumbnail: p.target.files[0],
+                imageURL: URL.createObjectURL(p.target.files[0])
+            });
         }
     };
 
@@ -82,22 +79,18 @@ class ArticleEdit extends Component {
     editConfirmHandler = () => {
         if (!this.state.title) {
             alert('Title should not be empty');
-            this.setState({ ...this.state, currentPage: 1 });
             return;
         }
         if (!this.state.subtitle) {
             alert('Subtitle should not be empty');
-            this.setState({ ...this.state, currentPage: 1 });
             return;
         }
         if (!this.state.content) {
             alert('Content should not be empty');
-            this.setState({ ...this.state, currentPage: 1 });
             return;
         }
         if (!this.state.postUrl) {
             alert('Ad url should not be empty');
-            this.setState({ ...this.state, currentPage: 1 });
             return;
         }
         if (
@@ -106,12 +99,14 @@ class ArticleEdit extends Component {
                 this.state.postUrl.toString().substring(0, 8) !== 'https://')
         ) {
             alert('Ad url should start with http:// or https://');
-            this.setState({ ...this.state, currentPage: 1 });
             return;
         }
         if (!this.state.imagePreviewUrl) {
             alert('You should upload image');
-            this.setState({ ...this.state, currentPage: 1 });
+            return;
+        }
+        if (!this.state.postFile.name.match(/.(jpg|jpeg|png|gif)$/i)) {
+            alert('You should upload image file');
             return;
         }
         const adpost = {

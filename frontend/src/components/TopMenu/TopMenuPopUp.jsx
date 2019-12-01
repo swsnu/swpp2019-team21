@@ -6,7 +6,8 @@ import './TopMenuPopUp.css';
 
 export default function TopMenuPopUp(props) {
     var nickname = props.user.nickname;
-    var pic = props.user.pic ? props.user.pic : profile;
+    var pic = props.user.avatar ? props.user.avatar : profile;
+    console.log(props.user.avatar);
     var point = props.user.point;
     var popuserinfo = (
         <Popover id="PopUserInfo">
@@ -25,6 +26,7 @@ export default function TopMenuPopUp(props) {
                                 className="img-responsive"
                                 src={pic}
                                 width="100px"
+                                height="100px"
                                 roundedCircle
                             />
                         </p>
@@ -55,9 +57,9 @@ export default function TopMenuPopUp(props) {
         <OverlayTrigger
             id="user-popup"
             trigger="click"
-            placement="auto"
+            placement="bottom"
             overlay={popuserinfo}>
-            <Image id="UserImage" src={pic} width="55px" roundedCircle />
+            <Image id="UserImage" src={pic} width="55px" height="55px" roundedCircle />
         </OverlayTrigger>
     );
 }

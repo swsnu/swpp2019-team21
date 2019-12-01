@@ -3,7 +3,7 @@ import numpy as np, pandas as pd
 import random, os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-model = gensim.models.Word2Vec.load(BASE_DIR + '/ml/models.bin')
+model = gensim.models.Word2Vec.load(BASE_DIR + '/ml/models_engadd.bin')
 
 
 def update_tag(tag_list, shuffle_size):

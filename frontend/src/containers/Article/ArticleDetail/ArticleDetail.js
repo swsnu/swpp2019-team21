@@ -36,10 +36,12 @@ class ArticleDetail extends Component {
     };
 
     render() {
+        var pic = null;
         if (this.props.article) {
             const taglist = this.props.article.tags.reduce((acc, cur, i) => {
                 return acc + '#' + cur + ' ';
             }, '');
+            pic = this.props.article.owner_avatar;
             const tags = <p id="tag-link">{taglist}</p>;
             return (
                 <div className="ArticleDetail">
@@ -61,6 +63,10 @@ class ArticleDetail extends Component {
                                 {this.props.article.subtitle}
                             </h2>
                             {tags}
+                            <h3 id="owner-info">
+                                <img src={pic} className="Avatar"/>
+                                <p>{this.props.article.owner_nickname}</p>
+                            </h3>
                             <h3 id="ad-link-title">AD link</h3>
                             <a href={this.props.article.ad_link}>
                                 <h2 id="ad-link-text">
