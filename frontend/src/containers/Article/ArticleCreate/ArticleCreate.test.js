@@ -149,6 +149,11 @@ describe('<ArticleCreate/>', () => {
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(5);
 
+        const toggle_wrapper = component.find('#post-toggle-input');
+        toggle_wrapper.simulate('change', {
+            target: { value: 'a' }
+        });
+
         const url_wrapper = component.find('#post-url-input');
         url_wrapper.simulate('change', {
             target: { value: 'Sample_url' }
@@ -185,7 +190,7 @@ describe('<ArticleCreate/>', () => {
         });
 
         wrapper.simulate('click');
-        expect(spyOnAlert).toHaveBeenCalledTimes(9);
+        expect(spyOnAlert).toHaveBeenCalledTimes(10);
 
         const calendar_wrapper = component.find('#post-calendar-input');
         calendar_wrapper.simulate('change', {

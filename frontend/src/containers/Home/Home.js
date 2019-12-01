@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { adpostActions } from '../../store/actions';
 import PreviewList from '../../components/PreviewList/PreviewList';
 import EventItemList from '../../components/EventItemList/EventItemList';
+import TagSugguestion from './TagSugguestion/TagSugguestion';
 import intro_first from '../../assets/intro_first.jpg';
 import intro_second from '../../assets/intro_second.jpg';
 import intro_third from '../../assets/intro_third.jpg';
@@ -18,35 +19,42 @@ class Home extends Component {
     };
 
     componentDidMount() {
-        this.props.onGetRecentTagList();
-        this.props.onGetHottestList();
-        this.props.onGetRecentList();
-        this.props.onGetCustomList();
+        this.props.onGetHomeList();
         this.props.onGetSuggestedTag();
+        this.props.onGetRecentTagList();
     }
 
     closeHandler = () => {
-        this.setState({...this.state, showModal: false})
-    }
+        this.setState({ ...this.state, showModal: false });
+    };
 
     addTagHandler = name => {
-        const user = {
-            nickname: this.props.user.nickname,
-            first_name: this.props.user.first_name,
-            last_name: this.props.user.last_name,
-            tags: this.props.user.tags.concat(name),
-            avatar: null
-        };
-        
-        this.props.putUser(user);
-        this.setState({...this.state, showModal : true})
+        this.props.addTag(name);
+        this.setState({ ...this.state, showModal: true });
     };
 
     render() {
-
-
-        const { adpost_items } = this.props;
+        const { adpost_home_list } = this.props;
         var { suggested_tags } = this.props;
+
+        const adpost_aggregated_list = (
+            <div className="home-aggregated-list">
+                {adpost_home_list &&
+                    adpost_home_list.map(item => {
+                        return (
+                            <div key={item.query}>
+                                <PreviewList
+                                    articles={item.data}
+                                    query={item.query}
+                                    query_type={item.query_type}
+                                    compact={false}
+                                />
+                            </div>
+                        );
+                    })}
+            </div>
+        );
+
         suggested_tags = suggested_tags.filter(
             item => !this.props.user.tags.includes(item.name)
         );
@@ -68,6 +76,7 @@ class Home extends Component {
                 </div>
             </div>
         );
+
         const recent_tag_list = (
             <div className="recent-tag-frame">
                 <h2 id="TagRecentTitle">이런 주제가 인기있어요</h2>
@@ -91,12 +100,11 @@ class Home extends Component {
                         {recent_tag_list}
                     </div>
                 </div>
-                <Modal className='modal'
+                <Modal
+                    className="modal"
                     show={this.state.showModal}
                     onHide={this.closeHandler}>
-                    <Modal.Body>
-                        추가되었습니다!
-                    </Modal.Body>
+                    <Modal.Body>추가되었습니다!</Modal.Body>
                     <Modal.Footer>
                         <Button
                             id="charge-confirm"
@@ -106,26 +114,7 @@ class Home extends Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
-                <div className="home-aggregated-list">
-                    {Object.keys(adpost_items ? adpost_items : [])
-                        .filter(
-                            query => query && !adpost_items[query].is_loading
-                        )
-                        .map(query => {
-                            return (
-                                <div key={query}>
-                                    <PreviewList
-                                        articles={adpost_items[query].list}
-                                        query={query}
-                                        query_type={
-                                            adpost_items[query].query_type
-                                        }
-                                        compact={false}
-                                    />
-                                </div>
-                            );
-                        })}
-                </div>
+                {adpost_aggregated_list}
             </div>
         );
     }
@@ -133,14 +122,8 @@ class Home extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGetCustomList: () => {
-            dispatch(adpostActions.getCustomList());
-        },
-        onGetHottestList: () => {
-            dispatch(adpostActions.getAdpostList('hottest', 'special'));
-        },
-        onGetRecentList: () => {
-            dispatch(adpostActions.getAdpostList('recent', 'special'));
+        onGetHomeList: () => {
+            dispatch(adpostActions.getHomeAdpostList());
         },
         onGetSuggestedTag: () => {
             dispatch(tagActions.getSuggestedTags());
@@ -151,20 +134,25 @@ const mapDispatchToProps = dispatch => {
         getUser: user => {
             dispatch(userActions.getUser(user));
         },
-        putUser: user => {
-            dispatch(userActions.putUser(user));
+        addTag: name => {
+            dispatch(tagActions.addTag(name));
         }
     };
 };
 
 const mapStateToProps = state => {
     return {
-        adpost_items: state.adpost.adpost_items,
         suggested_tags: state.tag.suggested_tags,
         recent_tags: state.tag.recent_tags,
         user: state.user.user,
+        adpost_home_list: state.adpost.adpost_home_list,
         logged_in: state.user.logged_in
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(Home)
+);

@@ -39,7 +39,7 @@ matrix:
         - ./node_modules/.bin/eslint src
         - yarn test --coverage --watchAll=false
         - cd ../backend
-        - coverage run --source="." manage.py test adit
+        - coverage run --source='adit/' manage.py test adit
         - coverage report
         - coverage xml
         - cd ..

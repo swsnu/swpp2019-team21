@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Card, ListGroup } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import './Preview.css';
 

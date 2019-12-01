@@ -28,7 +28,8 @@ const initialState = {
         owner_nickname: null,
         owner_avatar: null
     },
-    adpost_post: { is_loading: false }
+    adpost_post: { is_loading: false },
+    adpost_home_list: []
 };
 
 export const adpost_reducer = (state = initialState, action = null) => {
@@ -38,7 +39,9 @@ export const adpost_reducer = (state = initialState, action = null) => {
                 ...state,
                 error_code: null,
                 adpost_items: {
-                    [action.query]: { is_loading: true }
+                    query: action.query,
+                    query_type: action.query_type,
+                    data: []
                 }
             };
         case actionTypes.GET_ADLIST_SUCCESS:
@@ -46,58 +49,64 @@ export const adpost_reducer = (state = initialState, action = null) => {
                 ...state,
                 error_code: null,
                 adpost_items: {
-                    ...state.adpost_items,
-                    [action.query]: {
-                        list: action.payload,
-                        is_loading: false,
-                        query_type: action.query_type
-                    }
+                    query: action.query,
+                    query_type: action.query_type,
+                    data: action.payload
                 }
             };
         case actionTypes.GET_ADLIST_FAILURE:
             return {
                 ...state,
-                error_code: action.error,
-                adpost_items: {}
+                error_code: action.error
             };
         case actionTypes.GET_DETAILED_ADPOST_PENDING:
             return {
                 ...state,
                 error_code: null,
-                adpost_detailed_item: { is_loading: true }
+                adpost_detailed_item: null
             };
         case actionTypes.GET_DETAILED_ADPOST_SUCCESS:
             return {
                 ...state,
                 error_code: null,
                 adpost_detailed_item: {
-                    is_loading: false,
                     ...action.detailed_item
                 }
             };
         case actionTypes.GET_DETAILED_ADPOST_FAILURE:
             return {
                 ...state,
-                error_code: action.error,
-                adpost_detailed_item: { is_loading: false }
+                error_code: action.error
             };
         case actionTypes.POST_ADPOST_PENDING:
             return {
                 ...state,
-                error_code: null,
-                adpost_post: { is_loading: true }
+                error_code: null
             };
         case actionTypes.POST_ADPOST_SUCCESS:
             return {
-                ...state,
-                error_code: null,
-                adpost_post: { is_loading: false }
+                ...state
             };
         case actionTypes.POST_ADPOST_FAILURE:
             return {
                 ...state,
-                error_code: action.error,
-                adpost_post: { is_loading: false }
+                error_code: action.error
+            };
+        case actionTypes.GET_ADLIST_HOME_PENDING:
+            return {
+                ...state,
+                error_code: null,
+                adpost_home_list: []
+            };
+        case actionTypes.GET_ADLIST_HOME_SUCCESS:
+            return {
+                ...state,
+                adpost_home_list: state.adpost_home_list.concat(action.payload)
+            };
+        case actionTypes.GET_ADLIST_HOME_FAILURE:
+            return {
+                ...state,
+                error_code: action.error
             };
         default:
             return state;
