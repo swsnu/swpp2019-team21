@@ -56,9 +56,9 @@ class Home extends Component {
 
         const { adpost_items } = this.props;
         var { suggested_tags } = this.props;
-        suggested_tags = suggested_tags.filter(
+        suggested_tags = suggested_tags ? suggested_tags.filter(
             item => !this.props.user.tags.includes(item.name)
-        );
+        ) : [];
 
         const suggested_tag_list = (
             <div className="suggested-tag frame">
