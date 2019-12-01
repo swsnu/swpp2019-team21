@@ -12,6 +12,10 @@
     color: crimson;
 }
 
+.popover #UserInfoImage {
+    background: #7a7a7a;
+}
+
 #UserImage {
-    background: #708bc5;
+    background: #7a7a7a;
 }

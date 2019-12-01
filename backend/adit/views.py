@@ -56,6 +56,11 @@ def img_process(img_64):
     data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
     return PostImage.objects.create(image=data)
 
+def avatar_process(img_64):
+    format, imgstr = img_64.split(';base64,')
+    ext = format.split('/')[-1]
+    data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+    return data
 
 def tag_process(response_dict):
     response_dict['tags'] = list(map(lambda tag: tag.content, response_dict['tags']))
@@ -113,6 +118,7 @@ class SignUpView(View):
 class SignInView(View):
     item_list = ['email', 'password']
 
+
     @check_valid_json(item_list=item_list)
     def post(self, request):
         req_data = json.loads(request.body.decode())
@@ -166,11 +172,12 @@ class GetUserView(View):
             'nickname': temp_dict['nickname'],
             'first_name': temp_dict['first_name'],
             'last_name': temp_dict['last_name'],
-            'avatar': temp_dict['avatar'],
+            'avatar': temp_dict['avatar'].url,
             'tags': temp_dict['tags'],
             'point': temp_dict['point']
         }
         tag_process(response_dict)
+
         return JsonResponse(response_dict)
 
     @check_is_authenticated
@@ -182,7 +189,7 @@ class GetUserView(View):
         user.last_name = req_data['last_name']
         user.nickname = req_data['nickname']
         if req_data['avatar'] is not None:
-            user.avatar = img_process(req_data['avatar'])
+            user.avatar = avatar_process(req_data['avatar'])
         user_tags = list(user.tags.all())
         modified_tags = req_data['tags']
         user.tags.clear()
@@ -207,7 +214,7 @@ class GetUserView(View):
             'nickname': temp_dict['nickname'],
             'first_name': temp_dict['first_name'],
             'last_name': temp_dict['last_name'],
-            'avatar': temp_dict['avatar'],
+            'avatar': temp_dict['avatar'].url,
             'tags': temp_dict['tags']
         }
         tag_process(response_dict)

@@ -9,7 +9,8 @@ const initialState = {
         nickname: null,
         email: null,
         point: null,
-        tags: []
+        tags: [],
+        avatar: ''
     }
 };
 

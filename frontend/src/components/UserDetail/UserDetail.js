@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ReactTags from 'react-tag-autocomplete';
 import { history } from '../../store';
 import { tagActions, userActions } from '../../store/actions';
-import avatar from '../../assets/iu_profile.png';
+import avatar from '../../assets/avatar.png';
 import './UserDetail.css';
 
 class UserDetail extends Component {
@@ -97,7 +97,7 @@ class UserDetail extends Component {
         var email = null;
         if (this.props.user) {
             point = this.props.user.point;
-            pic = this.props.user.pic;
+            pic = this.props.user.avatar ? this.props.user.avatar : avatar;
             email = this.props.user.email;
         }
         return (
@@ -234,7 +234,7 @@ class UserDetail extends Component {
                 <h2 className="UserInfoTitle">User Info</h2>
                 <div className="avatar">
                     <img
-                        src={pic ? pic : avatar}
+                        src={pic}
                         className="Avatar"
                         onClick={this.imageChangeHandler}
                     />
