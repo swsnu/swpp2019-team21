@@ -165,6 +165,7 @@ class ArticleCreate extends Component {
                     postFile: null,
                     imagePreviewUrl: null
                 });
+                return;
             }
             reader.onloadend = () => {
                 this.setState({
