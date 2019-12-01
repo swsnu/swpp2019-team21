@@ -14,9 +14,9 @@
 }
 
 .UserInfo {
-    position: relative;
-    
+    position: relative;    
 }
+
 .TitleBox {
     position: relative;
     color: #303234;
@@ -32,8 +32,6 @@
 #userinfo_title {
     font-size: 80px;
     font-weight: 550;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
-        sans-serif;
     font-style: italic;
 }
 
