@@ -21,6 +21,7 @@ import os
 
 base_link = 'http://localhost:3000/redirectfrom='
 
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -28,6 +29,7 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
 
 def user_related_post(request):
     if not request.user.is_authenticated:
@@ -164,7 +166,7 @@ class GetUserView(View):
             'nickname': temp_dict['nickname'],
             'first_name': temp_dict['first_name'],
             'last_name': temp_dict['last_name'],
-            'avatar': '',
+            'avatar': temp_dict['avatar'],
             'tags': temp_dict['tags'],
             'point': temp_dict['point']
         }
@@ -179,6 +181,8 @@ class GetUserView(View):
         user.first_name = req_data['first_name']
         user.last_name = req_data['last_name']
         user.nickname = req_data['nickname']
+        if req_data['avatar'] is not None:
+            user.avatar = img_process(req_data['avatar'])
         user_tags = list(user.tags.all())
         modified_tags = req_data['tags']
         user.tags.clear()
@@ -203,7 +207,7 @@ class GetUserView(View):
             'nickname': temp_dict['nickname'],
             'first_name': temp_dict['first_name'],
             'last_name': temp_dict['last_name'],
-            'avatar': '',
+            'avatar': temp_dict['avatar'],
             'tags': temp_dict['tags']
         }
         tag_process(response_dict)
@@ -431,16 +435,20 @@ class AdPostByTagView(View):
 
 class AdPostByHotView(View):
     def get(self, request):
-        post_by_hot = [model_to_dict(post) for post in target_post(request).order_by('-total_views', '-upload_date')]
-        list_process(post_by_hot)
-        return JsonResponse(post_by_hot, status=200, safe=False)
+        data = target_post(request).values('id', 'thumbnail', 'title', 'subtitle', 'expiry_date', 'target_views',
+                                           'total_views').order_by('-total_views')
+        for dict in data:
+            dict['thumbnail'] = PostImage.objects.get(id=dict['thumbnail']).image.url
+        return JsonResponse(list(data), status=200, safe=False)
 
 
 class AdPostByRecentView(View):
     def get(self, request):
-        post_by_recent = [model_to_dict(post) for post in target_post(request).order_by('-upload_date')]
-        list_process(post_by_recent)
-        return JsonResponse(post_by_recent, status=200, safe=False)
+        data = target_post(request).values('id', 'thumbnail', 'title', 'subtitle', 'expiry_date', 'target_views',
+                                           'total_views', 'upload_date').order_by('-upload_date')
+        for dict in data:
+            dict['thumbnail'] = PostImage.objects.get(id=dict['thumbnail']).image.url
+        return JsonResponse(list(data), status=200, safe=False)
 
 
 class AdPostBySearchView(View):
@@ -471,13 +479,8 @@ class AdPostByCustomView(View):
 
 
 def encode(userid, time, postid):
-    
     time = time.strftime("%y%m%d%H%M%S")
-    print('encode : ' + time)
     hashids = Hashids()
-    print(hashids)
-    print(postid, userid, int(time))
-    print(hashids.encode(int(time), int(postid), int(userid)))
     return base_link + hashids.encode(int(time), int(postid), int(userid))
 
 
@@ -501,17 +504,14 @@ class AdReceptionView(View):
     def post(self, request):
         req_data = json.loads(request.body.decode())
         id = req_data['adpost']
-        print(id)
         if AdReception.objects.filter(adpost=id, owner=request.user).exists():
             return HttpResponseForbidden()
         recept_time = datetime.now()
         target_post = AdPost.objects.get(id=id)
         unique_link = encode(request.user.id, recept_time, id)
-        print(unique_link)
         response_dict = model_to_dict(
             AdReception.objects.create(owner=request.user, adpost=target_post, views=0, recept_time=recept_time,
                                        unique_link=unique_link, closed=False))
-        print(response_dict)
         return JsonResponse(response_dict, status=201)
 
 
@@ -571,13 +571,11 @@ class AdReceptionOutRedirectView(View):
         tomorrow = datetime.replace(datetime.now(), hour=23, minute=59, second=0)
         expires = datetime.strftime(tomorrow, "%a, %d-%b-%Y %H:%M:%S GMT")
 
-        print("CLIENT IP" + get_client_ip(request))
-
-
         if request.COOKIES.get(cookie_name) is not None:
             cookies = request.COOKIES.get(cookie_name)
             cookies_list = cookies.split('|')
-            if str(reception_object.id) not in cookies_list and not IpAddressDuplication.objects.filter(ip_address=get_client_ip(request)).exists():
+            if str(reception_object.id) not in cookies_list and not IpAddressDuplication.objects.filter(
+                    ip_address=get_client_ip(request)).exists():
                 new_ip = IpAddressDuplication(ip_address=get_client_ip(request))
                 new_ip.save()
                 response.set_cookie(cookie_name, cookies + f'|{reception_object.id}', expires=expires)
@@ -611,7 +609,6 @@ class AdReceptionRedirectView(View):
     def get(self, request, id):
         reception_object = AdReception.objects.filter(id=id)
         post_id = decode(reception_object.get().unique_link, reception_object.get())
-        print(post_id)
         post = AdPost.objects.get(id=post_id)
         if post.closed:
             return HttpResponse(status=410)
