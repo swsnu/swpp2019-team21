@@ -15,10 +15,6 @@ from django.core.files.base import ContentFile
 from hashids import Hashids
 import base64
 from .ml import suggest
-from . import init_data
-import gensim
-import os
-from django.contrib.gis.geoip2 import GeoIP2
 
 base_link = 'http://localhost:3000/redirectfrom='
 
@@ -57,6 +53,11 @@ def img_process(img_64):
     data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
     return PostImage.objects.create(image=data)
 
+def avatar_process(img_64):
+    format, imgstr = img_64.split(';base64,')
+    ext = format.split('/')[-1]
+    data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+    return data
 
 def tag_process(response_dict):
     response_dict['tags'] = list(map(lambda tag: tag.content, response_dict['tags']))
@@ -114,6 +115,7 @@ class SignUpView(View):
 class SignInView(View):
     item_list = ['email', 'password']
 
+
     @check_valid_json(item_list=item_list)
     def post(self, request):
         req_data = json.loads(request.body.decode())
@@ -167,11 +169,12 @@ class GetUserView(View):
             'nickname': temp_dict['nickname'],
             'first_name': temp_dict['first_name'],
             'last_name': temp_dict['last_name'],
-            'avatar': '',
+            'avatar': temp_dict['avatar'].url,
             'tags': temp_dict['tags'],
             'point': temp_dict['point']
         }
         tag_process(response_dict)
+
         return JsonResponse(response_dict)
 
     @check_is_authenticated
@@ -182,6 +185,8 @@ class GetUserView(View):
         user.first_name = req_data['first_name']
         user.last_name = req_data['last_name']
         user.nickname = req_data['nickname']
+        if req_data['avatar'] is not None:
+            user.avatar = avatar_process(req_data['avatar'])
         user_tags = list(user.tags.all())
         modified_tags = req_data['tags']
         user.tags.clear()
@@ -206,7 +211,7 @@ class GetUserView(View):
             'nickname': temp_dict['nickname'],
             'first_name': temp_dict['first_name'],
             'last_name': temp_dict['last_name'],
-            'avatar': '',
+            'avatar': temp_dict['avatar'].url,
             'tags': temp_dict['tags']
         }
         tag_process(response_dict)
@@ -259,10 +264,13 @@ class AdPostView(View):
         subtitle = req_data['subtitle']
         content = req_data['content']
         image = req_data['image'][1:]
-        ad_link = req_data['ad_link']
         target_views = req_data['target_views']
         expiry_date = req_data['expiry_date']
         post_tags = req_data['tags']
+        try:
+            ad_link = req_data['ad_link']
+        except:
+            ad_link = None
         open_for_all = False
         upload_date = datetime.now()
         thumbnail = img_process(req_data['image'][0])
@@ -271,6 +279,8 @@ class AdPostView(View):
                         target_views=target_views, total_views=0, expiry_date=expiry_date, upload_date=upload_date,
                         closed=False, thumbnail=thumbnail, open_for_all=open_for_all, view_by_date='')
         adpost.save()
+        if adpost.ad_link is None:
+            adpost.ad_link = 'http://localhost:3000/adpost/{}/'.format(str(adpost.id))
 
         for tag in post_tags:
             if InterestedTags.objects.filter(content=tag).exists():
@@ -309,6 +319,9 @@ class AdPostByIDView(View):
             response_dict['is_owner'] = False
 
         model_process(response_dict)
+        owner = AditUser.objects.get(id=response_dict['owner'])
+        response_dict['owner_nickname'] = owner.nickname
+        response_dict['owner_avatar'] = owner.avatar.url
         return JsonResponse(response_dict)
 
     @check_is_authenticated
@@ -429,16 +442,20 @@ class AdPostByTagView(View):
 
 class AdPostByHotView(View):
     def get(self, request):
-        post_by_hot = [model_to_dict(post) for post in target_post(request).order_by('-total_views', '-upload_date')]
-        list_process(post_by_hot)
-        return JsonResponse(post_by_hot, status=200, safe=False)
+        data = target_post(request).values('id', 'thumbnail', 'title', 'subtitle', 'expiry_date', 'target_views',
+                                           'total_views').order_by('-total_views')
+        for dict in data:
+            dict['thumbnail'] = PostImage.objects.get(id=dict['thumbnail']).image.url
+        return JsonResponse(list(data), status=200, safe=False)
 
 
 class AdPostByRecentView(View):
     def get(self, request):
-        post_by_recent = [model_to_dict(post) for post in target_post(request).order_by('-upload_date')]
-        list_process(post_by_recent)
-        return JsonResponse(post_by_recent, status=200, safe=False)
+        data = target_post(request).values('id', 'thumbnail', 'title', 'subtitle', 'expiry_date', 'target_views',
+                                           'total_views', 'upload_date').order_by('-upload_date')
+        for dict in data:
+            dict['thumbnail'] = PostImage.objects.get(id=dict['thumbnail']).image.url
+        return JsonResponse(list(data), status=200, safe=False)
 
 
 class AdPostBySearchView(View):
@@ -453,28 +470,28 @@ class AdPostBySearchView(View):
 class AdPostByCustomView(View):
     @check_is_authenticated
     def get(self, request):
-        user_tags = list(request.user.tags.all())
+        user_tags = list(request.user.tags.all().values())
         post_by_custom = {}
         for tag in user_tags:
-            tags_custom = [post for tagrelated in InterestedTags.objects.filter(content=tag.content).all() for post in
-                           tagrelated.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(
-                               pk__in=list(
-                                   map(lambda x: x.pk, tagrelated.topost.all().filter(open_for_all=False))))).order_by(
-                               '-upload_date')]
-
-            post_by_custom[tag.content] = [model_to_dict(post) for post in tags_custom]  # all()? not all()?
-            list_process(post_by_custom[tag.content])
+            tags_custom = []
+            if InterestedTags.objects.filter(content=tag['content']).exists():
+                tag_object = InterestedTags.objects.get(content=tag['content'])
+                tags_custom = list(
+                    tag_object.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(
+                        pk__in=list(
+                            map(lambda x: x.pk, tag_object.topost.all().filter(open_for_all=False)))))
+                    .values('id', 'thumbnail', 'title', 'subtitle', 'expiry_date', 'target_views',
+                            'total_views', 'upload_date').order_by('-upload_date'))
+            for dict in tags_custom:
+                dict['thumbnail'] = PostImage.objects.get(id=dict['thumbnail']).image.url
+            post_by_custom[tag['content']] = tags_custom  # all()? not all()?
 
         return JsonResponse(post_by_custom, status=200, safe=False)
 
 
 def encode(userid, time, postid):
     time = time.strftime("%y%m%d%H%M%S")
-    print('encode : ' + time)
     hashids = Hashids()
-    print(hashids)
-    print(postid, userid, int(time))
-    print(hashids.encode(int(time), int(postid), int(userid)))
     return base_link + hashids.encode(int(time), int(postid), int(userid))
 
 
@@ -498,17 +515,14 @@ class AdReceptionView(View):
     def post(self, request):
         req_data = json.loads(request.body.decode())
         id = req_data['adpost']
-        print(id)
         if AdReception.objects.filter(adpost=id, owner=request.user).exists():
             return HttpResponseForbidden()
         recept_time = datetime.now()
         target_post = AdPost.objects.get(id=id)
         unique_link = encode(request.user.id, recept_time, id)
-        print(unique_link)
         response_dict = model_to_dict(
             AdReception.objects.create(owner=request.user, adpost=target_post, views=0, recept_time=recept_time,
                                        unique_link=unique_link, closed=False))
-        print(response_dict)
         return JsonResponse(response_dict, status=201)
 
 
@@ -569,9 +583,9 @@ class AdReceptionOutRedirectView(View):
         expires = datetime.strftime(tomorrow, "%a, %d-%b-%Y %H:%M:%S GMT")
 
         g = GeoIP2()
-        if g.country_name(request) != 'South Korea':
+        # only for development
+        if g.country_name("147.46.10.174") != 'South Korea':
             return response
-
         if request.COOKIES.get(cookie_name) is not None:
             cookies = request.COOKIES.get(cookie_name)
             cookies_list = cookies.split('|')
@@ -610,7 +624,6 @@ class AdReceptionRedirectView(View):
     def get(self, request, id):
         reception_object = AdReception.objects.filter(id=id)
         post_id = decode(reception_object.get().unique_link, reception_object.get())
-        print(post_id)
         post = AdPost.objects.get(id=post_id)
         if post.closed:
             return HttpResponse(status=410)
