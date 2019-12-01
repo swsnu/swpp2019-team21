@@ -3,10 +3,9 @@
     top: 0;
     width: 100%;
     height: 60px;
-    background: #3d3e3f;
+    background: #faf8f5;
     box-shadow: 10px 0px 4px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
     z-index: 9999;
-
 }
 
 .TopMenu #UserInfo {
@@ -61,7 +60,7 @@
 }
 
 .TopMenu #AditTitle {
-    color: #f1f2f3;
+    color: #fa4252;
     font-family: sans-serif;
     font-size: 2.5rem;
     font-style: italic;
@@ -83,7 +82,7 @@
 
 #sign-in-btn {
     position: absolute;
-    color: #f0f1f2;
+    color: #fa4252;
     right: 50px;
     font-size: 22px;
     border-style: hidden;
@@ -91,7 +90,7 @@
 
 #ad-add-btn {
     position: absolute;
-    color: #f0f1f2;
+    color: #fa4252;
     right: 150px;
     font-size: 22px;
     border-style: hidden;

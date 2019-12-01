@@ -1,12 +1,23 @@
-#preview-table {
-    border-collapse: separate;
-    border-spacing: 60px;
+.ArticleSearch {
+    margin-top: 60px;
+}
+.ArticleSearch .search-query {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -0.6px;
+    color: #212529;
+    text-align: center;
+    padding-top: 60px;
+    margin-bottom: 40px;
 }
 
-h1{
-    color:black;
-}
-
-.ArticlePreview{
-    width: auto;
+.ArticleSearch .title-under-line {
+    width: 70px;
+    border-top: 2px solid #fa4252;
+    margin: 0 auto;
+    margin-bottom: 50px;
 }
