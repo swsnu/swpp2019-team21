@@ -4,7 +4,7 @@ import './BottomBox.css';
 const mockInfoContent = {
     title: 'Welcome to Adit!',
     content:
-        'Adit is an innovative advertising platform that connects those who want to promote their products with people who can recommend great items to their friends. In recent ads outsourcing system, major companies or groups pay a considerable amount of money for advertising. We apply “pay as much as you get, receive as much as you did” system on this market to raise the efficiency. This service will change the subject of the advertising market from the existing large capital and a handful of influencers to the general public.'
+        'Adit is an innovative advertising platform that connects those who want to promote their products with people who can recommend great items to their friends. In recent ads outsourcing system, major companies or groups pay a considerable amount of money for advertising. We apply “pay as much as you get, receive as much as you did” system on this market to raise the efficiency.'
 };
 
 class BottomBox extends Component {

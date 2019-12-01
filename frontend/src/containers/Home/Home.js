@@ -8,9 +8,9 @@ import intro_first from '../../assets/intro_first.jpg';
 import intro_second from '../../assets/intro_second.jpg';
 import intro_third from '../../assets/intro_third.jpg';
 import './Home.css';
+import { Modal, Button } from 'react-bootstrap';
 import { tagActions } from '../../store/actions/tag.action';
 import { userActions } from '../../store/actions/user.action';
-import { Button } from 'react-bootstrap';
 
 class Home extends Component {
     state = {
@@ -25,17 +25,25 @@ class Home extends Component {
         this.props.onGetSuggestedTag();
     }
 
-    render() {
-        const addTagHandler = name => {
-            const user = {
-                nickname: this.props.user.nickname,
-                first_name: this.props.user.first_name,
-                last_name: this.props.user.last_name,
-                tags: this.props.user.tags.concat(name),
-                avatar: null
-            };
-            this.props.putUser(user);
+    closeHandler = () => {
+        this.setState({...this.state, showModal: false})
+    }
+
+    addTagHandler = name => {
+        const user = {
+            nickname: this.props.user.nickname,
+            first_name: this.props.user.first_name,
+            last_name: this.props.user.last_name,
+            tags: this.props.user.tags.concat(name),
+            avatar: null
         };
+        
+        this.props.putUser(user);
+        this.setState({...this.state, showModal : true})
+    };
+
+    render() {
+
 
         const { adpost_items } = this.props;
         var { suggested_tags } = this.props;
@@ -44,7 +52,7 @@ class Home extends Component {
         );
 
         const suggested_tag_list = (
-            <div className="suggested-tag frame">
+            <div className="suggested-tag-frame">
                 <h2 id="TagSuggestTitle">이런 주제는 어떠세요?</h2>
                 <div className="suggested-tag-list">
                     {suggested_tags.map(item => {
@@ -52,7 +60,7 @@ class Home extends Component {
                             <Button
                                 className="tag-item"
                                 key={item.id}
-                                onClick={() => addTagHandler(item.name)}>
+                                onClick={() => this.addTagHandler(item.name)}>
                                 {item.name}
                             </Button>
                         );
@@ -61,8 +69,8 @@ class Home extends Component {
             </div>
         );
         const recent_tag_list = (
-            <div className="recent-tag frame">
-                <h2 id="TagRecentTitle">이런 주제가 핫해요</h2>
+            <div className="recent-tag-frame">
+                <h2 id="TagRecentTitle">이런 주제가 인기있어요</h2>
                 <ol className="recent-tag-list">
                     {this.props.recent_tags.map(tags => {
                         return <li className="recent-tag">{tags.name}</li>;
@@ -83,6 +91,21 @@ class Home extends Component {
                         {recent_tag_list}
                     </div>
                 </div>
+                <Modal className='modal'
+                    show={this.state.showModal}
+                    onHide={this.closeHandler}>
+                    <Modal.Body>
+                        추가되었습니다!
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            id="charge-confirm"
+                            variant="primary"
+                            onClick={this.closeHandler}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
                 <div className="home-aggregated-list">
                     {Object.keys(adpost_items ? adpost_items : [])
                         .filter(
