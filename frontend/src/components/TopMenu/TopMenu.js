@@ -58,7 +58,7 @@ class TopMenu extends Component {
     render() {
         return (
             <div className="TopMenu">
-                <Navbar id="UserInfo" fixed="top">
+                <Navbar id="UserInfo" fixed='top'>
                     <h1
                         id="AditTitle"
                         align="left"

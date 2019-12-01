@@ -59,7 +59,7 @@ export default function TopMenuPopUp(props) {
             trigger="click"
             placement="bottom"
             overlay={popuserinfo}>
-            <Image id="UserImage" src={pic} width="55px" height="55px" roundedCircle />
+            <Image id="UserImage" src={pic} width="50px" height="50px" roundedCircle />
         </OverlayTrigger>
     );
 }

@@ -1,12 +1,18 @@
 .TopMenu {
-    min-height: 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    background: #3d3e3f;
+    box-shadow: 10px 0px 4px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+    z-index: 9999;
+
 }
 
 .TopMenu #UserInfo {
+    margin: auto;
+    width: 1000px;
     height: 60px;
-    background: #3d3e3f;
-    /*background: #f0f1f2;*/
-    box-shadow: 10px 0px 4px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
 }
 
 .TopMenu input[type='text'] {
@@ -15,8 +21,6 @@
     max-width: 250px;
     border-style: hidden;
     color: #f0f1f2;
-    background: #3d3e3f;
-/*    background: #f0f1f2;*/
     box-shadow: 0 1px 0 0 #c2c3c4;
 }
 
@@ -80,25 +84,17 @@
 #sign-in-btn {
     position: absolute;
     color: #f0f1f2;
-/*    color: #5e5e5e;*/
     right: 50px;
     font-size: 22px;
     border-style: hidden;
-    background: #3d3e3f;
-/*    background: #f0f1f2;*/
-
 }
 
 #ad-add-btn {
     position: absolute;
     color: #f0f1f2;
-/*    color: #5e5e5e;*/
     right: 150px;
     font-size: 22px;
     border-style: hidden;
-    background: #3d3e3f;
-/*    background: #f0f1f2;*/
-
 }
 
 #sign-in-btn:hover,
