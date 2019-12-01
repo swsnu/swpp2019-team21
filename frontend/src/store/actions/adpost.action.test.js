@@ -10,7 +10,6 @@ const mockStore = configureMockStore(middlewares);
 const initialState = {
     error_code: null,
     adpost_items: {},
-    adpost_post: { is_loading: false },
     adpost_detailed_item: null
 };
 
@@ -26,7 +25,8 @@ function generateExpect(query, query_type) {
     return [
         {
             type: actionTypes.GET_ADLIST_PENDING,
-            query: query
+            query: query,
+            query_type: query_type
         },
         {
             type: actionTypes.GET_ADLIST_SUCCESS,
@@ -49,6 +49,7 @@ describe('Adpost Actions', () => {
     describe('Get Adpost List', () => {
         beforeEach(() => {
             store = mockStore(initialState);
+            moxios.install();
             moxios.wait(() => {
                 const request = moxios.requests.mostRecent();
                 request.respondWith({
@@ -56,6 +57,10 @@ describe('Adpost Actions', () => {
                     response: mockAdpostList
                 });
             });
+        });
+
+        afterEach(() => {
+            moxios.uninstall();
         });
 
         it('Get Adpost by tag', () => {
@@ -99,18 +104,12 @@ describe('Adpost Actions', () => {
                     expect(true).toBe(false);
                 });
         });
-
-        it('Get Adpost by Custom', () => {
-            const expectedActions = null;
-            return store.dispatch(adpostActions.getCustomList()).then(() => {
-                // expect(store.getActions()).toEqual(expectedActions);
-            });
-        });
     });
 
     describe('Get Adpost List Failed', () => {
         beforeEach(() => {
             store = mockStore(initialState);
+            moxios.install();
             moxios.wait(() => {
                 const request = moxios.requests.mostRecent();
                 request.reject({
@@ -118,6 +117,10 @@ describe('Adpost Actions', () => {
                     response: { message: 'problem' }
                 });
             });
+        });
+
+        afterEach(() => {
+            moxios.uninstall();
         });
 
         it('Get Adpost by tag', () => {
@@ -131,7 +134,7 @@ describe('Adpost Actions', () => {
                 },
                 {
                     type: actionTypes.GET_ADLIST_FAILURE,
-                    error_code: {
+                    error: {
                         response: {
                             data: undefined,
                             message: 'problem'
@@ -149,6 +152,7 @@ describe('Adpost Actions', () => {
     });
 
     it('Get detailed adpost', () => {
+        moxios.install();
         moxios.wait(() => {
             const request = moxios.requests.mostRecent();
             request.respondWith({
@@ -163,7 +167,6 @@ describe('Adpost Actions', () => {
                 detailed_item: 'payload'
             }
         ];
-
         return store
             .dispatch(adpostActions.getAdpost(0))
             .then(() => expect(store.getActions()).toEqual(expectedActions));

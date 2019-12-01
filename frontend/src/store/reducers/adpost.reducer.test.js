@@ -59,7 +59,7 @@ describe('Adpost Reducer Test', () => {
             ...prevState,
             adpost_items: {
                 query: 'mockquery',
-                query_type: 'string',
+                query_type: 'mocktype',
                 data: 'payload'
             }
         });
@@ -119,7 +119,7 @@ describe('Adpost Reducer Test', () => {
         nextState = adpost_reducer(nextState, actions[1]);
         expect(nextState).toEqual({
             ...prevState,
-            adpost_detailed_item: { item: 'mockitem', is_loading: false }
+            adpost_detailed_item: { item: 'mockitem' }
         });
     });
 
@@ -138,7 +138,7 @@ describe('Adpost Reducer Test', () => {
         var nextState = adpost_reducer(prevState, actions[0]);
         expect(nextState).toEqual({
             ...prevState,
-            adpost_detailed_item: { is_loading: true }
+            adpost_detailed_item: null
         });
 
         prevState = nextState;
@@ -146,7 +146,7 @@ describe('Adpost Reducer Test', () => {
         expect(nextState).toEqual({
             ...prevState,
             error_code: 'mockerror',
-            adpost_detailed_item: { is_loading: false }
+            adpost_detailed_item: null
         });
     });
 
@@ -163,15 +163,13 @@ describe('Adpost Reducer Test', () => {
         var prevState = initialState;
         var nextState = adpost_reducer(prevState, actions[0]);
         expect(nextState).toEqual({
-            ...prevState,
-            adpost_post: { is_loading: true }
+            ...prevState
         });
 
         prevState = nextState;
         nextState = adpost_reducer(nextState, actions[1]);
         expect(nextState).toEqual({
-            ...prevState,
-            adpost_post: { is_loading: false }
+            ...prevState
         });
     });
 
@@ -189,16 +187,14 @@ describe('Adpost Reducer Test', () => {
         var prevState = initialState;
         var nextState = adpost_reducer(prevState, actions[0]);
         expect(nextState).toEqual({
-            ...prevState,
-            adpost_post: { is_loading: true }
+            ...prevState
         });
 
         prevState = nextState;
         nextState = adpost_reducer(nextState, actions[1]);
         expect(nextState).toEqual({
             ...prevState,
-            error_code: 'mockerror',
-            adpost_post: { is_loading: false }
+            error_code: 'mockerror'
         });
     });
 });
