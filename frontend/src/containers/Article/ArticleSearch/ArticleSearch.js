@@ -16,8 +16,8 @@ class ArticleSearch extends Component {
         return (
             <div className="ArticleSearch">
                 <h1>Search by {query}</h1>
-                {adpost_items[query] && !adpost_items[query].is_loading && (
-                    <PreviewGrid articles={adpost_items[query].list} />
+                {adpost_items.data && (
+                    <PreviewGrid articles={adpost_items.data} />
                 )}
             </div>
         );

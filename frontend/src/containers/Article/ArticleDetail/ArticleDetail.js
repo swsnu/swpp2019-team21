@@ -37,7 +37,7 @@ class ArticleDetail extends Component {
 
     render() {
         var pic = null;
-        if (this.props.loaded) {
+        if (this.props.article) {
             const taglist = this.props.article.tags.reduce((acc, cur, i) => {
                 return acc + '#' + cur + ' ';
             }, '');
@@ -199,7 +199,6 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        loaded: !state.adpost.adpost_detailed_item.is_loading,
         article: state.adpost.adpost_detailed_item,
         views: state.adreception.views,
         unique_link: state.adreception.unique_link,
@@ -207,4 +206,7 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleDetail);

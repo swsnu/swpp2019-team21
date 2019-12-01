@@ -41,12 +41,7 @@ describe('<Home />', () => {
             .spyOn(history, 'push')
             .mockImplementation(() => {});
         mockList = jest
-            .spyOn(adpostActions, 'getAdpostList')
-            .mockImplementation(() => {
-                return dispatch => null;
-            });
-        mockCustom = jest
-            .spyOn(adpostActions, 'getCustomList')
+            .spyOn(adpostActions, 'getHomeAdpostList')
             .mockImplementation(() => {
                 return dispatch => null;
             });

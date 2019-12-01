@@ -1,12 +1,14 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
+import { userActions } from './user.action';
 
 const baseUrl = '/api';
 export const tagActions = {
     getAllTag,
     getRecentTag,
     postTag,
-    getSuggestedTags
+    getSuggestedTags,
+    addTag
 };
 
 function getAllTag() {
@@ -77,12 +79,21 @@ function getSuggestedTags(tag) {
                 var data = response.data.map((item, index) => {
                     return { id: index, name: item };
                 });
-                console.log(data);
                 dispatch({
                     type: actionTypes.GET_SUGGESTED_TAGS,
                     suggested_tags: data
                 });
             })
             .catch(error => {});
+    };
+}
+
+function addTag(tag) {
+    return dispatch => {
+        return axios
+            .post(baseUrl + `/tag/add/`, { content: tag })
+            .then(response => {
+                dispatch(userActions.getUser());
+            });
     };
 }

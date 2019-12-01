@@ -10,10 +10,10 @@ const baseUrl = '/api';
 
 export const adpostActions = {
     getAdpostList,
-    getCustomList,
     getAdpost,
     postAdpost,
-    putAdpost
+    putAdpost,
+    getHomeAdpostList
 };
 
 function makeUrl(query, query_type) {
@@ -41,9 +41,73 @@ function makeUrl(query, query_type) {
     }
 }
 
+function getHomeAdpostList() {
+    return dispatch => {
+        const url = [
+            makeUrl('hottest', 'special'),
+            makeUrl('recent', 'special'),
+            makeUrl('custom', 'special')
+        ];
+        dispatch({ type: actionTypes.GET_ADLIST_HOME_PENDING });
+        return axios
+            .get(baseUrl + url[0])
+            .then(response => {
+                const payload_data = [
+                    {
+                        data: response.data,
+                        query: 'hottest',
+                        query_type: 'special'
+                    }
+                ];
+                dispatch({
+                    type: actionTypes.GET_ADLIST_HOME_SUCCESS,
+                    payload: payload_data
+                });
+                return axios.get(baseUrl + url[1]);
+            })
+            .then(response => {
+                const payload_data = [
+                    {
+                        data: response.data,
+                        query: 'recent',
+                        query_type: 'special'
+                    }
+                ];
+                dispatch({
+                    type: actionTypes.GET_ADLIST_HOME_SUCCESS,
+                    payload: payload_data
+                });
+                return axios.get(baseUrl + url[2]);
+            })
+            .then(response => {
+                const payload_data = Object.keys(response.data).map(query => {
+                    return {
+                        data: response.data[query],
+                        query: query,
+                        query_type: 'tag'
+                    };
+                });
+                dispatch({
+                    type: actionTypes.GET_ADLIST_HOME_SUCCESS,
+                    payload: payload_data
+                });
+            })
+            .catch(error => {
+                dispatch({
+                    type: actionTypes.GET_ADLIST_HOME_FAILURE,
+                    error: error
+                });
+            });
+    };
+}
+
 function getAdpostList(query, query_type) {
     return dispatch => {
-        dispatch({ type: actionTypes.GET_ADLIST_PENDING, query: query });
+        dispatch({
+            type: actionTypes.GET_ADLIST_PENDING,
+            query: query,
+            query_type: query_type
+        });
         var url = makeUrl(query, query_type) + '/';
         return axios
             .get(baseUrl + url)
@@ -58,31 +122,7 @@ function getAdpostList(query, query_type) {
             .catch(error => {
                 dispatch({
                     type: actionTypes.GET_ADLIST_FAILURE,
-                    error_code: error
-                });
-            });
-    };
-}
-
-function getCustomList() {
-    return dispatch => {
-        dispatch({ type: actionTypes.GET_ADLIST_PENDING, query: 'hottest' });
-        return axios
-            .get(baseUrl + '/adpost/custom/')
-            .then(res => {
-                for (var key in res.data) {
-                    dispatch({
-                        type: actionTypes.GET_ADLIST_SUCCESS,
-                        query: key,
-                        query_type: TAG,
-                        payload: res.data[key]
-                    });
-                }
-            })
-            .catch(error => {
-                dispatch({
-                    error_code: error,
-                    type: actionTypes.GET_ADLIST_FAILURE
+                    error: error
                 });
             });
     };
@@ -102,7 +142,7 @@ function getAdpost(id) {
             .catch(error => {
                 dispatch({
                     type: actionTypes.GET_DETAILED_ADPOST_FAILURE,
-                    error_code: error
+                    error: error
                 });
             });
     };
@@ -111,7 +151,6 @@ function getAdpost(id) {
 function postAdpost(data) {
     return dispatch => {
         var id;
-
         return axios
             .post(baseUrl + '/adpost/', data.adpost)
             .then(response => {

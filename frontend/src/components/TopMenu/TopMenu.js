@@ -41,16 +41,6 @@ class TopMenu extends Component {
         history.push('/mypage');
     };
 
-    searchConfirmHandler = () => {
-        if (!this.state.searchkey) alert('Input your Search Words.');
-        else
-            history.push(`/adposts/search/${'string'}/${this.state.searchkey}`);
-    };
-
-    keyPressHandler = e => {
-        if (e.charCode === 13) this.searchConfirmHandler();
-    };
-
     newArticleHandler = () => {
         history.push('/article/create');
     };
@@ -105,4 +95,7 @@ export const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TopMenu);
