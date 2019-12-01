@@ -1,4 +1,7 @@
-#preview-table {
-    border-collapse: separate;
-    border-spacing: 60px;
+.PreviewGrid {
+    width: 980px;
+    margin: 0 auto;
+    padding: 0;
+    display: block;
+    text-align: center;
 }

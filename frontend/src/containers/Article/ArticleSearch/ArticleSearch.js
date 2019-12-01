@@ -15,7 +15,8 @@ class ArticleSearch extends Component {
         var { adpost_items } = this.props;
         return (
             <div className="ArticleSearch">
-                <h1>Search by {query}</h1>
+                <h3 className="search-query">Search by {query}</h3>
+                <div className="title-under-line" />
                 {adpost_items[query] && !adpost_items[query].is_loading && (
                     <PreviewGrid articles={adpost_items[query].list} />
                 )}

@@ -71,14 +71,14 @@ class PreviewList extends React.Component {
                           />
                       ))
                     : null}
-                <div id="search-more-btn">
-                    <FontAwesomeIcon
-                        id="search-more"
-                        icon={faPlusCircle}
-                        aria-hidden="true"
-                        onClick={this.clickSearchMoreHandler}
-                        size="10x"
-                    />
+                <div id="card-more-btn" onClick={this.clickSearchMoreHandler}>
+                    <div id="card-more-text">
+                        <div id="plus-btn">+</div>
+                        <div id="more-text">
+                            {this.props.query} 관련 <br />
+                            게시글 더 보기
+                        </div>
+                    </div>
                 </div>
             </div>
         );

@@ -15,7 +15,7 @@ class Preview extends Component {
         } = this.props.preview;
 
         return (
-            <div className="Preview">
+            <div className="Preview" onClick={this.props.clickPreview}>
                 <div className="card-photo">
                     <img
                         alt={this.props.preview.thumbnail}

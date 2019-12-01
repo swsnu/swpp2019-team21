@@ -14,7 +14,6 @@
     height: 60px;
 }
 
-
 .TopMenu button {
     font-size: 25px;
     font-style: italic;
@@ -75,4 +74,4 @@
 #sign-in-btn:hover,
 #ad-add-btn:hover {
     cursor: pointer;
-}    
+}
