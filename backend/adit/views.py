@@ -1,4 +1,6 @@
 from builtins import KeyError
+
+from django.contrib.gis.geoip2 import GeoIP2
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from adit.models import AdPost
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -13,6 +15,7 @@ from django.db.models import Q
 from datetime import datetime, date, timedelta
 from django.core.files.base import ContentFile
 from hashids import Hashids
+from . import init_data
 import base64
 from .ml import suggest
 
@@ -583,6 +586,7 @@ class AdReceptionOutRedirectView(View):
         expires = datetime.strftime(tomorrow, "%a, %d-%b-%Y %H:%M:%S GMT")
 
         g = GeoIP2()
+
         # only for development
         if g.country_name("147.46.10.174") != 'South Korea':
             return response

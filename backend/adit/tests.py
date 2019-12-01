@@ -25,7 +25,7 @@ class AditTestCase(TestCase):
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
              'nickname': 'digdhg', 'tags': ''}),
-            content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+                               content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
         self.assertEqual(response.status_code, 201)  # Pass csrf protection
 
     def test_decorators(self):
@@ -36,7 +36,7 @@ class AditTestCase(TestCase):
         response = client.put('/api/sign-up/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
              'nickname': 'digdhg', 'tags': ''}),
-            content_type='application/json')
+                              content_type='application/json')
         self.assertEqual(response.status_code, 405)
 
         # Testing Json decode error
@@ -44,14 +44,14 @@ class AditTestCase(TestCase):
         response = client.post('/api/sign-up/', json.dumps(
             {'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
              'nickname': 'digdhg', 'tags': ''}),
-            content_type='application/json')
+                               content_type='application/json')
         self.assertEqual(response.status_code, 400)
 
         # Testing not logged user blocked
         response = client.post('/api/adpost/', json.dumps(
             {'title': '', 'subtitle': '', 'content': '',
              'image': '', 'tags': '', 'ad_link': '', 'target_views': '', 'expiry_date': '', 'open_for_all': 'False'}, ),
-            content_type='application/json')
+                               content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
         # Testing article not found error
@@ -62,12 +62,12 @@ class AditTestCase(TestCase):
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
              'nickname': 'digdhg', 'tags': ''}),
-            content_type='application/json')
+                               content_type='application/json')
 
         response = client.post('/api/sign-up/', json.dumps(
             {'email': 'abcd@snu.ac.kr', 'password': 'def', 'first_name': 'Seo', 'last_name': 'Yeong Ho',
              'nickname': 'digdhg2', 'tags': ''}),
-            content_type='application/json')
+                               content_type='application/json')
 
         client.login(email='abc@snu.ac.kr', password='def')
 
@@ -113,13 +113,13 @@ class AditTestCase(TestCase):
         # Trying to log in with different password
         response = client.post('/api/sign-in/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'defa'}),
-            content_type='application/json')
+                               content_type='application/json')
         self.assertEqual(response.status_code, 401)
 
         # Successfully logged in
         response = client.post('/api/sign-in/', json.dumps(
             {'email': 'abc@snu.ac.kr', 'password': 'def'}),
-            content_type='application/json')
+                               content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
         # Add new tag
@@ -133,13 +133,13 @@ class AditTestCase(TestCase):
         # Change user's first name, last name, nickname, interested tags
         response = client.put('/api/user/', json.dumps(
             {'first_name': 'Choi', 'last_name': 'Seong Hwan',
-             'nickname': 'iluvswpp', 'tags': ['여행', '공연']}),
+             'nickname': 'iluvswpp', 'tags': ['여행', '공연'], 'avatar': mocked_image}),
                               content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         response = client.put('/api/user/point/', json.dumps(
             {'point': '1234'}),
-            content_type='application/json')
+                              content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
         # Check user info is successfully modified
@@ -153,7 +153,7 @@ class AditTestCase(TestCase):
         # Change user password
         response = client.put('/api/user/pw/', json.dumps(
             {'current_password': 'def', 'new_password': 'abcd'}),
-            content_type='application/json')
+                              content_type='application/json')
         self.assertEqual(response.status_code, 204)
 
         # Cannot log in with Previous password
