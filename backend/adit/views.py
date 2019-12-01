@@ -166,7 +166,7 @@ class GetUserView(View):
             'nickname': temp_dict['nickname'],
             'first_name': temp_dict['first_name'],
             'last_name': temp_dict['last_name'],
-            'avatar': '',
+            'avatar': temp_dict['avatar'],
             'tags': temp_dict['tags'],
             'point': temp_dict['point']
         }
@@ -181,6 +181,8 @@ class GetUserView(View):
         user.first_name = req_data['first_name']
         user.last_name = req_data['last_name']
         user.nickname = req_data['nickname']
+        if req_data['avatar'] is not None:
+            user.avatar = img_process(req_data['avatar'])
         user_tags = list(user.tags.all())
         modified_tags = req_data['tags']
         user.tags.clear()
@@ -205,7 +207,7 @@ class GetUserView(View):
             'nickname': temp_dict['nickname'],
             'first_name': temp_dict['first_name'],
             'last_name': temp_dict['last_name'],
-            'avatar': '',
+            'avatar': temp_dict['avatar'],
             'tags': temp_dict['tags']
         }
         tag_process(response_dict)
