@@ -26,6 +26,7 @@ export default function TopMenuPopUp(props) {
                                 className="img-responsive"
                                 src={pic}
                                 width="100px"
+                                height="100px"
                                 roundedCircle
                             />
                         </p>
@@ -58,7 +59,7 @@ export default function TopMenuPopUp(props) {
             trigger="click"
             placement="bottom"
             overlay={popuserinfo}>
-            <Image id="UserImage" src={pic} width="55px" roundedCircle />
+            <Image id="UserImage" src={pic} width="55px" height="55px" roundedCircle />
         </OverlayTrigger>
     );
 }
