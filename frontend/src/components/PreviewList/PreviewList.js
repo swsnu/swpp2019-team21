@@ -58,33 +58,28 @@ class PreviewList extends React.Component {
     render() {
         return (
             <div className="PreviewList">
-                <h1 id="list-title">{this.props.query}</h1>
-                <Carousel
-                    id="list-carousel"
-                    responsive={
-                        this.props.compact ? responsive_compact : responsive
-                    }>
-                    {this.props.articles
-                        ? this.props.articles.map(item => (
-                              <Preview
-                                  key={item}
-                                  preview={item}
-                                  clickPreview={() =>
-                                      this.clickPreviewHandler(item.id)
-                                  }
-                              />
-                          ))
-                        : null}
-                    <div id="search-more-btn">
-                        <FontAwesomeIcon
-                            id="search-more"
-                            icon={faPlusCircle}
-                            aria-hidden="true"
-                            onClick={this.clickSearchMoreHandler}
-                            size="10x"
-                        />
-                    </div>
-                </Carousel>
+                <h3 className="list-title">{this.props.query}</h3>
+                <div className="title-under-line"></div>
+                {this.props.articles
+                    ? this.props.articles.map(item => (
+                          <Preview
+                              key={item}
+                              preview={item}
+                              clickPreview={() =>
+                                  this.clickPreviewHandler(item.id)
+                              }
+                          />
+                      ))
+                    : null}
+                <div id="search-more-btn">
+                    <FontAwesomeIcon
+                        id="search-more"
+                        icon={faPlusCircle}
+                        aria-hidden="true"
+                        onClick={this.clickSearchMoreHandler}
+                        size="10x"
+                    />
+                </div>
             </div>
         );
     }
