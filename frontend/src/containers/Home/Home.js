@@ -48,7 +48,8 @@ class Home extends Component {
                 nickname: this.props.user.nickname,
                 first_name: this.props.user.first_name,
                 last_name: this.props.user.last_name,
-                tags: this.props.user.tags.concat(name)
+                tags: this.props.user.tags.concat(name),
+                avatar: null
             };
             this.props.putUser(user);
         };
@@ -134,9 +135,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(Home)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));

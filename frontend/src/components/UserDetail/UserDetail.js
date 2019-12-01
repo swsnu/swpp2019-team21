@@ -59,7 +59,8 @@ class UserDetail extends Component {
             nickname: this.state.user.nickname,
             first_name: this.state.user.first_name,
             last_name: this.state.user.last_name,
-            tags: this.state.user.tags.map(str => str.name)
+            tags: this.state.user.tags.map(str => str.name),
+            avatar: null
         };
         this.props.putUser(user);
         alert('Saved!');
@@ -386,7 +387,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UserDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(UserDetail);
