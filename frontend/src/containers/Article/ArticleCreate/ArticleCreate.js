@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
-import ToggleButton from 'react-bootstrap/ToggleButton';
 import { connect } from 'react-redux';
 import Calendar from 'react-calendar';
 import { adpostActions, userActions, tagActions } from '../../../store/actions';
