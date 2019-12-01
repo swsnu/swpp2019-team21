@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 import { connect } from 'react-redux';
 import Calendar from 'react-calendar';
 import { adpostActions, userActions, tagActions } from '../../../store/actions';
@@ -23,6 +24,7 @@ class ArticleCreate extends Component {
             month: '',
             date: ''
         },
+        needUrl: false,
         mockSuggestion: [
             { id: 3, name: 'Bananas' },
             { id: 4, name: 'Mango' },
@@ -185,6 +187,8 @@ class ArticleCreate extends Component {
                     ...this.state,
                     postGoal: e.target.value
                 });
+            } else {
+                window.alert('not enough money');
             }
         };
         const nextOnClick = () => {
@@ -265,7 +269,7 @@ class ArticleCreate extends Component {
                     subtitle: this.state.postSubtitle,
                     content: this.state.postExplain,
                     image: [this.state.imagePreviewUrl],
-                    ad_link: this.state.postUrl,
+                    ad_link: this.state.needUrl ? this.state.postUrl : null,
                     target_views: this.state.postGoal,
                     expiry_date:
                         this.state.postDeadline.year +
@@ -349,15 +353,33 @@ class ArticleCreate extends Component {
                         </div>
                         <p />
                         <br />
-                        <div className="form-group" align="center">
-                            <h3 className="form-label">Ad Url</h3>
-                            <input
-                                className="form-control"
-                                placeholder=" input url of ad"
-                                id="post-url-input"
-                                onChange={urlChangeHandler}
-                                value={this.state.postUrl}></input>
+                        <div className="url-toggle-group">
+                            <text>Use External ad URL</text>
+                            <p />
+                            <label class="switch">
+                                <input
+                                    type="checkbox"
+                                    onChange={() => {
+                                        this.setState({
+                                            ...this.state,
+                                            needUrl: !this.state.needUrl
+                                        });
+                                    }}
+                                />
+                                <span class="slider round"></span>
+                            </label>
                         </div>
+                        {this.state.needUrl && (
+                            <div className="form-group" align="center">
+                                <h3 className="form-label">Ad Url</h3>
+                                <input
+                                    className="form-control"
+                                    placeholder=" input url of ad"
+                                    id="post-url-input"
+                                    onChange={urlChangeHandler}
+                                    value={this.state.postUrl}></input>
+                            </div>
+                        )}
                         <p />
                         <br />
                         <button
@@ -365,7 +387,7 @@ class ArticleCreate extends Component {
                             id="next-button"
                             disabled={
                                 !this.state.postTitle ||
-                                !this.state.postUrl ||
+                                (this.state.needUrl && !this.state.postUrl) ||
                                 !this.state.postSubtitle ||
                                 !this.state.postFile
                             }
@@ -387,6 +409,22 @@ class ArticleCreate extends Component {
                             allowNew={true}
                             minQueryLength={1}
                         />
+                        <div className="url-toggle-group">
+                            <text>Use External ad URL</text>
+                            <p />
+                            <label class="switch">
+                                <input
+                                    type="checkbox"
+                                    onChange={() => {
+                                        this.setState({
+                                            ...this.state,
+                                            needUrl: !this.state.needUrl
+                                        });
+                                    }}
+                                />
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
                         <button
                             className="btn btn-primary"
                             id="next-tag-button"
