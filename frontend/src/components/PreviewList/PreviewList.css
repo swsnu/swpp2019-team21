@@ -1,7 +1,29 @@
-#list-title {
-    text-align: left;
-    margin-left: 30px;
-    margin-top: 50px;
+.PreviewList {
+    width: 980px;
+    margin: 0 auto;
+    padding: 0;
+    display: block;
+    text-align: center;
+}
+
+.PreviewList .list-title {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.6px;
+    color: #212529;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.PreviewList .title-under-line {
+    width: 70px;
+    border-top: 2px solid #ff8a3d;
+    margin: 0 auto;
+    margin-bottom: 50px;
 }
 
 #search-more-btn {
