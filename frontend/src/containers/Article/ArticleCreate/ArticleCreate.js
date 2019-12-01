@@ -366,6 +366,7 @@ class ArticleCreate extends Component {
                             <label class="switch">
                                 <input
                                     type="checkbox"
+                                    id="post-toggle-input"
                                     onChange={() => {
                                         this.setState({
                                             ...this.state,
