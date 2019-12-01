@@ -5,6 +5,18 @@
     padding-top: 50px;
     color: #404040;
 }
+
+.ArticleDetail .Avatar {
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    z-index: 9;
+    background: #7a7a7a;
+    padding: 0px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
 @media screen and (min-width: 1101px) {
     .left-component {
         float: left;
@@ -67,13 +79,21 @@
         font-size: 18px;
         text-align: left;
         color: #404040;
-        margin-top: 15px;
+        margin-top: 5px;
     }
 
     #ad-link-text {
         word-break: break-all;
         font-size: 18px;
         text-align: left;
+        font-weight: 350;
+        color: #707070;
+    }
+    #owner-info {
+        width: 100%;
+        display: inline-flex;
+        text-align: left;
+        font-size: 25px;
         font-weight: 350;
         color: #707070;
     }
@@ -122,7 +142,7 @@
     .stat {
         float: right;
         width: 30%;
-        padding-top: 120px;
+        padding-top: 200px;
         border-bottom-style: groove;
     }
 

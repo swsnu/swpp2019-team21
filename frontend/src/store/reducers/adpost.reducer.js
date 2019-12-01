@@ -24,7 +24,9 @@ const initialState = {
         is_owner: false,
         info_aditee: { is_participating: false, unique_url: null, views: null },
         // Should be added at latter..
-        info_aditor: { statistics: null }
+        info_aditor: { statistics: null },
+        owner_nickname: null,
+        owner_avatar: null
     },
     adpost_post: { is_loading: false }
 };

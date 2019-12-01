@@ -15,9 +15,6 @@ from django.core.files.base import ContentFile
 from hashids import Hashids
 import base64
 from .ml import suggest
-from . import init_data
-import gensim
-import os
 
 base_link = 'http://localhost:3000/redirectfrom='
 
@@ -322,6 +319,9 @@ class AdPostByIDView(View):
             response_dict['is_owner'] = False
 
         model_process(response_dict)
+        owner = AditUser.objects.get(id=response_dict['owner'])
+        response_dict['owner_nickname'] = owner.nickname
+        response_dict['owner_avatar'] = owner.avatar.url
         return JsonResponse(response_dict)
 
     @check_is_authenticated
