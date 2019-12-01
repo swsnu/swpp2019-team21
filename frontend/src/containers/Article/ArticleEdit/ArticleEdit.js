@@ -52,11 +52,15 @@ class ArticleEdit extends Component {
 
     changePictureHandler = p => {
         if (p.target.files[0]) {
-            this.setState({
-                ...this.state,
-                thumbnail: p.target.files[0],
-                imageURL: URL.createObjectURL(p.target.files[0])
-            });
+            if (!p.target.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)) {
+                alert('not an image');
+            } else {
+                this.setState({
+                    ...this.state,
+                    thumbnail: p.target.files[0],
+                    imageURL: URL.createObjectURL(p.target.files[0])
+                });
+            }
         }
     };
 
@@ -65,7 +69,6 @@ class ArticleEdit extends Component {
 
         let reader = new FileReader();
         let file = e.target.files[0];
-
         reader.onloadend = () => {
             this.setState({
                 postFile: file,

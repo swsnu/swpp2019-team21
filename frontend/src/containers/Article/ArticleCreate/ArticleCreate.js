@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 import { connect } from 'react-redux';
 import Calendar from 'react-calendar';
 import { adpostActions, userActions, tagActions } from '../../../store/actions';
@@ -23,6 +24,8 @@ class ArticleCreate extends Component {
             month: '',
             date: ''
         },
+        needUrl: false,
+        open_for_all: false,
         mockSuggestion: [
             { id: 3, name: 'Bananas' },
             { id: 4, name: 'Mango' },
@@ -158,21 +161,19 @@ class ArticleCreate extends Component {
             let reader = new FileReader();
             let file = e.target.files[0];
 
+            if (!file) {
+                this.setState({
+                    postFile: null,
+                    imagePreviewUrl: null
+                });
+            }
             reader.onloadend = () => {
                 this.setState({
                     postFile: file,
                     imagePreviewUrl: reader.result
                 });
             };
-
-            if (file) {
-                reader.readAsDataURL(file);
-            } else {
-                this.setState({
-                    postFile: null,
-                    imagePreviewUrl: null
-                });
-            }
+            reader.readAsDataURL(file);
         };
         const goalChangeHandler = e => {
             const re = /^[0-9]*$/;
@@ -185,6 +186,8 @@ class ArticleCreate extends Component {
                     ...this.state,
                     postGoal: e.target.value
                 });
+            } else {
+                window.alert('not enough money');
             }
         };
         const nextOnClick = () => {
@@ -218,16 +221,18 @@ class ArticleCreate extends Component {
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
-            if (!this.state.postUrl) {
+            if (!this.state.postUrl && this.state.needUrl) {
                 alert('Ad url should not be empty');
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
             if (
-                this.state.postUrl.toString().length < 9 ||
-                (this.state.postUrl.toString().substring(0, 7) !== 'http://' &&
-                    this.state.postUrl.toString().substring(0, 8) !==
-                        'https://')
+                this.state.needUrl &&
+                (this.state.postUrl.toString().length < 9 ||
+                    (this.state.postUrl.toString().substring(0, 7) !==
+                        'http://' &&
+                        this.state.postUrl.toString().substring(0, 8) !==
+                            'https://'))
             ) {
                 alert('Ad url should start with http:// or https://');
                 this.setState({ ...this.state, currentPage: 1 });
@@ -253,6 +258,11 @@ class ArticleCreate extends Component {
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
+            if (!this.state.postFile.name.match(/.(jpg|jpeg|png|bmp)$/i)) {
+                alert('You should upload image');
+                this.setState({ ...this.state, currentPage: 1 });
+                return;
+            }
 
             const request = {
                 points: {
@@ -265,8 +275,9 @@ class ArticleCreate extends Component {
                     subtitle: this.state.postSubtitle,
                     content: this.state.postExplain,
                     image: [this.state.imagePreviewUrl],
-                    ad_link: this.state.postUrl,
+                    ad_link: this.state.needUrl ? this.state.postUrl : null,
                     target_views: this.state.postGoal,
+                    open_for_all: this.state.open_for_all,
                     expiry_date:
                         this.state.postDeadline.year +
                         '-' +
@@ -349,15 +360,33 @@ class ArticleCreate extends Component {
                         </div>
                         <p />
                         <br />
-                        <div className="form-group" align="center">
-                            <h3 className="form-label">Ad Url</h3>
-                            <input
-                                className="form-control"
-                                placeholder=" input url of ad"
-                                id="post-url-input"
-                                onChange={urlChangeHandler}
-                                value={this.state.postUrl}></input>
+                        <div className="url-toggle-group">
+                            <text>Use External ad URL</text>
+                            <p />
+                            <label class="switch">
+                                <input
+                                    type="checkbox"
+                                    onChange={() => {
+                                        this.setState({
+                                            ...this.state,
+                                            needUrl: !this.state.needUrl
+                                        });
+                                    }}
+                                />
+                                <span class="slider round"></span>
+                            </label>
                         </div>
+                        {this.state.needUrl && (
+                            <div className="form-group" align="center">
+                                <h3 className="form-label">Ad Url</h3>
+                                <input
+                                    className="form-control"
+                                    placeholder=" input url of ad"
+                                    id="post-url-input"
+                                    onChange={urlChangeHandler}
+                                    value={this.state.postUrl}></input>
+                            </div>
+                        )}
                         <p />
                         <br />
                         <button
@@ -365,7 +394,7 @@ class ArticleCreate extends Component {
                             id="next-button"
                             disabled={
                                 !this.state.postTitle ||
-                                !this.state.postUrl ||
+                                (this.state.needUrl && !this.state.postUrl) ||
                                 !this.state.postSubtitle ||
                                 !this.state.postFile
                             }
@@ -387,6 +416,25 @@ class ArticleCreate extends Component {
                             allowNew={true}
                             minQueryLength={1}
                         />
+                        <div className="url-toggle-group">
+                            <div className="form-group" align="center">
+                                <h3 className="form-label">Open for all</h3>
+                            </div>
+                            <p />
+                            <label class="switch">
+                                <input
+                                    type="checkbox"
+                                    onChange={() => {
+                                        this.setState({
+                                            ...this.state,
+                                            open_for_all: !this.state
+                                                .open_for_all
+                                        });
+                                    }}
+                                />
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
                         <button
                             className="btn btn-primary"
                             id="next-tag-button"
