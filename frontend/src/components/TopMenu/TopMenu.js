@@ -48,7 +48,7 @@ class TopMenu extends Component {
     render() {
         return (
             <div className="TopMenu">
-                <Navbar id="UserInfo" fixed="top">
+                <Navbar id="UserInfo" fixed='top'>
                     <h1
                         id="AditTitle"
                         align="left"
@@ -58,7 +58,7 @@ class TopMenu extends Component {
                     <TagSelector />
                     {this.props.logged_in && (
                         <a id="ad-add-btn" onClick={this.newArticleHandler}>
-                            New Ad Request
+                            + New Post
                         </a>
                     )}
                     {this.props.logged_in && (

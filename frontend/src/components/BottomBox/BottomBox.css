@@ -1,7 +1,7 @@
 .BottomBox {
     width: 100%;
-    height: 400px;
-    background: #424446;
+    height: 300px;
+    background: #d1d2d3;
 }
 
 .InfoParagraph {
@@ -10,11 +10,12 @@
 }
 
 .InfoTitle {
-    color: #d1d2d3;
+    color: #f0f0f0; 
     font-size: 40px;
-    font-family: Consolas, Serif, Sans-serif, cursive, fantasy, Monospace;
+    font-weight: 200;
 }
 
 .InfoContent {
-    color: #919293;
+    color: #888888;
+    font-weight: 100;
 }

@@ -9,25 +9,9 @@ import intro_first from '../../assets/intro_first.jpg';
 import intro_second from '../../assets/intro_second.jpg';
 import intro_third from '../../assets/intro_third.jpg';
 import './Home.css';
+import { Modal, Button } from 'react-bootstrap';
 import { tagActions } from '../../store/actions/tag.action';
-
-const mockEventList = [
-    {
-        id: 1,
-        title: 'Intro First',
-        url: intro_first
-    },
-    {
-        id: 2,
-        title: 'Intro Second',
-        url: intro_second
-    },
-    {
-        id: 3,
-        title: 'Intro Third',
-        url: intro_third
-    }
-];
+import { userActions } from '../../store/actions/user.action';
 
 class Home extends Component {
     state = {
@@ -37,10 +21,21 @@ class Home extends Component {
     componentDidMount() {
         this.props.onGetHomeList();
         this.props.onGetSuggestedTag();
+        this.props.onGetRecentTagList();
     }
+
+    closeHandler = () => {
+        this.setState({ ...this.state, showModal: false });
+    };
+
+    addTagHandler = name => {
+        this.props.addTag(name);
+        this.setState({ ...this.state, showModal: true });
+    };
 
     render() {
         const { adpost_home_list } = this.props;
+        var { suggested_tags } = this.props;
 
         const adpost_aggregated_list = (
             <div className="home-aggregated-list">
@@ -60,10 +55,65 @@ class Home extends Component {
             </div>
         );
 
+        suggested_tags = suggested_tags.filter(
+            item => !this.props.user.tags.includes(item.name)
+        );
+
+        const suggested_tag_list = (
+            <div className="suggested-tag-frame">
+                <h2 id="TagSuggestTitle">이런 주제는 어떠세요?</h2>
+                <div className="suggested-tag-list">
+                    {suggested_tags.map(item => {
+                        return (
+                            <Button
+                                className="tag-item"
+                                key={item.id}
+                                onClick={() => this.addTagHandler(item.name)}>
+                                {item.name}
+                            </Button>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+
+        const recent_tag_list = (
+            <div className="recent-tag-frame">
+                <h2 id="TagRecentTitle">이런 주제가 인기있어요</h2>
+                <ol className="recent-tag-list">
+                    {this.props.recent_tags.map(tags => {
+                        return <li className="recent-tag">{tags.name}</li>;
+                    })}
+                </ol>
+            </div>
+        );
+
         return (
             <div className="Home">
-                <EventItemList eventItems={mockEventList} />
-                {this.props.logged_in && <TagSugguestion />}
+                <div className="MainDoor">
+                    <div className="MainContainer">
+                        <h1 id="MainTitle">소문내세요</h1>
+                        <p id="MainDesc">당신의 생활 속에서</p>
+                    </div>
+                    <div className="TagFrame">
+                        {this.props.logged_in && suggested_tag_list}
+                        {recent_tag_list}
+                    </div>
+                </div>
+                <Modal
+                    className="modal"
+                    show={this.state.showModal}
+                    onHide={this.closeHandler}>
+                    <Modal.Body>추가되었습니다!</Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            id="charge-confirm"
+                            variant="primary"
+                            onClick={this.closeHandler}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
                 {adpost_aggregated_list}
             </div>
         );
@@ -77,16 +127,32 @@ const mapDispatchToProps = dispatch => {
         },
         onGetSuggestedTag: () => {
             dispatch(tagActions.getSuggestedTags());
+        },
+        onGetRecentTagList: () => {
+            dispatch(tagActions.getRecentTag());
+        },
+        getUser: user => {
+            dispatch(userActions.getUser(user));
+        },
+        addTag: name => {
+            dispatch(tagActions.addTag(name));
         }
     };
 };
 
 const mapStateToProps = state => {
     return {
-        adpost_items: state.adpost.adpost_items,
+        suggested_tags: state.tag.suggested_tags,
+        recent_tags: state.tag.recent_tags,
+        user: state.user.user,
         adpost_home_list: state.adpost.adpost_home_list,
         logged_in: state.user.logged_in
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(Home)
+);

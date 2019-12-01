@@ -2,8 +2,72 @@ h1 {
     color: black;
 }
 
+.modal {
+    z-index: 10040;
+}
+
 .Home {
     width: auto;
+}
+
+.Home .MainDoor {
+    margin-top: 60px;
+    padding-top: 80px;
+    background: #f1f1f2;
+    width: 100%;
+    min-height: 550px;
+    padding-bottom: 100px;
+}
+
+.Home #MainTitle {
+    font-size: 70px;
+    font-weight: 600;
+}
+
+.Home #MainDesc {
+    font-size: 41px;
+    font-weight: 300;
+}
+
+.Home #TagSuggestTitle {
+    padding-top: 50px;
+    padding-bottom: 10px;
+    font-size: 25px;
+    font-weight: 300;
+    margin: auto;
+    margin-bottom: 20px;
+    width: fit-content;
+    border-bottom-style: groove;
+}
+
+.Home #TagRecentTitle {
+    padding-top: 50px;
+    padding-bottom: 10px;
+    font-size: 25px;
+    font-weight: 300;
+    margin: auto;
+    margin-bottom: 20px;
+    width: fit-content;
+    border-bottom-style: groove;
+}
+
+.Home .tag-item {
+    background: #b1b2b3;
+    border-style: hidden;
+    margin: 5px;
+}
+
+.Home .recent-tag-list {
+    margin: auto;
+    width: 250px;
+    font-size: 18px;
+    border-style: hidden;
+    font-weight: 400;
+}
+
+.Home .tag-item:hover {
+    background: #414243;
+    box-shadow: 1px 0px 1px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
 }
 
 .Home .home-aggregated-list {

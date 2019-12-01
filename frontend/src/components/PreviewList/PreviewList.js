@@ -58,33 +58,28 @@ class PreviewList extends React.Component {
     render() {
         return (
             <div className="PreviewList">
-                <h1 id="list-title">{this.props.query}</h1>
-                <Carousel
-                    id="list-carousel"
-                    responsive={
-                        this.props.compact ? responsive_compact : responsive
-                    }>
-                    {this.props.articles
-                        ? this.props.articles.map(item => (
-                              <Preview
-                                  key={item}
-                                  preview={item}
-                                  clickPreview={() =>
-                                      this.clickPreviewHandler(item.id)
-                                  }
-                              />
-                          ))
-                        : null}
-                    <div id="search-more-btn">
-                        <FontAwesomeIcon
-                            id="search-more"
-                            icon={faPlusCircle}
-                            aria-hidden="true"
-                            onClick={this.clickSearchMoreHandler}
-                            size="10x"
-                        />
+                <h3 className="list-title">{this.props.query}</h3>
+                <div className="title-under-line"></div>
+                {this.props.articles
+                    ? this.props.articles.map(item => (
+                          <Preview
+                              key={item}
+                              preview={item}
+                              clickPreview={() =>
+                                  this.clickPreviewHandler(item.id)
+                              }
+                          />
+                      ))
+                    : null}
+                <div id="card-more-btn" onClick={this.clickSearchMoreHandler}>
+                    <div id="card-more-text">
+                        <div id="plus-btn">+</div>
+                        <div id="more-text">
+                            {this.props.query} 관련 <br />
+                            게시글 더 보기
+                        </div>
                     </div>
-                </Carousel>
+                </div>
             </div>
         );
     }

@@ -654,7 +654,7 @@ class TagRecommendByUser(View):
 class TagRecommendByRecent(View):
     def get(self, request):
         taglist = [model_to_dict(tag) for tag in InterestedTags.objects.all().order_by('-created_time')]
-        return JsonResponse(taglist[:20], safe=False)
+        return JsonResponse(taglist[:10], safe=False)
 
 
 class TagSearchView(View):
