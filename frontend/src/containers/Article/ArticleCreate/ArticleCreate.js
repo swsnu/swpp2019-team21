@@ -161,21 +161,19 @@ class ArticleCreate extends Component {
             let reader = new FileReader();
             let file = e.target.files[0];
 
+            if (!file) {
+                this.setState({
+                    postFile: null,
+                    imagePreviewUrl: null
+                });
+            }
             reader.onloadend = () => {
                 this.setState({
                     postFile: file,
                     imagePreviewUrl: reader.result
                 });
             };
-
-            if (file) {
-                reader.readAsDataURL(file);
-            } else {
-                this.setState({
-                    postFile: null,
-                    imagePreviewUrl: null
-                });
-            }
+            reader.readAsDataURL(file);
         };
         const goalChangeHandler = e => {
             const re = /^[0-9]*$/;
@@ -223,16 +221,18 @@ class ArticleCreate extends Component {
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
-            if (!this.state.postUrl) {
+            if (!this.state.postUrl && this.state.needUrl) {
                 alert('Ad url should not be empty');
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
             if (
-                this.state.postUrl.toString().length < 9 ||
-                (this.state.postUrl.toString().substring(0, 7) !== 'http://' &&
-                    this.state.postUrl.toString().substring(0, 8) !==
-                        'https://')
+                this.state.needUrl &&
+                (this.state.postUrl.toString().length < 9 ||
+                    (this.state.postUrl.toString().substring(0, 7) !==
+                        'http://' &&
+                        this.state.postUrl.toString().substring(0, 8) !==
+                            'https://'))
             ) {
                 alert('Ad url should start with http:// or https://');
                 this.setState({ ...this.state, currentPage: 1 });
@@ -254,6 +254,11 @@ class ArticleCreate extends Component {
                 return;
             }
             if (!this.state.imagePreviewUrl) {
+                alert('You should upload image');
+                this.setState({ ...this.state, currentPage: 1 });
+                return;
+            }
+            if (!this.state.postFile.name.match(/.(jpg|jpeg|png|bmp)$/i)) {
                 alert('You should upload image');
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
