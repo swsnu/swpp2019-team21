@@ -9,7 +9,6 @@ import intro_second from '../../assets/intro_second.jpg';
 import intro_third from '../../assets/intro_third.jpg';
 import './Home.css';
 import { tagActions } from '../../store/actions/tag.action';
-import { userActions } from '../../store/actions/user.action';
 import { Button } from 'react-bootstrap';
 
 const mockEventList = [
@@ -44,13 +43,7 @@ class Home extends Component {
 
     render() {
         const addTagHandler = name => {
-            const user = {
-                nickname: this.props.user.nickname,
-                first_name: this.props.user.first_name,
-                last_name: this.props.user.last_name,
-                tags: this.props.user.tags.concat(name)
-            };
-            this.props.putUser(user);
+            this.props.onAddTag(name);
         };
 
         const { adpost_items } = this.props;
@@ -61,7 +54,7 @@ class Home extends Component {
 
         const suggested_tag_list = (
             <div className="suggested-tag frame">
-                <h1>How about a tags like these?</h1>
+                <h1>How about tags like these?</h1>
                 <div className="suggested-tag-list">
                     {suggested_tags.map(item => {
                         return (
@@ -80,7 +73,7 @@ class Home extends Component {
         return (
             <div className="Home">
                 <EventItemList eventItems={mockEventList} />
-                {suggested_tag_list}
+                {this.props.logged_in && suggested_tag_list}
                 <div className="home-aggregated-list">
                     {Object.keys(adpost_items ? adpost_items : [])
                         .filter(
@@ -120,8 +113,8 @@ const mapDispatchToProps = dispatch => {
         onGetSuggestedTag: () => {
             dispatch(tagActions.getSuggestedTags());
         },
-        putUser: user => {
-            dispatch(userActions.putUser(user));
+        onAddTag: content => {
+            dispatch(tagActions.addTag(content));
         }
     };
 };
@@ -130,7 +123,8 @@ const mapStateToProps = state => {
     return {
         adpost_items: state.adpost.adpost_items,
         suggested_tags: state.tag.suggested_tags,
-        user: state.user.user
+        user: state.user.user,
+        logged_in: state.user.logged_in
     };
 };
 
