@@ -54,6 +54,7 @@ h1 {
 .Home .tag-item {
     background: #b1b2b3;
     border-style: hidden;
+    margin: 5px;
 }
 
 .Home .recent-tag-list {
