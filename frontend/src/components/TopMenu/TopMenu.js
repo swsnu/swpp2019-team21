@@ -68,7 +68,7 @@ class TopMenu extends Component {
                     <TagSelector />
                     {this.props.logged_in && (
                         <a id="ad-add-btn" onClick={this.newArticleHandler}>
-                            New Ad Request
+                            + New Post
                         </a>
                     )}
                     {this.props.logged_in && (

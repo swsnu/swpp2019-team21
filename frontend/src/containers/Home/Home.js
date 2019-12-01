@@ -12,30 +12,13 @@ import { tagActions } from '../../store/actions/tag.action';
 import { userActions } from '../../store/actions/user.action';
 import { Button } from 'react-bootstrap';
 
-const mockEventList = [
-    {
-        id: 1,
-        title: 'Intro First',
-        url: intro_first
-    },
-    {
-        id: 2,
-        title: 'Intro Second',
-        url: intro_second
-    },
-    {
-        id: 3,
-        title: 'Intro Third',
-        url: intro_third
-    }
-];
-
 class Home extends Component {
     state = {
         updated: false
     };
 
     componentDidMount() {
+        this.props.onGetRecentTagList();
         this.props.onGetHottestList();
         this.props.onGetRecentList();
         this.props.onGetCustomList();
@@ -62,7 +45,7 @@ class Home extends Component {
 
         const suggested_tag_list = (
             <div className="suggested-tag frame">
-                <h1>How about a tags like these?</h1>
+                <h2 id="TagSuggestTitle">이런 주제는 어떠세요?</h2>
                 <div className="suggested-tag-list">
                     {suggested_tags.map(item => {
                         return (
@@ -77,11 +60,29 @@ class Home extends Component {
                 </div>
             </div>
         );
+        const recent_tag_list = (
+            <div className="recent-tag frame">
+                <h2 id="TagRecentTitle">이런 주제가 핫해요</h2>
+                <ol className="recent-tag-list">
+                    {this.props.recent_tags.map(tags => {
+                        return <li className="recent-tag">{tags.name}</li>;
+                    })}
+                </ol>
+            </div>
+        );
 
         return (
             <div className="Home">
-                <EventItemList eventItems={mockEventList} />
-                {suggested_tag_list}
+                <div className="MainDoor">
+                    <div className="MainContainer">
+                        <h1 id="MainTitle">소문내세요</h1>
+                        <p id="MainDesc">당신의 생활 속에서</p>
+                    </div>
+                    <div className="TagFrame">
+                        {suggested_tag_list}
+                        {recent_tag_list}
+                    </div>
+                </div>
                 <div className="home-aggregated-list">
                     {Object.keys(adpost_items ? adpost_items : [])
                         .filter(
@@ -121,6 +122,9 @@ const mapDispatchToProps = dispatch => {
         onGetSuggestedTag: () => {
             dispatch(tagActions.getSuggestedTags());
         },
+        onGetRecentTagList: () => {
+            dispatch(tagActions.getRecentTag());
+        },
         putUser: user => {
             dispatch(userActions.putUser(user));
         }
@@ -131,6 +135,7 @@ const mapStateToProps = state => {
     return {
         adpost_items: state.adpost.adpost_items,
         suggested_tags: state.tag.suggested_tags,
+        recent_tags: state.tag.recent_tags,
         user: state.user.user
     };
 };

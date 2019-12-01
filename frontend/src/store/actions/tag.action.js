@@ -32,14 +32,14 @@ function getAllTag() {
 function getRecentTag() {
     return dispatch => {
         return axios
-            .get(baseUrl + '/tag/recent/')
+            .get(baseUrl + '/tag/recommend/by-recent/')
             .then(response => {
                 var data = response.data.map(item => {
                     return { id: item.id, name: item.content };
                 });
                 dispatch({
                     type: actionTypes.GET_RECENT_TAG,
-                    all_tags: data
+                    recent_tags: data
                 });
             })
             .catch(error => {
