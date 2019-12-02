@@ -62,6 +62,7 @@
     color: #fa4252;
     right: 50px;
     font-size: 22px;
+    transition: 0.3s;
 }
 
 #ad-add-btn {
@@ -73,9 +74,12 @@
     color: #fa4252;
     right: 150px;
     font-size: 22px;
+    transition: 0.3s;
 }
 
 #sign-in-btn:hover,
 #ad-add-btn:hover {
     cursor: pointer;
+    background: #fa4252;
+    color: #faf8f5;
 }
