@@ -1,5 +1,6 @@
 .ArticleSearch {
     margin-top: 60px;
+    min-height: 614px;
 }
 .ArticleSearch .search-query {
     margin-block-start: 1em;
