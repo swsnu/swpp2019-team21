@@ -3,7 +3,7 @@ sudo apt-get install libmysqlclient-dev -y
 virtualenv venv --python=python3
 source venv/bin/activate
 rm -rf ./adit/migrations/00*
-rm -rf data_update.log
+rm -rf *.log
 pip install -r requirements.txt
 sudo mysql < db_set
 sudo service mysql restart

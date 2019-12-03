@@ -15,7 +15,7 @@ from django.db.models import Q
 from datetime import datetime, date, timedelta
 from django.core.files.base import ContentFile
 from hashids import Hashids
-from . import init_data
+#from . import init_data
 import base64
 from .ml import suggest
 
@@ -270,10 +270,9 @@ class AdPostView(View):
         target_views = req_data['target_views']
         expiry_date = req_data['expiry_date']
         post_tags = req_data['tags']
-        try:
+        ad_link = "toitself"
+        if req_data['ad_link'] is not None:
             ad_link = req_data['ad_link']
-        except:
-            ad_link = "toitself"
         open_for_all = False
         upload_date = datetime.now()
         thumbnail = img_process(req_data['image'][0])
@@ -283,7 +282,7 @@ class AdPostView(View):
                         closed=False, thumbnail=thumbnail, open_for_all=open_for_all, view_by_date='')
         adpost.save()
         if adpost.ad_link == "toitself":
-            adpost.ad_link = 'http://localhost:3000/adpost/{}/'.format(str(adpost.id))
+            adpost.ad_link = 'http://localhost:3000/article/{}/'.format(str(adpost.id))
 
         for tag in post_tags:
             if InterestedTags.objects.filter(content=tag).exists():
@@ -303,6 +302,7 @@ class AdPostView(View):
             adpost.image.add(newimg)
 
         adpost.save()
+        SuggestPending.objects.create(post=adpost)
         response_dict = model_to_dict(adpost)
         model_process(response_dict)
 
