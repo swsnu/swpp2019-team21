@@ -163,7 +163,7 @@
         font-weight: 350;
     }
 
-    #point-number {
+    #point-number, #no-stat {
         margin-top: 10px;
         font-size: 1.5em;
     }

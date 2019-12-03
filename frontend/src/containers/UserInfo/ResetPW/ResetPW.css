@@ -33,7 +33,7 @@
     box-shadow: none !important;
 }
 .form-group:focus {
-    border-color: #708bc5;
+    border-color: #fa4252;
 }
 .form-group,
 .btn {
@@ -56,12 +56,11 @@
 .ResetPWForm .btn {
     font-size: 16px;
     font-weight: bold;
-    background: #708bc5;
+    background: #fa4252;
     border: none;
     margin-bottom: 20px;
 }
-.ResetPWForm .btn:hover,
-.login-form .btn:focus {
-    background: #5060b8;
+.ResetPWForm .btn:hover{
+    background: #f03757;
     outline: none important;
 }

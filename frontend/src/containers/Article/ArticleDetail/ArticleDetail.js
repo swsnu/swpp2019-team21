@@ -43,6 +43,11 @@ class ArticleDetail extends Component {
             }, '');
             pic = this.props.article.owner_avatar;
             const tags = <p id="tag-link">{taglist}</p>;
+            const statData = this.props.article.view_by_date
+                .split(', ')
+                .map(dat => dat && JSON.parse(dat))
+                .slice(0, -1);
+            console.log(statData)
             return (
                 <div className="ArticleDetail">
                     <div className="upper-component">
@@ -64,7 +69,7 @@ class ArticleDetail extends Component {
                             </h2>
                             {tags}
                             <h3 id="owner-info">
-                                <img src={pic} className="Avatar"/>
+                                <img src={pic} className="Avatar" />
                                 <p>{this.props.article.owner_nickname}</p>
                             </h3>
                             <h3 id="ad-link-title">AD link</h3>
@@ -155,20 +160,34 @@ class ArticleDetail extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="stat">
-                        <h2 id="stat-text">Stat</h2>
-                        <LineChart width={350} height={300} data={mockPlotData}>
-                            <XAxis dataKey="date" interval="preserveEnd" />
-                            <YAxis interval="preserveEnd" />
-                            <Legend />
-                            <Line
-                                type="monotone"
-                                dataKey="data"
-                                stroke="#8884d8"
-                                activeDot={{ r: 8 }}
-                            />
-                        </LineChart>
-                    </div>
+                    {this.props.article.is_owner && 
+                        <div className="stat">
+                            <h2 id="stat-text">Stat</h2>
+                            {statData.length > 2 ? (
+                                <LineChart
+                                    width={350}
+                                    height={300}
+                                    data={statData}>
+                                    <XAxis
+                                        dataKey="date"
+                                        interval="preserveEnd"
+                                    />
+                                    <YAxis interval="preserveEnd" />
+                                    <Legend />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="view"
+                                        stroke="#fa4252"
+                                        activeDot={{ r: 8 }}
+                                    />
+                                </LineChart>
+                            ) : (
+                                <h2 id="no-stat">
+                                    아직 통계가<p></p>제공되지 않습니다
+                                </h2>
+                            )}
+                        </div>
+                    }
                     <div className="down-component">
                         <h3 id="description-title-text">
                             Detailed description
@@ -206,7 +225,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ArticleDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);
