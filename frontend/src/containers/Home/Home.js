@@ -12,6 +12,7 @@ import './Home.css';
 import { Modal, Button } from 'react-bootstrap';
 import { tagActions } from '../../store/actions/tag.action';
 import { userActions } from '../../store/actions/user.action';
+import AOS from 'aos';
 
 class Home extends Component {
     state = {
@@ -22,6 +23,7 @@ class Home extends Component {
         this.props.onGetHomeList();
         this.props.onGetSuggestedTag();
         this.props.onGetRecentTagList();
+        AOS.init({duration: 1000});
     }
 
     closeHandler = () => {
@@ -92,10 +94,10 @@ class Home extends Component {
             <div className="Home">
                 <div className="MainDoor">
                     <div className="MainContainer">
-                        <h1 id="MainTitle">소문내세요</h1>
-                        <p id="MainDesc">당신의 생활 속에서</p>
+                        <h1 id="MainTitle" data-aos="zoom-in">소문내세요</h1>
+                        <p id="MainDesc" data-aos="zoom-in">당신의 생활 속에서</p>
                     </div>
-                    <div className="TagFrame">
+                    <div className="TagFrame" data-aos="fade-up">
                         {this.props.logged_in && suggested_tag_list}
                         {recent_tag_list}
                     </div>
