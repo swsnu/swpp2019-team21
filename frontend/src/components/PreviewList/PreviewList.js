@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Carousel from 'react-multi-carousel';
 import Preview from '../Preview/Preview';
 import { history } from '../../store';
 import 'react-multi-carousel/lib/styles.css';
 import './PreviewList.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import AOS from 'aos';
 
 const responsive = {
     desktop: {
@@ -49,6 +47,10 @@ class PreviewList extends React.Component {
         history.push(`/article/${id}`);
     };
 
+    componentDidMount(){
+        AOS.init({duration: 100})
+    }
+
     clickSearchMoreHandler = () => {
         history.push(
             `/adposts/search/${this.props.query_type}/${this.props.query}`
@@ -71,7 +73,7 @@ class PreviewList extends React.Component {
                           />
                       ))
                     : null}
-                <div id="card-more-btn" onClick={this.clickSearchMoreHandler}>
+                <div id="card-more-btn" onClick={this.clickSearchMoreHandler} data-aos="zoom-in">
                     <div id="card-more-text">
                         <div id="plus-btn">+</div>
                         <div id="more-text">
