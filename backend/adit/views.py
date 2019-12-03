@@ -15,7 +15,7 @@ from django.db.models import Q
 from datetime import datetime, date, timedelta
 from django.core.files.base import ContentFile
 from hashids import Hashids
-#from . import init_data
+from . import init_data
 import base64
 from .ml import suggest
 
