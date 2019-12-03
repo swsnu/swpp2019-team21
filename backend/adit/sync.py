@@ -9,7 +9,7 @@ def set_data_by_day():
     for post in AdPost.objects.all().filter(closed = False):
         if post.expiry_date < date.today():
             post.closed = True
-        post.view_by_date += '{"date":"%s","view":"%d"}, ' % (yesterday, post.total_views)
+        post.view_by_date += '{"date":"%s","view":%d}, ' % (yesterday, post.total_views)
         post.save()
         print('Title : \t{}'.format(post.title))
         print('Closed : \t{}'.format(post.closed))

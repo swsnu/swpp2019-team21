@@ -8,15 +8,6 @@ import './ArticleDetail.css';
 
 var multiplier = 7;
 
-const mockPlotData = [
-    { date: '1월 1일', data: 3 },
-    { date: '1월 2일', data: 3.3 },
-    { date: '1월 3일', data: 1.8 },
-    { date: '1월 4일', data: 1.9 },
-    { date: '1월 5일', data: 7.5 },
-    { date: '1월 6일', data: -5 }
-];
-
 class ArticleDetail extends Component {
     componentDidMount() {
         this.props.ongetArticle(this.props.match.params.id);
