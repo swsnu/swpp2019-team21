@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { adpostActions } from '../../store/actions';
 import PreviewList from '../../components/PreviewList/PreviewList';
-import EventItemList from '../../components/EventItemList/EventItemList';
 import TagSugguestion from './TagSugguestion/TagSugguestion';
-import intro_first from '../../assets/intro_first.jpg';
-import intro_second from '../../assets/intro_second.jpg';
-import intro_third from '../../assets/intro_third.jpg';
+import { history } from '../../store';
 import './Home.css';
 import { Modal, Button } from 'react-bootstrap';
 import { tagActions } from '../../store/actions/tag.action';
@@ -84,7 +81,7 @@ class Home extends Component {
                 <h2 id="TagRecentTitle">이런 주제가 인기있어요</h2>
                 <ol className="recent-tag-list">
                     {this.props.recent_tags.map(tags => {
-                        return <li className="recent-tag">{tags.name}</li>;
+                        return <li id="recent-tag" onClick={() => history.push(`/adposts/search/tag/${tags.name}`)}>{tags.name}</li>;
                     })}
                 </ol>
             </div>
@@ -95,7 +92,7 @@ class Home extends Component {
                 <div className="MainDoor">
                     <div className="MainContainer">
                         <h1 id="MainTitle" data-aos="zoom-in">소문내세요</h1>
-                        <p id="MainDesc" data-aos="zoom-in">당신의 생활 속에서</p>
+                        <p id="MainDesc" data-aos="zoom-in">당신의 일상 속에서</p>
                     </div>
                     <div className="TagFrame" data-aos="fade-up">
                         {this.props.logged_in && suggested_tag_list}

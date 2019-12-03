@@ -55,7 +55,7 @@ function getHomeAdpostList() {
                 const payload_data = [
                     {
                         data: response.data,
-                        query: 'hottest',
+                        query: 'Hottest',
                         query_type: 'special'
                     }
                 ];
@@ -69,7 +69,7 @@ function getHomeAdpostList() {
                 const payload_data = [
                     {
                         data: response.data,
-                        query: 'recent',
+                        query: 'Recent',
                         query_type: 'special'
                     }
                 ];
