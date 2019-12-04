@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
-import { ProgressBar, Spinner } from 'react-bootstrap';
+import { ProgressBar, Spinner, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock, faAd, faLink } from '@fortawesome/free-solid-svg-icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { adpostActions, adreceptionActions } from '../../../store/actions';
 import { LineChart, XAxis, YAxis, Line, Legend } from 'recharts';
+import {
+    FacebookShareButton,
+    FacebookIcon,
+    TwitterShareButton,
+    TwitterIcon
+} from 'react-share';
 import './ArticleDetail.css';
 
 var multiplier = 7;
@@ -50,40 +58,107 @@ class ArticleDetail extends Component {
 
             return (
                 <div className="ArticleDetail">
-                    <section className="article-thumbnail-wrapper">
+                    <section className="article-thumbnail-wrapper section-wrapper">
                         <img
                             id="article-thumbnail"
                             src={this.props.article.thumbnail}
                             alt="first_picture"
                         />
-                        <h1 id="post-title-text">{this.props.article.title}</h1>
-                        <h2 id="post-subtitle-text">
-                            {this.props.article.subtitle}
-                        </h2>
-                        {tags}
-                        <div className="owner-info">
-                            <div id="owner-image">
-                                <img src={pic} className="Avatar" />
-                            </div>
-                            <div id="owner-info-text">
-                                {this.props.article.owner_nickname}
+                        <div className="thumbnail-left">
+                            <h1 id="post-title-text">
+                                {this.props.article.title}
+                            </h1>
+                            <h2 id="post-subtitle-text">
+                                {this.props.article.subtitle}
+                            </h2>
+                            {tags}
+                            <div className="owner-info">
+                                <div id="owner-image">
+                                    <img src={pic} className="Avatar" />
+                                </div>
+                                <div id="owner-info-text">
+                                    {this.props.article.owner_nickname}
+                                </div>
                             </div>
                         </div>
+                        <div className="thumbnail-right">
+                            {this.props.is_participated && (
+                                <div id="share-btn-box">
+                                    <div className="facebook-share-btn share-btn">
+                                        <FacebookShareButton
+                                            url={this.props.unique_link}>
+                                            <FacebookIcon
+                                                size={40}
+                                                borderRadius={5}
+                                            />
+                                        </FacebookShareButton>
+                                    </div>
+                                    <div className="twitter-share-btn share-btn">
+                                        <TwitterShareButton
+                                            url={this.props.unique_link}>
+                                            <TwitterIcon
+                                                size={40}
+                                                borderRadius={5}
+                                            />
+                                        </TwitterShareButton>
+                                    </div>
+                                    <div className="url-link share-btn">
+                                        <CopyToClipboard
+                                            text={this.props.unique_link}>
+                                            <div id="url-copy-button">
+                                                <FontAwesomeIcon
+                                                    icon={faLink}
+                                                    size="1x"
+                                                />
+                                            </div>
+                                        </CopyToClipboard>
+                                    </div>
+                                </div>
+                            )}
+                            {this.props.is_owner ? (
+                                <button
+                                    className="btn btn-primary"
+                                    id="post-edit-button"
+                                    onClick={this.postEditHandler}>
+                                    Edit
+                                </button>
+                            ) : (
+                                <Button
+                                    id="button-submit"
+                                    variant="danger"
+                                    disabled={this.props.is_participated}
+                                    onClick={this.participateHandler}>
+                                    참여하기
+                                </Button>
+                            )}
+                        </div>
                     </section>
-                    <section className="article-description-wrapper">
-                        <h3 id="ad-link-title">AD link</h3>
-                        <a href={this.props.article.ad_link}>
-                            <h2 id="ad-link-text">
-                                {this.props.article.ad_link}
-                            </h2>
-                        </a>
-                        <h3 id="due-date-title">Due Date</h3>
-                        <h3 id="due-date-text">
-                            {this.props.article.expiry_date}
-                        </h3>
-                        <h3 id="description-title-text">
-                            Detailed description
-                        </h3>
+                    <section className="article-description-wrapper section-wrapper">
+                        <div className="aggregate-info-window">
+                            <h3 id="due-date-text">
+                                <FontAwesomeIcon icon={faClock} size="1x" />
+                                &nbsp;&nbsp;
+                                {this.props.article.expiry_date} 마감
+                            </h3>
+                            <h3 id="target-view-text">
+                                <FontAwesomeIcon icon={faAd} size="1x" />
+                                &nbsp;&nbsp;목표 광고수{' '}
+                                {this.props.article.target_views}회
+                            </h3>
+                            <h3 id="target-view-text">
+                                <FontAwesomeIcon icon={faLink} size="1x" />
+                                &nbsp;&nbsp;
+                                <a href={this.props.article.ad_link}>
+                                    {this.props.article.ad_link &&
+                                    this.props.article.ad_link.length > 40
+                                        ? this.props.article.ad_link.substr(
+                                              0,
+                                              40
+                                          ) + '...'
+                                        : this.props.article.ad_link}
+                                </a>
+                            </h3>
+                        </div>
                         <p id="description-text">
                             {this.props.article.content}
                         </p>
@@ -106,7 +181,21 @@ class ArticleDetail extends Component {
                     </section>
                     {!this.props.article.is_owner &&
                         this.props.is_participated && (
-                            <section className="article-info-participate">
+                            <section className="article-info-participate section-wrapper">
+                                <div className="user-earn-view">
+                                    <h2 id="earn-text">
+                                        Earned points for participant
+                                    </h2>
+                                    <p id="earn-subtext">
+                                        광고 홍보를 통해 번 포인트를 알려줍니다.
+                                    </p>
+                                    <div id="earn-point">
+                                        You promote {this.props.views} views of
+                                        people!
+                                        <br />
+                                        You earned {this.props.views * 7} points
+                                    </div>
+                                </div>
                                 <div className="url-component">
                                     <p id="unique-url-text">
                                         {this.props.unique_link}
@@ -123,15 +212,12 @@ class ArticleDetail extends Component {
                             </section>
                         )}
                     {this.props.article.is_owner && (
-                        <section className="article-info-owner">
-                            <button
-                                className="btn btn-primary"
-                                id="post-edit-button"
-                                onClick={this.postEditHandler}>
-                                Edit
-                            </button>
+                        <section className="article-info-owner section-wrapper">
                             <div className="stat">
-                                <h2 id="stat-text">Stat</h2>
+                                <h2 id="stat-text">Statistic for owner</h2>
+                                <p id="stat-subtext">
+                                    광고 노출 수 변화를 보여줍니다.
+                                </p>
                                 {statData.length > 2 ? (
                                     <LineChart
                                         width={350}
@@ -156,6 +242,12 @@ class ArticleDetail extends Component {
                                     </h2>
                                 )}
                             </div>
+                            {/* <button
+                                className="btn btn-primary"
+                                id="post-edit-button"
+                                onClick={this.postEditHandler}>
+                                Edit
+                            </button> */}
                         </section>
                     )}
                 </div>

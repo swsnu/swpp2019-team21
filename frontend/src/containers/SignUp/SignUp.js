@@ -4,6 +4,7 @@ import ReactTags from 'react-tag-autocomplete';
 import { userActions } from '../../store/actions';
 import avatar from '../../assets/avatar.png';
 import './SignUp.css';
+import { tagActions } from '../../store/actions/tag.action';
 
 class SignUp extends Component {
     state = {
@@ -20,6 +21,17 @@ class SignUp extends Component {
             password_check: true,
             nickname: true
         }
+    };
+
+    componentDidMount() {
+        this.props.getAllTags();
+    }
+
+    handleValidate = tag => {
+        return (
+            !this.state.tags.map(item => item.name).includes(tag.name) &&
+            this.state.tags.length <= 20
+        );
     };
 
     signUpHandler = () => {
@@ -66,6 +78,7 @@ class SignUp extends Component {
     };*/
 
     render() {
+        console.log(this.props.allTags);
         return (
             <div className="sign-up">
                 <div className="sign-up-form">
@@ -197,8 +210,9 @@ class SignUp extends Component {
                             tags={this.state.tags}
                             id="reacttags"
                             suggestions={this.props.allTags}
-                            handleDelete={this.deleteTagHandler}
-                            handleAddition={this.addTagHandler}
+                            handleDelete={this.deleteTagHandler.bind()}
+                            handleAddition={this.addTagHandler.bind()}
+                            handleValidate={this.handleValidate.bind()}
                             allowNew={false}
                             minQueryLength={1}
                         />
@@ -233,7 +247,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSignUp: user => dispatch(userActions.signUp(user))
+        onSignUp: user => dispatch(userActions.signUp(user)),
+        getAllTags: () => dispatch(tagActions.getAllTag())
     };
 };
 

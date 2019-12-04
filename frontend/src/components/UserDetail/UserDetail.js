@@ -88,6 +88,13 @@ class UserDetail extends Component {
         });
     };
 
+    handleValidate = tag => {
+        return (
+            !this.state.postTag.map(item => item.name).includes(tag.name) &&
+            this.state.postTag.length <= 20
+        );
+    };
+
     imageChangeHandler = () => {
         alert('image clicked');
     };
@@ -323,6 +330,7 @@ class UserDetail extends Component {
                         suggestions={this.props.allTags}
                         handleDelete={this.deleteTagHandler}
                         handleAddition={this.addTagHandler}
+                        // handleValidate={this.handleValidate}
                         allowNew={false}
                         minQueryLength={1}
                     />
@@ -387,4 +395,7 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDetail);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(UserDetail);

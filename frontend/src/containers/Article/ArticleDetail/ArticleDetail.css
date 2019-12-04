@@ -14,15 +14,6 @@
     text-align: center;
 }
 
-.ArticleDetail .article-thumbnail-wrapper {
-    margin: 10px;
-    padding: 10px;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    border-bottom: 1px solid #dadada;
-}
-
 .ArticleDetail .article-thumbnail-wrapper #article-thumbnail {
     margin-left: auto;
     margin-right: auto;
@@ -32,7 +23,7 @@
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
-.ArticleDetail .article-description-wrapper {
+.ArticleDetail .section-wrapper {
     margin: 10px;
     padding: 10px;
     width: 80%;
@@ -61,17 +52,21 @@
     margin: 0px 1px 0px 1px;
 }
 
-.ArticleDetail #post-title-text {
+.ArticleDetail h1 {
     margin-top: 10px;
     margin-bottom: 5px;
     font-size: 30px;
     font-weight: 600;
 }
 
-.ArticleDetail #post-subtitle-text {
+.ArticleDetail h2 {
     margin-bottom: 10px;
     font-size: 20px;
     font-weight: 400;
+}
+
+.ArticleDetail p {
+    font-size: 18px;
 }
 
 .ArticleDetail #tag-link {
@@ -90,6 +85,62 @@
     transition: 0.3s;
 }
 
+.ArticleDetail #due-date-text,
+.ArticleDetail #target-view-text {
+    font-size: 15px;
+    color: #404040;
+}
+
+.ArticleDetail .aggregate-info-window {
+    margin-bottom: 20px;
+}
+
+.ArticleDetail .thumbnail-left {
+    width: 70%;
+    margin: 0px;
+    display: inline-block;
+}
+
+.ArticleDetail .thumbnail-right {
+    width: 30%;
+    height: 100%;
+    display: inline-block;
+}
+
+.ArticleDetail #button-submit {
+    margin-left: 20%;
+    text-align: center;
+    width: 60%;
+    margin-right: 20%;
+}
+
+.ArticleDetail #facebook-share-btn {
+    width: 30px;
+    height: 30px;
+}
+
+.ArticleDetail .share-btn {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    display: inline-block;
+    box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+}
+
+.ArticleDetail .url-link {
+    margin: 0px;
+    padding: 0px;
+    width: 40px;
+    height: 40px;
+    align-content: center;
+    vertical-align: middle;
+    border-radius: 5px;
+}
+
+.ArticleDetail .url-copy-button {
+    width: 100%;
+    height: 100%;
+}
 /* 
 @media screen and (min-width: 1101px) {
     .left-component {

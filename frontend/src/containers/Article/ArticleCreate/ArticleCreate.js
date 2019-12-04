@@ -55,6 +55,14 @@ class ArticleCreate extends Component {
         this.setState({ postTag: tags });
     };
 
+    handleValidate = tag => {
+        return (
+            tag.name.length < 100 &&
+            tag.name.match(/^[a-zA-Z가-힣]+$/) &&
+            !this.state.postTag.map(item => item.name).includes(tag.name) &&
+            this.state.postTag.length <= 15
+        );
+    };
     render() {
         let imagePreview = null;
         let imagePreviewUrl = this.state.imagePreviewUrl;
@@ -203,8 +211,8 @@ class ArticleCreate extends Component {
                     ...this.state,
                     postGoal: e.target.value
                 });
-            } else if (!re.test(e.target.value)){
-                window.alert("Should only put number");
+            } else if (!re.test(e.target.value)) {
+                window.alert('Should only put number');
             } else {
                 window.alert('not enough money');
             }
@@ -443,6 +451,7 @@ class ArticleCreate extends Component {
                             handleDelete={this.handleDelete.bind(this)}
                             handleAddition={this.handleAddition.bind(this)}
                             allowNew={true}
+                            handleValidate={this.handleValidate.bind(this)}
                             minQueryLength={1}
                         />
                         <div className="url-toggle-group">
@@ -591,4 +600,7 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleCreate);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleCreate);

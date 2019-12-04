@@ -19,6 +19,7 @@ function getAllTag() {
                 var data = response.data.map(item => {
                     return { id: item.id, name: item.content };
                 });
+                console.log(data);
                 dispatch({
                     type: actionTypes.GET_ALL_TAG,
                     all_tags: data

@@ -49,6 +49,7 @@ class TagSelector extends Component {
             <div id="tag-selector">
                 <AsyncSelect
                     cacheOptions
+                    defaultOptions
                     loadOptions={this.loadOptions}
                     onChange={this.handleInputChange}
                     onKeyDown={this.handleSubmit}

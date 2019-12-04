@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import AOS from 'aos';
 import { adpostActions, adreceptionActions } from '../../store/actions';
 import UserDetail from '../../components/UserDetail/UserDetail';
 import PreviewList from '../../components/PreviewList/PreviewList';
@@ -22,14 +23,15 @@ class UserInfo extends Component {
     };
 
     componentDidMount() {
-        this.props.onGetOwnList();
-        this.props.onGetParticipatedList();
+        AOS.init({ duration: 1000 });
+        this.props.onGetUserList();
         this.props.onGetReceptionList();
     }
 
     render() {
         var tags = null;
         var nickname = null;
+        var { adpost_user_list } = this.props;
         var own_article = [];
         var participated_article = [];
         var reception_table = null;
@@ -39,24 +41,18 @@ class UserInfo extends Component {
             });
             nickname = this.props.user.nickname;
         }
-        if (
-            this.props.adpost_items['owner'] &&
-            !this.props.adpost_items['owner'].is_loading
-        ) {
-            own_article = this.props.adpost_items['owner'].list;
-        }
-        if (
-            this.props.adpost_items['participant'] &&
-            !this.props.adpost_items['participant'].is_loading
-        ) {
-            participated_article = this.props.adpost_items['participant'].list;
-        }
 
+        if (adpost_user_list[0]) {
+            own_article = adpost_user_list[0].data;
+        }
+        if (adpost_user_list[1]) {
+            participated_article = adpost_user_list[1].data;
+        }
+        console.log(own_article, participated_article);
         if (
             this.props.reception_list.length > 0 &&
             participated_article.length > 0
         ) {
-            console.log(this.props.reception_list, participated_article);
             reception_table = this.props.reception_list.map(rcp => {
                 var acl = participated_article.filter(
                     item => item.id == rcp.adpost
@@ -125,17 +121,14 @@ const mapStateToProps = state => {
     return {
         logged_in: state.user.logged_in,
         user: state.user.user,
-        adpost_items: state.adpost.adpost_items,
+        adpost_user_list: state.adpost.adpost_home_list,
         reception_list: state.adreception.byuser_list
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onGetOwnList: () =>
-            dispatch(adpostActions.getAdpostList('owner', 'special')),
-        onGetParticipatedList: () =>
-            dispatch(adpostActions.getAdpostList('participant', 'special')),
+        onGetUserList: () => dispatch(adpostActions.getUserAdpostList()),
         onGetReceptionList: () =>
             dispatch(adreceptionActions.getReceptionByUser())
     };

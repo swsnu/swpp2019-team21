@@ -81,10 +81,11 @@ class Home extends Component {
             <div className="recent-tag-frame">
                 <h2 id="TagRecentTitle">이런 주제가 인기있어요</h2>
                 <ol className="recent-tag-list">
-                    {this.props.recent_tags.map(tags => {
+                    {this.props.recent_tags.map((tags, index) => {
                         return (
                             <li
                                 id="recent-tag"
+                                key={index}
                                 onClick={() =>
                                     history.push(
                                         `/adposts/search/tag/${tags.name}`
