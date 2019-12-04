@@ -30,6 +30,7 @@ class SignIn extends Component {
 
     forgotPasswordHandler = () => {
         // TODO:: Link to forgot Password
+        alert('Not implemented');
     };
 
     render() {
@@ -77,7 +78,13 @@ class SignIn extends Component {
                     </div>
                     <div className="clearfix">
                         <label className="remember">
-                            <input type="checkbox" id="remember-chkbox" />
+                            <input
+                                type="checkbox"
+                                id="remember-chkbox"
+                                onChange={() => {
+                                    alert('Not implemented');
+                                }}
+                            />
                             Remember me
                         </label>
                         <a
@@ -106,7 +113,4 @@ export const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(SignIn);
+export default connect(null, mapDispatchToProps)(SignIn);
