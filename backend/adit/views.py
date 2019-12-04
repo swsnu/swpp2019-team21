@@ -19,7 +19,7 @@ from . import init_data
 import base64
 from .ml import suggest
 
-base_link = 'http://localhost:3000/redirectfrom='
+base_link = 'https://www.adit.shop/redirectfrom='
 
 
 def get_client_ip(request):
@@ -270,9 +270,9 @@ class AdPostView(View):
         target_views = req_data['target_views']
         expiry_date = req_data['expiry_date']
         post_tags = req_data['tags']
-        try:
-            ad_link = req_data['ad_link']
-        except:
+        ad_link = req_data['ad_link']
+
+        if ad_link == "" :
             ad_link = "toitself"
         open_for_all = False
         upload_date = datetime.now()
@@ -281,9 +281,9 @@ class AdPostView(View):
         adpost = AdPost(owner=request.user, title=title, subtitle=subtitle, content=content, ad_link=ad_link,
                         target_views=target_views, total_views=0, expiry_date=expiry_date, upload_date=upload_date,
                         closed=False, thumbnail=thumbnail, open_for_all=open_for_all, view_by_date='')
-        adpost.save()
+
         if adpost.ad_link == "toitself":
-            adpost.ad_link = 'http://localhost:3000/adpost/{}/'.format(str(adpost.id))
+            adpost.ad_link = 'https://www.adit.shop/adpost/{}/'.format(str(adpost.id))
 
         for tag in post_tags:
             if InterestedTags.objects.filter(content=tag).exists():
