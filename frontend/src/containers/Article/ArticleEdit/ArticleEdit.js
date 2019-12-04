@@ -31,24 +31,36 @@ class ArticleEdit extends Component {
     }
 
     titleChangeHandler = t => {
-        this.setState({
-            ...this.state,
-            title: t.target.value
-        });
+        if (t.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                title: t.target.value
+            });
+        } else {
+            alert('The title cannot be longer than 30 characters');
+        }
     };
 
     subtitleChangeHandler = s => {
-        this.setState({
-            ...this.state,
-            subtitle: s.target.value
-        });
+        if (s.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                subtitle: s.target.value
+            });
+        } else {
+            alert('The subtitle cannot be longer than 30 characters');
+        }
     };
 
     detailedChangeHandler = d => {
-        this.setState({
-            ...this.state,
-            content: d.target.value
-        });
+        if (d.target.value.length <= 10000) {
+            this.setState({
+                ...this.state,
+                content: d.target.value
+            });
+        } else {
+            alert('Content cannot be longer than 10000 characters');
+        }
     };
 
     changePictureHandler = p => {
@@ -103,6 +115,10 @@ class ArticleEdit extends Component {
         }
         if (!this.state.imagePreviewUrl) {
             alert('You should upload image');
+            return;
+        }
+        if (this.state.postFile.size > 1000000) {
+            alert('The file cannot be bigger than 1MB');
             return;
         }
         if (!this.state.postFile.name.match(/.(jpg|jpeg|png|gif)$/i)) {

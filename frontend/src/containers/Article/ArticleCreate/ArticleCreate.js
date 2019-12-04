@@ -131,28 +131,44 @@ class ArticleCreate extends Component {
             );
         };
         const titleChangeHandler = i => {
-            this.setState({
-                ...this.state,
-                postTitle: i.target.value
-            });
+            if (i.target.value.length <= 30) {
+                this.setState({
+                    ...this.state,
+                    postTitle: i.target.value
+                });
+            } else {
+                alert('The title cannot be longer than 30 characters');
+            }
         };
         const subtitleChangeHandler = i => {
-            this.setState({
-                ...this.state,
-                postSubtitle: i.target.value
-            });
+            if (i.target.value.length <= 30) {
+                this.setState({
+                    ...this.state,
+                    postSubtitle: i.target.value
+                });
+            } else {
+                alert('The subtitle cannot be longer than 30 characters');
+            }
         };
         const explainChangeHandler = i => {
-            this.setState({
-                ...this.state,
-                postExplain: i.target.value
-            });
+            if (i.target.value.length <= 10000) {
+                this.setState({
+                    ...this.state,
+                    postExplain: i.target.value
+                });
+            } else {
+                alert('Description cannot be longer than 10000 characters');
+            }
         };
         const urlChangeHandler = i => {
-            this.setState({
-                ...this.state,
-                postUrl: i.target.value
-            });
+            if (i.target.value.length <= 100) {
+                this.setState({
+                    ...this.state,
+                    postUrl: i.target.value
+                });
+            } else {
+                alert('Ad URL cannot be longer than 100 characters');
+            }
         };
         const imageOnChange = e => {
             e.preventDefault();
@@ -167,6 +183,7 @@ class ArticleCreate extends Component {
                 });
                 return;
             }
+
             reader.onloadend = () => {
                 this.setState({
                     postFile: file,
@@ -186,6 +203,8 @@ class ArticleCreate extends Component {
                     ...this.state,
                     postGoal: e.target.value
                 });
+            } else if (!re.test(e.target.value)){
+                window.alert("Should only put number");
             } else {
                 window.alert('not enough money');
             }
@@ -253,9 +272,18 @@ class ArticleCreate extends Component {
                 this.setState({ ...this.state, currentPage: 3 });
                 return;
             }
+            if (this.state.postGoal < 100) {
+                alert('Ad goal should be larger than 100 views');
+                this.setState({ ...this.state, currentPage: 3 });
+                return;
+            }
             if (!this.state.imagePreviewUrl) {
                 alert('You should upload image');
                 this.setState({ ...this.state, currentPage: 1 });
+                return;
+            }
+            if (this.state.postFile.size > 1000000) {
+                alert('The file cannot be bigger than 1MB');
                 return;
             }
             if (!this.state.postFile.name.match(/.(jpg|jpeg|png|bmp)$/i)) {
@@ -275,7 +303,7 @@ class ArticleCreate extends Component {
                     subtitle: this.state.postSubtitle,
                     content: this.state.postExplain,
                     image: [this.state.imagePreviewUrl],
-                    ad_link: this.state.needUrl ? this.state.postUrl : null,
+                    ad_link: this.state.needUrl ? this.state.postUrl : '',
                     target_views: this.state.postGoal,
                     open_for_all: this.state.open_for_all,
                     expiry_date:
@@ -512,7 +540,9 @@ class ArticleCreate extends Component {
                                 subtitle: this.state.postSubtitle,
                                 content: this.state.postExplain,
                                 thumbnail: [this.state.imagePreviewUrl],
-                                ad_link: this.state.postUrl,
+                                ad_link: this.state.needUrl
+                                    ? this.state.postUrl
+                                    : 'The link will be given after submission',
                                 target_views: this.state.postGoal,
                                 expiry_date:
                                     this.state.postDeadline.year +
