@@ -131,28 +131,44 @@ class ArticleCreate extends Component {
             );
         };
         const titleChangeHandler = i => {
-            this.setState({
-                ...this.state,
-                postTitle: i.target.value
-            });
+            if (i.target.value.length <= 30) {
+                this.setState({
+                    ...this.state,
+                    postTitle: i.target.value
+                });
+            } else {
+                alert('The title cannot be longer than 30 characters');
+            }
         };
         const subtitleChangeHandler = i => {
-            this.setState({
-                ...this.state,
-                postSubtitle: i.target.value
-            });
+            if (i.target.value.length <= 30) {
+                this.setState({
+                    ...this.state,
+                    postSubtitle: i.target.value
+                });
+            } else {
+                alert('The subtitle cannot be longer than 30 characters');
+            }
         };
         const explainChangeHandler = i => {
-            this.setState({
-                ...this.state,
-                postExplain: i.target.value
-            });
+            if (i.target.value.length <= 10000) {
+                this.setState({
+                    ...this.state,
+                    postExplain: i.target.value
+                });
+            } else {
+                alert('Description cannot be longer than 10000 characters');
+            }
         };
         const urlChangeHandler = i => {
-            this.setState({
-                ...this.state,
-                postUrl: i.target.value
-            });
+            if (i.target.value.length <= 100) {
+                this.setState({
+                    ...this.state,
+                    postUrl: i.target.value
+                });
+            } else {
+                alert('Ad URL cannot be longer than 100 characters');
+            }
         };
         const imageOnChange = e => {
             e.preventDefault();
@@ -167,6 +183,7 @@ class ArticleCreate extends Component {
                 });
                 return;
             }
+
             reader.onloadend = () => {
                 this.setState({
                     postFile: file,
@@ -253,9 +270,18 @@ class ArticleCreate extends Component {
                 this.setState({ ...this.state, currentPage: 3 });
                 return;
             }
+            if (this.state.postGoal < 100) {
+                alert('Ad goal should be larger than 100 views');
+                this.setState({ ...this.state, currentPage: 3 });
+                return;
+            }
             if (!this.state.imagePreviewUrl) {
                 alert('You should upload image');
                 this.setState({ ...this.state, currentPage: 1 });
+                return;
+            }
+            if (this.state.postFile.size > 1000000) {
+                alert('The file cannot be bigger than 1MB');
                 return;
             }
             if (!this.state.postFile.name.match(/.(jpg|jpeg|png|bmp)$/i)) {
