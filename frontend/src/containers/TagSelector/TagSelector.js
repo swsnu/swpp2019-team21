@@ -10,7 +10,6 @@ class TagSelector extends Component {
     state = { value: '', content: '' };
 
     handleInputChange = newValue => {
-        console.log(newValue);
         const inputValue = newValue;
         this.setState({ ...inputValue });
         return inputValue;
@@ -34,7 +33,8 @@ class TagSelector extends Component {
             })
             .map(i => {
                 return { value: i.content, label: i.content };
-            });
+            })
+            .slice(0, 10);
         return tmp;
     };
 

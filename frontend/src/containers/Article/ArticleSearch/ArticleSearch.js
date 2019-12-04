@@ -17,8 +17,8 @@ class ArticleSearch extends Component {
             <div className="ArticleSearch">
                 <h3 className="search-query">Search by {query}</h3>
                 <div className="title-under-line" />
-                {adpost_items[query] && !adpost_items[query].is_loading && (
-                    <PreviewGrid articles={adpost_items[query].list} />
+                {adpost_items.data && (
+                    <PreviewGrid articles={adpost_items.data} />
                 )}
             </div>
         );
@@ -34,7 +34,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onSearchArticle: (query, query_type) =>
-            dispatch(adpostActions.getAdpostList(query, query_type))
+            dispatch(
+                adpostActions.getAdpostList(query.toLowerCase(), query_type)
+            )
     };
 };
 

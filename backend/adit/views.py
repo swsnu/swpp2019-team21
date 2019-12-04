@@ -645,7 +645,7 @@ class TagView(View):
 
 
 class TagRecommendByUser(View):
-    #    @check_is_authenticated
+    @check_is_authenticated
     def get(self, request):
         taglist = suggest.tag_suggest(list(InterestedTags.objects.all()), list(request.user.tags.all()), 0.02)
         return JsonResponse(taglist, safe=False)
