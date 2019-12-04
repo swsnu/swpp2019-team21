@@ -2,7 +2,6 @@ from builtins import ValueError
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, PermissionsMixin)
-from .ml import suggest
 
 class AditUserManager(BaseUserManager):
     def create_user(self, email, nickname, first_name, last_name, tags, password=None):
@@ -155,12 +154,12 @@ class AdPost(models.Model):
         default=True
     )
     thumbnail = models.ForeignKey(
-        to=PostImage,
+        PostImage,
         related_name='thumbnail_topost',
         on_delete=models.DO_NOTHING
     )
     image = models.ManyToManyField(
-        to=PostImage,
+        PostImage,
         related_name='topost'
     )
     ad_link = models.TextField(blank=True)
@@ -175,10 +174,13 @@ class AdPost(models.Model):
         related_name='topost'
     )
 
-    def save(self, *args, **kwargs):
-        super(AdPost, self).save(*args, **kwargs)
-        if self.tags.count() > 0:
-            suggest.update_tag(list(map(lambda x: x.content, self.tags.all())), 5)
+
+class SuggestPending(models.Model):
+    post = models.ForeignKey(
+        AdPost,
+        related_name='tolist',
+        on_delete=models.CASCADE
+    )
 
 
 class AdReception(models.Model):
@@ -214,6 +216,7 @@ class Question(models.Model):
     )
     content = models.TextField()
     checked = models.BooleanField()
+
 
 class IpAddressDuplication(models.Model):
     ip_address = models.CharField(max_length=16)

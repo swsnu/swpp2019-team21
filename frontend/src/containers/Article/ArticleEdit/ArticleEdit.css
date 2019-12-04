@@ -22,6 +22,11 @@
     border: none;
 }
 
+.ArticleEdit {
+    margin-top: 150px;
+    margin-bottom: 100px;
+}
+
 .ArticleEdit .form-control {
     width: 500px;
 }

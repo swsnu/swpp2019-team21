@@ -48,7 +48,7 @@ class TopMenu extends Component {
     render() {
         return (
             <div className="TopMenu">
-                <Navbar id="UserInfo" fixed='top'>
+                <Navbar id="UserInfo" fixed="top">
                     <h1
                         id="AditTitle"
                         align="left"
@@ -69,7 +69,6 @@ class TopMenu extends Component {
                             signOutHandler={this.clickSignOutHandler}
                         />
                     )}
-
                     {!this.props.logged_in && (
                         <a id="sign-in-btn" onClick={this.signInHandler}>
                             Sign In

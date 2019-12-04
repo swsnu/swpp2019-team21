@@ -10,7 +10,6 @@ class TagSelector extends Component {
     state = { value: '', content: '' };
 
     handleInputChange = newValue => {
-        console.log(newValue);
         const inputValue = newValue;
         this.setState({ ...inputValue });
         return inputValue;
@@ -18,7 +17,7 @@ class TagSelector extends Component {
 
     handleSubmit = event => {
         if (this.state.value && event.key === 'Enter') {
-            this.props.history.push(
+            window.location.assign(
                 `/adposts/search/${'tag'}/${this.state.value}`
             );
             this.setState({ value: '', content: '' });
@@ -34,7 +33,8 @@ class TagSelector extends Component {
             })
             .map(i => {
                 return { value: i.content, label: i.content };
-            });
+            })
+            .slice(0, 10);
         return tmp;
     };
 
@@ -50,9 +50,11 @@ class TagSelector extends Component {
                 <AsyncSelect
                     cacheOptions
                     loadOptions={this.loadOptions}
-                    defaultOptions
                     onChange={this.handleInputChange}
                     onKeyDown={this.handleSubmit}
+                    noOptionsMessage={() => {
+                        return '해당하는 태그가 없습니다';
+                    }}
                 />
             </div>
         );

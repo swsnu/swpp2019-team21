@@ -12,11 +12,11 @@ h1 {
 
 .Home .MainDoor {
     margin-top: 60px;
-    padding-top: 80px;
+    padding-top: 60px;
     background: #f1f1f2;
     width: 100%;
-    min-height: 550px;
-    padding-bottom: 100px;
+    min-height: 500px;
+    padding-bottom: 50px;
 }
 
 .Home #MainTitle {
@@ -63,6 +63,20 @@ h1 {
     font-size: 18px;
     border-style: hidden;
     font-weight: 400;
+}
+
+.Home #recent-tag {
+    margin: auto;
+    width: 200px;
+    font-size: 18px;
+    border-style: hidden;
+    font-weight: 400;
+}
+
+.Home #recent-tag:hover {
+    cursor: pointer;
+    color: #fa4252;
+    transition: 0.15s;
 }
 
 .Home .tag-item:hover {

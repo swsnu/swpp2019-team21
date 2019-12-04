@@ -26,7 +26,8 @@ const initialState = {
         // Should be added at latter..
         info_aditor: { statistics: null },
         owner_nickname: null,
-        owner_avatar: null
+        owner_avatar: null,
+        view_by_date: "",
     },
     adpost_post: { is_loading: false },
     adpost_home_list: []

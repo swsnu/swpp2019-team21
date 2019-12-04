@@ -70,7 +70,8 @@ input:checked + .slider:before {
     margin-top: 10px;
 }
 .ArticleCreate {
-    margin-top: 30px;
+    margin-top: 150px;
+    margin-bottom: 100px;
 }
 
 #post-explain-input {

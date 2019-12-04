@@ -11,7 +11,11 @@ class Redirect extends Component {
     render() {
         return (
             <div className="Redirect">
-                <Spinner animation="grow" id="redirecting_spinner" />
+                <Spinner
+                    animation="border"
+                    id="redirecting_spinner"
+                    variant="danger"
+                />
                 <h2 id="redirecting_text">Redirecting...</h2>
             </div>
         );

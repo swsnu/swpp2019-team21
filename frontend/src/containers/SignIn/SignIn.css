@@ -1,5 +1,6 @@
 .sign-in {
-    margin-top: 100px;
+    margin-top: 200px;
+    margin-bottom: 100px;
 }
 
 .form-control {
@@ -10,8 +11,10 @@
     border-color: #e3e3e3;
 }
 .form-control:focus {
-    border-color: #708bc5;
+    border-color: #fa4252;
 }
+
+
 .form-control,
 .btn {
     border-radius: 2px;
@@ -25,7 +28,7 @@
     border-radius: 2px;
     margin-bottom: 35px;
     font-size: 13px;
-    background: #ececec;
+    background: #f5f3f1;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     padding: 30px;
     position: relative;
@@ -44,7 +47,7 @@
     height: 95px;
     border-radius: 50%;
     z-index: 9;
-    background: #708bc5;
+    background: #fa4252;
     padding: 15px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
@@ -58,12 +61,12 @@
 .sign-in-form .btn {
     font-size: 16px;
     font-weight: bold;
-    background: #708bc5;
+    background: #fa4252;
     border: none;
     margin-bottom: 20px;
 }
 .sign-in-form .btn:hover {
-    background: #5060b8;
+    background: #fd4555;
     outline: none important;
 }
 .sign-in-form a {
@@ -90,3 +93,8 @@
 .sign-in-form form a:hover {
     text-decoration: underline;
 }
+
+.sign-in-form #signin-button:active{
+    background: #fd4555;
+}
+

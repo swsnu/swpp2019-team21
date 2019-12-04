@@ -17,6 +17,9 @@ export const adpostActions = {
 };
 
 function makeUrl(query, query_type) {
+    query = query.toLowerCase();
+    query_type = query_type.toLowerCase();
+
     switch (query_type) {
         case SPECIAL:
             if (query === 'hottest') {
@@ -55,7 +58,7 @@ function getHomeAdpostList() {
                 const payload_data = [
                     {
                         data: response.data,
-                        query: 'hottest',
+                        query: 'Hottest',
                         query_type: 'special'
                     }
                 ];
@@ -69,7 +72,7 @@ function getHomeAdpostList() {
                 const payload_data = [
                     {
                         data: response.data,
-                        query: 'recent',
+                        query: 'Recent',
                         query_type: 'special'
                     }
                 ];

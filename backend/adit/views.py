@@ -283,7 +283,7 @@ class AdPostView(View):
                         closed=False, thumbnail=thumbnail, open_for_all=open_for_all, view_by_date='')
 
         if adpost.ad_link == "toitself":
-            adpost.ad_link = 'https://www.adit.shop/adpost/{}/'.format(str(adpost.id))
+            adpost.ad_link = 'http://www.adit.shop/article/{}/'.format(str(adpost.id))
 
         for tag in post_tags:
             if InterestedTags.objects.filter(content=tag).exists():
@@ -303,6 +303,7 @@ class AdPostView(View):
             adpost.image.add(newimg)
 
         adpost.save()
+        SuggestPending.objects.create(post=adpost)
         response_dict = model_to_dict(adpost)
         model_process(response_dict)
 
@@ -645,7 +646,7 @@ class TagView(View):
 
 
 class TagRecommendByUser(View):
-    #    @check_is_authenticated
+    @check_is_authenticated
     def get(self, request):
         taglist = suggest.tag_suggest(list(InterestedTags.objects.all()), list(request.user.tags.all()), 0.02)
         return JsonResponse(taglist, safe=False)

@@ -28,7 +28,7 @@ body {
     border-color: #e3e3e3;
 }
 .form-control:focus {
-    border-color: #708bc5;
+    border-color: #fa4252;
 }
 .form-control, .btn {        
     border-radius: 2px;
@@ -75,12 +75,12 @@ body {
 .UserDetail .btn {        
     font-size: 16px;
     font-weight: bold;
-    background: #708bc5;
+    background: #fa4252;
     border: none;
     margin-bottom: 20px;
 }
 .UserDetail .btn:hover, .login-form .btn:focus {
-    background: #5060b8;
+    background: #f03757;
     outline: none important;
 }    
 .UserDetail a:hover {
