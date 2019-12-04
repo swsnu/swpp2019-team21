@@ -20,7 +20,7 @@ class Home extends Component {
         this.props.onGetHomeList();
         this.props.onGetSuggestedTag();
         this.props.onGetRecentTagList();
-        AOS.init({duration: 1000});
+        AOS.init({ duration: 1000 });
     }
 
     closeHandler = () => {
@@ -33,7 +33,8 @@ class Home extends Component {
     };
 
     render() {
-        const { adpost_home_list } = this.props;
+        var { adpost_home_list } = this.props;
+        adpost_home_list = adpost_home_list.slice(0, 5);
         var { suggested_tags } = this.props;
 
         const adpost_aggregated_list = (
@@ -43,7 +44,7 @@ class Home extends Component {
                         return (
                             <div key={item.query}>
                                 <PreviewList
-                                    articles={item.data}
+                                    articles={item.data.slice(0, 7)}
                                     query={item.query}
                                     query_type={item.query_type}
                                     compact={false}
@@ -81,7 +82,17 @@ class Home extends Component {
                 <h2 id="TagRecentTitle">이런 주제가 인기있어요</h2>
                 <ol className="recent-tag-list">
                     {this.props.recent_tags.map(tags => {
-                        return <li id="recent-tag" onClick={() => history.push(`/adposts/search/tag/${tags.name}`)}>{tags.name}</li>;
+                        return (
+                            <li
+                                id="recent-tag"
+                                onClick={() =>
+                                    history.push(
+                                        `/adposts/search/tag/${tags.name}`
+                                    )
+                                }>
+                                {tags.name}
+                            </li>
+                        );
                     })}
                 </ol>
             </div>
@@ -91,8 +102,12 @@ class Home extends Component {
             <div className="Home">
                 <div className="MainDoor">
                     <div className="MainContainer">
-                        <h1 id="MainTitle" data-aos="zoom-in">소문내세요</h1>
-                        <p id="MainDesc" data-aos="zoom-in">당신의 일상 속에서</p>
+                        <h1 id="MainTitle" data-aos="zoom-in">
+                            소문내세요
+                        </h1>
+                        <p id="MainDesc" data-aos="zoom-in">
+                            당신의 일상 속에서
+                        </p>
                     </div>
                     <div className="TagFrame" data-aos="fade-up">
                         {this.props.logged_in && suggested_tag_list}

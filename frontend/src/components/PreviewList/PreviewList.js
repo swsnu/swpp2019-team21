@@ -11,10 +11,6 @@ class PreviewList extends React.Component {
         history.push(`/article/${id}`);
     };
 
-    componentDidMount(){
-        AOS.init({duration: 100})
-    }
-
     clickSearchMoreHandler = () => {
         history.push(
             `/adposts/search/${this.props.query_type}/${this.props.query}`
@@ -23,7 +19,7 @@ class PreviewList extends React.Component {
 
     render() {
         return (
-            <div className="PreviewList">
+            <div className="PreviewList" data-aos="fade-up">
                 <h3 className="list-title">{this.props.query}</h3>
                 <div className="title-under-line"></div>
                 {this.props.articles
@@ -37,7 +33,7 @@ class PreviewList extends React.Component {
                           />
                       ))
                     : null}
-                <div id="card-more-btn" onClick={this.clickSearchMoreHandler} data-aos="zoom-in">
+                <div id="card-more-btn" onClick={this.clickSearchMoreHandler}>
                     <div id="card-more-text">
                         <div id="plus-btn">+</div>
                         <div id="more-text">

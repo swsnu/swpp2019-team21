@@ -17,6 +17,9 @@ export const adpostActions = {
 };
 
 function makeUrl(query, query_type) {
+    query = query.toLowerCase();
+    query_type = query_type.toLowerCase();
+
     switch (query_type) {
         case SPECIAL:
             if (query === 'hottest') {

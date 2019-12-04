@@ -6,7 +6,6 @@ import { history } from '../../store';
 import { userActions } from '../../store/actions';
 import TopMenuPopUp from './TopMenuPopUp';
 import TagSelector from '../../containers/TagSelector/TagSelector';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './TopMenu.css';
 
 class TopMenu extends Component {
@@ -59,7 +58,7 @@ class TopMenu extends Component {
                     <TagSelector />
                     {this.props.logged_in && (
                         <a id="ad-add-btn" onClick={this.newArticleHandler}>
-+ New Post
+                            + New Post
                         </a>
                     )}
                     {this.props.logged_in && (
@@ -70,7 +69,6 @@ class TopMenu extends Component {
                             signOutHandler={this.clickSignOutHandler}
                         />
                     )}
-
                     {!this.props.logged_in && (
                         <a id="sign-in-btn" onClick={this.signInHandler}>
                             Sign In
@@ -96,4 +94,7 @@ export const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TopMenu);

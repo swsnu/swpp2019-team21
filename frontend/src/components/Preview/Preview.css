@@ -14,6 +14,12 @@
     margin-bottom: 40px;
 }
 
+.Preview:hover {
+    cursor: pointer;
+    box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+    transition: 0.3s;
+}
+
 .Preview .card-photo {
     width: 100%;
     position: relative;

@@ -1,23 +1,96 @@
 .ArticleDetail {
     margin-top: 80px;
-    margin-left: 15%;
-    margin-right: 15%;
-    width: 70%;
-    padding-top: 50px;
+    width: 840px;
+    margin-left: auto;
+    margin-right: auto;
     color: #404040;
+}
+
+.ArticleDetail * {
+    text-align: left;
+}
+
+.progress-bar {
+    text-align: center;
+}
+
+.ArticleDetail .article-thumbnail-wrapper {
+    margin: 10px;
+    padding: 10px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 1px solid #dadada;
+}
+
+.ArticleDetail .article-thumbnail-wrapper #article-thumbnail {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 12px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.ArticleDetail .article-description-wrapper {
+    margin: 10px;
+    padding: 10px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 1px solid #dadada;
 }
 
 .ArticleDetail .Avatar {
     margin-right: 10px;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    z-index: 9;
     background: #7a7a7a;
-    padding: 0px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
+.ArticleDetail #owner-image {
+    margin: auto;
+    display: inline-block;
+}
+
+.ArticleDetail .owner-info #owner-info-text {
+    display: inline-flex;
+    font-size: 20px;
+    margin: 0px 1px 0px 1px;
+}
+
+.ArticleDetail #post-title-text {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.ArticleDetail #post-subtitle-text {
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.ArticleDetail #tag-link {
+    padding: 0px;
+}
+
+.ArticleDetail .tag-items {
+    list-style-type: none;
+    display: inline-block;
+    margin-right: 3px;
+}
+
+.ArticleDetail .tag-items:hover {
+    color: #fa4252;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* 
 @media screen and (min-width: 1101px) {
     .left-component {
         float: left;
@@ -124,14 +197,13 @@
     #unique-url-text::-webkit-scrollbar {
         display: none !important;
     }
-    /*
 
     
     #tag-link-list{
         float: left;
         width: 50%;
     }
-    */
+    
     .url-component {
         border-bottom-style: groove;
         width: 100%;
@@ -163,7 +235,8 @@
         font-weight: 350;
     }
 
-    #point-number, #no-stat {
+    #point-number,
+    #no-stat {
         margin-top: 10px;
         font-size: 1.5em;
     }
@@ -244,4 +317,4 @@
 
 #description-text {
     white-space: pre-line;
-}
+} */
