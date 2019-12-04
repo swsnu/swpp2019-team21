@@ -203,6 +203,8 @@ class ArticleCreate extends Component {
                     ...this.state,
                     postGoal: e.target.value
                 });
+            } else if (!re.test(e.target.value)){
+                window.alert("Should only put number");
             } else {
                 window.alert('not enough money');
             }
@@ -301,7 +303,7 @@ class ArticleCreate extends Component {
                     subtitle: this.state.postSubtitle,
                     content: this.state.postExplain,
                     image: [this.state.imagePreviewUrl],
-                    ad_link: this.state.needUrl ? this.state.postUrl : null,
+                    ad_link: this.state.needUrl ? this.state.postUrl : '',
                     target_views: this.state.postGoal,
                     open_for_all: this.state.open_for_all,
                     expiry_date:
@@ -538,7 +540,9 @@ class ArticleCreate extends Component {
                                 subtitle: this.state.postSubtitle,
                                 content: this.state.postExplain,
                                 thumbnail: [this.state.imagePreviewUrl],
-                                ad_link: this.state.postUrl,
+                                ad_link: this.state.needUrl
+                                    ? this.state.postUrl
+                                    : 'The link will be given after submission',
                                 target_views: this.state.postGoal,
                                 expiry_date:
                                     this.state.postDeadline.year +

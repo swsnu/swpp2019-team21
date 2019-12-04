@@ -51,7 +51,7 @@ function postRedirect(data) {
 function getReception(id) {
     return dispatch => {
         return axios
-            .get(base_url + `/adreception/by-post/${id}`)
+            .get(base_url + `/adreception/by-post/${id}/`)
             .then(response => {
                 dispatch({
                     type: actionTypes.GET_PARTICIPATED,
