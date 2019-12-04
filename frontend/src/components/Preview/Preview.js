@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Preview.css';
+import AOS from 'aos';
 
 class Preview extends Component {
     render() {
@@ -14,7 +15,7 @@ class Preview extends Component {
         } = this.props.preview;
 
         return (
-            <div className="Preview" onClick={this.props.clickPreview}>
+            <div className="Preview" onClick={this.props.clickPreview} data-aos="zoom-in">
                 <div className="card-photo">
                     <img
                         alt={this.props.preview.thumbnail}

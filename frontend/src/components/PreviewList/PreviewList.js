@@ -1,53 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Carousel from 'react-multi-carousel';
 import Preview from '../Preview/Preview';
 import { history } from '../../store';
 import 'react-multi-carousel/lib/styles.css';
 import './PreviewList.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-
-const responsive = {
-    desktop: {
-        breakpoint: { max: 3000, min: 1024 },
-        items: 5,
-        slidesToSlide: 5 // optional, default to 1.
-    },
-    tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 2,
-        slidesToSlide: 2 // optional, default to 1.
-    },
-    mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1,
-        slidesToSlide: 1 // optional, default to 1.
-    }
-};
-
-const responsive_compact = {
-    desktop: {
-        breakpoint: { max: 3000, min: 1024 },
-        items: 2,
-        slidesToSlide: 2 // optional, default to 1.
-    },
-    tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 1,
-        slidesToSlide: 1 // optional, default to 1.
-    },
-    mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1,
-        slidesToSlide: 1 // optional, default to 1.
-    }
-};
+import AOS from 'aos';
 
 class PreviewList extends React.Component {
     clickPreviewHandler = id => {
         history.push(`/article/${id}`);
     };
+
+    componentDidMount(){
+        AOS.init({duration: 100})
+    }
 
     clickSearchMoreHandler = () => {
         history.push(
@@ -71,7 +37,7 @@ class PreviewList extends React.Component {
                           />
                       ))
                     : null}
-                <div id="card-more-btn" onClick={this.clickSearchMoreHandler}>
+                <div id="card-more-btn" onClick={this.clickSearchMoreHandler} data-aos="zoom-in">
                     <div id="card-more-text">
                         <div id="plus-btn">+</div>
                         <div id="more-text">

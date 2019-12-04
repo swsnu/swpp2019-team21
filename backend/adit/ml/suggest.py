@@ -2,12 +2,16 @@ import gensim
 import numpy as np, pandas as pd
 import random, os
 
+import logging
+
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 model = gensim.models.Word2Vec.load(BASE_DIR + '/ml/models_engadd.bin')
 
-
 def update_tag(tag_list, shuffle_size):
     sentence = []
+    if len(tag_list) == 0:
+        return "Empty Tag Exception"
     for _ in range(shuffle_size):
         mock_list = tag_list[:]
         random.shuffle(mock_list)
@@ -15,6 +19,7 @@ def update_tag(tag_list, shuffle_size):
     model.build_vocab(sentences=sentence, update=True, min_count=shuffle_size)
     model.train(sentences=sentence, epochs=100, total_examples=shuffle_size)
     model.save(BASE_DIR + '/ml/models.bin')
+    return tag_list, "shuffle_size : %d".format(shuffle_size, shuffle_size)
 
 
 def tag_similarity(data_exist, data_input):

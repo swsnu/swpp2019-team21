@@ -65,6 +65,20 @@ h1 {
     font-weight: 400;
 }
 
+.Home #recent-tag {
+    margin: auto;
+    width: 200px;
+    font-size: 18px;
+    border-style: hidden;
+    font-weight: 400;
+}
+
+.Home #recent-tag:hover {
+    cursor: pointer;
+    color: #fa4252;
+    transition: 0.15s;
+}
+
 .Home .tag-item:hover {
     background: #414243;
     box-shadow: 1px 0px 1px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
