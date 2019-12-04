@@ -3,18 +3,20 @@ import PreviewGrid from '../../../components/PreviewGrid/PreviewGrid';
 import './ArticleSearch.css';
 import { adpostActions } from '../../../store/actions/adpost.action';
 import { connect } from 'react-redux';
+import AOS from 'aos';
 
 class ArticleSearch extends Component {
     componentDidMount() {
-        var { query_type, query } = this.props.match.params;
+        let { query_type, query } = this.props.match.params;
         this.props.onSearchArticle(query, query_type);
+        AOS.init({ duration: 300 });
     }
 
     render() {
-        var { query } = this.props.match.params;
-        var { adpost_items } = this.props;
+        let { query } = this.props.match.params;
+        let { adpost_items } = this.props;
         return (
-            <div className="ArticleSearch">
+            <div className="ArticleSearch" data-aos="fade-up">
                 <h3 className="search-query">Search by {query}</h3>
                 <div className="title-under-line" />
                 {adpost_items.data && (

@@ -19,7 +19,7 @@ class PreviewList extends React.Component {
 
     render() {
         return (
-            <div className="PreviewList">
+            <div className="PreviewList" data-aos="fade-up">
                 <h3 className="list-title">{this.props.query}</h3>
                 <div className="title-under-line"></div>
                 {this.props.articles

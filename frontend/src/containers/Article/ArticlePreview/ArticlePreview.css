@@ -88,7 +88,7 @@
         margin-top: 25px;
     }
 
-    #achieve-bar-name {
+    .PreviewForCreate #achieve-bar-name {
         font-size: 18px;
         text-align: left;
         color: #404040;
@@ -100,24 +100,24 @@
         width: 100%;
     }
 
-    #participate-button {
+    .PreviewForCreate #participate-button {
         width: 160px;
         margin-bottom: 20px;
     }
 
-    #description-title-text{
+    .PreviewForCreate #description-title-text {
         color: #404040;
         font-weight: 350;
         padding: 20px;
         border-bottom-style: groove;
         border-top-style: groove;
     }
-    
-    #description-text {
+
+    .PreviewForCreate #description-text {
         color: #303030;
         font-weight: 100;
 
-        padding-top: 30px; 
+        padding-top: 30px;
         word-break: break-all;
         font-size: 1.4em;
         line-height: 1.2em;
@@ -129,31 +129,31 @@
         width: 100%;
     }
 
-    #post-title-text {
+    .PreviewForCreate #post-title-text {
         float: left;
         width: 100%;
     }
 
-    #post-subtitle-text {
+    .PreviewForCreate #post-subtitle-text {
         float: left;
         width: 100%;
     }
 
-    #due-date-text {
+    .PreviewForCreate #due-date-text {
         float: left;
         width: 100%;
     }
 
-    #tag-link-list {
+    .PreviewForCreate #tag-link-list {
         float: left;
         width: 100%;
     }
 
-    #participate-button {
+    .PreviewForCreate #participate-button {
         width: 100%;
     }
 
-    #url-component {
+    .PreviewForCreate #url-component {
         width: 100%;
     }
 
@@ -162,6 +162,6 @@
     }
 }
 
-#description-text{
+.PreviewForCreate #description-text {
     white-space: pre-line;
 }
