@@ -162,7 +162,7 @@ class AdPost(models.Model):
         PostImage,
         related_name='topost'
     )
-    ad_link = models.TextField()
+    ad_link = models.TextField(blank=True)
     closed = models.BooleanField()
     target_views = models.IntegerField()
     total_views = models.IntegerField()
