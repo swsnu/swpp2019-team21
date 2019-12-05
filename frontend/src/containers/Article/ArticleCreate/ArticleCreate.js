@@ -24,7 +24,7 @@ class ArticleCreate extends Component {
             date: ''
         },
         needUrl: false,
-        open_for_all: false,
+        open_for_all: true,
         mockSuggestion: [
             { id: 3, name: 'Bananas' },
             { id: 4, name: 'Mango' },
@@ -200,7 +200,7 @@ class ArticleCreate extends Component {
             };
             reader.readAsDataURL(file);
         };
-        
+
         const goalChangeHandler = e => {
             const re = /^[0-9]*$/;
 
@@ -455,7 +455,7 @@ class ArticleCreate extends Component {
                             handleValidate={this.handleValidate.bind(this)}
                             minQueryLength={1}
                         />
-                        <div className="url-toggle-group">
+                        {/* <div className="url-toggle-group">
                             <div className="form-group" align="center">
                                 <h3 className="form-label">Open for all</h3>
                             </div>
@@ -473,7 +473,7 @@ class ArticleCreate extends Component {
                                 />
                                 <span class="slider round"></span>
                             </label>
-                        </div>
+                        </div> */}
                         <button
                             className="btn btn-primary"
                             id="next-tag-button"
