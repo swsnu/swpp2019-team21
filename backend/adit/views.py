@@ -596,8 +596,7 @@ class AdReceptionOutRedirectView(View):
         if request.COOKIES.get(cookie_name) is not None:
             cookies = request.COOKIES.get(cookie_name)
             cookies_list = cookies.split('|')
-            if str(reception_object.id) not in cookies_list and not IpAddressDuplication.objects.filter(
-                    ip_address=get_client_ip(request)).exists():
+            if str(reception_object.id) not in cookies_list:
                 new_ip = IpAddressDuplication(ip_address=get_client_ip(request))
                 new_ip.save()
                 response.set_cookie(cookie_name, cookies + f'|{reception_object.id}', expires=expires)
