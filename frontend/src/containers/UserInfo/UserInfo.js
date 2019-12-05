@@ -87,12 +87,14 @@ class UserInfo extends Component {
                 <div className="AdList">
                     <PreviewList
                         articles={own_article}
-                        query={'Your Request'}
+                        query={'participant'}
+                        query_type={'special'}
                         compact={true}
                     />
                     <PreviewList
                         articles={participated_article}
-                        query={'Participated'}
+                        query={'owner'}
+                        query_type={'special'}
                         compact={true}
                     />
                     <div className="ReceptionTable">
