@@ -285,6 +285,8 @@ class AdPostView(View):
         if adpost.ad_link == "toitself":
             adpost.ad_link = 'https://www.adit.shop/article/{}/'.format(str(adpost.id))
 
+        adpost.save()
+
         for tag in post_tags:
             if InterestedTags.objects.filter(content=tag).exists():
                 tag_exist = InterestedTags.objects.filter(content=tag)[0]
