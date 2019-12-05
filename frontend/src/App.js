@@ -46,11 +46,6 @@ class App extends Component {
                             component={ArticleDetail}
                         />
                         <Route
-                            path="/article/:id/edit"
-                            exact
-                            component={ArticleEdit}
-                        />
-                        <Route
                             path="/redirectfrom=:str"
                             exact
                             component={Redirect}
@@ -64,7 +59,4 @@ class App extends Component {
     }
 }
 
-export default connect(
-    null,
-    null
-)(App);
+export default connect(null, null)(App);

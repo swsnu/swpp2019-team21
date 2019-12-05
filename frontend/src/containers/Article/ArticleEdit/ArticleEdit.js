@@ -7,9 +7,9 @@ import './ArticleEdit.css';
 class ArticleEdit extends Component {
     state = {
         is_loadcomplete: false,
-        title: 'Sample title',
-        subtitle: 'Sample subtitle',
-        duedate: '2001/01/16',
+        title: '',
+        subtitle: '',
+        duedate: '',
         content: '',
         id: 1,
         thumbnail: intro_first,
@@ -17,6 +17,7 @@ class ArticleEdit extends Component {
         valid: false,
         postUrl: null,
         postFile: null,
+        imageChanged: false,
         postTag: [{ id: 1, name: 'iluvswpp' }],
         mockSuggestion: [
             { id: 3, name: 'Bananas' },
@@ -63,16 +64,6 @@ class ArticleEdit extends Component {
         }
     };
 
-    changePictureHandler = p => {
-        if (p.target.files[0]) {
-            this.setState({
-                ...this.state,
-                thumbnail: p.target.files[0],
-                imageURL: URL.createObjectURL(p.target.files[0])
-            });
-        }
-    };
-
     imageOnChange = e => {
         e.preventDefault();
 
@@ -80,8 +71,9 @@ class ArticleEdit extends Component {
         let file = e.target.files[0];
         reader.onloadend = () => {
             this.setState({
-                postFile: file,
-                imagePreviewUrl: reader.result
+                thumbnail: file,
+                imageURL: reader.result,
+                imageChanged: true
             });
         };
 
@@ -113,26 +105,27 @@ class ArticleEdit extends Component {
             alert('Ad url should start with http:// or https://');
             return;
         }
-        if (!this.state.imagePreviewUrl) {
+        if (!this.state.imageURL) {
             alert('You should upload image');
             return;
         }
-        if (this.state.postFile.size > 1000000) {
-            alert('The file cannot be bigger than 1MB');
-            return;
-        }
-        if (!this.state.postFile.name.match(/.(jpg|jpeg|png)$/i)) {
-            alert('You should upload image file');
-            return;
+        if (this.state.postFile) {
+            if (this.state.postFile.size > 1000000) {
+                alert('The file cannot be bigger than 1MB');
+                return;
+            }
+            if (!this.state.postFile.name.match(/.(jpg|jpeg|png)$/i)) {
+                alert('You should upload image file');
+                return;
+            }
         }
         const adpost = {
             title: this.state.title,
             subtitle: this.state.subtitle,
             content: this.state.content,
-            image:
-                this.state.imagePreviewUrl === this.props.article.thumbnail
-                    ? 'not_changed'
-                    : [this.state.imagePreviewUrl],
+            image: this.imageCHanged
+                ? [this.state.imagePreviewUrl]
+                : 'not_changed',
             ad_link: this.state.postUrl,
             tags: this.props.article.tags
         };
@@ -141,12 +134,10 @@ class ArticleEdit extends Component {
 
     render() {
         let imagePreview = null;
-        let imagePreviewUrl = this.state.imagePreviewUrl;
+        let imageURL = this.state.imageURL;
 
-        if (imagePreviewUrl) {
-            imagePreview = (
-                <img id="post-thumbnail-preview" src={imagePreviewUrl} />
-            );
+        if (imageURL) {
+            imagePreview = <img id="post-thumbnail-preview" src={imageURL} />;
         }
 
         if (!this.state.is_loadcomplete && this.props.loaded) {
@@ -214,19 +205,7 @@ class ArticleEdit extends Component {
                                     multiple={false}
                                     onChange={this.imageOnChange}
                                 />
-                                <div>{imagePreview}</div>
-                            </div>
-                            <p />
-                            <br />
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Ad Url</h3>
-                                <input
-                                    className="form-control"
-                                    placeholder=" input url of ad"
-                                    id="post-url-input"
-                                    onChange={this.urlChangeHandler}
-                                    defaultValue={this.props.article.ad_link}
-                                    value={this.state.postUrl}></input>
+                                <div>{imageURL}</div>
                             </div>
                             <p />
                             <br />

@@ -115,21 +115,24 @@ class ArticleDetail extends Component {
                                     </div>
                                 </div>
                             )}
-                            {this.props.is_owner ? (
+                            {this.props.article.is_owner ? (
                                 <button
                                     className="btn btn-primary"
                                     id="post-edit-button"
+                                    disabled={true}
                                     onClick={this.postEditHandler}>
                                     Edit
                                 </button>
                             ) : (
-                                <Button
-                                    id="button-submit"
-                                    variant="danger"
-                                    disabled={this.props.is_participated}
-                                    onClick={this.participateHandler}>
-                                    참여하기
-                                </Button>
+                                !this.props.is_participated && (
+                                    <Button
+                                        id="button-submit"
+                                        variant="danger"
+                                        disabled={this.props.is_participated}
+                                        onClick={this.participateHandler}>
+                                        참여하기
+                                    </Button>
+                                )
                             )}
                         </div>
                     </section>
