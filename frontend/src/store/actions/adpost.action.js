@@ -47,7 +47,7 @@ function makeUrl(query, query_type) {
 
 function getUserAdpostList() {
     return dispatch => {
-        console.log('controlled');
+        //console.log('controlled');
         const url = [
             makeUrl('owner', 'special'),
             makeUrl('participant', 'special')
@@ -217,7 +217,7 @@ function postAdpost(data) {
 
 function putAdpost(id, data) {
     return dispatch => {
-        console.log(data);
+        //console.log(data);
         return axios.put(baseUrl + `/adpost/${id}/`, data).then(response => {
             id = response.data.id;
             dispatch(push(`/article/${id}`));

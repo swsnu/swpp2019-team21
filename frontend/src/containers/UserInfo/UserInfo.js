@@ -48,7 +48,7 @@ class UserInfo extends Component {
         if (adpost_user_list[1]) {
             participated_article = adpost_user_list[1].data;
         }
-        console.log(own_article, participated_article);
+        //console.log(own_article, participated_article);
         if (
             this.props.reception_list.length > 0 &&
             participated_article.length > 0
