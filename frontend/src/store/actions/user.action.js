@@ -24,7 +24,7 @@ function signIn(user) {
                 dispatch(push('/home'));
             })
             .catch(error => {
-                alert('Email or password is wrong');
+                alert('Signin error');
             });
     };
 }
@@ -53,7 +53,7 @@ function signUp(user) {
                 dispatch(push('/signin'));
             })
             .catch(error => {
-                alert('User name duplicated');
+                alert('Sign up error');
             });
     };
 }
@@ -69,8 +69,7 @@ function getUser() {
                 })
             )
             .catch(error => {
-                localStorage.setItem('logged_in', 'false');
-                ////console.log('getUser failed');
+                //console.log('getUser failed');
             });
     };
 }
@@ -87,7 +86,7 @@ function putUser(user) {
             )
             .catch(error => {
                 ////console.log('put user failed');
-                window.alert('Put user failed zz');
+                window.alert('Put user failed');
             });
     };
 }
@@ -113,7 +112,7 @@ function updatePoint(point) {
             })
             .catch(error => {
                 ////console.log('update Point failed');
-                alert('Input correct Point');
+                alert('Update point error');
             });
     };
 }
