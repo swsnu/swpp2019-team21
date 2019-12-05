@@ -132,7 +132,7 @@ describe('<UserDetail/>', () => {
             done();
         }, 1000);
         await component.update();
-        console.log('test start2');
+        //console.log('test start2');
         const wrapper = component.find('ListGroupItem');
         wrapper.at(1).simulate('click');
         const modalWrapper = component.find('Modal');

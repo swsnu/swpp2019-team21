@@ -147,7 +147,7 @@ class SignUp extends Component {
     };*/
 
     render() {
-        console.log(this.props.allTags);
+        //console.log(this.props.allTags);
         return (
             <div className="sign-up">
                 <div className="sign-up-form">
