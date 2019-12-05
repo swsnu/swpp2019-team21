@@ -88,7 +88,7 @@ class UserDetail extends Component {
                 return;
             }
         } else if (this.state.userImage.size > 500000) {
-            alert('The file cannot be bigger than 1MB');
+            alert('The file cannot be bigger than 500kB');
             return;
         }
         if (!this.state.userImage.name.match(/.(jpg|jpeg|png)$/i)) {
