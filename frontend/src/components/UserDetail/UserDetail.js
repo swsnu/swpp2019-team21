@@ -9,7 +9,15 @@ import './UserDetail.css';
 
 class UserDetail extends Component {
     state = {
-        user: { first_name: '', last_name: '', nickname: '', tags: [] },
+        user: {
+            first_name: '',
+            last_name: '',
+            nickname: '',
+            tags: [],
+            avatar: null
+        },
+        userImage: null,
+        userImageURL: null,
         password: {
             current_password: '',
             new_password: '',
@@ -17,7 +25,8 @@ class UserDetail extends Component {
         },
         showChangePW: false,
         showChargePoint: false,
-        addpoint: 0
+        showChangeImage: false,
+        addpoint: ''
     };
 
     componentDidMount() {
@@ -36,20 +45,22 @@ class UserDetail extends Component {
         });
     }
 
-    changePWHandler = () => this.setState({ showChangePW: true });
+    changePWHandler = () =>
+        this.setState({ ...this.state, showChangePW: true });
     changePWFinishHandler = () => {
-        localStorage.setItem('logged_in', 'false');
         this.props.changePW(this.state.password);
+        alert('please signin again');
         history.push('/signin');
     };
 
-    chargePointHandler = () => this.setState({ showChargePoint: true });
+    chargePointHandler = () =>
+        this.setState({ ...this.state, showChargePoint: true });
 
     chargePointFinishHandler = () => {
         this.props.updatePoint({
             point: this.props.user.point * 1 + this.state.addpoint * 1
         });
-        this.setState({ showChargePoint: false });
+        this.setState({ ...this.state, showChargePoint: false, addpoint: '' });
         alert('Done!');
         window.location.reload();
     };
@@ -60,15 +71,38 @@ class UserDetail extends Component {
             first_name: this.state.user.first_name,
             last_name: this.state.user.last_name,
             tags: this.state.user.tags.map(str => str.name),
-            avatar: null
+            avatar: this.state.user.avatar
         };
         this.props.putUser(user);
         alert('Saved!');
         window.location.reload();
     };
 
+    chargeImageFinishHandler = () => {
+        if (!this.state.userImageURL) {
+            if (
+                !window.confirm(
+                    'Your thumbnail will not be changed if thumbnail is not uploaded'
+                )
+            ) {
+                return;
+            }
+        } else if (this.state.userImage.size > 500000) {
+            alert('The file cannot be bigger than 1MB');
+            return;
+        }
+        if (!this.state.userImage.name.match(/.(jpg|jpeg|png)$/i)) {
+            alert('You should upload image file');
+            return;
+        }
+        const user = { ...this.props.user, avatar: this.state.userImageURL };
+        this.props.putUser(user);
+        alert('Saved!');
+        window.location.reload();
+    };
+
     withdrawalHandler = () => {
-        alert('Noooo.....');
+        alert('Not implemented yet');
     };
 
     deleteTagHandler = i => {
@@ -96,7 +130,66 @@ class UserDetail extends Component {
     };
 
     imageChangeHandler = () => {
-        alert('image clicked');
+        this.setState({ ...this.state, showChangeImage: true });
+    };
+
+    currentPasswordChangeHandler = e => {
+        if (e.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                password: {
+                    ...this.state.password,
+                    current_password: e.target.value
+                }
+            });
+        } else {
+            alert('password must be shorter than 30 characters');
+        }
+    };
+
+    newPasswordChangeHandler = e => {
+        if (e.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                password: {
+                    ...this.state.password,
+                    new_password: e.target.value
+                }
+            });
+        } else {
+            alert('password must be shorter than 30 characters');
+        }
+    };
+
+    passwordCheckChangeHandler = e => {
+        if (e.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                password: {
+                    ...this.state.password,
+                    new_password_check: e.target.value
+                }
+            });
+        } else {
+            alert('password must be shorter than 30 characters');
+        }
+    };
+
+    imageOnChange = e => {
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        reader.onloadend = () => {
+            this.setState({
+                ...this.state,
+                userImage: file,
+                userImageURL: reader.result
+            });
+        };
+
+        reader.readAsDataURL(file);
     };
 
     render() {
@@ -105,14 +198,26 @@ class UserDetail extends Component {
         var email = null;
         if (this.props.user) {
             point = this.props.user.point;
-            pic = this.props.user.avatar ? this.props.user.avatar : avatar;
+            pic = this.state.user.avatar ? this.state.user.avatar : avatar;
             email = this.props.user.email;
         }
         return (
             <div className="UserDetail">
                 <Modal
                     show={this.state.showChangePW}
-                    onHide={this.changePWFinishHandler}>
+                    onHide={() => {
+                        if (window.confirm('Are you really want to quit?')) {
+                            this.setState({
+                                ...this.state,
+                                password: {
+                                    current_password: '',
+                                    new_password: '',
+                                    new_password_check: ''
+                                },
+                                showChangePW: false
+                            });
+                        }
+                    }}>
                     <Modal.Header closeButton>
                         <Modal.Title>Change Password</Modal.Title>
                     </Modal.Header>
@@ -126,15 +231,7 @@ class UserDetail extends Component {
                                 className="form-fixed"
                                 id="password"
                                 value={this.state.password.current_password}
-                                onChange={event => {
-                                    this.setState({
-                                        ...this.state,
-                                        password: {
-                                            ...this.state.password,
-                                            current_password: event.target.value
-                                        }
-                                    });
-                                }}
+                                onChange={this.currentPasswordChangeHandler}
                             />
                         </div>
                         <div className="form-group" align="left">
@@ -146,15 +243,7 @@ class UserDetail extends Component {
                                 className="form-fixed"
                                 id="new-password"
                                 value={this.state.password.new_password}
-                                onChange={event =>
-                                    this.setState({
-                                        ...this.state,
-                                        password: {
-                                            ...this.state.password,
-                                            new_password: event.target.value
-                                        }
-                                    })
-                                }
+                                onChange={this.newPasswordChangeHandler}
                             />
                         </div>
                         <div className="form-group" align="left">
@@ -166,16 +255,7 @@ class UserDetail extends Component {
                                 className="form-fixed"
                                 id="new-password-check"
                                 value={this.state.password.new_password_check}
-                                onChange={event =>
-                                    this.setState({
-                                        ...this.state,
-                                        password: {
-                                            ...this.state.password,
-                                            new_password_check:
-                                                event.target.value
-                                        }
-                                    })
-                                }
+                                onChange={this.passwordCheckChangeHandler}
                             />
                         </div>
                     </Modal.Body>
@@ -190,7 +270,15 @@ class UserDetail extends Component {
                 </Modal>
                 <Modal
                     show={this.state.showChargePoint}
-                    onHide={this.chargePointFinishHandler}>
+                    onHide={() => {
+                        if (window.confirm('Are you sure you want to quit?')) {
+                            this.setState({
+                                ...this.state,
+                                showChargePoint: false,
+                                addpoint: ''
+                            });
+                        }
+                    }}>
                     <Modal.Header closeButton>
                         <Modal.Title>Charge Point</Modal.Title>
                     </Modal.Header>
@@ -208,16 +296,31 @@ class UserDetail extends Component {
                                 Charge
                             </p>
                             <input
-                                type="number"
                                 min="1"
                                 className="form-fixed"
                                 id="chargepoint"
-                                onChange={event =>
-                                    this.setState({
-                                        ...this.state,
-                                        addpoint: event.target.value
-                                    })
-                                }
+                                value={this.state.addpoint}
+                                onChange={e => {
+                                    const re = /^[0-9]*$/;
+                                    if (
+                                        (e.target.value == '' ||
+                                            re.test(e.target.value)) &&
+                                        Number(e.target.value) + point <
+                                            2100000000
+                                    ) {
+                                        this.setState({
+                                            ...this.state,
+                                            addpoint: e.target.value
+                                        });
+                                    } else if (
+                                        Number(e.target.value) + point >=
+                                        2100000000
+                                    ) {
+                                        alert(
+                                            'cannot charge more than 2 bilion'
+                                        );
+                                    }
+                                }}
                             />
                         </div>
                         <div className="form-group" align="left">
@@ -238,11 +341,54 @@ class UserDetail extends Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
+                <Modal
+                    show={this.state.showChangeImage}
+                    onHide={() => {
+                        if (window.confirm('Are you really want to quit?')) {
+                            this.setState({
+                                ...this.state,
+                                userImage: null,
+                                userImageURL: null,
+                                showChangeImage: false
+                            });
+                        }
+                    }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Change Thumbnail</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <input
+                            className="form-control"
+                            type="file"
+                            id="post-thumbnail-input"
+                            multiple={false}
+                            onChange={this.imageOnChange}
+                        />
+                        {this.state.userImageURL && (
+                            <img
+                                id="post-thumbnail-preview"
+                                src={this.state.userImageURL}
+                            />
+                        )}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            id="charge-confirm"
+                            variant="primary"
+                            onClick={this.chargeImageFinishHandler}>
+                            Save
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
                 <h2 className="UserInfoTitle">User Info</h2>
                 <div className="avatar">
                     <img
-                        src={pic}
+                        src={
+                            this.props.user.avatar
+                                ? this.props.user.avatar
+                                : avatar
+                        }
                         className="Avatar"
                         onClick={this.imageChangeHandler}
                     />
@@ -395,7 +541,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UserDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(UserDetail);

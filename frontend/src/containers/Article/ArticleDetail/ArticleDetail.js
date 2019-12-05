@@ -197,9 +197,11 @@ class ArticleDetail extends Component {
                                     </div>
                                 </div>
                                 <div className="url-component">
-                                    <p id="unique-url-text">
+                                    <a
+                                        id="unique-url-text"
+                                        href={this.props.unique_link}>
                                         {this.props.unique_link}
-                                    </p>
+                                    </a>
                                     <CopyToClipboard
                                         text={this.props.unique_link}>
                                         <button
@@ -283,7 +285,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ArticleDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);

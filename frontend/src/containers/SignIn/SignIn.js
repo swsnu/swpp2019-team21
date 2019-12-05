@@ -16,6 +16,28 @@ class SignIn extends Component {
         password: ''
     };
 
+    emailChangeHandler = e => {
+        if (e.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                email: e.target.value
+            });
+        } else {
+            alert('email too long!');
+        }
+    };
+
+    passwordChangeHandler = e => {
+        if (e.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                password: e.target.value
+            });
+        } else {
+            alert('password too long!');
+        }
+    };
+
     signInHandler = () => {
         const user = {
             email: this.state.email,
@@ -49,9 +71,7 @@ class SignIn extends Component {
                             type="text"
                             value={this.state.email}
                             required="required"
-                            onChange={event =>
-                                this.setState({ email: event.target.value })
-                            }
+                            onChange={this.emailChangeHandler}
                         />
                     </div>
                     <div className="form-group">
@@ -62,9 +82,7 @@ class SignIn extends Component {
                             placeholder="Password"
                             value={this.state.password}
                             required="required"
-                            onChange={event =>
-                                this.setState({ password: event.target.value })
-                            }
+                            onChange={this.passwordChangeHandler}
                         />
                     </div>
                     <div className="form-group">
@@ -113,7 +131,4 @@ export const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(SignIn);
+export default connect(null, mapDispatchToProps)(SignIn);

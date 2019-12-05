@@ -19,7 +19,7 @@ from . import init_data
 import base64
 from .ml import suggest
 
-base_link = 'https://www.adit.shop/redirectfrom='
+base_link = 'http://localhost:3000/redirectfrom='
 
 
 def get_client_ip(request):
@@ -283,7 +283,7 @@ class AdPostView(View):
                         closed=False, thumbnail=thumbnail, open_for_all=open_for_all, view_by_date='')
 
         if adpost.ad_link == "toitself":
-            adpost.ad_link = 'http://www.adit.shop/article/{}/'.format(str(adpost.id))
+            adpost.ad_link = 'http://localhost:3000/article/{}/'.format(str(adpost.id))
 
         for tag in post_tags:
             if InterestedTags.objects.filter(content=tag).exists():

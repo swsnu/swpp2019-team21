@@ -27,7 +27,7 @@ SECRET_KEY = '8deecf4va6tjgh8&-sbvfl_m(utkfa+!&a!-1%8zzqnz00*t^s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['${23.101.10.94}', '${www.adit.shop}', 'localhost', '127.0.0.1']
 
 # Time Setting
 

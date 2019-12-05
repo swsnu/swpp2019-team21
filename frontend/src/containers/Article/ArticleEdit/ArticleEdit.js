@@ -121,7 +121,7 @@ class ArticleEdit extends Component {
             alert('The file cannot be bigger than 1MB');
             return;
         }
-        if (!this.state.postFile.name.match(/.(jpg|jpeg|png|gif)$/i)) {
+        if (!this.state.postFile.name.match(/.(jpg|jpeg|png)$/i)) {
             alert('You should upload image file');
             return;
         }

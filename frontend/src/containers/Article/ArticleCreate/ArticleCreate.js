@@ -200,6 +200,7 @@ class ArticleCreate extends Component {
             };
             reader.readAsDataURL(file);
         };
+        
         const goalChangeHandler = e => {
             const re = /^[0-9]*$/;
 

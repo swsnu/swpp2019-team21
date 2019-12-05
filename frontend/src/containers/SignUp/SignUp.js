@@ -35,18 +35,21 @@ class SignUp extends Component {
     };
 
     signUpHandler = () => {
-        if (this.state.password.toString().length <= 8) {
-            alert('password should be longer than 8 alphabets');
+        if (this.state.password.toString().length < 8) {
+            alert('password should be longer than 7 alphabets');
             return;
         } else if (this.state.password_check !== this.state.password) {
             alert('password_check different with password');
             this.setState({ ...this.state, password_check: '' });
             return;
-        } else if (this.state.fname === '' || this.state.lname === '') {
-            alert('name section cannot be empty');
+        } else if (this.state.lname === '') {
+            alert('last name section cannot be empty');
             return;
         } else if (this.state.nickname === '') {
             alert('nickname cannot be empty');
+            return;
+        } else if (this.state.email === '') {
+            alert('email cannot be empty');
             return;
         }
         const user = {
@@ -71,6 +74,72 @@ class SignUp extends Component {
     addTagHandler = tag => {
         const tags = [].concat(this.state.tags, tag);
         this.setState({ tags: tags });
+    };
+
+    emailChangeHandler = e => {
+        if (e.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                email: e.target.value
+            });
+        } else {
+            alert('email must be shorter than 30 characters');
+        }
+    };
+
+    passwordChangeHandler = e => {
+        if (e.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                password: e.target.value
+            });
+        } else {
+            alert('password must be shorter than 30 characters');
+        }
+    };
+
+    passwordCheckChangeHandler = e => {
+        if (e.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                password_check: e.target.value
+            });
+        } else {
+            alert('password must be shorter than 30 characters');
+        }
+    };
+
+    fnameChangeHandler = e => {
+        if (e.target.value.length <= 20) {
+            this.setState({
+                ...this.state,
+                fname: e.target.value
+            });
+        } else {
+            alert('first name must be shorter than 20 characters');
+        }
+    };
+
+    lnameChangeHandler = e => {
+        if (e.target.value.length <= 20) {
+            this.setState({
+                ...this.state,
+                lname: e.target.value
+            });
+        } else {
+            alert('last name must be shorter than 20 characters');
+        }
+    };
+
+    nicknameChangeHandler = e => {
+        if (e.target.value.length <= 20) {
+            this.setState({
+                ...this.state,
+                nickname: e.target.value
+            });
+        } else {
+            alert('nickname must be shorter than 20 characters');
+        }
     };
 
     /*    passwordCheckerHandler = () => {
@@ -105,9 +174,7 @@ class SignUp extends Component {
                             type="text"
                             value={this.state.email}
                             required="required"
-                            onChange={event =>
-                                this.setState({ email: event.target.value })
-                            }
+                            onChange={this.emailChangeHandler}
                         />
                     </div>
                     <div className="form-group">
@@ -120,9 +187,7 @@ class SignUp extends Component {
                             type="password"
                             value={this.state.password}
                             required="required"
-                            onChange={event =>
-                                this.setState({ password: event.target.value })
-                            }
+                            onChange={this.passwordChangeHandler}
                         />
                     </div>
                     <div className="form-group">
@@ -137,11 +202,7 @@ class SignUp extends Component {
                             type="password"
                             value={this.state.password_check}
                             required="required"
-                            onChange={event =>
-                                this.setState({
-                                    password_check: event.target.value
-                                })
-                            }
+                            onChange={this.passwordCheckChangeHandler}
                             onBlur={this.passwordCheckerHandler}
                         />
                     </div>
@@ -157,11 +218,7 @@ class SignUp extends Component {
                                     type="text"
                                     value={this.state.fname}
                                     required="required"
-                                    onChange={event =>
-                                        this.setState({
-                                            fname: event.target.value
-                                        })
-                                    }
+                                    onChange={this.fnameChangeHandler}
                                 />
                             </div>
                         </td>
@@ -176,11 +233,7 @@ class SignUp extends Component {
                                     type="text"
                                     value={this.state.lname}
                                     required="required"
-                                    onChange={event =>
-                                        this.setState({
-                                            lname: event.target.value
-                                        })
-                                    }
+                                    onChange={this.lnameChangeHandler}
                                 />
                             </div>
                         </td>
@@ -197,9 +250,7 @@ class SignUp extends Component {
                             id="nickname"
                             value={this.state.nickname}
                             required="required"
-                            onChange={event =>
-                                this.setState({ nickname: event.target.value })
-                            }
+                            onChange={this.nicknameChangeHandler}
                         />
                     </div>
                     <div className="tagSelect">
@@ -252,7 +303,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
