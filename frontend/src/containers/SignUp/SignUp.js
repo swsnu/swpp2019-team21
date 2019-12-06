@@ -180,6 +180,7 @@ class SignUp extends Component {
                             required="required"
                             onChange={this.emailChangeHandler}
                         />
+                        <p id = "input-warning" align = "left">{!this.state.valid.email?"Invalid email form":""} &nbsp;</p>
                     </div>
                     <div className="form-group">
                         <p className="input-tag" align="left">
@@ -196,6 +197,7 @@ class SignUp extends Component {
                             required="required"
                             onChange={this.passwordChangeHandler}
                         />
+                        <p id = "input-warning" align = "left">{!this.state.valid.password?"Must consist of 8-20 characters":""} &nbsp;</p>
                     </div>
                     <div className="form-group">
                         <p
@@ -218,6 +220,7 @@ class SignUp extends Component {
                             onChange={this.passwordCheckChangeHandler}
                             onBlur={this.passwordCheckerHandler}
                         />
+                        <p id = "input-warning" align = "left">{this.state.password !==this.state.password_check?"Must match password":""} &nbsp;</p>
                     </div>
                     <table>
                         <td>
@@ -238,6 +241,7 @@ class SignUp extends Component {
                                     required="required"
                                     onChange={this.fnameChangeHandler}
                                 />
+                                <p id = "input-warning" align = "left">{!this.state.valid.fname?"1-20 characters":""} &nbsp;</p>
                             </div>
                         </td>
                         <td>
@@ -258,6 +262,7 @@ class SignUp extends Component {
                                     required="required"
                                     onChange={this.lnameChangeHandler}
                                 />
+                                <p id = "input-warning" align = "left">{!this.state.valid.fname?"1-20 characters":""} &nbsp;</p>
                             </div>
                         </td>
                     </table>
@@ -278,6 +283,7 @@ class SignUp extends Component {
                             required="required"
                             onChange={this.nicknameChangeHandler}
                         />
+                        <p id = "input-warning" align = "left">{!this.state.valid.nickname?"1-20 characters":""} &nbsp;</p>
                     </div>
                     <div className="tagSelect">
                         <p className="input-tag" align="left">

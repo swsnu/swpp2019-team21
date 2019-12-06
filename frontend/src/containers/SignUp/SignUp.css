@@ -96,6 +96,11 @@
     text-decoration: underline;
 }
 
+.sign-up #input-warning {
+    margin-top: 3px;
+    color: red;
+}
+
 .form-group .input-tag-unvalid {
     color: red;
 }
