@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import { push } from 'connected-react-router';
 import axios from 'axios';
+import { ls } from '../../store';
 
 const base_url = '/api';
 
@@ -15,23 +16,21 @@ export const userActions = {
 };
 
 function signIn(user, remember) {
-    console.log(user);
-    console.log(remember);
     return dispatch => {
         return axios
             .post(base_url + '/sign-in/', user)
             .then(async response => {
                 if (remember) {
                     try {
-                        await localStorage.setItem('useremail', user.email);
-                        await localStorage.setItem('userpw', user.password);
+                        await ls.set('useremail', user.email);
+                        await ls.set('userpw', user.password);
                     } catch (error) {
                         // Error removing
                     }
                 } else {
                     try {
-                        await localStorage.removeItem('useremail');
-                        await localStorage.removeItem('userpw');
+                        await ls.remove('useremail');
+                        await ls.remove('userpw');
                     } catch (error) {
                         // Error removing
                     }
