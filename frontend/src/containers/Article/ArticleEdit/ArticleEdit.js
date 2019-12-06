@@ -32,7 +32,7 @@ class ArticleEdit extends Component {
                 article: this.props.article,
                 is_loadcomplete: true
             });
-            if (!this.state.article.is_owner) {
+            if (!this.props.article.is_owner) {
                 this.props.history.push('/home');
             }
         }
@@ -166,7 +166,9 @@ class ArticleEdit extends Component {
                         <div className="EditBody section-wrapper">
                             <div className="configuration">
                                 <div className="form-group" align="center">
-                                    <h3 className="form-label">무슨 광고인가요?</h3>
+                                    <h3 className="form-label">
+                                        무슨 광고인가요?
+                                    </h3>
                                     <input
                                         className="form-control"
                                         id="post-title-input"
@@ -182,7 +184,9 @@ class ArticleEdit extends Component {
                                         className="form-control"
                                         id="post-subtitle-input"
                                         onChange={this.subtitleChangeHandler}
-                                        value={this.state.article.subtitle}></input>
+                                        value={
+                                            this.state.article.subtitle
+                                        }></input>
                                 </div>
                                 <p />
                                 <br />
@@ -193,7 +197,9 @@ class ArticleEdit extends Component {
                                     <textarea
                                         className="form-control"
                                         id="post-explain-input"
-                                        value={this.state.article.content}></textarea>
+                                        value={
+                                            this.state.article.content
+                                        }></textarea>
                                 </div>
                                 <p />
                                 <br />

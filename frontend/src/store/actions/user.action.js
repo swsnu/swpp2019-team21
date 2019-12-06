@@ -70,6 +70,7 @@ function getUser() {
             )
             .catch(error => {
                 //console.log('getUser failed');
+                localStorage.setItem('logged_in', 'false');
             });
     };
 }
