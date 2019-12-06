@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { userActions } from '../../store/actions';
 import avatar from '../../assets/avatar.png';
+import { ls } from '../../store';
 import './SignIn.css';
 
 class SignIn extends Component {
@@ -13,7 +14,35 @@ class SignIn extends Component {
 
     state = {
         email: '',
-        password: ''
+        password: '',
+        remember: false
+    };
+
+    getRememberedUser = async () => {
+        try {
+            const useremail = await ls.get('useremail');
+            const userpw = await ls.get('userpw');
+            if (useremail !== '' && userpw !== '') {
+                await this.setState({
+                    ...this.state,
+                    remember: true
+                });
+                return {
+                    useremail: useremail,
+                    userpw: userpw
+                };
+            } else {
+                return {
+                    useremail: '',
+                    userpw: ''
+                };
+            }
+        } catch (error) {
+            return {
+                useremail: '',
+                userpw: ''
+            };
+        }
     };
 
     emailChangeHandler = e => {
