@@ -9,7 +9,7 @@ class ArticleSearch extends Component {
     componentDidMount() {
         let { query_type, query } = this.props.match.params;
         this.props.onSearchArticle(query, query_type);
-        AOS.init({ duration: 300 });
+        AOS.init({ duration: 500 });
     }
 
     render() {
