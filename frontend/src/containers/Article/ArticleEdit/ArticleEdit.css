@@ -81,18 +81,6 @@
     object-fit: cover;
 }
 
-#post-explain-input {
-    resize: none;
-    height: 200px;
-}
-
-#post-point-deduction {
-    border: none;
-}
-
-
-
-
 .previewText {
     margin-top: 5px;
 }
