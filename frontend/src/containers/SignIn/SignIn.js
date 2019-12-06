@@ -5,7 +5,12 @@ import avatar from '../../assets/avatar.png';
 import './SignIn.css';
 
 class SignIn extends Component {
-    componentDidMount() {
+    async componentDidMount() {
+        const user = await this.getRememberedUser();
+        this.setState({
+            email: user.useremail,
+            password: user.userpw
+        });
         if (localStorage.getItem('logged_in') === 'true') {
             this.props.history.push('/home');
         }
@@ -13,7 +18,32 @@ class SignIn extends Component {
 
     state = {
         email: '',
-        password: ''
+        password: '',
+        remember: false
+    };
+
+    getRememberedUser = async () => {
+        try {
+            const useremail = await localStorage.getItem('useremail');
+            const userpw = await localStorage.getItem('userpw');
+            if (useremail !== null && userpw !== null) {
+                await this.setState({
+                    ...this.state,
+                    remember: true
+                })
+                return {
+                    useremail: useremail,
+                    userpw: userpw
+                };
+            } else {
+                return {
+                    useremail: "",
+                    userpw: ""
+                }
+            }
+        } catch (error) {
+            // Error retrieving data
+        }
     };
 
     emailChangeHandler = e => {
@@ -43,7 +73,7 @@ class SignIn extends Component {
             email: this.state.email,
             password: this.state.password
         };
-        this.props.onSignIn(user);
+        this.props.onSignIn(user, this.state.remember);
     };
 
     signUpHandler = () => {
@@ -97,10 +127,14 @@ class SignIn extends Component {
                     <div className="clearfix">
                         <label className="remember">
                             <input
+                                checked={this.state.remember}
                                 type="checkbox"
                                 id="remember-chkbox"
-                                onChange={() => {
-                                    alert('Not implemented');
+                                onChange={e => {
+                                    this.setState({
+                                        ...this.state,
+                                        remember: e.target.checked
+                                    });
                                 }}
                             />
                             Remember me
@@ -127,7 +161,8 @@ class SignIn extends Component {
 
 export const mapDispatchToProps = dispatch => {
     return {
-        onSignIn: user => dispatch(userActions.signIn(user))
+        onSignIn: (user, remember) =>
+            dispatch(userActions.signIn(user, remember))
     };
 };
 

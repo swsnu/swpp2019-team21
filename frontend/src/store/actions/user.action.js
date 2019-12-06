@@ -14,11 +14,28 @@ export const userActions = {
     updatePoint
 };
 
-function signIn(user) {
+function signIn(user, remember) {
+    console.log(user);
+    console.log(remember);
     return dispatch => {
         return axios
             .post(base_url + '/sign-in/', user)
-            .then(response => {
+            .then(async response => {
+                if (remember) {
+                    try {
+                        await localStorage.setItem('useremail', user.email);
+                        await localStorage.setItem('userpw', user.password);
+                    } catch (error) {
+                        // Error removing
+                    }
+                } else {
+                    try {
+                        await localStorage.removeItem('useremail');
+                        await localStorage.removeItem('userpw');
+                    } catch (error) {
+                        // Error removing
+                    }
+                }
                 dispatch(getUser());
                 dispatch({ type: actionTypes.SIGN_IN });
                 dispatch(push('/home'));
