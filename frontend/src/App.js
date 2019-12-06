@@ -46,6 +46,11 @@ class App extends Component {
                             component={ArticleDetail}
                         />
                         <Route
+                            path="/article/:id/edit"
+                            exact
+                            component={ArticleEdit}
+                        />
+                        <Route
                             path="/redirectfrom=:str"
                             exact
                             component={Redirect}

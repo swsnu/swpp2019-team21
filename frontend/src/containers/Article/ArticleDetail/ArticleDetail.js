@@ -119,7 +119,6 @@ class ArticleDetail extends Component {
                                 <button
                                     className="btn btn-primary"
                                     id="post-edit-button"
-                                    disabled={true}
                                     onClick={this.postEditHandler}>
                                     Edit
                                 </button>
