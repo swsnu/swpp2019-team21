@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { adpostActions } from '../../../store/actions/adpost.action';
-import intro_first from '../../../assets/intro_first.jpg';
 import './ArticleEdit.css';
 
 class ArticleEdit extends Component {
@@ -12,8 +11,8 @@ class ArticleEdit extends Component {
         duedate: '',
         content: '',
         id: 1,
-        thumbnail: intro_first,
-        imageURL: intro_first,
+        thumbnail: null,
+        imageURL: null,
         valid: false,
         postUrl: null,
         postFile: null,
@@ -28,7 +27,7 @@ class ArticleEdit extends Component {
     }; // should be props, not state
 
     componentDidMount() {
-        // this.props.ongetArticle(this.props.match.params.id);
+        this.props.ongetArticle(this.props.match.params.id);
     }
 
     titleChangeHandler = t => {
@@ -38,7 +37,7 @@ class ArticleEdit extends Component {
                 title: t.target.value
             });
         } else {
-            alert('The title cannot be longer than 30 characters');
+            alert('제목은 30자를 넘을 수 없습니다');
         }
     };
 
@@ -49,7 +48,7 @@ class ArticleEdit extends Component {
                 subtitle: s.target.value
             });
         } else {
-            alert('The subtitle cannot be longer than 30 characters');
+            alert('부제목은 30자를 넘을 수 없습니다');
         }
     };
 
@@ -60,7 +59,7 @@ class ArticleEdit extends Component {
                 content: d.target.value
             });
         } else {
-            alert('Content cannot be longer than 10000 characters');
+            alert('설명은 10000자를 넘을 수 없습니다');
         }
     };
 
@@ -82,19 +81,15 @@ class ArticleEdit extends Component {
 
     editConfirmHandler = () => {
         if (!this.state.title) {
-            alert('Title should not be empty');
+            alert('제목을 입력하세요');
             return;
         }
         if (!this.state.subtitle) {
-            alert('Subtitle should not be empty');
+            alert('부제목을 입력하세요');
             return;
         }
         if (!this.state.content) {
-            alert('Content should not be empty');
-            return;
-        }
-        if (!this.state.postUrl) {
-            alert('Ad url should not be empty');
+            alert('내용을 입력하세요');
             return;
         }
         if (
@@ -106,16 +101,16 @@ class ArticleEdit extends Component {
             return;
         }
         if (!this.state.imageURL) {
-            alert('You should upload image');
+            alert('이미지를 업로드하세요');
             return;
         }
         if (this.state.postFile) {
             if (this.state.postFile.size > 1000000) {
-                alert('The file cannot be bigger than 1MB');
+                alert('사진 용량은 1MB 이하여야 합니다');
                 return;
             }
             if (!this.state.postFile.name.match(/.(jpg|jpeg|png)$/i)) {
-                alert('You should upload image file');
+                alert('jpg, jpeg, png, bmp 형식 파일이 가능합니다');
                 return;
             }
         }
@@ -156,65 +151,73 @@ class ArticleEdit extends Component {
             <div>
                 {this.props.loaded && (
                     <div className="ArticleEdit">
-                        <div className="edit-article-box">
-                            <h1>Edit Article</h1>
+                        <div className="EditHead">
+                            <section className="EditHeadTitle section-wrapper">
+                                <h1 className="EditHeadTitle">편집</h1>
+                                <p className="EditHeadContent">편집하세요</p>
+                            </section>
                         </div>
-                        <div className="configuration">
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Title</h3>
-                                <input
-                                    className="form-control"
-                                    placeholder=" input title"
-                                    id="post-title-input"
-                                    onChange={this.titleChangeHandler}
-                                    defaultValue={this.props.article.title}
-                                    value={this.state.postTitle}
-                                />
+                        <div className="EditBody section-wrapper">
+                            <div className="configuration">
+                                <div className="form-group" align="center">
+                                    <h3 className="form-label">무슨 광고인가요?</h3>
+                                    <input
+                                        className="form-control"
+                                        id="post-title-input"
+                                        onChange={this.titleChangeHandler}
+                                        defaultValue={this.props.article.title}
+                                        value={this.state.postTitle}
+                                    />
+                                </div>
+                                <p />
+                                <br />
+                                <div className="form-group" align="center">
+                                    <h3 className="form-label">한줄 설명</h3>
+                                    <input
+                                        className="form-control"
+                                        id="post-subtitle-input"
+                                        onChange={this.subtitleChangeHandler}
+                                        defaultValue={
+                                            this.props.article.subtitle
+                                        }
+                                        value={this.state.postSubtitle}></input>
+                                </div>
+                                <p />
+                                <br />
+                                <div className="form-group" align="center">
+                                    <h3 className="form-label">
+                                        광고에 대해 자세히 알려주세요
+                                    </h3>
+                                    <textarea
+                                        className="form-control"
+                                        id="post-explain-input"
+                                        onChange={this.detailedChangeHandler}
+                                        value={this.state.content}></textarea>
+                                </div>
+                                <p />
+                                <br />
+                                <div className="form-group" align="center">
+                                    <h3 className="form-label">
+                                        이미지를 업로드하세요
+                                    </h3>
+                                    <input
+                                        className="form-control"
+                                        type="file"
+                                        id="post-thumbnail-input"
+                                        multiple={false}
+                                        onChange={this.imageOnChange}
+                                    />
+                                    <div>{imagePreview}</div>
+                                </div>
+                                <p />
+                                <br />
+                                <button
+                                    className="btn btn-primary submit-btn"
+                                    id="next-button"
+                                    onClick={this.editConfirmHandler}>
+                                    수정하기
+                                </button>
                             </div>
-                            <p />
-                            <br />
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Subtitle</h3>
-                                <input
-                                    className="form-control"
-                                    placeholder=" input subtitle"
-                                    id="post-subtitle-input"
-                                    onChange={this.subtitleChangeHandler}
-                                    defaultValue={this.props.article.subtitle}
-                                    value={this.state.postSubtitle}></input>
-                            </div>
-                            <p />
-                            <br />
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Ad Description</h3>
-                                <textarea
-                                    className="form-control"
-                                    placeholder=" explain your ad"
-                                    id="post-explain-input"
-                                    onChange={this.detailedChangeHandler}
-                                    value={this.state.content}></textarea>
-                            </div>
-                            <p />
-                            <br />
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Select Thumbnail</h3>
-                                <input
-                                    className="form-control"
-                                    type="file"
-                                    id="post-thumbnail-input"
-                                    multiple={false}
-                                    onChange={this.imageOnChange}
-                                />
-                                <div>{imageURL}</div>
-                            </div>
-                            <p />
-                            <br />
-                            <button
-                                className="btn btn-primary"
-                                id="next-button"
-                                onClick={this.editConfirmHandler}>
-                                Submit
-                            </button>
                         </div>
                     </div>
                 )}

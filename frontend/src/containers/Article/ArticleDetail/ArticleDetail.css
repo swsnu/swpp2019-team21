@@ -119,6 +119,11 @@
     height: 30px;
 }
 
+.ArticleDetail #post-edit-button {
+    float:right;
+    width: 25px;
+}
+
 .ArticleDetail .share-btn {
     width: 40px;
     height: 40px;

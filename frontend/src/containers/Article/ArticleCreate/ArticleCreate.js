@@ -73,7 +73,7 @@ class ArticleCreate extends Component {
         } else {
             imagePreview = (
                 <div className="previewText">
-                    <strong>Please select an Image for Preview</strong>
+                    <strong></strong>
                 </div>
             );
         }
@@ -94,16 +94,11 @@ class ArticleCreate extends Component {
             if (n > this.state.donePage) {
                 return 'Grey';
             } else {
-                return 'DodgerBlue';
+                return '#fa4252';
             }
         };
         const tabtext = n => {
-            let tempTabs = [
-                'Configure Info',
-                'Select Tag',
-                'Ad Goal',
-                'Preview'
-            ];
+            let tempTabs = ['정보 입력', '태그 선택', '목표 설정', '제출'];
             if (this.state.currentPage == n) {
                 return (
                     <text
@@ -145,7 +140,7 @@ class ArticleCreate extends Component {
                     postTitle: i.target.value
                 });
             } else {
-                alert('The title cannot be longer than 30 characters');
+                alert('제목은 30자를 넘을 수 없습니다');
             }
         };
         const subtitleChangeHandler = i => {
@@ -155,7 +150,7 @@ class ArticleCreate extends Component {
                     postSubtitle: i.target.value
                 });
             } else {
-                alert('The subtitle cannot be longer than 30 characters');
+                alert('부제목은 30자를 넘을 수 없습니다');
             }
         };
         const explainChangeHandler = i => {
@@ -165,7 +160,7 @@ class ArticleCreate extends Component {
                     postExplain: i.target.value
                 });
             } else {
-                alert('Description cannot be longer than 10000 characters');
+                alert('설명은 10000자를 넘을 수 없습니다');
             }
         };
         const urlChangeHandler = i => {
@@ -175,7 +170,7 @@ class ArticleCreate extends Component {
                     postUrl: i.target.value
                 });
             } else {
-                alert('Ad URL cannot be longer than 100 characters');
+                alert('Url은 100자를 넘을 수 없습니다');
             }
         };
         const imageOnChange = e => {
@@ -200,7 +195,7 @@ class ArticleCreate extends Component {
             };
             reader.readAsDataURL(file);
         };
-        
+
         const goalChangeHandler = e => {
             const re = /^[0-9]*$/;
 
@@ -213,9 +208,9 @@ class ArticleCreate extends Component {
                     postGoal: e.target.value
                 });
             } else if (!re.test(e.target.value)) {
-                window.alert('Should only put number');
+                window.alert('숫자만 입력하세요');
             } else {
-                window.alert('not enough money');
+                window.alert('포인트가 부족합니다');
             }
         };
         const nextOnClick = () => {
@@ -235,22 +230,22 @@ class ArticleCreate extends Component {
         };
         const confirmOnClick = () => {
             if (!this.state.postTitle) {
-                alert('Title should not be empty');
+                alert('제목을 입력하세요');
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
             if (!this.state.postSubtitle) {
-                alert('Subtitle should not be empty');
+                alert('부제목을 입력하세요');
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
             if (!this.state.postExplain) {
-                alert('Content should not be empty');
+                alert('내용을 입력하세요');
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
             if (!this.state.postUrl && this.state.needUrl) {
-                alert('Ad url should not be empty');
+                alert('URL을 입력하세요');
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
@@ -262,41 +257,37 @@ class ArticleCreate extends Component {
                         this.state.postUrl.toString().substring(0, 8) !==
                             'https://'))
             ) {
-                alert('Ad url should start with http:// or https://');
+                alert('유효한 URL을 입력하세요');
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
             if (!this.state.postTag) {
-                if (
-                    !window.confirm(
-                        'The tags are blank. Are you sure you want to submit?'
-                    )
-                ) {
+                if (!window.confirm('태그가 없습니다. 계속할까요?')) {
                     this.setState({ ...this.state, currentPage: 2 });
                     return;
                 }
             }
             if (!this.state.postGoal) {
-                alert('Ad goal should not be empty');
+                alert('목표를 입력하세요');
                 this.setState({ ...this.state, currentPage: 3 });
                 return;
             }
             if (this.state.postGoal < 100) {
-                alert('Ad goal should be larger than 100 views');
+                alert('목표는 100뷰 이상이어야 합니다');
                 this.setState({ ...this.state, currentPage: 3 });
                 return;
             }
             if (!this.state.imagePreviewUrl) {
-                alert('You should upload image');
+                alert('이미지를 업로드하세요');
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
             if (this.state.postFile.size > 1000000) {
-                alert('The file cannot be bigger than 1MB');
+                alert('사진 용량은 1MB 이하여야 합니다');
                 return;
             }
             if (!this.state.postFile.name.match(/.(jpg|jpeg|png|bmp)$/i)) {
-                alert('You should upload image');
+                alert('jpg, jpeg, png, bmp 형식 파일이 가능합니다');
                 this.setState({ ...this.state, currentPage: 1 });
                 return;
             }
@@ -351,41 +342,34 @@ class ArticleCreate extends Component {
                                 this.state.currentPage == 1 ? 'block' : 'none'
                         }}>
                         <div className="form-group" align="center">
-                            <h3 className="form-label">Title</h3>
+                            <h3 className="form-label">무슨 광고인가요?</h3>
                             <input
                                 className="form-control"
-                                placeholder=" input title"
                                 id="post-title-input"
                                 onChange={titleChangeHandler}
                                 value={this.state.postTitle}
                             />
                         </div>
-                        <p />
-                        <br />
                         <div className="form-group" align="center">
-                            <h3 className="form-label">Subtitle</h3>
+                            <h3 className="form-label">한줄 설명</h3>
                             <input
                                 className="form-control"
-                                placeholder=" input subtitle"
                                 id="post-subtitle-input"
                                 onChange={subtitleChangeHandler}
                                 value={this.state.postSubtitle}></input>
                         </div>
-                        <p />
-                        <br />
                         <div className="form-group" align="center">
-                            <h3 className="form-label">Ad Description</h3>
+                            <h3 className="form-label">광고에 대해 자세히 알려주세요</h3>
                             <textarea
                                 className="form-control"
-                                placeholder=" explain your ad"
                                 id="post-explain-input"
                                 onChange={explainChangeHandler}
                                 value={this.state.postExplain}></textarea>
                         </div>
-                        <p />
-                        <br />
                         <div className="form-group" align="center">
-                            <h3 className="form-label">Select Thumbnail</h3>
+                            <h3 className="form-label">
+                                이미지를 업로드하세요
+                            </h3>
                             <input
                                 className="form-control"
                                 type="file"
@@ -395,15 +379,15 @@ class ArticleCreate extends Component {
                             />
                             <div>{imagePreview}</div>
                         </div>
-                        <p />
-                        <br />
-                        <div className="url-toggle-group">
-                            <text>Use External ad URL</text>
+                        <div className="url-toggle-group toggle-group">
+                            <text className="form-label">
+                                외부 URL로 연결할까요?
+                            </text>
                             <p />
-                            <label class="switch">
+                            <label className="switch">
                                 <input
                                     type="checkbox"
-                                    id="post-toggle-input"
+                                    id="toggle-input"
                                     onChange={() => {
                                         this.setState({
                                             ...this.state,
@@ -413,13 +397,16 @@ class ArticleCreate extends Component {
                                 />
                                 <span class="slider round"></span>
                             </label>
+                            <p className="urlToggle-helper-content helper">
+                                {(this.state.needUrl && '입력한 Url') ||
+                                    (!this.state.needUrl && '게시글')}
+                                로 연결합니다
+                            </p>
                         </div>
                         {this.state.needUrl && (
                             <div className="form-group" align="center">
-                                <h3 className="form-label">Ad Url</h3>
                                 <input
                                     className="form-control"
-                                    placeholder=" input url of ad"
                                     id="post-url-input"
                                     onChange={urlChangeHandler}
                                     value={this.state.postUrl}></input>
@@ -428,7 +415,7 @@ class ArticleCreate extends Component {
                         <p />
                         <br />
                         <button
-                            className="btn btn-primary"
+                            className="btn btn-primary next-tab-btn"
                             id="next-button"
                             disabled={
                                 !this.state.postTitle ||
@@ -448,6 +435,7 @@ class ArticleCreate extends Component {
                         }}>
                         <ReactTags
                             tags={this.state.postTag}
+                            placeholder="태그를 입력하세요"
                             suggestions={this.props.allTags}
                             handleDelete={this.handleDelete.bind(this)}
                             handleAddition={this.handleAddition.bind(this)}
@@ -455,14 +443,15 @@ class ArticleCreate extends Component {
                             handleValidate={this.handleValidate.bind(this)}
                             minQueryLength={1}
                         />
-                        <div className="url-toggle-group">
+                        <div className="open-toggle-group toggle-group">
                             <div className="form-group" align="center">
-                                <h3 className="form-label">Open for all</h3>
+                                <h3 className="form-label">전체공개</h3>
                             </div>
                             <p />
-                            <label class="switch">
+                            <label className="switch">
                                 <input
                                     type="checkbox"
+                                    id="toggle-input"
                                     onChange={() => {
                                         this.setState({
                                             ...this.state,
@@ -471,11 +460,18 @@ class ArticleCreate extends Component {
                                         });
                                     }}
                                 />
-                                <span class="slider round"></span>
+                                <span className="slider round"></span>
                             </label>
+                            <p className="openToggle-helper-content helper">
+                                게시글이{' '}
+                                {(this.state.open_for_all && '모든 사용자') ||
+                                    (!this.state.open_for_all &&
+                                        '태그와 관련된 사용자')}
+                                에게 공개됩니다
+                            </p>
                         </div>
                         <button
-                            className="btn btn-primary"
+                            className="btn btn-primary next-tab-btn"
                             id="next-tag-button"
                             disabled={!this.state.postTag.length}
                             onClick={nextOnClick}>
@@ -489,10 +485,9 @@ class ArticleCreate extends Component {
                                 this.state.currentPage == 3 ? 'block' : 'none'
                         }}>
                         <div className="form-group" align="center">
-                            <h3 className="form-label">Set Ad Goal</h3>
+                            <h3 className="form-label">목표 뷰를 설정하세요</h3>
                             <input
                                 className="form-control"
-                                placeholder=" input goal"
                                 id="post-goal-input"
                                 onChange={goalChangeHandler}
                                 value={this.state.postGoal}
@@ -505,7 +500,7 @@ class ArticleCreate extends Component {
                                 {this.state.postGoal
                                     ? this.state.postGoal * multiplier
                                     : 0}{' '}
-                                points will be deducted
+                                포인트가 차감됩니다
                             </p>
                             <p
                                 className="form-control"
@@ -514,21 +509,23 @@ class ArticleCreate extends Component {
                                     ? this.state.nowpoint -
                                       this.state.postGoal * multiplier
                                     : this.state.nowpoint}{' '}
-                                points will be left
+                                포인트가 남게 됩니다
                             </p>
                         </div>
                         <p />
                         <br />
-                        <h3 className="label">Choose Ad Expiry Date</h3>
-                        <Calendar
-                            id="post-calendar-input"
-                            minDate={tenDay}
-                            onChange={onCalendarChange}
-                        />
+                        <h3 className="form-label">만료일을 선택하세요</h3>
+                        <div id="calender-wrapper">
+                            <Calendar
+                                id="select-calender"
+                                minDate={tenDay}
+                                onChange={onCalendarChange}
+                            />
+                        </div>
                         <p />
                         <br />
                         <button
-                            className="btn btn-primary"
+                            className="btn btn-primary next-tab-btn"
                             id="next-button"
                             disabled={
                                 !this.state.postGoal ||
@@ -567,7 +564,7 @@ class ArticleCreate extends Component {
                         />
                         <div id="submit">
                             <button
-                                className="btn btn-primary"
+                                className="btn btn-primary next-tab-btn"
                                 id="confirm-button"
                                 onClick={confirmOnClick}>
                                 Submit
@@ -579,9 +576,20 @@ class ArticleCreate extends Component {
         };
         return (
             <div className="ArticleCreate" align="center">
-                <h1 id="pageTitle">Request Ad</h1>
-                {tabs()}
-                {views(this.state.currentPage)}
+                <div className="CreateHead">
+                    <section className="CreateHeadTitle section-wrapper">
+                        <h1 className="CreateHeadTitle">소문내기</h1>
+                        <p className="CreateHeadContent">
+                            어떤 광고를 하시나요?
+                        </p>
+                    </section>
+                    <section className="CreateHeadTabs section-wrapper">
+                        {tabs()}
+                    </section>
+                </div>
+                <div className="CreateBody section-wrapper">
+                    {views(this.state.currentPage)}
+                </div>
             </div>
         );
     }
@@ -601,7 +609,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ArticleCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleCreate);
