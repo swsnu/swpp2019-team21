@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { adpostActions } from '../../../store/actions/adpost.action';
-import intro_first from '../../../assets/intro_first.jpg';
 import './ArticleEdit.css';
 
 class ArticleEdit extends Component {
@@ -33,9 +32,9 @@ class ArticleEdit extends Component {
                 article: this.props.article,
                 is_loadcomplete: true
             });
-            /*if (!this.state.article.is_owner) {
+            if (!this.state.article.is_owner) {
                 this.props.history.push('/home');
-            }*/
+            }
         }
     }
 
@@ -49,7 +48,7 @@ class ArticleEdit extends Component {
                 }
             });
         } else {
-            alert('The title cannot be longer than 30 characters');
+            alert('제목은 30자를 넘을 수 없습니다');
         }
     };
 
@@ -63,7 +62,7 @@ class ArticleEdit extends Component {
                 }
             });
         } else {
-            alert('The subtitle cannot be longer than 30 characters');
+            alert('부제목은 30자를 넘을 수 없습니다');
         }
     };
 
@@ -77,7 +76,7 @@ class ArticleEdit extends Component {
                 }
             });
         } else {
-            alert('Content cannot be longer than 10000 characters');
+            alert('설명은 10000자를 넘을 수 없습니다');
         }
     };
 
@@ -110,34 +109,28 @@ class ArticleEdit extends Component {
 
     editConfirmHandler = () => {
         if (!this.state.article.title) {
-            alert('Title should not be empty');
+            alert('제목을 입력하세요');
             return;
         }
         if (!this.state.article.subtitle) {
-            alert('Subtitle should not be empty');
+            alert('부제목을 입력하세요');
             return;
         }
         if (!this.state.article.content) {
-            alert('Content should not be empty');
+            alert('내용을 입력하세요');
             return;
         }
         if (this.state.imageChanged && !this.state.new_imageURL) {
-            if (
-                !window.confirm(
-                    "Your image will not be changed if you don't upload image"
-                )
-            ) {
-                return;
-            }
+            alert('이미지를 업로드하세요');
+            return;
         }
-        if (this.state.imageChanged && this.state.new_thumbnail) {
+        if (this.state.new_thumbnail) {
             if (this.state.new_thumbnail.size > 1000000) {
-                alert('The file cannot be bigger than 1MB');
+                alert('사진 용량은 1MB 이하여야 합니다');
                 return;
             }
             if (!this.state.new_thumbnail.name.match(/.(jpg|jpeg|png)$/i)) {
-                alert('You should upload image file');
-                return;
+                alert('jpg, jpeg, png, bmp 형식 파일이 가능합니다');
             }
         }
         const adpost = {
@@ -164,65 +157,68 @@ class ArticleEdit extends Component {
             <div>
                 {this.props.loaded && (
                     <div className="ArticleEdit">
-                        <div className="edit-article-box">
-                            <h1>Edit Article</h1>
+                        <div className="EditHead">
+                            <section className="EditHeadTitle section-wrapper">
+                                <h1 className="EditHeadTitle">편집</h1>
+                                <p className="EditHeadContent">편집하세요</p>
+                            </section>
                         </div>
-                        <div className="configuration">
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Title</h3>
-                                <input
-                                    className="form-control"
-                                    placeholder=" input title"
-                                    id="post-title-input"
-                                    onChange={this.titleChangeHandler}
-                                    value={this.state.article.title}
-                                />
+                        <div className="EditBody section-wrapper">
+                            <div className="configuration">
+                                <div className="form-group" align="center">
+                                    <h3 className="form-label">무슨 광고인가요?</h3>
+                                    <input
+                                        className="form-control"
+                                        id="post-title-input"
+                                        onChange={this.titleChangeHandler}
+                                        value={this.state.article.title}
+                                    />
+                                </div>
+                                <p />
+                                <br />
+                                <div className="form-group" align="center">
+                                    <h3 className="form-label">한줄 설명</h3>
+                                    <input
+                                        className="form-control"
+                                        id="post-subtitle-input"
+                                        onChange={this.subtitleChangeHandler}
+                                        value={this.state.article.subtitle}></input>
+                                </div>
+                                <p />
+                                <br />
+                                <div className="form-group" align="center">
+                                    <h3 className="form-label">
+                                        광고에 대해 자세히 알려주세요
+                                    </h3>
+                                    <textarea
+                                        className="form-control"
+                                        id="post-explain-input"
+                                        value={this.state.article.content}></textarea>
+                                </div>
+                                <p />
+                                <br />
+                                <div className="form-group" align="center">
+                                    <h3 className="form-label">
+                                        이미지를 업로드하세요
+                                    </h3>
+                                    <input
+                                        className="form-control"
+                                        type="file"
+                                        id="post-thumbnail-input"
+                                        multiple={false}
+                                        onChange={this.imageOnChange}
+                                    />
+                                    <div>{imagePreview}</div>
+                                </div>
+                                <p />
+                                <br />
+                                <button
+                                    className="btn btn-primary submit-btn"
+                                    id="next-button"
+                                    onClick={this.editConfirmHandler}>
+                                    수정하기
+                                </button>
                             </div>
-                            <p />
-                            <br />
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Subtitle</h3>
-                                <input
-                                    className="form-control"
-                                    placeholder=" input subtitle"
-                                    id="post-subtitle-input"
-                                    onChange={this.subtitleChangeHandler}
-                                    value={this.state.article.subtitle}></input>
-                            </div>
-                            <p />
-                            <br />
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Ad Description</h3>
-                                <textarea
-                                    className="form-control"
-                                    placeholder=" explain your ad"
-                                    id="post-explain-input"
-                                    onChange={this.detailedChangeHandler}
-                                    value={
-                                        this.state.article.content
-                                    }></textarea>
-                            </div>
-                            <p />
-                            <br />
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Select Thumbnail</h3>
-                                <input
-                                    className="form-control"
-                                    type="file"
-                                    id="post-thumbnail-input"
-                                    multiple={false}
-                                    onChange={this.imageOnChange}
-                                />
-                                <div>{imagePreview}</div>
-                            </div>
-                            <p />
-                            <br />
-                            <button
-                                className="btn btn-primary"
-                                id="next-button"
-                                onClick={this.editConfirmHandler}>
-                                Submit
-                            </button>
                         </div>
                     </div>
                 )}

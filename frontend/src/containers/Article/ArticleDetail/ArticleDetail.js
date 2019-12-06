@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { ProgressBar, Spinner, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faAd, faLink } from '@fortawesome/free-solid-svg-icons';
+import {
+    faClock,
+    faAd,
+    faLink,
+    faEdit
+} from '@fortawesome/free-solid-svg-icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { adpostActions, adreceptionActions } from '../../../store/actions';
 import { LineChart, XAxis, YAxis, Line, Legend } from 'recharts';
@@ -116,12 +121,13 @@ class ArticleDetail extends Component {
                                 </div>
                             )}
                             {this.props.article.is_owner ? (
-                                <button
-                                    className="btn btn-primary"
+                                <FontAwesomeIcon
+                                    icon={faEdit}
+                                    size="1x"
                                     id="post-edit-button"
-                                    onClick={this.postEditHandler}>
-                                    Edit
-                                </button>
+                                    onClick={this.postEditHandler}
+                                    label="참여하기"
+                                />
                             ) : (
                                 !this.props.is_participated && (
                                     <Button
@@ -224,7 +230,7 @@ class ArticleDetail extends Component {
                                 </p>
                                 {statData.length > 2 ? (
                                     <LineChart
-                                        width={350}
+                                        width={600}
                                         height={300}
                                         data={statData}>
                                         <XAxis
