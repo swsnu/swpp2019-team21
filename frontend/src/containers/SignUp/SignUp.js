@@ -17,9 +17,11 @@ class SignUp extends Component {
         tags: [],
         postFile: null,
         valid: {
-            email: true,
-            password_check: true,
-            nickname: true
+            email: false,
+            password: false,
+            nickname: false,
+            fname: false,
+            lname: false
         }
     };
 
@@ -35,21 +37,23 @@ class SignUp extends Component {
     };
 
     signUpHandler = () => {
-        if (this.state.password.toString().length < 8) {
-            alert('password should be longer than 7 alphabets');
+        if (!this.state.valid.email) {
+            alert('Invalid e-mail address.');
             return;
-        } else if (this.state.password_check !== this.state.password) {
-            alert('password_check different with password');
-            this.setState({ ...this.state, password_check: '' });
+        } else if (!this.state.valid.password) {
+            alert('Password must consist of 8-20 characters.');
             return;
-        } else if (this.state.lname === '') {
-            alert('last name section cannot be empty');
+        } else if (this.state.password != this.state.password_check) {
+            alert('Must match password.');
             return;
-        } else if (this.state.nickname === '') {
-            alert('nickname cannot be empty');
+        } else if (!this.state.valid.fname) {
+            alert('First name must consist of 1-20 characters.');
             return;
-        } else if (this.state.email === '') {
-            alert('email cannot be empty');
+        } else if (!this.state.valid.lname) {
+            alert('Last name must consist of 1-20 characters.');
+            return;
+        } else if (!this.state.valid.nickname) {
+            alert('Nickname must consist of 1-20 characters.');
             return;
         }
         const user = {
@@ -77,69 +81,71 @@ class SignUp extends Component {
     };
 
     emailChangeHandler = e => {
-        if (e.target.value.length <= 30) {
-            this.setState({
-                ...this.state,
-                email: e.target.value
-            });
-        } else {
-            alert('email must be shorter than 30 characters');
-        }
+        var reg = new RegExp(/^[^@\s]+@[^@\s.]+\.[a-zA-Z]+$/);
+        var valid = e.target.value.length <= 30 && reg.test(e.target.value);
+        this.setState({
+            ...this.state,
+            email: e.target.value,
+            valid: {
+                ...this.state.valid,
+                email: valid
+            }
+        });
     };
 
     passwordChangeHandler = e => {
-        if (e.target.value.length <= 30) {
-            this.setState({
-                ...this.state,
-                password: e.target.value
-            });
-        } else {
-            alert('password must be shorter than 30 characters');
-        }
+        var valid = e.target.value.length >= 8 && e.target.value.length <= 30;
+        this.setState({
+            ...this.state,
+            password: e.target.value,
+            valid: {
+                ...this.state.valid,
+                password: valid
+            }
+        });
     };
 
     passwordCheckChangeHandler = e => {
-        if (e.target.value.length <= 30) {
-            this.setState({
-                ...this.state,
-                password_check: e.target.value
-            });
-        } else {
-            alert('password must be shorter than 30 characters');
-        }
+        this.setState({
+            ...this.state,
+            password_check: e.target.value
+        });
     };
 
     fnameChangeHandler = e => {
-        if (e.target.value.length <= 20) {
-            this.setState({
-                ...this.state,
-                fname: e.target.value
-            });
-        } else {
-            alert('first name must be shorter than 20 characters');
-        }
+        var valid = e.target.value.length <= 20 && e.target.value.length > 0;
+        this.setState({
+            ...this.state,
+            fname: e.target.value,
+            valid: {
+                ...this.state.valid,
+                fname: valid
+            }
+        });
     };
 
     lnameChangeHandler = e => {
-        if (e.target.value.length <= 20) {
-            this.setState({
-                ...this.state,
-                lname: e.target.value
-            });
-        } else {
-            alert('last name must be shorter than 20 characters');
-        }
+        var valid = e.target.value.length <= 20 && e.target.value.length > 0;
+        this.setState({
+            ...this.state,
+            lname: e.target.value,
+            valid: {
+                ...this.state.valid,
+                lname: valid
+            }
+        });
     };
 
     nicknameChangeHandler = e => {
-        if (e.target.value.length <= 20) {
-            this.setState({
-                ...this.state,
-                nickname: e.target.value
-            });
-        } else {
-            alert('nickname must be shorter than 20 characters');
-        }
+        var valid = e.target.value.length <= 20 && e.target.value.length > 0;
+        this.setState({
+            ...this.state,
+            nickname: e.target.value,
+            valid: {
+                ...this.state.valid,
+                nickname: valid
+            }
+        });
     };
 
     /*    passwordCheckerHandler = () => {
@@ -147,7 +153,7 @@ class SignUp extends Component {
     };*/
 
     render() {
-        //console.log(this.props.allTags);
+        //console.log(this.state.valid.lname);
         return (
             <div className="sign-up">
                 <div className="sign-up-form">
@@ -158,19 +164,17 @@ class SignUp extends Component {
                     <div className="form-group">
                         <p
                             className={`input-tag${
-                                this.state.valid.email ? '' : '-unvalid'
+                                this.state.valid.email ? '' : '-invalid'
                             }`}
                             align="left">
                             Email Address{' '}
-                            {this.state.valid.email
-                                ? ''
-                                : '(email already exists)'}
                         </p>
                         <input
-                            className={`form-control${
-                                this.state.valid.email ? '' : '-unvalid'
-                            }`}
-                            id="email-input"
+                            className="form-control"
+                            id={
+                                `email-input` +
+                                (this.state.valid.email ? '' : '-invalid')
+                            }
                             type="text"
                             value={this.state.email}
                             required="required"
@@ -183,7 +187,10 @@ class SignUp extends Component {
                         </p>
                         <input
                             className="form-control"
-                            id="pw-input"
+                            id={
+                                'pw-input' +
+                                (this.state.valid.password ? '' : '-invalid')
+                            }
                             type="password"
                             value={this.state.password}
                             required="required"
@@ -198,7 +205,13 @@ class SignUp extends Component {
                         </p>
                         <input
                             className="form-control"
-                            id="pw-check"
+                            id={
+                                `pw-check` +
+                                (this.state.password ===
+                                this.state.password_check
+                                    ? ''
+                                    : '-invalid')
+                            }
                             type="password"
                             value={this.state.password_check}
                             required="required"
@@ -214,7 +227,12 @@ class SignUp extends Component {
                                 </p>
                                 <input
                                     className="form-control"
-                                    id="fname"
+                                    id={
+                                        `fname` +
+                                        (this.state.valid.fname
+                                            ? ''
+                                            : '-invalid')
+                                    }
                                     type="text"
                                     value={this.state.fname}
                                     required="required"
@@ -229,7 +247,12 @@ class SignUp extends Component {
                                 </p>
                                 <input
                                     className="form-control"
-                                    id="lname"
+                                    id={
+                                        'lname' +
+                                        (this.state.valid.lname
+                                            ? ''
+                                            : '-invalid')
+                                    }
                                     type="text"
                                     value={this.state.lname}
                                     required="required"
@@ -247,7 +270,10 @@ class SignUp extends Component {
                         <input
                             className="form-control"
                             type="text"
-                            id="nickname"
+                            id={
+                                'nickname' +
+                                (this.state.valid.nickname ? '' : '-invalid')
+                            }
                             value={this.state.nickname}
                             required="required"
                             onChange={this.nicknameChangeHandler}
