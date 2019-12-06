@@ -7,35 +7,46 @@ import './ArticleEdit.css';
 class ArticleEdit extends Component {
     state = {
         is_loadcomplete: false,
-        title: '',
-        subtitle: '',
-        duedate: '',
-        content: '',
-        id: 1,
-        thumbnail: intro_first,
-        imageURL: intro_first,
-        valid: false,
-        postUrl: null,
-        postFile: null,
         imageChanged: false,
-        postTag: [{ id: 1, name: 'iluvswpp' }],
-        mockSuggestion: [
-            { id: 3, name: 'Bananas' },
-            { id: 4, name: 'Mango' },
-            { id: 5, name: 'Lemons' },
-            { id: 6, name: 'Apricots' }
-        ]
+        new_thumbnail: null,
+        new_imageURL: null,
+        article: {
+            title: null,
+            subtitle: null,
+            content: null,
+            thumbnail: null,
+            image: [],
+            tags: [],
+            is_owner: false,
+            open_for_all: false
+        }
     }; // should be props, not state
 
     componentDidMount() {
-        // this.props.ongetArticle(this.props.match.params.id);
+        this.props.ongetArticle(this.props.match.params.id);
+    }
+
+    componentDidUpdate() {
+        if (!this.state.is_loadcomplete && this.props.article) {
+            this.setState({
+                ...this.state,
+                article: this.props.article,
+                is_loadcomplete: true
+            });
+            /*if (!this.state.article.is_owner) {
+                this.props.history.push('/home');
+            }*/
+        }
     }
 
     titleChangeHandler = t => {
         if (t.target.value.length <= 30) {
             this.setState({
                 ...this.state,
-                title: t.target.value
+                article: {
+                    ...this.state.article,
+                    title: t.target.value
+                }
             });
         } else {
             alert('The title cannot be longer than 30 characters');
@@ -46,7 +57,10 @@ class ArticleEdit extends Component {
         if (s.target.value.length <= 30) {
             this.setState({
                 ...this.state,
-                subtitle: s.target.value
+                article: {
+                    ...this.state.article,
+                    subtitle: s.target.value
+                }
             });
         } else {
             alert('The subtitle cannot be longer than 30 characters');
@@ -57,7 +71,10 @@ class ArticleEdit extends Component {
         if (d.target.value.length <= 10000) {
             this.setState({
                 ...this.state,
-                content: d.target.value
+                article: {
+                    ...this.state.article,
+                    content: d.target.value
+                }
             });
         } else {
             alert('Content cannot be longer than 10000 characters');
@@ -71,87 +88,78 @@ class ArticleEdit extends Component {
         let file = e.target.files[0];
         reader.onloadend = () => {
             this.setState({
-                thumbnail: file,
-                imageURL: reader.result,
+                ...this.state,
+                new_thumbnail: file,
+                new_imageURL: reader.result,
                 imageChanged: true
             });
         };
+
+        if (!file) {
+            this.setState({
+                ...this.state,
+                new_thumbnail: null,
+                new_imageURL: null,
+                imageChanged: false
+            });
+            return;
+        }
 
         reader.readAsDataURL(file);
     };
 
     editConfirmHandler = () => {
-        if (!this.state.title) {
+        if (!this.state.article.title) {
             alert('Title should not be empty');
             return;
         }
-        if (!this.state.subtitle) {
+        if (!this.state.article.subtitle) {
             alert('Subtitle should not be empty');
             return;
         }
-        if (!this.state.content) {
+        if (!this.state.article.content) {
             alert('Content should not be empty');
             return;
         }
-        if (!this.state.postUrl) {
-            alert('Ad url should not be empty');
-            return;
+        if (this.state.imageChanged && !this.state.new_imageURL) {
+            if (
+                !window.confirm(
+                    "Your image will not be changed if you don't upload image"
+                )
+            ) {
+                return;
+            }
         }
-        if (
-            this.state.postUrl.toString().length < 9 ||
-            (this.state.postUrl.toString().substring(0, 7) !== 'http://' &&
-                this.state.postUrl.toString().substring(0, 8) !== 'https://')
-        ) {
-            alert('Ad url should start with http:// or https://');
-            return;
-        }
-        if (!this.state.imageURL) {
-            alert('You should upload image');
-            return;
-        }
-        if (this.state.postFile) {
-            if (this.state.postFile.size > 1000000) {
+        if (this.state.imageChanged && this.state.new_thumbnail) {
+            if (this.state.new_thumbnail.size > 1000000) {
                 alert('The file cannot be bigger than 1MB');
                 return;
             }
-            if (!this.state.postFile.name.match(/.(jpg|jpeg|png)$/i)) {
+            if (!this.state.new_thumbnail.name.match(/.(jpg|jpeg|png)$/i)) {
                 alert('You should upload image file');
                 return;
             }
         }
         const adpost = {
-            title: this.state.title,
-            subtitle: this.state.subtitle,
-            content: this.state.content,
-            image: this.imageCHanged
-                ? [this.state.imagePreviewUrl]
-                : 'not_changed',
-            ad_link: this.state.postUrl,
-            tags: this.props.article.tags
+            ...this.state.article,
+            image: this.state.imageChanged
+                ? [this.state.new_imageURL]
+                : 'not_changed'
         };
         this.props.onputArticle(this.props.match.params.id, adpost);
     };
 
     render() {
         let imagePreview = null;
-        let imageURL = this.state.imageURL;
+        let imageURL = this.state.imageChanged
+            ? this.state.new_imageURL
+            : this.state.article.thumbnail;
 
         if (imageURL) {
             imagePreview = <img id="post-thumbnail-preview" src={imageURL} />;
+        } else {
+            imagePreview = <p>Please upload an image</p>;
         }
-
-        if (!this.state.is_loadcomplete && this.props.loaded) {
-            this.setState({
-                ...this.state,
-                title: this.props.article.title,
-                subtitle: this.props.article.subtitle,
-                content: this.props.article.content,
-                imagePreviewUrl: this.props.article.thumbnail,
-                postUrl: this.props.article.ad_link,
-                is_loadcomplete: true
-            });
-        }
-
         return (
             <div>
                 {this.props.loaded && (
@@ -167,8 +175,7 @@ class ArticleEdit extends Component {
                                     placeholder=" input title"
                                     id="post-title-input"
                                     onChange={this.titleChangeHandler}
-                                    defaultValue={this.props.article.title}
-                                    value={this.state.postTitle}
+                                    value={this.state.article.title}
                                 />
                             </div>
                             <p />
@@ -180,8 +187,7 @@ class ArticleEdit extends Component {
                                     placeholder=" input subtitle"
                                     id="post-subtitle-input"
                                     onChange={this.subtitleChangeHandler}
-                                    defaultValue={this.props.article.subtitle}
-                                    value={this.state.postSubtitle}></input>
+                                    value={this.state.article.subtitle}></input>
                             </div>
                             <p />
                             <br />
@@ -192,7 +198,9 @@ class ArticleEdit extends Component {
                                     placeholder=" explain your ad"
                                     id="post-explain-input"
                                     onChange={this.detailedChangeHandler}
-                                    value={this.state.content}></textarea>
+                                    value={
+                                        this.state.article.content
+                                    }></textarea>
                             </div>
                             <p />
                             <br />
@@ -205,7 +213,7 @@ class ArticleEdit extends Component {
                                     multiple={false}
                                     onChange={this.imageOnChange}
                                 />
-                                <div>{imageURL}</div>
+                                <div>{imagePreview}</div>
                             </div>
                             <p />
                             <br />
@@ -233,7 +241,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        loaded: !state.adpost.adpost_detailed_item.is_loading,
+        loaded: state.adpost.is_loading,
         article: state.adpost.adpost_detailed_item
     };
 };

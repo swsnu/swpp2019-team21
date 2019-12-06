@@ -217,7 +217,7 @@ function postAdpost(data) {
 
 function putAdpost(id, data) {
     return dispatch => {
-        //console.log(data);
+        console.log(data);
         return axios.put(baseUrl + `/adpost/${id}/`, data).then(response => {
             id = response.data.id;
             dispatch(push(`/article/${id}`));
