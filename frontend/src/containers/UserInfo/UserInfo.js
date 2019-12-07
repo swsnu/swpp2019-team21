@@ -4,9 +4,9 @@ import { Table } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import AOS from 'aos';
 import { adpostActions, adreceptionActions } from '../../store/actions';
-import UserDetail from '../../components/UserDetail/UserDetail';
 import PreviewList from '../../components/PreviewList/PreviewList';
-import background from '../../assets/userinfo_background.jpg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import profile from './../../assets/iu_profile.png';
 import './UserInfo.css';
 
@@ -20,6 +20,14 @@ class UserInfo extends Component {
         point: -0x7fffffff,
         profileimg: profile,
         usertag: []
+    };
+
+    tagClickHandler = tagname => {
+        this.props.history.push(`/adposts/search/tag/${tagname}`);
+    };
+
+    userEditHandler = () => {
+        this.props.history.push('/mypage/edit');
     };
 
     componentDidMount() {
@@ -36,9 +44,14 @@ class UserInfo extends Component {
         var participated_article = [];
         var reception_table = null;
         if (this.props.user) {
-            tags = this.props.user.tags.map(tg => {
-                return <text id="tags">#{tg} </text>;
-            });
+            const taglist = this.props.user.tags.map(item => (
+                <li
+                    onClick={() => this.tagClickHandler(item)}
+                    className="tag-items">
+                    #{item}
+                </li>
+            ));
+            tags = <ul id="tag-link">{taglist}</ul>;
             nickname = this.props.user.nickname;
         }
 
@@ -75,43 +88,68 @@ class UserInfo extends Component {
 
         return (
             <div className="UserInfo">
-                <img src={background} id="title-background" />
-                <div className="TitleBox" id="userinfo-titlebox">
-                    <text className="Title" id="userinfo_title">
-                        Hello, {nickname}!
-                    </text>
-                    <p>
-                        <tgs>{tags}</tgs>
-                    </p>
-                </div>
-                <div className="AdList">
-                    <PreviewList
-                        articles={own_article}
-                        query={'Your Request'}
-                        compact={true}
+                <section className="user-info-box section-wrapper">
+                    <div className="Avatar">
+                        <img
+                            src={
+                                this.props.user.avatar
+                                    ? this.props.user.avatar
+                                    : ''
+                            }
+                            onClick={this.imageChangeHandler}
+                        />
+                    </div>
+                    <div className="user-info-text" id="userinfo-titlebox">
+                        <div className="main-user-wrapper">
+                            <h1 className="title-text" id="userinfo_title">
+                                {nickname}
+                            </h1>
+                            <h2 className="user-name-aggregated">
+                                {this.props.user.first_name}{' '}
+                                {this.props.user.last_name}∙
+                                {this.props.user.email}
+                            </h2>
+                        </div>
+                        {tags}
+                    </div>
+                    <FontAwesomeIcon
+                        icon={faEdit}
+                        id="user-edit-btn"
+                        onClick={this.userEditHandler}
                     />
-                    <PreviewList
-                        articles={participated_article}
-                        query={'Participated'}
-                        compact={true}
-                    />
-                    <div className="ReceptionTable">
-                        <h1 align="left">Your Receptions</h1>
+                </section>
+                <section className="adlist-box section-wrapper">
+                    <div className="AdList">
+                        <PreviewList
+                            articles={own_article.slice(0, 2)}
+                            query={'Your Request'}
+                            compact={true}
+                        />
+                        <PreviewList
+                            articles={participated_article.slice(0, 2)}
+                            query={'Participated'}
+                            compact={true}
+                        />
+                    </div>
+                </section>
+                <section className="adresult-box section-wrapper">
+                    <div className="ReceptionTable" data-aos="fade-up">
+                        <h1 className="list-title">Your Receptions</h1>
+                        <div className="title-under-line"></div>
                         <Table responsive>
                             <thead>
                                 <tr>
-                                    <th width="400px">Post</th>
-                                    <th width="400px">Your Link</th>
-                                    <th width="100px">Views</th>
-                                    <th width="100px">Earned Point</th>
-                                    <th width="100px">Status</th>
+                                    <th>Post</th>
+                                    <th>Your Link</th>
+                                    <th>Views</th>
+                                    <th>Earned Point</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>{reception_table}</tbody>
                         </Table>
                     </div>
-                </div>
-                <UserDetail />
+                </section>
             </div>
         );
     }
