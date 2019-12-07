@@ -347,7 +347,6 @@ class AdPostByIDView(View):
         post_new_images = req_data['image'][1:]
         post_new_tags = req_data['tags']
         post_new_thumbnail = req_data['image'][0]
-        print(post_new_thumbnail)
         post_old_images = adpost.image.all()
         post_old_tags = adpost.tags.all()
         post_old_thumbnail_id = adpost.thumbnail.id
@@ -359,16 +358,16 @@ class AdPostByIDView(View):
                 tag.delete()
         adpost.tags.clear()
 
-        if adpost.image == "not_changed":
+        if post_new_thumbnail == "not_changed":
             for image in post_old_images:
                 PostImage.delete(image)
             adpost.image.clear()
-
-        img_new = img_process(post_new_thumbnail)
-        adpost.thumbnail = img_new
-        post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
-        adpost.save()
-        PostImage.delete(post_old_thumbnail)
+        else:
+            img_new = img_process(post_new_thumbnail)
+            adpost.thumbnail = img_new
+            post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
+            adpost.save()
+            PostImage.delete(post_old_thumbnail)
 
         for i in range(len(post_new_images)):
             newimg = img_process(post_new_images[i])

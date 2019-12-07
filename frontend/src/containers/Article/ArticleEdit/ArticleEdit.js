@@ -137,7 +137,7 @@ class ArticleEdit extends Component {
             ...this.state.article,
             image: this.state.imageChanged
                 ? [this.state.new_imageURL]
-                : 'not_changed'
+                : ['not_changed']
         };
         this.props.onputArticle(this.props.match.params.id, adpost);
     };
