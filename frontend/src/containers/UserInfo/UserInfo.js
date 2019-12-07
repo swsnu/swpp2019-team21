@@ -3,10 +3,15 @@ import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import AOS from 'aos';
-import { adpostActions, adreceptionActions } from '../../store/actions';
+import {
+    adpostActions,
+    adreceptionActions,
+    userActions
+} from '../../store/actions';
 import PreviewList from '../../components/PreviewList/PreviewList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faCoins, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Modal, Button } from 'react-bootstrap';
 import profile from './../../assets/iu_profile.png';
 import './UserInfo.css';
 
@@ -19,7 +24,8 @@ class UserInfo extends Component {
         nickname: '',
         point: -0x7fffffff,
         profileimg: profile,
-        usertag: []
+        usertag: [],
+        addpoint: 0
     };
 
     tagClickHandler = tagname => {
@@ -30,6 +36,19 @@ class UserInfo extends Component {
         this.props.history.push('/mypage/edit');
     };
 
+    userChargeHandler = () => {
+        this.setState({ ...this.state, showChargePoint: true });
+    };
+
+    chargePointFinishHandler = () => {
+        this.props.updatePoint({
+            point: this.props.user.point * 1 + this.state.addpoint * 1
+        });
+        this.setState({ ...this.state, showChargePoint: false, addpoint: '' });
+        alert('Done!');
+        window.location.reload();
+    };
+
     componentDidMount() {
         AOS.init({ duration: 1000 });
         this.props.onGetUserList();
@@ -38,12 +57,14 @@ class UserInfo extends Component {
 
     render() {
         var tags = null;
+        var point = null;
         var nickname = null;
         var { adpost_user_list } = this.props;
         var own_article = [];
         var participated_article = [];
         var reception_table = null;
         if (this.props.user) {
+            point = this.props.user.point;
             const taglist = this.props.user.tags.map(item => (
                 <li
                     onClick={() => this.tagClickHandler(item)}
@@ -88,6 +109,79 @@ class UserInfo extends Component {
 
         return (
             <div className="UserInfo">
+                <Modal
+                    show={this.state.showChargePoint}
+                    onHide={() => {
+                        if (window.confirm('Are you sure you want to quit?')) {
+                            this.setState({
+                                ...this.state,
+                                showChargePoint: false,
+                                addpoint: ''
+                            });
+                        }
+                    }}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Charge Point</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="form-group" align="left">
+                            <p className="label-tag" align="left">
+                                Current Point
+                            </p>
+                            <text className="form-fixed" id="point">
+                                {point}
+                            </text>
+                        </div>
+                        <div className="form-group" align="left">
+                            <p className="label-tag" align="left">
+                                Charge
+                            </p>
+                            <input
+                                min="1"
+                                className="form-fixed"
+                                id="chargepoint"
+                                value={this.state.addpoint}
+                                onChange={e => {
+                                    const re = /^[0-9]*$/;
+                                    if (
+                                        (e.target.value == '' ||
+                                            re.test(e.target.value)) &&
+                                        Number(e.target.value) + point <
+                                            2100000000
+                                    ) {
+                                        this.setState({
+                                            ...this.state,
+                                            addpoint: e.target.value
+                                        });
+                                    } else if (
+                                        Number(e.target.value) + point >=
+                                        2100000000
+                                    ) {
+                                        alert(
+                                            'cannot charge more than 2 bilion'
+                                        );
+                                    }
+                                }}
+                            />
+                        </div>
+                        <div className="form-group" align="left">
+                            <p className="label-tag" align="left">
+                                Point Expected
+                            </p>
+                            <text className="form-fixed" id="point">
+                                {point * 1 + this.state.addpoint * 1}
+                            </text>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            id="charge-confirm"
+                            variant="primary"
+                            onClick={this.chargePointFinishHandler}>
+                            Save
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
                 <section className="user-info-box section-wrapper">
                     <div className="Avatar">
                         <img
@@ -111,9 +205,28 @@ class UserInfo extends Component {
                             </h2>
                         </div>
                         {tags}
+                        <div className="point-state-wrapper">
+                            <FontAwesomeIcon
+                                icon={faCoins}
+                                color="#7a7a7a"
+                                className="small-btn"
+                            />
+                            <h2 id="point-integer">
+                                {'       '}
+                                {this.props.user.point + ' '}
+                            </h2>
+                            <FontAwesomeIcon
+                                icon={faPlus}
+                                className="small-btn"
+                                color="#7a7a7a"
+                                id="user-charge-btn"
+                                onClick={this.userChargeHandler}
+                            />
+                        </div>
                     </div>
                     <FontAwesomeIcon
                         icon={faEdit}
+                        className="small-btn"
                         id="user-edit-btn"
                         onClick={this.userEditHandler}
                     />
@@ -167,6 +280,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onGetUserList: () => dispatch(adpostActions.getUserAdpostList()),
+        updatePoint: point => dispatch(userActions.updatePoint(point)),
         onGetReceptionList: () =>
             dispatch(adreceptionActions.getReceptionByUser())
     };

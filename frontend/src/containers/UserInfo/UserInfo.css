@@ -43,6 +43,7 @@
     padding: 0;
     text-align: left;
     margin-left: 20px;
+    margin-bottom: 5px;
 }
 
 .UserInfo .tag-items {
@@ -130,4 +131,17 @@
 
 .UserInfo #user-edit-btn:hover {
     cursor: pointer;
+}
+
+.UserInfo .point-state-wrapper {
+    margin-left: 20px;
+    display: flex;
+}
+
+.UserInfo .small-btn {
+    margin-left: 5px;
+}
+
+.UserInfo #point-integer {
+    display: block;
 }
