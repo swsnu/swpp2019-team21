@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { ProgressBar, Spinner, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock, faAd, faLink } from '@fortawesome/free-solid-svg-icons';
+import {
+    faClock,
+    faAd,
+    faLink,
+    faClipboard
+} from '@fortawesome/free-solid-svg-icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { adpostActions, adreceptionActions } from '../../../store/actions';
 import { LineChart, XAxis, YAxis, Line, Legend } from 'recharts';
@@ -83,54 +88,83 @@ class ArticleDetail extends Component {
                         </div>
                         <div className="thumbnail-right">
                             {this.props.is_participated && (
-                                <div id="share-btn-box">
-                                    <div className="facebook-share-btn share-btn">
-                                        <FacebookShareButton
-                                            url={this.props.unique_link}>
-                                            <FacebookIcon
-                                                size={40}
-                                                borderRadius={5}
-                                            />
-                                        </FacebookShareButton>
+                                <div className="share-window-participant">
+                                    <p id="right-title">
+                                        광고 링크를 공유하세요!
+                                    </p>
+                                    <div className="unique-url-wrapper">
+                                        <a
+                                            id="unique-url-text"
+                                            href={this.props.unique_link}>
+                                            {this.props.unique_link}
+                                        </a>
                                     </div>
-                                    <div className="twitter-share-btn share-btn">
-                                        <TwitterShareButton
-                                            url={this.props.unique_link}>
-                                            <TwitterIcon
-                                                size={40}
-                                                borderRadius={5}
-                                            />
-                                        </TwitterShareButton>
-                                    </div>
-                                    <div className="url-link share-btn">
-                                        <CopyToClipboard
-                                            text={this.props.unique_link}>
-                                            <div id="url-copy-button">
-                                                <FontAwesomeIcon
-                                                    icon={faLink}
-                                                    size="1x"
+                                    <div id="share-btn-box">
+                                        <div
+                                            className="facebook-share-btn share-btn"
+                                            data-tooltip-text="페이스북 공유하기">
+                                            <FacebookShareButton
+                                                url={this.props.unique_link}>
+                                                <FacebookIcon
+                                                    size={40}
+                                                    borderRadius={5}
                                                 />
-                                            </div>
-                                        </CopyToClipboard>
+                                            </FacebookShareButton>
+                                        </div>
+                                        <div
+                                            className="twitter-share-btn share-btn"
+                                            data-tooltip-text="트위터로 공유하기">
+                                            <TwitterShareButton
+                                                url={this.props.unique_link}>
+                                                <TwitterIcon
+                                                    size={40}
+                                                    borderRadius={5}
+                                                />
+                                            </TwitterShareButton>
+                                        </div>
+                                        <div
+                                            className="url-link share-btn"
+                                            data-tooltip-text="광고링크 복사하기">
+                                            <CopyToClipboard
+                                                text={this.props.unique_link}>
+                                                <div id="url-copy-button">
+                                                    <FontAwesomeIcon
+                                                        id="link-icon"
+                                                        icon={faClipboard}
+                                                        color="#ffffff"
+                                                        size="1x"
+                                                    />
+                                                </div>
+                                            </CopyToClipboard>
+                                        </div>
+                                        <div
+                                            className="kakao-share-btn share-btn"
+                                            data-tooltip-text="카카오톡 공유하기">
+                                            <img
+                                                id="kakao-share-icon"
+                                                src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             )}
                             {this.props.article.is_owner ? (
-                                <button
-                                    className="btn btn-primary"
+                                <Button
+                                    className="right-button-submit"
                                     id="post-edit-button"
+                                    variant="danger"
                                     disabled={true}
                                     onClick={this.postEditHandler}>
-                                    Edit
-                                </button>
+                                    광고 수정하기
+                                </Button>
                             ) : (
                                 !this.props.is_participated && (
                                     <Button
-                                        id="button-submit"
+                                        className="right-button-submit"
                                         variant="danger"
                                         disabled={this.props.is_participated}
                                         onClick={this.participateHandler}>
-                                        참여하기
+                                        광고 참여하기
                                     </Button>
                                 )
                             )}
@@ -190,7 +224,8 @@ class ArticleDetail extends Component {
                                         Earned points for participant
                                     </h2>
                                     <p id="earn-subtext">
-                                        광고 홍보를 통해 번 포인트를 알려줍니다.
+                                        광고 홍보를 통해 얻은 포인트를
+                                        알려줍니다.
                                     </p>
                                     <div id="earn-point">
                                         You promote {this.props.views} views of
@@ -288,4 +323,7 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleDetail);
