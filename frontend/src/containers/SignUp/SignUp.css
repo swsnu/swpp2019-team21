@@ -3,18 +3,18 @@
     margin-bottom: 100px;
 }
 
-.form-control {
+.form-group .form-control {
     min-height: 41px;
-    background: #fff;
+    background: rgb(229, 241, 253);
     box-shadow: none !important;
     border-color: #e3e3e3;
 }
 
-.form-control:focus {
-    border-color: #fa4252;
+.form-group .form-control:focus {
+    border-color: #888787;
+    border-width: 0.5px;
 }
 
-.form-control,
 .btn {
     border-radius: 2px;
 }
@@ -96,8 +96,37 @@
     text-decoration: underline;
 }
 
+.sign-up #input-warning {
+    margin-top: 3px;
+    color: red;
+}
+
 .form-group .input-tag-unvalid {
     color: red;
+}
+
+.form-group #email-input-invalid{
+    background: #f8e0e4;
+}
+
+.form-group #pw-check-invalid {
+    background: #f8e0e4;
+}
+
+.form-group #pw-input-invalid {
+    background: #f8e0e4;
+}
+
+.form-group #fname-invalid {
+    background: #f8e0e4;
+}
+
+.form-group #lname-invalid {
+    background: #f8e0e4;
+}
+
+.form-group #nickname-invalid {
+    background: #f8e0e4;
 }
 
 .user-profile-preview {

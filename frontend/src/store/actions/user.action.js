@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import { push } from 'connected-react-router';
 import axios from 'axios';
+import { ls } from '../../store';
 
 const base_url = '/api';
 
@@ -14,11 +15,26 @@ export const userActions = {
     updatePoint
 };
 
-function signIn(user) {
+function signIn(user, remember) {
     return dispatch => {
         return axios
             .post(base_url + '/sign-in/', user)
-            .then(response => {
+            .then(async response => {
+                if (remember) {
+                    try {
+                        await ls.set('useremail', user.email);
+                        await ls.set('userpw', user.password);
+                    } catch (error) {
+                        // Error removing
+                    }
+                } else {
+                    try {
+                        await ls.remove('useremail');
+                        await ls.remove('userpw');
+                    } catch (error) {
+                        // Error removing
+                    }
+                }
                 dispatch(getUser());
                 dispatch({ type: actionTypes.SIGN_IN });
                 dispatch(push('/home'));
