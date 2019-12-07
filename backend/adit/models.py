@@ -221,3 +221,8 @@ class Question(models.Model):
 class IpAddressDuplication(models.Model):
     ip_address = models.CharField(max_length=16)
     created = models.DateTimeField(auto_now_add=True)
+    adreception = models.ForeignKey(
+        AdReception,
+        related_name='ip_visited',
+        on_delete=models.CASCADE
+    )
