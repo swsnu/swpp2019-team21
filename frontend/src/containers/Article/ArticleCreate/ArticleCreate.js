@@ -263,9 +263,9 @@ class ArticleCreate extends Component {
             var valid =
                 e.target.value.length > 0 &&
                 re.test(e.target.value) &&
-                e.target.value * 1 >= 100;
+                e.target.value * 1 >= 10;
             if (
-                (e.target.value == '' || re.test(e.target.value)) &&
+                (e.target.value == '' || re.test(e.target.value)) && e.target.value.length<15 && 
                 this.state.nowpoint - Number(e.target.value) * multiplier >= 0
             ) {
                 this.setState({
@@ -277,6 +277,8 @@ class ArticleCreate extends Component {
                 });
             } else if (!re.test(e.target.value)) {
                 window.alert('숫자만 입력하세요');
+            } else if(e.target.value.length >= 15){
+
             } else {
                 window.alert('포인트가 부족합니다');
             }

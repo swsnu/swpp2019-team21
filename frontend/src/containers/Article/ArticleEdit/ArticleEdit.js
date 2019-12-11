@@ -122,7 +122,7 @@ class ArticleEdit extends Component {
                     }
                 });
             } else {
-                alert('jpg, jpeg, png, bmp 형식 파일이 가능합니다');
+                alert('1MB 이내의 jpg, jpeg, png, bmp 형식 파일이 가능합니다');
                 this.setState({
                     valid: {
                         thumbnail: false
