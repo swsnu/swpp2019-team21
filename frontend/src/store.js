@@ -8,8 +8,9 @@ import {
 import thunk from 'redux-thunk';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware, connectRouter } from 'connected-react-router';
-
+import SecureLS from 'secure-ls';
 export const history = createBrowserHistory();
+export const ls = new SecureLS();
 
 const rootReducer = combineReducers({
     adpost: adpost_reducer,

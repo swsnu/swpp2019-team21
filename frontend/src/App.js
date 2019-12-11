@@ -16,6 +16,7 @@ import BottomBox from './components/BottomBox/BottomBox';
 import Redirect from './containers/Redirect/Redirect';
 import { ScrollToTop } from './test/utils/ScrollToTop';
 import { connect } from 'react-redux';
+import UserDetail from './components/UserDetail/UserDetail';
 
 class App extends Component {
     render() {
@@ -35,10 +36,16 @@ class App extends Component {
                         />
                         <Route path="/mypage" exact component={UserInfo} />
                         <Route
+                            path="/mypage/edit"
+                            exact
+                            component={UserDetail}
+                        />
+                        <Route
                             path="/article/create"
                             exact
                             component={ArticleCreate}
                         />
+
                         <Route path="/resetpw" exact component={ResetPW} />
                         <Route
                             path="/article/:id"
@@ -64,4 +71,7 @@ class App extends Component {
     }
 }
 
-export default connect(null, null)(App);
+export default connect(
+    null,
+    null
+)(App);

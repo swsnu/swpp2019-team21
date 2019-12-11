@@ -20,7 +20,7 @@ class Home extends Component {
         this.props.onGetHomeList();
         this.props.onGetSuggestedTag();
         this.props.onGetRecentTagList();
-        AOS.init({ duration: 1000 });
+        AOS.init({ duration: 500 });
     }
 
     closeHandler = () => {

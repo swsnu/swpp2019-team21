@@ -3,15 +3,15 @@ body {
     padding-top: 0%;
 }
 .form-fixed {
-    font-size:16px;
+    font-size: 16px;
     color: black;
     min-height: 41px;
     box-shadow: none !important;
 }
 
 .form-select {
-    font-size:13px;
-    margin:20px 0 -20px;
+    font-size: 13px;
+    margin: 20px 0 -20px;
     color: black;
     box-shadow: none !important;
 }
@@ -30,29 +30,29 @@ body {
 .form-control:focus {
     border-color: #fa4252;
 }
-.form-control, .btn {        
+.form-control,
+.btn {
     border-radius: 2px;
 }
 
 .UserDetail {
     width: 350px;
-    margin: 0 auto;
+    margin: 150px auto 100px auto;
 
     color: #7a7a7a;
     border-radius: 2px;
-    margin-bottom: 15px;
     font-size: 13px;
     background: #ececec;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    padding: 30px;	
-    position: relative;	
+    padding: 30px;
+    position: relative;
 }
 .UserDetail h2 {
     font-size: 22px;
     margin: 35px 0 25px;
 }
 .UserDetail h6 {
-    color:#000000;
+    color: #000000;
 }
 .UserDetail .Avatar {
     position: absolute;
@@ -70,19 +70,20 @@ body {
 }
 .UserDetail .Avatar img {
     width: 100%;
-}	
+}
 
-.UserDetail .btn {        
+.UserDetail .btn {
     font-size: 16px;
     font-weight: bold;
     background: #fa4252;
     border: none;
     margin-bottom: 20px;
 }
-.UserDetail .btn:hover, .login-form .btn:focus {
+.UserDetail .btn:hover,
+.login-form .btn:focus {
     background: #f03757;
     outline: none important;
-}    
+}
 .UserDetail a:hover {
     text-decoration: underline;
 }
