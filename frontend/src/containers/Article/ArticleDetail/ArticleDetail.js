@@ -92,15 +92,6 @@ class ArticleDetail extends Component {
                                 <div className="closed-text">
                                     종료된 광고입니다
                                 </div>
-                            ): null}
-                            {this.props.article.is_owner ? (
-                                <FontAwesomeIcon
-                                    icon={faEdit}
-                                    size="1x"
-                                    id="post-edit-button"
-                                    onClick={this.postEditHandler}
-                                    label="수정하기"
-                                />
                             ) : (
                                 <div>
                                     {this.props.is_participated && (
@@ -178,14 +169,13 @@ class ArticleDetail extends Component {
                                         </div>
                                     )}
                                     {this.props.article.is_owner ? (
-                                        <Button
-                                            className="right-button-submit"
-                                            id="post-edit-button"
-                                            variant="danger"
-                                            disabled={true}
-                                            onClick={this.postEditHandler}>
-                                            광고 수정하기
-                                        </Button>
+                                        <FontAwesomeIcon
+                                    icon={faEdit}
+                                    size="1x"
+                                    id="post-edit-button"
+                                    onClick={this.postEditHandler}
+                                    label="수정하기"
+                                />
                                     ) : (
                                         !this.props.is_participated && (
                                             <Button
@@ -280,7 +270,7 @@ class ArticleDetail extends Component {
                                 </p>
                                 {statData.length > 2 ? (
                                     <LineChart
-                                        width={600}
+                                        width={350}
                                         height={300}
                                         data={statData}>
                                         <XAxis
