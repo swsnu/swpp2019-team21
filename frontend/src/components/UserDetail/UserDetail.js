@@ -538,16 +538,6 @@ class UserDetail extends Component {
                     </div>
                 </div>
             );
-        } else {
-            return (
-                <div>
-                    <Spinner
-                        animation="border"
-                        id="redirecting_spinner"
-                        variant="danger"
-                    />
-                </div>
-            );
         }
     }
 }
