@@ -19,7 +19,8 @@ import './UserInfo.css';
 const multiply = 7;
 class UserInfo extends Component {
     state = {
-        is_loaded: false,
+        user_loaded: false,
+        reception_loaded: false,
         email: '',
         fname: '',
         lname: '',
@@ -53,35 +54,49 @@ class UserInfo extends Component {
 
     componentDidMount() {
         AOS.init({ duration: 1000 });
-        this.props.onGetUserList();
+        this.props
+            .onGetUserList()
+            .then(res => {
+                this.setState({
+                    ...this.state,
+                    user_loaded: true
+                });
+            })
+            .catch(error => {
+                this.props.history.push('/home');
+            });
         this.props.onGetReceptionList().then(res => {
             this.setState({
                 ...this.state,
-                is_loaded: true
+                reception_loaded: true
             });
         });
     }
 
     render() {
-        var tags = null;
-        var point = null;
-        var nickname = null;
-        var { adpost_user_list } = this.props;
-        var own_article = [];
-        var participated_article = [];
-        var reception_table = null;
-        if (this.props.user) {
-            point = this.props.user.point;
-            const taglist = this.props.user.tags.map(item => (
-                <li
-                    onClick={() => this.tagClickHandler(item)}
-                    className="tag-items">
-                    #{item}
-                </li>
-            ));
-            tags = <ul id="tag-link">{taglist}</ul>;
-            nickname = this.props.user.nickname;
-        }
+        if (
+            this.state.user_loaded === true &&
+            this.state.reception_loaded === true
+        ) {
+            var tags = null;
+            var point = null;
+            var nickname = null;
+            var { adpost_user_list } = this.props;
+            var own_article = [];
+            var participated_article = [];
+            var reception_table = null;
+            if (this.props.user) {
+                point = this.props.user.point;
+                const taglist = this.props.user.tags.map(item => (
+                    <li
+                        onClick={() => this.tagClickHandler(item)}
+                        className="tag-items">
+                        #{item}
+                    </li>
+                ));
+                tags = <ul id="tag-link">{taglist}</ul>;
+                nickname = this.props.user.nickname;
+            }
 
             if (adpost_user_list[0]) {
                 own_article = adpost_user_list[0].data;
@@ -118,164 +133,177 @@ class UserInfo extends Component {
                 });
             }
 
-        return (
-            <div className="UserInfo">
-                <Modal
-                    show={this.state.showChargePoint}
-                    onHide={() => {
-                        if (window.confirm('Are you sure you want to quit?')) {
-                            this.setState({
-                                ...this.state,
-                                showChargePoint: false,
-                                addpoint: ''
-                            });
-                        }
-                    }}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Charge Point</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="form-group" align="left">
-                            <p className="label-tag" align="left">
-                                Current Point
-                            </p>
-                            <text className="form-fixed" id="point">
-                                {point}
-                            </text>
-                        </div>
-                        <div className="form-group" align="left">
-                            <p className="label-tag" align="left">
-                                Charge
-                            </p>
-                            <input
-                                min="1"
-                                className="form-fixed"
-                                id="chargepoint"
-                                value={this.state.addpoint}
-                                onChange={e => {
-                                    const re = /^[0-9]*$/;
-                                    if (
-                                        (e.target.value == '' ||
-                                            re.test(e.target.value)) &&
-                                        Number(e.target.value) + point <
-                                            2100000000
-                                    ) {
-                                        this.setState({
-                                            ...this.state,
-                                            addpoint: e.target.value
-                                        });
-                                    } else if (
-                                        Number(e.target.value) + point >=
-                                        2100000000
-                                    ) {
-                                        alert(
-                                            'cannot charge more than 2 bilion'
-                                        );
-                                    }
-                                }}
-                            />
-                        </div>
-                        <div className="form-group" align="left">
-                            <p className="label-tag" align="left">
-                                Point Expected
-                            </p>
-                            <text className="form-fixed" id="point">
-                                {point * 1 + this.state.addpoint * 1}
-                            </text>
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button
-                            id="charge-confirm"
-                            variant="primary"
-                            onClick={this.chargePointFinishHandler}>
-                            Save
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-                <section className="user-info-box section-wrapper">
-                    <div className="Avatar">
-                        <img
-                            src={
-                                this.props.user.avatar
-                                    ? this.props.user.avatar
-                                    : ''
+            return (
+                <div className="UserInfo">
+                    <Modal
+                        show={this.state.showChargePoint}
+                        onHide={() => {
+                            if (
+                                window.confirm('Are you sure you want to quit?')
+                            ) {
+                                this.setState({
+                                    ...this.state,
+                                    showChargePoint: false,
+                                    addpoint: ''
+                                });
                             }
-                            onClick={this.imageChangeHandler}
+                        }}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Charge Point</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className="form-group" align="left">
+                                <p className="label-tag" align="left">
+                                    Current Point
+                                </p>
+                                <text className="form-fixed" id="point">
+                                    {point}
+                                </text>
+                            </div>
+                            <div className="form-group" align="left">
+                                <p className="label-tag" align="left">
+                                    Charge
+                                </p>
+                                <input
+                                    min="1"
+                                    className="form-fixed"
+                                    id="chargepoint"
+                                    value={this.state.addpoint}
+                                    onChange={e => {
+                                        const re = /^[0-9]*$/;
+                                        if (
+                                            (e.target.value == '' ||
+                                                re.test(e.target.value)) &&
+                                            Number(e.target.value) + point <
+                                                2100000000
+                                        ) {
+                                            this.setState({
+                                                ...this.state,
+                                                addpoint: e.target.value
+                                            });
+                                        } else if (
+                                            Number(e.target.value) + point >=
+                                            2100000000
+                                        ) {
+                                            alert(
+                                                'cannot charge more than 2 bilion'
+                                            );
+                                        }
+                                    }}
+                                />
+                            </div>
+                            <div className="form-group" align="left">
+                                <p className="label-tag" align="left">
+                                    Point Expected
+                                </p>
+                                <text className="form-fixed" id="point">
+                                    {point * 1 + this.state.addpoint * 1}
+                                </text>
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button
+                                id="charge-confirm"
+                                variant="primary"
+                                onClick={this.chargePointFinishHandler}>
+                                Save
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                    <section className="user-info-box section-wrapper">
+                        <div className="Avatar">
+                            <img
+                                src={
+                                    this.props.user.avatar
+                                        ? this.props.user.avatar
+                                        : ''
+                                }
+                                onClick={this.imageChangeHandler}
+                            />
+                        </div>
+                        <div className="user-info-text" id="userinfo-titlebox">
+                            <div className="main-user-wrapper">
+                                <h1 className="title-text" id="userinfo_title">
+                                    {nickname}
+                                </h1>
+                                <h2 className="user-name-aggregated">
+                                    {this.props.user.first_name}{' '}
+                                    {this.props.user.last_name}∙
+                                    {this.props.user.email}
+                                </h2>
+                            </div>
+                            {tags}
+                            <div className="point-state-wrapper">
+                                <FontAwesomeIcon
+                                    icon={faCoins}
+                                    color="#7a7a7a"
+                                    className="small-btn"
+                                />
+                                <h2 id="point-integer">
+                                    {'       '}
+                                    {this.props.user.point + ' '}
+                                </h2>
+                                <FontAwesomeIcon
+                                    icon={faPlus}
+                                    className="small-btn"
+                                    color="#7a7a7a"
+                                    id="user-charge-btn"
+                                    onClick={this.userChargeHandler}
+                                />
+                            </div>
+                        </div>
+                        <FontAwesomeIcon
+                            icon={faEdit}
+                            className="small-btn"
+                            id="user-edit-btn"
+                            onClick={this.userEditHandler}
                         />
-                    </div>
-                    <div className="user-info-text" id="userinfo-titlebox">
-                        <div className="main-user-wrapper">
-                            <h1 className="title-text" id="userinfo_title">
-                                {nickname}
-                            </h1>
-                            <h2 className="user-name-aggregated">
-                                {this.props.user.first_name}{' '}
-                                {this.props.user.last_name}∙
-                                {this.props.user.email}
-                            </h2>
-                        </div>
-                        {tags}
-                        <div className="point-state-wrapper">
-                            <FontAwesomeIcon
-                                icon={faCoins}
-                                color="#7a7a7a"
-                                className="small-btn"
+                    </section>
+                    <section className="adlist-box section-wrapper">
+                        <div className="AdList">
+                            <PreviewList
+                                articles={own_article.slice(0, 2)}
+                                query={'Your Request'}
+                                compact={true}
                             />
-                            <h2 id="point-integer">
-                                {'       '}
-                                {this.props.user.point + ' '}
-                            </h2>
-                            <FontAwesomeIcon
-                                icon={faPlus}
-                                className="small-btn"
-                                color="#7a7a7a"
-                                id="user-charge-btn"
-                                onClick={this.userChargeHandler}
+                            <PreviewList
+                                articles={participated_article.slice(0, 2)}
+                                query={'Participated'}
+                                compact={true}
                             />
                         </div>
-                    </div>
-                    <FontAwesomeIcon
-                        icon={faEdit}
-                        className="small-btn"
-                        id="user-edit-btn"
-                        onClick={this.userEditHandler}
+                    </section>
+                    <section className="adresult-box section-wrapper">
+                        <div className="ReceptionTable" data-aos="fade-up">
+                            <h1 className="list-title">Your Receptions</h1>
+                            <div className="title-under-line"></div>
+                            <Table responsive>
+                                <thead>
+                                    <tr>
+                                        <th>Post</th>
+                                        <th>Your Link</th>
+                                        <th>Views</th>
+                                        <th>Earned Point</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>{reception_table}</tbody>
+                            </Table>
+                        </div>
+                    </section>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <Spinner
+                        animation="border"
+                        id="redirecting_spinner"
+                        variant="danger"
                     />
-                </section>
-                <section className="adlist-box section-wrapper">
-                    <div className="AdList">
-                        <PreviewList
-                            articles={own_article.slice(0, 2)}
-                            query={'Your Request'}
-                            compact={true}
-                        />
-                        <PreviewList
-                            articles={participated_article.slice(0, 2)}
-                            query={'Participated'}
-                            compact={true}
-                        />
-                    </div>
-                </section>
-                <section className="adresult-box section-wrapper">
-                    <div className="ReceptionTable" data-aos="fade-up">
-                        <h1 className="list-title">Your Receptions</h1>
-                        <div className="title-under-line"></div>
-                        <Table responsive>
-                            <thead>
-                                <tr>
-                                    <th>Post</th>
-                                    <th>Your Link</th>
-                                    <th>Views</th>
-                                    <th>Earned Point</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>{reception_table}</tbody>
-                        </Table>
-                    </div>
-                </section>
-            </div>
-        );
+                </div>
+            );
+        }
     }
 }
 

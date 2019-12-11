@@ -278,7 +278,7 @@ class ArticleCreate extends Component {
             } else if (!re.test(e.target.value)) {
                 window.alert('숫자만 입력하세요');
             } else if(e.target.value.length >= 15){
-
+                window.alert('15 글자를 넘을 수 없습니다.')
             } else {
                 window.alert('포인트가 부족합니다');
             }
