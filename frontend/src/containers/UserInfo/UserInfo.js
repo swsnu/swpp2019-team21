@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
 import AOS from 'aos';
 import {
     adpostActions,
@@ -18,6 +19,7 @@ import './UserInfo.css';
 const multiply = 7;
 class UserInfo extends Component {
     state = {
+        is_loaded: false,
         email: '',
         fname: '',
         lname: '',
@@ -52,7 +54,12 @@ class UserInfo extends Component {
     componentDidMount() {
         AOS.init({ duration: 1000 });
         this.props.onGetUserList();
-        this.props.onGetReceptionList();
+        this.props.onGetReceptionList().then(res => {
+            this.setState({
+                ...this.state,
+                is_loaded: true
+            });
+        });
     }
 
     render() {
@@ -76,36 +83,40 @@ class UserInfo extends Component {
             nickname = this.props.user.nickname;
         }
 
-        if (adpost_user_list[0]) {
-            own_article = adpost_user_list[0].data;
-        }
-        if (adpost_user_list[1]) {
-            participated_article = adpost_user_list[1].data;
-        }
-        //console.log(own_article, participated_article);
-        if (
-            this.props.reception_list.length > 0 &&
-            participated_article.length > 0
-        ) {
-            reception_table = this.props.reception_list.map(rcp => {
-                var acl = participated_article.filter(
-                    item => item.id == rcp.adpost
-                )[0];
-                return (
-                    <tr
-                        id="table_contents"
-                        onClick={() =>
-                            this.props.history.push('/article/' + rcp.adpost)
-                        }>
-                        <td id="post">{acl.title}</td>
-                        <td id="link">{rcp.unique_link}</td>
-                        <td id="view">{rcp.views}</td>
-                        <td id="money">{rcp.views * multiply}</td>
-                        <td id="closed">{acl.closed ? 'Closed' : 'Open'}</td>
-                    </tr>
-                );
-            });
-        }
+            if (adpost_user_list[0]) {
+                own_article = adpost_user_list[0].data;
+            }
+            if (adpost_user_list[1]) {
+                participated_article = adpost_user_list[1].data;
+            }
+            //console.log(own_article, participated_article);
+            if (
+                this.props.reception_list.length > 0 &&
+                participated_article.length > 0
+            ) {
+                reception_table = this.props.reception_list.map(rcp => {
+                    var acl = participated_article.filter(
+                        item => item.id == rcp.adpost
+                    )[0];
+                    return (
+                        <tr
+                            id="table_contents"
+                            onClick={() =>
+                                this.props.history.push(
+                                    '/article/' + rcp.adpost
+                                )
+                            }>
+                            <td id="post">{acl.title}</td>
+                            <td id="link">{rcp.unique_link}</td>
+                            <td id="view">{rcp.views}</td>
+                            <td id="money">{rcp.views * multiply}</td>
+                            <td id="closed">
+                                {acl.closed ? 'Closed' : 'Open'}
+                            </td>
+                        </tr>
+                    );
+                });
+            }
 
         return (
             <div className="UserInfo">
@@ -287,8 +298,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(UserInfo)
+    connect(mapStateToProps, mapDispatchToProps)(UserInfo)
 );
