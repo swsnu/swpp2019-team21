@@ -49,6 +49,15 @@
     line-height: normal;
 }
 
+.ArticleCreate #input-warning {
+    font-size: 0.8rem;
+    color: red;
+}
+
+.ArticleCreate #invalid-input{
+    background: #f8e0e4;
+}
+
 .switch {
     position: relative;
     margin: 0 10px;
@@ -152,7 +161,7 @@ input:checked + .slider:before {
 
 #post-explain-input {
     resize: none;
-    height: 150px;
+    height: 400px;
 }
 
 #post-point-deduction {

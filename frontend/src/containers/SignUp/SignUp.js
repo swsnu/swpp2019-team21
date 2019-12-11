@@ -18,11 +18,11 @@ class SignUp extends Component {
         read_check: false,
         postFile: null,
         valid: {
-            email: false,
-            password: false,
-            nickname: false,
-            fname: false,
-            lname: false
+            email: null,
+            password: null,
+            nickname: null,
+            fname: null,
+            lname: null
         }
     };
 
@@ -156,9 +156,9 @@ class SignUp extends Component {
         this.setState({
             ...this.state,
             read_check: e.target.checked
-        })
-    }
-    
+        });
+    };
+
     /*    passwordCheckerHandler = () => {
         // TODO Inputbox Get Red
     };*/
@@ -175,7 +175,9 @@ class SignUp extends Component {
                     <div className="form-group">
                         <p
                             className={`input-tag${
-                                this.state.valid.email ? '' : '-invalid'
+                                this.state.valid.email === false
+                                    ? '-invalid'
+                                    : ''
                             }`}
                             align="left">
                             Email Address{' '}
@@ -184,14 +186,21 @@ class SignUp extends Component {
                             className="form-control"
                             id={
                                 `email-input` +
-                                (this.state.valid.email ? '' : '-invalid')
+                                (this.state.valid.email === false
+                                    ? '-invalid'
+                                    : '')
                             }
                             type="text"
                             value={this.state.email}
                             required="required"
                             onChange={this.emailChangeHandler}
                         />
-                        <p id = "input-warning" align = "left">{!this.state.valid.email?"Invalid email form":""} &nbsp;</p>
+                        <p id="input-warning" align="left">
+                            {this.state.valid.email === false
+                                ? 'Invalid email form'
+                                : ''}{' '}
+                            &nbsp;
+                        </p>
                     </div>
                     <div className="form-group">
                         <p className="input-tag" align="left">
@@ -201,14 +210,21 @@ class SignUp extends Component {
                             className="form-control"
                             id={
                                 'pw-input' +
-                                (this.state.valid.password ? '' : '-invalid')
+                                (this.state.valid.password === false
+                                    ? '-invalid'
+                                    : '')
                             }
                             type="password"
                             value={this.state.password}
                             required="required"
                             onChange={this.passwordChangeHandler}
                         />
-                        <p id = "input-warning" align = "left">{!this.state.valid.password?"Must consist of 8-20 characters":""} &nbsp;</p>
+                        <p id="input-warning" align="left">
+                            {this.state.valid.password === false
+                                ? 'Must consist of 8-20 characters'
+                                : ''}{' '}
+                            &nbsp;
+                        </p>
                     </div>
                     <div className="form-group">
                         <p
@@ -231,7 +247,12 @@ class SignUp extends Component {
                             onChange={this.passwordCheckChangeHandler}
                             onBlur={this.passwordCheckerHandler}
                         />
-                        <p id = "input-warning" align = "left">{this.state.password !==this.state.password_check?"Must match password":""} &nbsp;</p>
+                        <p id="input-warning" align="left">
+                            {this.state.password !== this.state.password_check
+                                ? 'Must match password'
+                                : ''}{' '}
+                            &nbsp;
+                        </p>
                     </div>
                     <table>
                         <td>
@@ -243,16 +264,21 @@ class SignUp extends Component {
                                     className="form-control"
                                     id={
                                         `fname` +
-                                        (this.state.valid.fname
-                                            ? ''
-                                            : '-invalid')
+                                        (this.state.valid.fname === false
+                                            ? '-invalid'
+                                            : '')
                                     }
                                     type="text"
                                     value={this.state.fname}
                                     required="required"
                                     onChange={this.fnameChangeHandler}
                                 />
-                                <p id = "input-warning" align = "left">{!this.state.valid.fname?"1-20 characters":""} &nbsp;</p>
+                                <p id="input-warning" align="left">
+                                    {this.state.valid.fname === false
+                                        ? '1-20 characters'
+                                        : ''}{' '}
+                                    &nbsp;
+                                </p>
                             </div>
                         </td>
                         <td>
@@ -264,16 +290,21 @@ class SignUp extends Component {
                                     className="form-control"
                                     id={
                                         'lname' +
-                                        (this.state.valid.lname
-                                            ? ''
-                                            : '-invalid')
+                                        (this.state.valid.lname === false
+                                            ? '-invalid'
+                                            : '')
                                     }
                                     type="text"
                                     value={this.state.lname}
                                     required="required"
                                     onChange={this.lnameChangeHandler}
                                 />
-                                <p id = "input-warning" align = "left">{!this.state.valid.fname?"1-20 characters":""} &nbsp;</p>
+                                <p id="input-warning" align="left">
+                                    {this.state.valid.lname === false
+                                        ? '1-20 characters'
+                                        : ''}{' '}
+                                    &nbsp;
+                                </p>
                             </div>
                         </td>
                     </table>
@@ -288,13 +319,20 @@ class SignUp extends Component {
                             type="text"
                             id={
                                 'nickname' +
-                                (this.state.valid.nickname ? '' : '-invalid')
+                                (this.state.valid.nickname === false
+                                    ? '-invalid'
+                                    : '')
                             }
                             value={this.state.nickname}
                             required="required"
                             onChange={this.nicknameChangeHandler}
                         />
-                        <p id = "input-warning" align = "left">{!this.state.valid.nickname?"1-20 characters":""} &nbsp;</p>
+                        <p id="input-warning" align="left">
+                            {this.state.valid.nickname === false
+                                ? '1-20 characters'
+                                : ''}{' '}
+                            &nbsp;
+                        </p>
                     </div>
                     <div className="tagSelect">
                         <p className="input-tag" align="left">
@@ -313,8 +351,13 @@ class SignUp extends Component {
                     </div>
                     <div className="checkterm">
                         <label className="Term">
-                            <input checked={this.state.read_check} onChange={this.checkBoxHandler} type="checkbox" id="haveread-chkbox" /> I
-                            have read and agree to the{' '}
+                            <input
+                                checked={this.state.read_check}
+                                onChange={this.checkBoxHandler}
+                                type="checkbox"
+                                id="haveread-chkbox"
+                            />{' '}
+                            I have read and agree to the{' '}
                             <a href="#">terms of service</a>
                         </label>
                     </div>

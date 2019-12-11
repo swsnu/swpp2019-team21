@@ -33,7 +33,17 @@ class ArticleCreate extends Component {
             { id: 6, name: 'Apricots' }
         ],
         imagePreviewUrl: '',
-        nowpoint: null
+        nowpoint: null,
+        valid: {
+            postTitle: null,
+            postSubtitle: null,
+            postExplain: null,
+            imagePreviewUrl: null,
+            ad_link: null,
+            postGoal: null,
+            open_for_all: null,
+            tags: null
+        }
     };
 
     componentDidMount() {
@@ -139,47 +149,76 @@ class ArticleCreate extends Component {
                 </div>
             );
         };
-        const titleChangeHandler = i => {
-            if (i.target.value.length <= 30) {
+        const titleChangeHandler = e => {
+            var valid =
+                e.target.value.length <= 30 && e.target.value.length > 0;
+            if (e.target.value.length <= 30) {
                 this.setState({
                     ...this.state,
-                    postTitle: i.target.value
+                    postTitle: e.target.value,
+                    valid: {
+                        ...this.state.valid,
+                        postTitle: valid
+                    }
                 });
             } else {
                 alert('제목은 30자를 넘을 수 없습니다');
             }
         };
-        const subtitleChangeHandler = i => {
-            if (i.target.value.length <= 30) {
+        const subtitleChangeHandler = e => {
+            var valid =
+                e.target.value.length <= 30 && e.target.value.length > 0;
+            if (e.target.value.length <= 30) {
                 this.setState({
                     ...this.state,
-                    postSubtitle: i.target.value
+                    postSubtitle: e.target.value,
+                    valid: {
+                        ...this.state.valid,
+                        postSubtitle: valid
+                    }
                 });
             } else {
                 alert('부제목은 30자를 넘을 수 없습니다');
             }
         };
-        const explainChangeHandler = i => {
-            if (i.target.value.length <= 10000) {
+        const explainChangeHandler = e => {
+            var valid =
+                e.target.value.length <= 10000 && e.target.value.length > 0;
+            if (e.target.value.length <= 10000) {
                 this.setState({
                     ...this.state,
-                    postExplain: i.target.value
+                    postExplain: e.target.value,
+                    valid: {
+                        ...this.state.valid,
+                        postExplain: valid
+                    }
                 });
             } else {
                 alert('설명은 10000자를 넘을 수 없습니다');
             }
         };
-        const urlChangeHandler = i => {
-            if (i.target.value.length <= 100) {
+        const urlChangeHandler = e => {
+            var valid =
+                !this.state.needUrl ||
+                (e.target.value.length <= 100 &&
+                    e.target.value.length > 8 &&
+                    (e.target.value.toString().substring(0, 7) == 'http://' ||
+                        e.target.value.toString().substring(0, 8) ==
+                            'https://'));
+            if (e.target.value.length <= 100) {
                 this.setState({
                     ...this.state,
-                    postUrl: i.target.value
+                    postUrl: e.target.value,
+                    valid: {
+                        postUrl: valid
+                    }
                 });
             } else {
                 alert('Url은 100자를 넘을 수 없습니다');
             }
         };
         const imageOnChange = e => {
+            var valid = false;
             e.preventDefault();
 
             let reader = new FileReader();
@@ -188,30 +227,53 @@ class ArticleCreate extends Component {
             if (!file) {
                 this.setState({
                     postFile: null,
-                    imagePreviewUrl: null
+                    imagePreviewUrl: null,
+                    valid: {
+                        imagePreviewUrl: valid
+                    }
                 });
                 return;
             }
-
             reader.onloadend = () => {
-                this.setState({
-                    postFile: file,
-                    imagePreviewUrl: reader.result
-                });
+                valid = file && 
+                file.name.match(/.(jpg|jpeg|png|bmp)$/i) &&
+                file.size <= 1000000;
+                if (valid) {
+                    this.setState({
+                        postFile: file,
+                        imagePreviewUrl: reader.result,
+                        valid: {
+                            imagePreviewUrl: valid
+                        }
+                    });
+                } else {
+                    alert('jpg, jpeg, png, bmp 형식 파일이 가능합니다');
+                    this.setState({
+                        valid: {
+                            imagePreviewUrl: false
+                        }
+                    });
+                }
             };
             reader.readAsDataURL(file);
         };
 
         const goalChangeHandler = e => {
             const re = /^[0-9]*$/;
-
+            var valid =
+                e.target.value.length > 0 &&
+                re.test(e.target.value) &&
+                e.target.value * 1 >= 100;
             if (
                 (e.target.value == '' || re.test(e.target.value)) &&
                 this.state.nowpoint - Number(e.target.value) * multiplier >= 0
             ) {
                 this.setState({
                     ...this.state,
-                    postGoal: e.target.value
+                    postGoal: e.target.value,
+                    valid: {
+                        postGoal: valid
+                    }
                 });
             } else if (!re.test(e.target.value)) {
                 window.alert('숫자만 입력하세요');
@@ -351,18 +413,39 @@ class ArticleCreate extends Component {
                             <h3 className="form-label">무슨 광고인가요?</h3>
                             <input
                                 className="form-control"
-                                id="post-title-input"
+                                id={
+                                    'post-title-input' +
+                                    (this.state.valid.postTitle === false
+                                        ? ' invalid-input'
+                                        : ' valid-input')
+                                }
                                 onChange={titleChangeHandler}
                                 value={this.state.postTitle}
                             />
+                            <p id="input-warning" align="left">
+                                {this.state.valid.postTitle === false
+                                    ? '제목을 입력하세요'
+                                    : <br/>}{' '}
+                            </p>
                         </div>
                         <div className="form-group" align="center">
                             <h3 className="form-label">한줄 설명</h3>
                             <input
                                 className="form-control"
-                                id="post-subtitle-input"
+                                id={
+                                    'post-subtitle-input' +
+                                    (this.state.valid.postSubtitle === false
+                                        ? ' invalid-input'
+                                        : ' valid-input')
+                                }
                                 onChange={subtitleChangeHandler}
-                                value={this.state.postSubtitle}></input>
+                                value={this.state.postSubtitle}
+                            />
+                            <p id="input-warning" align="left">
+                                {this.state.valid.postSubtitle === false
+                                    ? '부제목을 입력하세요'
+                                    : <br/>}{' '}
+                            </p>
                         </div>
                         <div className="form-group" align="center">
                             <h3 className="form-label">
@@ -370,9 +453,20 @@ class ArticleCreate extends Component {
                             </h3>
                             <textarea
                                 className="form-control"
-                                id="post-explain-input"
+                                id={
+                                    'post-explain-input' +
+                                    (this.state.valid.postExplain === false
+                                        ? ' invalid-input'
+                                        : ' valid-input')
+                                }
                                 onChange={explainChangeHandler}
-                                value={this.state.postExplain}></textarea>
+                                value={this.state.postExplain}
+                            />
+                            <p id="input-warning" align="left">
+                                {this.state.valid.postExplain === false
+                                    ? '설명을 입력하세요'
+                                    : <br/>}{' '}
+                            </p>
                         </div>
                         <div className="form-group" align="center">
                             <h3 className="form-label">
@@ -381,10 +475,20 @@ class ArticleCreate extends Component {
                             <input
                                 className="form-control"
                                 type="file"
-                                id="post-thumbnail-input"
+                                id={
+                                    'post-thumbnail-input' +
+                                    (this.state.valid.imagePreviewUrl === false
+                                        ? ' invalid-input'
+                                        : ' valid-input')
+                                }
                                 multiple={false}
                                 onChange={imageOnChange}
                             />
+                            <p id="input-warning" align="left">
+                                {this.state.valid.imagePreviewUrl === false
+                                    ? '이미지 파일을 업로드하세요'
+                                    : <br/>}{' '}
+                            </p>
                             <div>{imagePreview}</div>
                         </div>
                         <div className="url-toggle-group toggle-group">
@@ -415,9 +519,20 @@ class ArticleCreate extends Component {
                             <div className="form-group" align="center">
                                 <input
                                     className="form-control"
-                                    id="post-url-input"
+                                    id={
+                                        'post-url-input' +
+                                        (this.state.valid.postUrl === false
+                                            ? ' invalid-input'
+                                            : ' valid-input')
+                                    }
                                     onChange={urlChangeHandler}
-                                    value={this.state.postUrl}></input>
+                                    value={this.state.postUrl}
+                                />
+                                <p id="input-warning" align="left">
+                                    {this.state.valid.postUrl === false
+                                        ? '올바른 형식의 URL을 입력하세요'
+                                        : <br/>}{' '}
+                                </p>
                             </div>
                         )}
                         <p />
@@ -496,28 +611,36 @@ class ArticleCreate extends Component {
                             <h3 className="form-label">목표 뷰를 설정하세요</h3>
                             <input
                                 className="form-control"
-                                id="post-goal-input"
+                                id={
+                                    'post-goal-input' +
+                                    (this.state.valid.postGoal === false
+                                        ? ' invalid-input'
+                                        : ' valid-input')
+                                }
                                 onChange={goalChangeHandler}
                                 value={this.state.postGoal}
                             />
+                            <p id="input-warning" align="left">
+                                {this.state.valid.postGoal === false
+                                    ? '100 이상의 목표 광고수를 입력하세요'
+                                    : <br></br>}{' '}
+                            </p>
                         </div>
                         <div className="form-group" align="center">
                             <p
                                 className="form-control"
                                 id="post-point-deduction">
-                                {this.state.postGoal
-                                    ? this.state.postGoal * multiplier
-                                    : 0}{' '}
-                                포인트가 차감됩니다
+                                {this.state.valid.postGoal
+                                    ? this.state.postGoal * multiplier+" 포인트가 차감됩니다"
+                                    : null}
                             </p>
                             <p
                                 className="form-control"
                                 id="post-point-deduction">
-                                {this.state.postGoal
-                                    ? this.state.nowpoint -
-                                      this.state.postGoal * multiplier
-                                    : this.state.nowpoint}{' '}
-                                포인트가 남게 됩니다
+                                {this.state.valid.postGoal
+                                    ? (this.state.nowpoint -
+                                      this.state.postGoal * multiplier) + " 포인트가 남게 됩니다"
+                                    : null}
                             </p>
                         </div>
                         <p />

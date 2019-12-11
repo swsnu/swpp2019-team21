@@ -42,6 +42,15 @@
     line-height: normal;
 }
 
+.ArticleEdit #input-warning {
+    font-size: 0.8rem;
+    color: red;
+}
+
+.ArticleEdit #invalid-input{
+    background: #f8e0e4;
+}
+
 .ArticleEdit .submit-btn {
     background-color: #fa4252 !important;
     font-size: 20px;

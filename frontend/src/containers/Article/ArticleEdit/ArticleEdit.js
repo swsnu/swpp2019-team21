@@ -18,6 +18,12 @@ class ArticleEdit extends Component {
             tags: [],
             is_owner: false,
             open_for_all: false
+        },
+        valid: {
+            title: null,
+            subtitle: null,
+            content: null,
+            thumbnail: null
         }
     }; // should be props, not state
 
@@ -38,13 +44,17 @@ class ArticleEdit extends Component {
         }
     }
 
-    titleChangeHandler = t => {
-        if (t.target.value.length <= 30) {
+    titleChangeHandler = e => {
+        var valid = e.target.value.length <= 30 && e.target.value.length > 0;
+        if (e.target.value.length <= 30) {
             this.setState({
                 ...this.state,
                 article: {
                     ...this.state.article,
-                    title: t.target.value
+                    title: e.target.value
+                },
+                valid: {
+                    title: valid
                 }
             });
         } else {
@@ -52,13 +62,18 @@ class ArticleEdit extends Component {
         }
     };
 
-    subtitleChangeHandler = s => {
-        if (s.target.value.length <= 30) {
+    subtitleChangeHandler = e => {
+        var valid = e.target.value.length <= 30 && e.target.value.length > 0;
+        if (e.target.value.length <= 30) {
             this.setState({
                 ...this.state,
                 article: {
                     ...this.state.article,
-                    subtitle: s.target.value
+                    subtitle: e.target.value
+                },
+                valid: {
+                    ...this.state.valid,
+                    subtitle: valid
                 }
             });
         } else {
@@ -66,13 +81,18 @@ class ArticleEdit extends Component {
         }
     };
 
-    detailedChangeHandler = d => {
-        if (d.target.value.length <= 10000) {
+    detailedChangeHandler = e => {
+        var valid = e.target.value.length <= 10000 && e.target.value.length > 0;
+        if (e.target.value.length <= 10000) {
             this.setState({
                 ...this.state,
                 article: {
                     ...this.state.article,
-                    content: d.target.value
+                    content: e.target.value
+                },
+                valid: {
+                    ...this.state.valid,
+                    content: valid
                 }
             });
         } else {
@@ -81,17 +101,34 @@ class ArticleEdit extends Component {
     };
 
     imageOnChange = e => {
+        var valid = false;
         e.preventDefault();
 
         let reader = new FileReader();
         let file = e.target.files[0];
         reader.onloadend = () => {
-            this.setState({
-                ...this.state,
-                new_thumbnail: file,
-                new_imageURL: reader.result,
-                imageChanged: true
-            });
+            valid =
+                file &&
+                file.name.match(/.(jpg|jpeg|png|bmp)$/i) &&
+                file.size <= 1000000;
+            if (valid) {
+                this.setState({
+                    ...this.state,
+                    new_thumbnail: file,
+                    new_imageURL: reader.result,
+                    imageChanged: true,
+                    valid: {
+                        thumbnail: valid
+                    }
+                });
+            } else {
+                alert('jpg, jpeg, png, bmp 형식 파일이 가능합니다');
+                this.setState({
+                    valid: {
+                        thumbnail: false
+                    }
+                });
+            }
         };
 
         if (!file) {
@@ -99,7 +136,10 @@ class ArticleEdit extends Component {
                 ...this.state,
                 new_thumbnail: null,
                 new_imageURL: null,
-                imageChanged: false
+                imageChanged: false,
+                valid: {
+                    thumbnail: valid
+                }
             });
             return;
         }
@@ -171,10 +211,22 @@ class ArticleEdit extends Component {
                                     </h3>
                                     <input
                                         className="form-control"
-                                        id="post-title-input"
+                                        id={
+                                            'post-title-input' +
+                                            (this.state.valid.title === false
+                                                ? ' invalid-input'
+                                                : ' valid-input')
+                                        }
                                         onChange={this.titleChangeHandler}
                                         value={this.state.article.title}
                                     />
+                                    <p id="input-warning" align="left">
+                                        {this.state.valid.title === false ? (
+                                            '제목을 입력하세요'
+                                        ) : (
+                                            <br />
+                                        )}{' '}
+                                    </p>
                                 </div>
                                 <p />
                                 <br />
@@ -182,11 +234,22 @@ class ArticleEdit extends Component {
                                     <h3 className="form-label">한줄 설명</h3>
                                     <input
                                         className="form-control"
-                                        id="post-subtitle-input"
+                                        id={
+                                            'post-subtitle-input' +
+                                            (this.state.valid.subtitle === false
+                                                ? ' invalid-input'
+                                                : ' valid-input')
+                                        }
                                         onChange={this.subtitleChangeHandler}
-                                        value={
-                                            this.state.article.subtitle
-                                        }></input>
+                                        value={this.state.article.subtitle}
+                                    />
+                                    <p id="input-warning" align="left">
+                                        {this.state.valid.subtitle === false ? (
+                                            '부제목을 입력하세요'
+                                        ) : (
+                                            <br />
+                                        )}{' '}
+                                    </p>
                                 </div>
                                 <p />
                                 <br />
@@ -196,10 +259,22 @@ class ArticleEdit extends Component {
                                     </h3>
                                     <textarea
                                         className="form-control"
-                                        id="post-explain-input"
-                                        value={
-                                            this.state.article.content
-                                        }></textarea>
+                                        id={
+                                            'post-explain-input' +
+                                            (this.state.valid.content === false
+                                                ? ' invalid-input'
+                                                : ' valid-input')
+                                        }
+                                        onChange={this.detailedChangeHandler}
+                                        value={this.state.article.content}
+                                    />
+                                    <p id="input-warning" align="left">
+                                        {this.state.valid.content === false ? (
+                                            '설명을 입력하세요'
+                                        ) : (
+                                            <br />
+                                        )}{' '}
+                                    </p>
                                 </div>
                                 <p />
                                 <br />
@@ -210,10 +285,25 @@ class ArticleEdit extends Component {
                                     <input
                                         className="form-control"
                                         type="file"
-                                        id="post-thumbnail-input"
+                                        id={
+                                            'post-thumbnail-input' +
+                                            (this.state.valid.thumbnail ===
+                                            false
+                                                ? ' invalid-input'
+                                                : ' valid-input')
+                                        }
                                         multiple={false}
                                         onChange={this.imageOnChange}
                                     />
+                                    <p id="input-warning" align="left">
+                                        {this.state.valid.thumbnail ===
+                                        false ? (
+                                            '이미지 파일을 업로드하세요'
+                                        ) : (
+                                            <br />
+                                        )}{' '}
+                                    </p>
+
                                     <div>{imagePreview}</div>
                                 </div>
                                 <p />
