@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { history } from '../../store';
 import profile from './../../assets/iu_profile.png';
 import { Image, OverlayTrigger, Popover, ListGroup } from 'react-bootstrap';
 import './TopMenuPopUp.css';
 
 export default function TopMenuPopUp(props) {
+    var overlay = React.createRef();
+    const [show, setShow] = useState(false);
+
     var nickname = props.user.nickname;
     var pic = props.user.avatar ? props.user.avatar : profile;
     ////console.log(props.user.avatar);
     var point = props.user.point;
     var popuserinfo = (
-        <Popover id="PopUserInfo">
+        <Popover id="PopUserInfo" show={show}>
             <Popover.Title id="title" as="h3">
                 Hello, <strong>{nickname}</strong>!
             </Popover.Title>
@@ -19,7 +22,10 @@ export default function TopMenuPopUp(props) {
                     <ListGroup.Item
                         action
                         variant="light"
-                        onClick={props.mypageHandler}>
+                        onClick={event => {
+                            props.mypageHandler();
+                            overlay.hide();
+                        }}>
                         <p align="center">
                             <Image
                                 id="UserInfoImage"
@@ -38,14 +44,20 @@ export default function TopMenuPopUp(props) {
                         action
                         variant="light"
                         id="my-page-btn"
-                        onClick={props.mypageHandler}>
+                        onClick={event => {
+                            props.mypageHandler();
+                            overlay.hide();
+                        }}>
                         My Page
                     </ListGroup.Item>
                     <ListGroup.Item
                         action
                         variant="light"
                         id="sign-out-btn"
-                        onClick={props.signOutHandler}>
+                        onClick={event => {
+                            props.signOutHandler();
+                            overlay.hide();
+                        }}>
                         Sign Out
                     </ListGroup.Item>
                 </ListGroup>
@@ -58,8 +70,15 @@ export default function TopMenuPopUp(props) {
             id="user-popup"
             trigger="click"
             placement="bottom"
+            ref={ref => (overlay = ref)}
             overlay={popuserinfo}>
-            <Image id="UserImage" src={pic} width="50px" height="50px" roundedCircle />
+            <Image
+                id="UserImage"
+                src={pic}
+                width="50px"
+                height="50px"
+                roundedCircle
+            />
         </OverlayTrigger>
     );
 }

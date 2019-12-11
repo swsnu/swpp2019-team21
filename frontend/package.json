@@ -33,6 +33,7 @@
         "react-dom": "^16.10.2",
         "react-images-uploader": "^1.2.0-rc1",
         "react-multi-carousel": "^2.3.0",
+        "react-popper": "^1.3.7",
         "react-progress-button": "^5.1.0",
         "react-redux": "^7.1.1",
         "react-router-dom": "^5.1.1",
