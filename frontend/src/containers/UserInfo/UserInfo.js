@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
 import AOS from 'aos';
 import {
     adpostActions,
@@ -18,6 +19,7 @@ import './UserInfo.css';
 const multiply = 7;
 class UserInfo extends Component {
     state = {
+        is_loaded: false,
         email: '',
         fname: '',
         lname: '',
@@ -52,10 +54,16 @@ class UserInfo extends Component {
     componentDidMount() {
         AOS.init({ duration: 1000 });
         this.props.onGetUserList();
-        this.props.onGetReceptionList();
+        this.props.onGetReceptionList().then(res => {
+            this.setState({
+                ...this.state,
+                is_loaded: true
+            });
+        });
     }
 
     render() {
+<<<<<<< HEAD
         var tags = null;
         var point = null;
         var nickname = null;
@@ -75,185 +83,109 @@ class UserInfo extends Component {
             tags = <ul id="tag-link">{taglist}</ul>;
             nickname = this.props.user.nickname;
         }
+=======
+        if (this.state.is_loaded) {
+            var tags = null;
+            var nickname = null;
+            var { adpost_user_list } = this.props;
+            var own_article = [];
+            var participated_article = [];
+            var reception_table = null;
+            if (this.props.user) {
+                tags = this.props.user.tags.map(tg => {
+                    return <text id="tags">#{tg} </text>;
+                });
+                nickname = this.props.user.nickname;
+            }
+>>>>>>> 7723f72... URL reach blocked
 
-        if (adpost_user_list[0]) {
-            own_article = adpost_user_list[0].data;
-        }
-        if (adpost_user_list[1]) {
-            participated_article = adpost_user_list[1].data;
-        }
-        //console.log(own_article, participated_article);
-        if (
-            this.props.reception_list.length > 0 &&
-            participated_article.length > 0
-        ) {
-            reception_table = this.props.reception_list.map(rcp => {
-                var acl = participated_article.filter(
-                    item => item.id == rcp.adpost
-                )[0];
-                return (
-                    <tr
-                        id="table_contents"
-                        onClick={() =>
-                            this.props.history.push('/article/' + rcp.adpost)
-                        }>
-                        <td id="post">{acl.title}</td>
-                        <td id="link">{rcp.unique_link}</td>
-                        <td id="view">{rcp.views}</td>
-                        <td id="money">{rcp.views * multiply}</td>
-                        <td id="closed">{acl.closed ? 'Closed' : 'Open'}</td>
-                    </tr>
-                );
-            });
-        }
+            if (adpost_user_list[0]) {
+                own_article = adpost_user_list[0].data;
+            }
+            if (adpost_user_list[1]) {
+                participated_article = adpost_user_list[1].data;
+            }
+            //console.log(own_article, participated_article);
+            if (
+                this.props.reception_list.length > 0 &&
+                participated_article.length > 0
+            ) {
+                reception_table = this.props.reception_list.map(rcp => {
+                    var acl = participated_article.filter(
+                        item => item.id == rcp.adpost
+                    )[0];
+                    return (
+                        <tr
+                            id="table_contents"
+                            onClick={() =>
+                                this.props.history.push(
+                                    '/article/' + rcp.adpost
+                                )
+                            }>
+                            <td id="post">{acl.title}</td>
+                            <td id="link">{rcp.unique_link}</td>
+                            <td id="view">{rcp.views}</td>
+                            <td id="money">{rcp.views * multiply}</td>
+                            <td id="closed">
+                                {acl.closed ? 'Closed' : 'Open'}
+                            </td>
+                        </tr>
+                    );
+                });
+            }
 
-        return (
-            <div className="UserInfo">
-                <Modal
-                    show={this.state.showChargePoint}
-                    onHide={() => {
-                        if (window.confirm('Are you sure you want to quit?')) {
-                            this.setState({
-                                ...this.state,
-                                showChargePoint: false,
-                                addpoint: ''
-                            });
-                        }
-                    }}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Charge Point</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="form-group" align="left">
-                            <p className="label-tag" align="left">
-                                Current Point
-                            </p>
-                            <text className="form-fixed" id="point">
-                                {point}
-                            </text>
-                        </div>
-                        <div className="form-group" align="left">
-                            <p className="label-tag" align="left">
-                                Charge
-                            </p>
-                            <input
-                                min="1"
-                                className="form-fixed"
-                                id="chargepoint"
-                                value={this.state.addpoint}
-                                onChange={e => {
-                                    const re = /^[0-9]*$/;
-                                    if (
-                                        (e.target.value == '' ||
-                                            re.test(e.target.value)) &&
-                                        Number(e.target.value) + point <
-                                            2100000000
-                                    ) {
-                                        this.setState({
-                                            ...this.state,
-                                            addpoint: e.target.value
-                                        });
-                                    } else if (
-                                        Number(e.target.value) + point >=
-                                        2100000000
-                                    ) {
-                                        alert(
-                                            'cannot charge more than 2 bilion'
-                                        );
-                                    }
-                                }}
-                            />
-                        </div>
-                        <div className="form-group" align="left">
-                            <p className="label-tag" align="left">
-                                Point Expected
-                            </p>
-                            <text className="form-fixed" id="point">
-                                {point * 1 + this.state.addpoint * 1}
-                            </text>
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button
-                            id="charge-confirm"
-                            variant="primary"
-                            onClick={this.chargePointFinishHandler}>
-                            Save
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-                <section className="user-info-box section-wrapper">
-                    <div className="Avatar">
-                        <img
-                            src={
-                                this.props.user.avatar
-                                    ? this.props.user.avatar
-                                    : ''
-                            }
-                            onClick={this.imageChangeHandler}
+            return (
+                <div className="UserInfo">
+                    <img src={background} id="title-background" />
+                    <div className="TitleBox" id="userinfo-titlebox">
+                        <text className="Title" id="userinfo_title">
+                            Hello, {nickname}!
+                        </text>
+                        <p>
+                            <tgs>{tags}</tgs>
+                        </p>
+                    </div>
+                    <div className="AdList">
+                        <PreviewList
+                            articles={own_article}
+                            query={'Your Request'}
+                            compact={true}
                         />
-                    </div>
-                    <div className="user-info-text" id="userinfo-titlebox">
-                        <div className="main-user-wrapper">
-                            <h1 className="title-text" id="userinfo_title">
-                                {nickname}
-                            </h1>
-                            <h2 className="user-name-aggregated">
-                                {this.props.user.first_name}{' '}
-                                {this.props.user.last_name}∙
-                                {this.props.user.email}
-                            </h2>
-                        </div>
-                        {tags}
-                        <div className="point-state-wrapper">
-                            <FontAwesomeIcon
-                                icon={faCoins}
-                                color="#7a7a7a"
-                                className="small-btn"
-                            />
-                            <h2 id="point-integer">
-                                {'       '}
-                                {this.props.user.point + ' '}
-                            </h2>
-                            <FontAwesomeIcon
-                                icon={faPlus}
-                                className="small-btn"
-                                color="#7a7a7a"
-                                id="user-charge-btn"
-                                onClick={this.userChargeHandler}
-                            />
+                        <PreviewList
+                            articles={participated_article}
+                            query={'Participated'}
+                            compact={true}
+                        />
+                        <div className="ReceptionTable">
+                            <h1 align="left">Your Receptions</h1>
+                            <Table responsive>
+                                <thead>
+                                    <tr>
+                                        <th width="400px">Post</th>
+                                        <th width="400px">Your Link</th>
+                                        <th width="100px">Views</th>
+                                        <th width="100px">Earned Point</th>
+                                        <th width="100px">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>{reception_table}</tbody>
+                            </Table>
                         </div>
                     </div>
-                    <FontAwesomeIcon
-                        icon={faEdit}
-                        className="small-btn"
-                        id="user-edit-btn"
-                        onClick={this.userEditHandler}
-                    />
-                    <PreviewList
-                        articles={participated_article}
-                        query={'Participated'}
-                        compact={true}
-                    />
-                    <div className="ReceptionTable">
-                        <h1 align="left">Your Receptions</h1>
-                        <Table responsive>
-                            <thead>
-                                <tr>
-                                    <th width="400px">Post</th>
-                                    <th width="400px">Your Link</th>
-                                    <th width="100px">Views</th>
-                                    <th width="100px">Earned Point</th>
-                                    <th width="100px">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>{reception_table}</tbody>
-                        </Table>
-                    </div>
+                    <UserDetail />
                 </div>
-                <UserDetail />
-            </div>
-        );
+            );
+        } else {
+            return (
+                <div>
+                    <Spinner
+                        animation="border"
+                        id="redirecting_spinner"
+                        variant="danger"
+                    />
+                </div>
+            );
+        }
     }
 }
 
@@ -276,8 +208,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(UserInfo)
+    connect(mapStateToProps, mapDispatchToProps)(UserInfo)
 );
