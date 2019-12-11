@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
 import AOS from 'aos';
 import { adpostActions, adreceptionActions } from '../../store/actions';
 import UserDetail from '../../components/UserDetail/UserDetail';
@@ -13,6 +14,7 @@ import './UserInfo.css';
 const multiply = 7;
 class UserInfo extends Component {
     state = {
+        is_loaded: false,
         email: '',
         fname: '',
         lname: '',
@@ -25,95 +27,116 @@ class UserInfo extends Component {
     componentDidMount() {
         AOS.init({ duration: 1000 });
         this.props.onGetUserList();
-        this.props.onGetReceptionList();
+        this.props.onGetReceptionList().then(res => {
+            this.setState({
+                ...this.state,
+                is_loaded: true
+            });
+        });
     }
 
     render() {
-        var tags = null;
-        var nickname = null;
-        var { adpost_user_list } = this.props;
-        var own_article = [];
-        var participated_article = [];
-        var reception_table = null;
-        if (this.props.user) {
-            tags = this.props.user.tags.map(tg => {
-                return <text id="tags">#{tg} </text>;
-            });
-            nickname = this.props.user.nickname;
-        }
+        if (this.state.is_loaded) {
+            var tags = null;
+            var nickname = null;
+            var { adpost_user_list } = this.props;
+            var own_article = [];
+            var participated_article = [];
+            var reception_table = null;
+            if (this.props.user) {
+                tags = this.props.user.tags.map(tg => {
+                    return <text id="tags">#{tg} </text>;
+                });
+                nickname = this.props.user.nickname;
+            }
 
-        if (adpost_user_list[0]) {
-            own_article = adpost_user_list[0].data;
-        }
-        if (adpost_user_list[1]) {
-            participated_article = adpost_user_list[1].data;
-        }
-        //console.log(own_article, participated_article);
-        if (
-            this.props.reception_list.length > 0 &&
-            participated_article.length > 0
-        ) {
-            reception_table = this.props.reception_list.map(rcp => {
-                var acl = participated_article.filter(
-                    item => item.id == rcp.adpost
-                )[0];
-                return (
-                    <tr
-                        id="table_contents"
-                        onClick={() =>
-                            this.props.history.push('/article/' + rcp.adpost)
-                        }>
-                        <td id="post">{acl.title}</td>
-                        <td id="link">{rcp.unique_link}</td>
-                        <td id="view">{rcp.views}</td>
-                        <td id="money">{rcp.views * multiply}</td>
-                        <td id="closed">{acl.closed ? 'Closed' : 'Open'}</td>
-                    </tr>
-                );
-            });
-        }
+            if (adpost_user_list[0]) {
+                own_article = adpost_user_list[0].data;
+            }
+            if (adpost_user_list[1]) {
+                participated_article = adpost_user_list[1].data;
+            }
+            //console.log(own_article, participated_article);
+            if (
+                this.props.reception_list.length > 0 &&
+                participated_article.length > 0
+            ) {
+                reception_table = this.props.reception_list.map(rcp => {
+                    var acl = participated_article.filter(
+                        item => item.id == rcp.adpost
+                    )[0];
+                    return (
+                        <tr
+                            id="table_contents"
+                            onClick={() =>
+                                this.props.history.push(
+                                    '/article/' + rcp.adpost
+                                )
+                            }>
+                            <td id="post">{acl.title}</td>
+                            <td id="link">{rcp.unique_link}</td>
+                            <td id="view">{rcp.views}</td>
+                            <td id="money">{rcp.views * multiply}</td>
+                            <td id="closed">
+                                {acl.closed ? 'Closed' : 'Open'}
+                            </td>
+                        </tr>
+                    );
+                });
+            }
 
-        return (
-            <div className="UserInfo">
-                <img src={background} id="title-background" />
-                <div className="TitleBox" id="userinfo-titlebox">
-                    <text className="Title" id="userinfo_title">
-                        Hello, {nickname}!
-                    </text>
-                    <p>
-                        <tgs>{tags}</tgs>
-                    </p>
-                </div>
-                <div className="AdList">
-                    <PreviewList
-                        articles={own_article}
-                        query={'Your Request'}
-                        compact={true}
-                    />
-                    <PreviewList
-                        articles={participated_article}
-                        query={'Participated'}
-                        compact={true}
-                    />
-                    <div className="ReceptionTable">
-                        <h1 align="left">Your Receptions</h1>
-                        <Table responsive>
-                            <thead>
-                                <tr>
-                                    <th width="400px">Post</th>
-                                    <th width="400px">Your Link</th>
-                                    <th width="100px">Views</th>
-                                    <th width="100px">Earned Point</th>
-                                    <th width="100px">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>{reception_table}</tbody>
-                        </Table>
+            return (
+                <div className="UserInfo">
+                    <img src={background} id="title-background" />
+                    <div className="TitleBox" id="userinfo-titlebox">
+                        <text className="Title" id="userinfo_title">
+                            Hello, {nickname}!
+                        </text>
+                        <p>
+                            <tgs>{tags}</tgs>
+                        </p>
                     </div>
+                    <div className="AdList">
+                        <PreviewList
+                            articles={own_article}
+                            query={'Your Request'}
+                            compact={true}
+                        />
+                        <PreviewList
+                            articles={participated_article}
+                            query={'Participated'}
+                            compact={true}
+                        />
+                        <div className="ReceptionTable">
+                            <h1 align="left">Your Receptions</h1>
+                            <Table responsive>
+                                <thead>
+                                    <tr>
+                                        <th width="400px">Post</th>
+                                        <th width="400px">Your Link</th>
+                                        <th width="100px">Views</th>
+                                        <th width="100px">Earned Point</th>
+                                        <th width="100px">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>{reception_table}</tbody>
+                            </Table>
+                        </div>
+                    </div>
+                    <UserDetail />
                 </div>
-                <UserDetail />
-            </div>
-        );
+            );
+        } else {
+            return (
+                <div>
+                    <Spinner
+                        animation="border"
+                        id="redirecting_spinner"
+                        variant="danger"
+                    />
+                </div>
+            );
+        }
     }
 }
 
@@ -135,8 +158,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(UserInfo)
+    connect(mapStateToProps, mapDispatchToProps)(UserInfo)
 );

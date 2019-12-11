@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
+import { Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Calendar from 'react-calendar';
 import { adpostActions, userActions, tagActions } from '../../../store/actions';
@@ -32,14 +33,19 @@ class ArticleCreate extends Component {
             { id: 6, name: 'Apricots' }
         ],
         imagePreviewUrl: '',
-        nowpoint: 0
+        nowpoint: null
     };
 
     componentDidMount() {
         this.props.reloadUser().then(res => {
-            this.setState({
-                nowpoint: res.user.point
-            });
+            if (!res) {
+                this.props.history.push('/home');
+                return;
+            } else {
+                this.setState({
+                    nowpoint: res.user.point
+                });
+            }
         });
         this.props.onTagReload();
     }
@@ -359,7 +365,9 @@ class ArticleCreate extends Component {
                                 value={this.state.postSubtitle}></input>
                         </div>
                         <div className="form-group" align="center">
-                            <h3 className="form-label">광고에 대해 자세히 알려주세요</h3>
+                            <h3 className="form-label">
+                                광고에 대해 자세히 알려주세요
+                            </h3>
                             <textarea
                                 className="form-control"
                                 id="post-explain-input"
@@ -574,24 +582,36 @@ class ArticleCreate extends Component {
                 </div>
             );
         };
-        return (
-            <div className="ArticleCreate" align="center">
-                <div className="CreateHead">
-                    <section className="CreateHeadTitle section-wrapper">
-                        <h1 className="CreateHeadTitle">소문내기</h1>
-                        <p className="CreateHeadContent">
-                            어떤 광고를 하시나요?
-                        </p>
-                    </section>
-                    <section className="CreateHeadTabs section-wrapper">
-                        {tabs()}
-                    </section>
+        if (this.state.nowpoint) {
+            return (
+                <div className="ArticleCreate" align="center">
+                    <div className="CreateHead">
+                        <section className="CreateHeadTitle section-wrapper">
+                            <h1 className="CreateHeadTitle">소문내기</h1>
+                            <p className="CreateHeadContent">
+                                어떤 광고를 하시나요?
+                            </p>
+                        </section>
+                        <section className="CreateHeadTabs section-wrapper">
+                            {tabs()}
+                        </section>
+                    </div>
+                    <div className="CreateBody section-wrapper">
+                        {views(this.state.currentPage)}
+                    </div>
                 </div>
-                <div className="CreateBody section-wrapper">
-                    {views(this.state.currentPage)}
+            );
+        } else {
+            return (
+                <div>
+                    <Spinner
+                        animation="border"
+                        id="redirecting_spinner"
+                        variant="danger"
+                    />
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
