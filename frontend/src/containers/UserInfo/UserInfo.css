@@ -108,6 +108,28 @@
     width: calc(33% - 34px);
 }
 
+.UserInfo h2 {
+    font-size: 15px;
+    color: #7a7a7a;
+    font-weight: 300;
+}
+
+.UserInfo .user-name-aggregated {
+    padding-top: 12px;
+}
+
+.UserInfo .PreviewList {
+    width: 100%;
+}
+
+.UserInfo .Preview {
+    width: calc(33% - 34px);
+}
+
+.UserInfo #card-more-btn {
+    width: calc(33% - 34px);
+}
+
 .UserInfo .list-title {
     text-align: left;
     margin: 10px 0 0 30px;
@@ -131,6 +153,19 @@
 
 .UserInfo #user-edit-btn:hover {
     cursor: pointer;
+}
+
+.UserInfo .point-state-wrapper {
+    margin-left: 20px;
+    display: flex;
+}
+
+.UserInfo .small-btn {
+    margin-left: 5px;
+}
+
+.UserInfo #point-integer {
+    display: block;
 }
 
 .UserInfo .point-state-wrapper {
