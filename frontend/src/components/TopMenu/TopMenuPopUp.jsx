@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { history } from '../../store';
 import profile from './../../assets/iu_profile.png';
 import { Image, OverlayTrigger, Popover, ListGroup } from 'react-bootstrap';
@@ -6,14 +6,13 @@ import './TopMenuPopUp.css';
 
 export default function TopMenuPopUp(props) {
     var overlay = React.createRef();
-    const [show, setShow] = useState(false);
 
     var nickname = props.user.nickname;
     var pic = props.user.avatar ? props.user.avatar : profile;
     ////console.log(props.user.avatar);
     var point = props.user.point;
     var popuserinfo = (
-        <Popover id="PopUserInfo" show={show}>
+        <Popover id="PopUserInfo">
             <Popover.Title id="title" as="h3">
                 Hello, <strong>{nickname}</strong>!
             </Popover.Title>
