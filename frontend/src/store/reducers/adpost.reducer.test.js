@@ -2,6 +2,7 @@ import { adpost_reducer } from './adpost.reducer';
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
+    is_loading: false,
     error_code: null,
     adpost_items: null,
     adpost_detailed_item: {
@@ -119,7 +120,8 @@ describe('Adpost Reducer Test', () => {
         nextState = adpost_reducer(nextState, actions[1]);
         expect(nextState).toEqual({
             ...prevState,
-            adpost_detailed_item: { item: 'mockitem' }
+            adpost_detailed_item: { item: 'mockitem' },
+            is_loading: true
         });
     });
 

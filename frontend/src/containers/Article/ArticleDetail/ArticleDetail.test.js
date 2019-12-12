@@ -11,7 +11,8 @@ import { adpostActions, adreceptionActions } from '../../../store/actions';
 const stubInitialState = {
     adpost_detailed_item: {
         tags: [('acc', 'cur', 'i')],
-        is_loading: false
+        is_loading: false,
+        view_by_date: '2019,12,25'
     },
     views: 0,
     unique_link: 'test',
