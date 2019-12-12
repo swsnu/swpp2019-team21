@@ -102,6 +102,8 @@ describe('<ArticleCreate/>', () => {
         }, 1000);
         await component.update();
         expect(spyOnGetUser).toHaveBeenCalledTimes(1);
+        const temp = component.find('ArticleCreate');
+        temp.setState({ nowpoint: 100 });
         const wrapper = component.find('.article-create');
         expect(wrapper.length).toBe(1);
     });
@@ -111,11 +113,15 @@ describe('<ArticleCreate/>', () => {
             done();
         }, 1000);
         await component.update();
+        const temp = component.find('ArticleCreate');
+        temp.setState({ nowpoint: 100 });
         const wrapper = component.find('#confirm-button');
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(1);
 
-        const title_wrapper = component.find('#post-title-input');
+        const title_wrapper = component.find(
+            '#post-title-input' + 'invalid-input'
+        );
         title_wrapper.simulate('change', {
             target: { value: 'Sample_title' }
         });
@@ -123,7 +129,9 @@ describe('<ArticleCreate/>', () => {
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(2);
 
-        const subtitle_wrapper = component.find('#post-subtitle-input');
+        const subtitle_wrapper = component.find(
+            '#post-subtitle-input' + 'invalid-input'
+        );
         subtitle_wrapper.simulate('change', {
             target: { value: 'Sample_subtitle' }
         });
