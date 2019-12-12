@@ -170,12 +170,12 @@ class ArticleDetail extends Component {
                                     )}
                                     {this.props.article.is_owner ? (
                                         <FontAwesomeIcon
-                                    icon={faEdit}
-                                    size="1x"
-                                    id="post-edit-button"
-                                    onClick={this.postEditHandler}
-                                    label="수정하기"
-                                />
+                                            icon={faEdit}
+                                            size="1x"
+                                            id="post-edit-button"
+                                            onClick={this.postEditHandler}
+                                            label="수정하기"
+                                        />
                                     ) : (
                                         !this.props.is_participated && (
                                             <Button

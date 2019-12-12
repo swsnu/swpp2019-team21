@@ -7,6 +7,8 @@ import { Spinner } from 'react-bootstrap';
 import { tagActions, userActions } from '../../store/actions';
 import avatar from '../../assets/avatar.png';
 import './UserDetail.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
 class UserDetail extends Component {
     state = {
@@ -28,7 +30,12 @@ class UserDetail extends Component {
         showChangePW: false,
         showChargePoint: false,
         showChangeImage: false,
-        addpoint: ''
+        addpoint: '',
+        valid: {
+            fname: true,
+            lname: true,
+            nickname: true
+        }
     };
 
     componentDidMount() {
@@ -81,9 +88,15 @@ class UserDetail extends Component {
             tags: this.state.user.tags.map(str => str.name),
             avatar: this.state.user.avatar
         };
-        this.props.putUser(user);
-        alert('Saved!');
-        window.location.reload();
+        const { valid } = this.state;
+
+        if (valid.fname && valid.lname && valid.nickname) {
+            this.props.putUser(user);
+            alert('Saved!');
+            this.props.history.push('/mypage');
+        } else {
+            alert('Infos not valid');
+        }
     };
 
     chargeImageFinishHandler = () => {
@@ -409,6 +422,16 @@ class UserDetail extends Component {
                             className="Avatar"
                             onClick={this.imageChangeHandler}
                         />
+                        <div
+                            id="avatar-change-btn"
+                            onClick={this.imageChangeHandler}>
+                            <FontAwesomeIcon
+                                id="avatar-change-icon"
+                                icon={faCamera}
+                                color="#7a7a7a"
+                                size="1x"
+                            />
+                        </div>
                     </div>
                     <div className="form-group" align="left">
                         <p className="label-tag" align="left">
@@ -424,8 +447,14 @@ class UserDetail extends Component {
                         </p>
                         <input
                             className="form-control"
-                            id="nickname"
+                            id={
+                                `nickname` +
+                                (this.state.valid.nickname === false
+                                    ? '-invalid'
+                                    : '')
+                            }
                             type="text"
+                            required="required"
                             value={this.state.user.nickname}
                             onChange={event =>
                                 this.setState({
@@ -436,7 +465,23 @@ class UserDetail extends Component {
                                     }
                                 })
                             }
+                            onBlur={event => {
+                                let valid = !!this.state.user.nickname;
+                                this.setState({
+                                    ...this.state,
+                                    valid: {
+                                        ...this.state.valid,
+                                        nickname: valid
+                                    }
+                                });
+                            }}
                         />
+                        <p id="input-warning" align="left">
+                            {this.state.valid.nickname === false
+                                ? '1-20 characters'
+                                : ''}{' '}
+                            &nbsp;
+                        </p>
                     </div>
                     <table>
                         <td>
@@ -446,19 +491,42 @@ class UserDetail extends Component {
                                 </p>
                                 <input
                                     className="form-control"
-                                    id="fname"
+                                    id={
+                                        `fname` +
+                                        (this.state.valid.fname === false
+                                            ? '-invalid'
+                                            : '')
+                                    }
                                     type="text"
                                     value={this.state.user.first_name}
-                                    onChange={event =>
+                                    required="required"
+                                    onChange={event => {
                                         this.setState({
                                             ...this.state,
                                             user: {
                                                 ...this.state.user,
                                                 first_name: event.target.value
                                             }
-                                        })
-                                    }
+                                        });
+                                    }}
+                                    onBlur={event => {
+                                        let valid = !!this.state.user
+                                            .first_name;
+                                        this.setState({
+                                            ...this.state,
+                                            valid: {
+                                                ...this.state.valid,
+                                                fname: valid
+                                            }
+                                        });
+                                    }}
                                 />
+                                <p id="input-warning" align="left">
+                                    {this.state.valid.fname === false
+                                        ? '1-20 characters'
+                                        : ''}{' '}
+                                    &nbsp;
+                                </p>
                             </div>
                         </td>
                         <td>
@@ -468,8 +536,14 @@ class UserDetail extends Component {
                                 </p>
                                 <input
                                     className="form-control"
-                                    id="lname"
+                                    id={
+                                        `lname` +
+                                        (this.state.valid.lname === false
+                                            ? '-invalid'
+                                            : '')
+                                    }
                                     type="text"
+                                    required="required"
                                     value={this.state.user.last_name}
                                     onChange={event =>
                                         this.setState({
@@ -480,7 +554,23 @@ class UserDetail extends Component {
                                             }
                                         })
                                     }
+                                    onBlur={event => {
+                                        let valid = !!this.state.user.last_name;
+                                        this.setState({
+                                            ...this.state,
+                                            valid: {
+                                                ...this.state.valid,
+                                                lname: valid
+                                            }
+                                        });
+                                    }}
                                 />
+                                <p id="input-warning" align="left">
+                                    {this.state.valid.lname === false
+                                        ? '1-20 characters'
+                                        : ''}{' '}
+                                    &nbsp;
+                                </p>
                             </div>
                         </td>
                     </table>
@@ -569,4 +659,7 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDetail);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(UserDetail);
