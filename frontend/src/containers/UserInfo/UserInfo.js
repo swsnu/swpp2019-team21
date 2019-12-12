@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Table } from 'react-bootstrap';
+import { Image, Table } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import AOS from 'aos';
@@ -216,13 +216,17 @@ class UserInfo extends Component {
                     </Modal>
                     <section className="user-info-box section-wrapper">
                         <div className="Avatar">
-                            <img
+                            <Image
+                                id="UserInfoImage"
+                                className="img-responsive"
                                 src={
                                     this.props.user.avatar
                                         ? this.props.user.avatar
                                         : ''
                                 }
-                                onClick={this.imageChangeHandler}
+                                width="65px"
+                                height="65px"
+                                roundedCircle
                             />
                         </div>
                         <div className="user-info-text" id="userinfo-titlebox">
@@ -337,8 +341,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(UserInfo)
+    connect(mapStateToProps, mapDispatchToProps)(UserInfo)
 );

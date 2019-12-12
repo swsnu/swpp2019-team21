@@ -765,7 +765,7 @@ class ArticleCreate extends Component {
                 </div>
             );
         };
-        if (this.state.nowpoint) {
+        if (this.state.nowpoint!==null) {
             return (
                 <div className="ArticleCreate" align="center">
                     <div className="CreateHead">

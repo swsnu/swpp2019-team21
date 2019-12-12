@@ -56,11 +56,13 @@ def img_process(img_64):
     data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
     return PostImage.objects.create(image=data)
 
+
 def avatar_process(img_64):
     format, imgstr = img_64.split(';base64,')
     ext = format.split('/')[-1]
     data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
     return data
+
 
 def tag_process(response_dict):
     response_dict['tags'] = list(map(lambda tag: tag.content, response_dict['tags']))
@@ -117,7 +119,6 @@ class SignUpView(View):
 
 class SignInView(View):
     item_list = ['email', 'password']
-
 
     @check_valid_json(item_list=item_list)
     def post(self, request):
@@ -358,17 +359,16 @@ class AdPostByIDView(View):
             if tag.usercount is 0 and tag.postcount is 0:
                 tag.delete()
         adpost.tags.clear()
-
         if post_new_thumbnail == "not_changed":
             for image in post_old_images:
                 PostImage.delete(image)
             adpost.image.clear()
-
-        img_new = img_process(post_new_thumbnail)
-        adpost.thumbnail = img_new
-        post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
-        adpost.save()
-        PostImage.delete(post_old_thumbnail)
+        else:
+            img_new = img_process(post_new_thumbnail)
+            adpost.thumbnail = img_new
+            post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
+            adpost.save()
+            PostImage.delete(post_old_thumbnail)
 
         for i in range(len(post_new_images)):
             newimg = img_process(post_new_images[i])
@@ -489,8 +489,8 @@ class AdPostByCustomView(View):
                     tag_object.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(
                         pk__in=list(
                             map(lambda x: x.pk, tag_object.topost.all().filter(open_for_all=False)))))
-                    .values('id', 'thumbnail', 'title', 'subtitle', 'expiry_date', 'target_views',
-                            'total_views', 'upload_date').order_by('-upload_date'))
+                        .values('id', 'thumbnail', 'title', 'subtitle', 'expiry_date', 'target_views',
+                                'total_views', 'upload_date').order_by('-upload_date'))
             for dict in tags_custom:
                 dict['thumbnail'] = PostImage.objects.get(id=dict['thumbnail']).image.url
             post_by_custom[tag['content']] = tags_custom  # all()? not all()?
