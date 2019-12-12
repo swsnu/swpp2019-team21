@@ -11,7 +11,11 @@ import {
 } from '../../store/actions';
 import PreviewList from '../../components/PreviewList/PreviewList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faCoins, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUserEdit,
+    faCashRegister,
+    faChargingStation
+} from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button } from 'react-bootstrap';
 import profile from './../../assets/iu_profile.png';
 import './UserInfo.css';
@@ -224,7 +228,7 @@ class UserInfo extends Component {
                         <div className="user-info-text" id="userinfo-titlebox">
                             <div className="main-user-wrapper">
                                 <h1 className="title-text" id="userinfo_title">
-                                    {nickname}
+                                    Hello, {nickname}
                                 </h1>
                                 <h2 className="user-name-aggregated">
                                     {this.props.user.first_name}{' '}
@@ -234,41 +238,48 @@ class UserInfo extends Component {
                             </div>
                             {tags}
                             <div className="point-state-wrapper">
-                                <FontAwesomeIcon
-                                    icon={faCoins}
-                                    color="#7a7a7a"
-                                    className="small-btn"
-                                />
+                                <h2 className="color-black">
+                                    현재 보유한 포인트 &nbsp;&nbsp;
+                                </h2>
                                 <h2 id="point-integer">
-                                    {'       '}
-                                    {this.props.user.point + ' '}
+                                    {this.props.user.point}
+                                    <FontAwesomeIcon
+                                        icon={faChargingStation}
+                                        className="small-btn hover-btn"
+                                        color="#7a7a7a"
+                                        id="user-charge-btn"
+                                        onClick={this.userChargeHandler}
+                                    />
+                                </h2>
+                            </div>
+                            <div className="edit-user-wrapper">
+                                <h2 className="color-black">
+                                    유저 정보 수정하기&nbsp;&nbsp;
                                 </h2>
                                 <FontAwesomeIcon
-                                    icon={faPlus}
-                                    className="small-btn"
+                                    icon={faUserEdit}
+                                    className="small-btn hover-btn"
                                     color="#7a7a7a"
-                                    id="user-charge-btn"
-                                    onClick={this.userChargeHandler}
+                                    id="user-edit-btn"
+                                    onClick={this.userEditHandler}
                                 />
                             </div>
                         </div>
-                        <FontAwesomeIcon
-                            icon={faEdit}
-                            className="small-btn"
-                            id="user-edit-btn"
-                            onClick={this.userEditHandler}
-                        />
                     </section>
                     <section className="adlist-box section-wrapper">
                         <div className="AdList">
                             <PreviewList
                                 articles={own_article.slice(0, 2)}
-                                query={'Your Request'}
+                                list_title={'Your Request'}
+                                query={'owner'}
+                                query_type={'special'}
                                 compact={true}
                             />
                             <PreviewList
                                 articles={participated_article.slice(0, 2)}
-                                query={'Participated'}
+                                list_title={'Participating'}
+                                query={'participant'}
+                                query_type={'special'}
                                 compact={true}
                             />
                         </div>
@@ -326,5 +337,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(UserInfo)
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(UserInfo)
 );

@@ -146,29 +146,24 @@
     width: 30px;
 }
 
-.UserInfo #user-edit-btn {
-    margin-top: 50px;
-    margin-left: 20px;
-}
-
-.UserInfo #user-edit-btn:hover {
+.UserInfo .hover-btn:hover {
     cursor: pointer;
-}
-
-.UserInfo .point-state-wrapper {
-    margin-left: 20px;
-    display: flex;
 }
 
 .UserInfo .small-btn {
     margin-left: 5px;
 }
 
-.UserInfo #point-integer {
-    display: block;
+.UserInfo .color-black {
+    color: #000000;
 }
 
-.UserInfo .point-state-wrapper {
+.UserInfo h2 {
+    margin-bottom: 1px;
+}
+
+.UserInfo .point-state-wrapper,
+.edit-user-wrapper {
     margin-left: 20px;
     display: flex;
 }
