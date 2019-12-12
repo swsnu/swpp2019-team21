@@ -118,16 +118,21 @@ describe('<UserDetail/>', () => {
     });
     it('should render without errors', () => {
         const component = mount(userdetail);
-        const wrapper = component.find('.UserDetail');
-        expect(wrapper.length).toBe(1);
+        const wrapper = component.find('UserDetail');
+        wrapper.setState({ is_loaded: true });
+        expect(component.find('.UserDetail').length).toBe(1);
     });
     it('should render(with pic) without errors', () => {
         const component = mount(userdetailwithpic);
+        const temp = component.find('UserDetail');
+        temp.setState({ is_loaded: true });
         const wrapper = component.find('.UserDetail');
         expect(wrapper.length).toBe(1);
     });
     it('should change password, charge point', async done => {
         const component = mount(userdetail);
+        const temp = component.find('UserDetail');
+        temp.setState({ is_loaded: true });
         setTimeout(() => {
             done();
         }, 1000);
@@ -175,6 +180,8 @@ describe('<UserDetail/>', () => {
     });
     it('should change name, nickname, tags, and withdrawal', async done => {
         const component = mount(userdetail);
+        const temp = component.find('UserDetail');
+        temp.setState({ is_loaded: true });
         setTimeout(() => {
             done();
         }, 1000);
@@ -203,6 +210,6 @@ describe('<UserDetail/>', () => {
     });
     it('should not render when not loaded', () => {
         const component = mount(userdetailnotloaded);
-        expect(component.find('#point').text()).toBe('');
+        expect(component.find('#redirecting_spinner').length).toBe(2);
     });
 });

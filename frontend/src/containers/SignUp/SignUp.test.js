@@ -56,6 +56,7 @@ describe('<SignUp />', () => {
         const nickname = component.find('#nickname');
         const deltag = component.find('SignUp').instance().deleteTagHandler;
         const addtag = component.find('SignUp').instance().addTagHandler;
+        const check = component.find('#haveread-chkbox');
         const done = component.find('#signup-button');
         var change = (target, to, content) => {
             target.simulate('change', { target: { value: content } });
@@ -74,23 +75,23 @@ describe('<SignUp />', () => {
         };
 
         change(email, 'email', 'TEST');
+        no_verify();
+        change(email, 'email', 'TESTTEST@TEST.com');
+        no_verify();
         change(pw, 'password', 'TEST');
-        change(pw_check, 'password_check', 'TEST');
+        no_verify();
+        change(pw, 'password', 'TESTTESTTEST');
+        no_verify();
+        change(pw_check, 'password_check', 'TESTTESTTEST');
+        no_verify();
         change(fname, 'fname', 'TEST');
+        no_verify();
         change(lname, 'lname', 'TEST');
+        no_verify();
         change(nickname, 'nickname', 'TEST');
-        no_verify();
-        change(pw, 'password', 'TEST_same');
-        change(pw_check, 'password_check', 'TEST_notsame');
-        no_verify();
-        change(pw_check, 'password_check', 'TEST_same');
-        change(fname, 'fname', '');
-        no_verify();
-        change(fname, 'fname', 'TEST');
-        change(nickname, 'nickname', '');
         no_verify();
         addtag('test_tag');
-        change(nickname, 'nickname', 'TEST');
+        check.simulate('change', { target: { checked: true } });
         verify();
         addtag('test_tag');
         deltag(0);
