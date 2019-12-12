@@ -6,16 +6,10 @@ file = open("adit/mockImage", "r")
 mocked_image = file.read()
 file.close()
 class AditTestCase(TestCase):
-    #def test_setup(self):
-        
-       # global mocked_image
-        #mocked_image = 
-        #file.close()
 
     def test_csrf(self):
         # By default, csrf checks are disabled in test client
         # To test csrf protection we enforce csrf checks here
-        print(mocked_image)
         client = Client(enforce_csrf_checks=True)
         response = client.post('/api/sign-up/', json.dumps({'username': 'Seo', 'password': 'YeongHo'}),
                                content_type='application/json')
