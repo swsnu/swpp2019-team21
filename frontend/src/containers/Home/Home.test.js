@@ -10,12 +10,14 @@ import { getMockStore } from '../../test/utils/mockStore';
 import { adpostActions } from '../../store/actions';
 
 const stubInitialState = {
-    adpost_items: {
-        test: {
-            is_loading: false,
-            list: []
+    adpost_home_list: [
+        {
+            test: {
+                is_loading: false,
+                list: []
+            }
         }
-    }
+    ]
 };
 
 const stubInitialState_null = {};
