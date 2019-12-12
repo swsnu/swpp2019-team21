@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactTags from 'react-tag-autocomplete';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Calendar from 'react-calendar';
 import { adpostActions, userActions, tagActions } from '../../../store/actions';
@@ -43,7 +43,9 @@ class ArticleCreate extends Component {
             postGoal: null,
             open_for_all: null,
             tags: null
-        }
+        },
+        showChargePoint: false,
+        addpoint: ''
     };
 
     componentDidMount() {
@@ -79,6 +81,31 @@ class ArticleCreate extends Component {
             this.state.postTag.length <= 15
         );
     };
+
+    chargePointHandler = () =>
+        this.setState({ ...this.state, showChargePoint: true });
+
+    chargePointFinishHandler = () => {
+        this.props
+            .updatePoint({
+                point: this.state.nowpoint * 1 + this.state.addpoint * 1
+            })
+            .then(res => {
+                var point = this.state.addpoint * 1 + this.state.nowpoint;
+                this.setState({
+                    ...this.state,
+                    showChargePoint: false,
+                    addpoint: '',
+                    nowpoint: point
+                });
+                alert('Done!');
+            })
+            .catch(error => {
+                alert('Failed...');
+            });
+        //window.location.reload();
+    };
+
     render() {
         let imagePreview = null;
         let imagePreviewUrl = this.state.imagePreviewUrl;
@@ -235,9 +262,10 @@ class ArticleCreate extends Component {
                 return;
             }
             reader.onloadend = () => {
-                valid = file && 
-                file.name.match(/.(jpg|jpeg|png|bmp)$/i) &&
-                file.size <= 1000000;
+                valid =
+                    file &&
+                    file.name.match(/.(jpg|jpeg|png|bmp)$/i) &&
+                    file.size <= 1000000;
                 if (valid) {
                     this.setState({
                         postFile: file,
@@ -247,7 +275,9 @@ class ArticleCreate extends Component {
                         }
                     });
                 } else {
-                    alert('1MB 이내의 jpg, jpeg, png, bmp 형식 파일이 가능합니다');
+                    alert(
+                        '1MB 이내의 jpg, jpeg, png, bmp 형식 파일이 가능합니다'
+                    );
                     this.setState({
                         valid: {
                             imagePreviewUrl: false
@@ -265,7 +295,8 @@ class ArticleCreate extends Component {
                 re.test(e.target.value) &&
                 e.target.value * 1 >= 10;
             if (
-                (e.target.value == '' || re.test(e.target.value)) && e.target.value.length<15 && 
+                (e.target.value == '' || re.test(e.target.value)) &&
+                e.target.value.length < 15 &&
                 this.state.nowpoint - Number(e.target.value) * multiplier >= 0
             ) {
                 this.setState({
@@ -277,8 +308,8 @@ class ArticleCreate extends Component {
                 });
             } else if (!re.test(e.target.value)) {
                 window.alert('숫자만 입력하세요');
-            } else if(e.target.value.length >= 15){
-                window.alert('15 글자를 넘을 수 없습니다.')
+            } else if (e.target.value.length >= 15) {
+                window.alert('15 글자를 넘을 수 없습니다.');
             } else {
                 window.alert('포인트가 부족합니다');
             }
@@ -388,7 +419,6 @@ class ArticleCreate extends Component {
                 }
             };
             this.props.onPostArticle(request);
-            //this.props.history.push('/article/1');
         };
         const onCalendarChange = e => {
             this.setState({
@@ -425,9 +455,11 @@ class ArticleCreate extends Component {
                                 value={this.state.postTitle}
                             />
                             <p id="input-warning" align="left">
-                                {this.state.valid.postTitle === false
-                                    ? '제목을 입력하세요'
-                                    : <br/>}{' '}
+                                {this.state.valid.postTitle === false ? (
+                                    '제목을 입력하세요'
+                                ) : (
+                                    <br />
+                                )}{' '}
                             </p>
                         </div>
                         <div className="form-group" align="center">
@@ -444,9 +476,11 @@ class ArticleCreate extends Component {
                                 value={this.state.postSubtitle}
                             />
                             <p id="input-warning" align="left">
-                                {this.state.valid.postSubtitle === false
-                                    ? '부제목을 입력하세요'
-                                    : <br/>}{' '}
+                                {this.state.valid.postSubtitle === false ? (
+                                    '부제목을 입력하세요'
+                                ) : (
+                                    <br />
+                                )}{' '}
                             </p>
                         </div>
                         <div className="form-group" align="center">
@@ -465,9 +499,11 @@ class ArticleCreate extends Component {
                                 value={this.state.postExplain}
                             />
                             <p id="input-warning" align="left">
-                                {this.state.valid.postExplain === false
-                                    ? '설명을 입력하세요'
-                                    : <br/>}{' '}
+                                {this.state.valid.postExplain === false ? (
+                                    '설명을 입력하세요'
+                                ) : (
+                                    <br />
+                                )}{' '}
                             </p>
                         </div>
                         <div className="form-group" align="center">
@@ -487,9 +523,11 @@ class ArticleCreate extends Component {
                                 onChange={imageOnChange}
                             />
                             <p id="input-warning" align="left">
-                                {this.state.valid.imagePreviewUrl === false
-                                    ? '이미지 파일을 업로드하세요'
-                                    : <br/>}{' '}
+                                {this.state.valid.imagePreviewUrl === false ? (
+                                    '이미지 파일을 업로드하세요'
+                                ) : (
+                                    <br />
+                                )}{' '}
                             </p>
                             <div>{imagePreview}</div>
                         </div>
@@ -531,9 +569,11 @@ class ArticleCreate extends Component {
                                     value={this.state.postUrl}
                                 />
                                 <p id="input-warning" align="left">
-                                    {this.state.valid.postUrl === false
-                                        ? '올바른 형식의 URL을 입력하세요'
-                                        : <br/>}{' '}
+                                    {this.state.valid.postUrl === false ? (
+                                        '올바른 형식의 URL을 입력하세요'
+                                    ) : (
+                                        <br />
+                                    )}{' '}
                                 </p>
                             </div>
                         )}
@@ -623,25 +663,32 @@ class ArticleCreate extends Component {
                                 value={this.state.postGoal}
                             />
                             <p id="input-warning" align="left">
-                                {this.state.valid.postGoal === false
-                                    ? '100 이상의 목표 광고수를 입력하세요'
-                                    : <br></br>}{' '}
+                                {this.state.valid.postGoal === false ? (
+                                    '100 이상의 목표 광고수를 입력하세요'
+                                ) : (
+                                    <br></br>
+                                )}{' '}
                             </p>
+                            <Button onClick={this.chargePointHandler}>
+                                충전
+                            </Button>
                         </div>
                         <div className="form-group" align="center">
                             <p
                                 className="form-control"
                                 id="post-point-deduction">
                                 {this.state.valid.postGoal
-                                    ? this.state.postGoal * multiplier+" 포인트가 차감됩니다"
+                                    ? this.state.postGoal * multiplier +
+                                      ' 포인트가 차감됩니다'
                                     : null}
                             </p>
                             <p
                                 className="form-control"
                                 id="post-point-deduction">
                                 {this.state.valid.postGoal
-                                    ? (this.state.nowpoint -
-                                      this.state.postGoal * multiplier) + " 포인트가 남게 됩니다"
+                                    ? this.state.nowpoint -
+                                      this.state.postGoal * multiplier +
+                                      ' 포인트가 남게 됩니다'
                                     : null}
                             </p>
                         </div>
@@ -723,6 +770,86 @@ class ArticleCreate extends Component {
                     </div>
                     <div className="CreateBody section-wrapper">
                         {views(this.state.currentPage)}
+                        <Modal
+                            show={this.state.showChargePoint}
+                            onHide={() => {
+                                if (
+                                    window.confirm(
+                                        'Are you sure you want to quit?'
+                                    )
+                                ) {
+                                    this.setState({
+                                        ...this.state,
+                                        showChargePoint: false,
+                                        addpoint: ''
+                                    });
+                                }
+                            }}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Charge Point</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <div className="form-group" align="left">
+                                    <p className="label-tag" align="left">
+                                        Current Point
+                                    </p>
+                                    <text className="form-fixed" id="point">
+                                        {this.state.nowpoint}
+                                    </text>
+                                </div>
+                                <div className="form-group" align="left">
+                                    <p className="label-tag" align="left">
+                                        Charge
+                                    </p>
+                                    <input
+                                        min="1"
+                                        className="form-fixed"
+                                        id="chargepoint"
+                                        value={this.state.addpoint}
+                                        onChange={e => {
+                                            const re = /^[0-9]*$/;
+                                            if (
+                                                (e.target.value == '' ||
+                                                    re.test(e.target.value)) &&
+                                                Number(e.target.value) +
+                                                    this.state.nowpoint <
+                                                    2100000000
+                                            ) {
+                                                this.setState({
+                                                    ...this.state,
+                                                    addpoint: e.target.value
+                                                });
+                                            } else if (
+                                                Number(e.target.value) +
+                                                    this.state.nowpoint >=
+                                                2100000000
+                                            ) {
+                                                alert(
+                                                    'cannot charge more than 2 bilion'
+                                                );
+                                            }
+                                        }}
+                                    />
+                                </div>
+                                <div className="form-group" align="left">
+                                    <p className="label-tag" align="left">
+                                        Point Expected
+                                    </p>
+                                    <text className="form-fixed" id="point">
+                                        {this.state.nowpoint * 1 +
+                                            this.state.addpoint * 1}
+                                    </text>
+                                </div>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button
+                                    id="charge-confirm"
+                                    variant="primary"
+                                    onClick={this.chargePointFinishHandler}>
+                                    Save
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
                     </div>
                 </div>
             );
@@ -744,7 +871,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onPostArticle: adpost => dispatch(adpostActions.postAdpost(adpost)),
         reloadUser: () => dispatch(userActions.getUser()),
-        onTagReload: () => dispatch(tagActions.getAllTag())
+        onTagReload: () => dispatch(tagActions.getAllTag()),
+        updatePoint: point => dispatch(userActions.updatePoint(point))
     };
 };
 

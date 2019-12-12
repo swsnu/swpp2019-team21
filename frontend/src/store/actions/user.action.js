@@ -130,6 +130,7 @@ function updatePoint(point) {
             .catch(error => {
                 ////console.log('update Point failed');
                 alert('Update point error');
+                console.log(error);
             });
     };
 }
