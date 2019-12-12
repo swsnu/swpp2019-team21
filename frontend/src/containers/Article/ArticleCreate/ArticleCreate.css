@@ -54,7 +54,7 @@
     color: red;
 }
 
-.ArticleCreate #invalid-input{
+.ArticleCreate #invalid-input {
     background: #f8e0e4;
 }
 
@@ -331,4 +331,11 @@ input:checked + .slider:before {
 .react-tags__suggestions li.is-disabled {
     opacity: 0.5;
     cursor: auto;
+}
+
+.ArticleCreate .preview-wrapper {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background: #ffffff;
 }

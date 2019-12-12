@@ -139,8 +139,12 @@
 }
 
 .ArticleDetail #post-edit-button {
-    float:right;
+    float: right;
     width: 25px;
+}
+
+.ArticleDetail #post-edit-button:hover {
+    cursor: pointer;
 }
 
 .ArticleDetail .share-btn {

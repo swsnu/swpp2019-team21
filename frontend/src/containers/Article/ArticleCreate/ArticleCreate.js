@@ -34,6 +34,8 @@ class ArticleCreate extends Component {
         ],
         imagePreviewUrl: '',
         nowpoint: null,
+        owner_nickname: '',
+        owner_pic: null,
         valid: {
             postTitle: null,
             postSubtitle: null,
@@ -55,6 +57,8 @@ class ArticleCreate extends Component {
                 return;
             } else {
                 this.setState({
+                    owner_nickname: res.user.nickname,
+                    owner_avatar: res.user.avatar,
                     nowpoint: res.user.point
                 });
             }
@@ -650,7 +654,7 @@ class ArticleCreate extends Component {
                                 this.state.currentPage == 3 ? 'block' : 'none'
                         }}>
                         <div className="form-group" align="center">
-                            <h3 className="form-label">목표 뷰를 설정하세요</h3>
+                            <h3 className="form-label">뷰를 설정하세요</h3>
                             <input
                                 className="form-control"
                                 id={
@@ -721,27 +725,34 @@ class ArticleCreate extends Component {
                             display:
                                 this.state.currentPage == 4 ? 'block' : 'none'
                         }}>
-                        <ArticlePreview
-                            article={{
-                                title: this.state.postTitle,
-                                subtitle: this.state.postSubtitle,
-                                content: this.state.postExplain,
-                                thumbnail: [this.state.imagePreviewUrl],
-                                ad_link: this.state.needUrl
-                                    ? this.state.postUrl
-                                    : 'The link will be given after submission',
-                                target_views: this.state.postGoal,
-                                expiry_date:
-                                    this.state.postDeadline.year +
-                                    '-' +
-                                    this.state.postDeadline.month +
-                                    '-' +
-                                    this.state.postDeadline.date,
-                                tags: this.state.postTag.map(tag => {
-                                    return tag.name;
-                                })
-                            }}
-                        />
+                        <h3 className="form-label">
+                            아래와 같이 게시됩니다. 확인해 주세요.
+                        </h3>
+                        <div className="preview-wrapper">
+                            <ArticlePreview
+                                article={{
+                                    title: this.state.postTitle,
+                                    subtitle: this.state.postSubtitle,
+                                    content: this.state.postExplain,
+                                    thumbnail: [this.state.imagePreviewUrl],
+                                    ad_link: this.state.needUrl
+                                        ? this.state.postUrl
+                                        : 'The link will be given after submission',
+                                    target_views: this.state.postGoal,
+                                    expiry_date:
+                                        this.state.postDeadline.year +
+                                        '-' +
+                                        this.state.postDeadline.month +
+                                        '-' +
+                                        this.state.postDeadline.date,
+                                    tags: this.state.postTag.map(tag => {
+                                        return tag.name;
+                                    }),
+                                    owner_nickname: this.state.owner_nickname,
+                                    avatar: this.state.owner_avatar
+                                }}
+                            />
+                        </div>
                         <div id="submit">
                             <button
                                 className="btn btn-primary next-tab-btn"
@@ -882,4 +893,7 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleCreate);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleCreate);

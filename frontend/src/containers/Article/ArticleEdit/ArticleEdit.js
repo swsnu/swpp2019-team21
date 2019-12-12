@@ -338,4 +338,7 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleEdit);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleEdit);
