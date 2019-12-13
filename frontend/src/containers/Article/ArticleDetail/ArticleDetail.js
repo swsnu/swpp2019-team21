@@ -98,7 +98,7 @@ class ArticleDetail extends Component {
                                     });
                                 }}/>
                         </Modal.Body>
-                        <Modal.Footer>
+                        <Modal.Footer >
                             <Button
                                 id="report-confirm"
                                 variant="primary"
@@ -315,7 +315,7 @@ class ArticleDetail extends Component {
                                 </div>
                             </section>
                         )}
-                    {this.props.article.is_owner && (
+                    {this.props.article.is_owner &&(
                         <section className="article-info-owner section-wrapper">
                             <div className="stat">
                                 <h2 id="stat-text">Statistic for owner</h2>
@@ -348,7 +348,7 @@ class ArticleDetail extends Component {
                             </div>
                         </section>
                     )}
-                    {!this.props.article.is_owner && (
+                    {!this.props.article.is_owner && !this.props.article.closed && (
                         <span>
                             부적절한 컨텐츠인가요?&nbsp;&nbsp;
                             <a
