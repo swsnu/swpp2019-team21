@@ -297,7 +297,7 @@ class AdPostView(View):
                 tag_exist.save()
                 adpost.tags.add(tag_exist)
             else:
-                tag_new = InterestedTags(content=tag, usercount=1, postcount=0)
+                tag_new = InterestedTags(content=tag, usercount=0, postcount=1)
                 tag_new.save()
                 adpost.tags.add(tag_new)
 
