@@ -71,7 +71,7 @@ class ArticleDetail extends Component {
                 .split(', ')
                 .map(dat => dat && JSON.parse(dat))
                 .slice(0, -1);
-
+            //console.log(this.props.article.view_by_date)
             return (
                 <div className="ArticleDetail">
                     <Modal
@@ -233,6 +233,7 @@ class ArticleDetail extends Component {
                                     ) : (
                                         !this.props.is_participated && (
                                             <Button
+                                                id="participate-button"
                                                 className="right-button-submit"
                                                 variant="danger"
                                                 disabled={

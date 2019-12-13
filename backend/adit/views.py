@@ -20,7 +20,7 @@ from . import init_data
 import base64
 from .ml import suggest
 
-base_link = 'http://localhost:3000/redirectfrom='
+base_link = 'https://www.adit.shop/redirectfrom='
 
 
 def get_client_ip(request):
@@ -277,7 +277,6 @@ class AdPostView(View):
 
         if ad_link == "":
             ad_link = "toitself"
-
         upload_date = datetime.now()
         thumbnail = img_process(req_data['image'][0])
 
@@ -287,7 +286,7 @@ class AdPostView(View):
         adpost.save()
 
         if adpost.ad_link == "toitself":
-            adpost.ad_link = 'http://localhost:3000/article/{}/'.format(str(adpost.id))
+            adpost.ad_link = 'http://www.adit.shop/article/{}/'.format(str(adpost.id))
 
         adpost.save()
 
