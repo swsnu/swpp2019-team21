@@ -1,5 +1,6 @@
 .ArticleDetail {
     margin-top: 80px;
+    margin-bottom: 120px;
     width: 840px;
     margin-left: auto;
     margin-right: auto;
@@ -14,15 +15,6 @@
     text-align: center;
 }
 
-.ArticleDetail .article-thumbnail-wrapper {
-    margin: 10px;
-    padding: 10px;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    border-bottom: 1px solid #dadada;
-}
-
 .ArticleDetail .article-thumbnail-wrapper #article-thumbnail {
     margin-left: auto;
     margin-right: auto;
@@ -32,12 +24,10 @@
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
-.ArticleDetail .article-description-wrapper {
-    margin: 10px;
+.ArticleDetail .section-wrapper {
+    margin: 30px auto 30px auto;
     padding: 10px;
     width: 80%;
-    margin-left: auto;
-    margin-right: auto;
     border-bottom: 1px solid #dadada;
 }
 
@@ -61,17 +51,22 @@
     margin: 0px 1px 0px 1px;
 }
 
-.ArticleDetail #post-title-text {
+.ArticleDetail h1 {
     margin-top: 10px;
     margin-bottom: 5px;
     font-size: 30px;
     font-weight: 600;
 }
 
-.ArticleDetail #post-subtitle-text {
+.ArticleDetail h2 {
     margin-bottom: 10px;
     font-size: 20px;
     font-weight: 400;
+}
+
+.ArticleDetail p {
+    font-size: 18px;
+    white-space: pre-line;
 }
 
 .ArticleDetail #tag-link {
@@ -90,6 +85,168 @@
     transition: 0.3s;
 }
 
+.ArticleDetail #due-date-text,
+.ArticleDetail #target-view-text {
+    font-size: 15px;
+    color: #404040;
+}
+
+.ArticleDetail .aggregate-info-window {
+    margin-bottom: 20px;
+}
+
+.ArticleDetail .thumbnail-left {
+    width: 70%;
+    margin: 0px;
+    display: inline-block;
+}
+
+.ArticleDetail .thumbnail-right {
+    width: 30%;
+
+    height: 100%;
+    display: inline-block;
+}
+
+.ArticleDetail .share-window-participant {
+    padding: 8px;
+    box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+    border-radius: 5px;
+}
+
+.ArticleDetail #right-title {
+    text-align: center;
+    font-size: 17px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.ArticleDetail .right-button-submit {
+    margin-left: 15%;
+    text-align: center;
+    width: 70%;
+    margin-right: 15%;
+}
+
+.ArticleDetail #share-btn-box {
+    text-align: center;
+    display: flex;
+}
+
+.ArticleDetail #facebook-share-btn {
+    width: 30px;
+    height: 30px;
+}
+
+.ArticleDetail #post-edit-button {
+    float: right;
+    width: 25px;
+}
+
+.ArticleDetail #post-edit-button:hover {
+    cursor: pointer;
+}
+
+.ArticleDetail .share-btn {
+    width: 40px;
+    height: 40px;
+    margin-left: 3px;
+    margin-right: 3px;
+    border-radius: 3px;
+    flex: 0 1 auto;
+    box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+}
+
+.ArticleDetail #url-copy-button {
+    width: 100%;
+    height: 100%;
+    padding-top: 7px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 3px;
+    background: #fa4252;
+}
+
+[data-tooltip-text]:hover {
+    position: relative;
+    cursor: pointer;
+}
+
+[data-tooltip-text]:after {
+    -webkit-transition: bottom 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    -moz-transition: bottom 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transition: bottom 0.3s ease-in-out, opacity 0.3s ease-in-out;
+
+    background-color: rgba(0, 0, 0, 0.8);
+
+    -webkit-box-shadow: 0px 0px 3px 1px rgba(50, 50, 50, 0.4);
+    -moz-box-shadow: 0px 0px 3px 1px rgba(50, 50, 50, 0.4);
+    box-shadow: 0px 0px 3px 1px rgba(50, 50, 50, 0.4);
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 7px 12px;
+    position: absolute;
+    min-width: 70px;
+    max-width: 300px;
+    word-wrap: break-word;
+
+    z-index: 9999;
+
+    opacity: 0;
+    left: -9999px;
+    top: 90%;
+
+    content: attr(data-tooltip-text);
+}
+
+[data-tooltip-text]:hover:after {
+    top: 130%;
+    left: 0;
+    opacity: 1;
+}
+
+#link-icon {
+    display: inline;
+}
+
+.ArticleDetail .kakao-share-btn {
+    background: #fae103;
+}
+
+#kakao-share-icon {
+    width: 100%;
+    height: 100%;
+}
+
+.ArticleDetail .unique-url-wrapper {
+    box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+    border-radius: 5px;
+    overflow: scroll;
+    padding: 3px 10px 3px 10px;
+    margin-bottom: 10px;
+}
+
+.ArticleDetail .closed-text {
+    text-align: center;
+    color: #7a7a7a;
+    margin-bottom: 10px;
+}
+
+#report-text {
+    color: #8b8b8b;
+}
+
+#report-input {
+    height: 250px;
+    resize: none;
+}
 /* 
 @media screen and (min-width: 1101px) {
     .left-component {

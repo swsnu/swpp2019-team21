@@ -1,38 +1,67 @@
-#description-input {
-    resize: none;
-    height: 500px;
-}
-
-.edit-article-box {
-    margin-bottom: 50px;
-}
-
-.thumbnail_image {
-    height: 500px;
-    width: 50%;
-    object-fit: cover;
-}
-
-#post-explain-input {
-    resize: none;
-    height: 200px;
-}
-
-#post-point-deduction {
-    border: none;
-}
-
 .ArticleEdit {
-    margin-top: 150px;
+    margin-top: 100px;
+    width: 840px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #404040;
+    text-align: left;   
+}
+
+.ArticleEdit .EditHeadTitle {
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #404040;
+}
+
+.ArticleEdit .EditHeadContent {
+    font-size: 22px;
+    color: rgb(117, 117, 117);
+    font-weight: 500;
+}
+
+.ArticleEdit .section-wrapper {
+    margin: 10px;
+    padding: 10px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ArticleEdit .EditBody {
+    background: #f7f7f7;
+    padding: 25px;
     margin-bottom: 100px;
+    border-radius: 10px;
 }
 
-.ArticleEdit .form-control {
-    width: 500px;
+.ArticleEdit .form-label {
+    font-size: 18px;
+    font-weight: 800;
+    text-align: left;
+    line-height: normal;
 }
 
-#createTabs text {
+.ArticleEdit #input-warning {
+    font-size: 0.8rem;
+    color: red;
+}
+
+.ArticleEdit #invalid-input{
+    background: #f8e0e4;
+}
+
+.ArticleEdit .submit-btn {
+    background-color: #fa4252 !important;
     font-size: 20px;
+    font-weight: 800;
+    width: 100%;
+    border-style: hidden;
+}
+
+.ArticleEdit .submit-btn:hover {
+    background-color: #f03757 !important;
+    cursor: pointer;
 }
 
 #post-thumbnail-preview {
@@ -41,6 +70,27 @@
     margin-top: 5px;
 }
 
+
+#post-explain-input {
+    resize: none;
+    height: 150px;
+}
+
+
+/*
+#description-input {
+    resize: none;
+    height: 500px;
+}
+
+
+.thumbnail_image {
+    height: 500px;
+    width: 50%;
+    object-fit: cover;
+}
+
 .previewText {
     margin-top: 5px;
 }
+*/  

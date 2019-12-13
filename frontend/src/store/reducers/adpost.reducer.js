@@ -3,10 +3,10 @@ import * as actionTypes from '../actions/actionTypes';
 // state.adpost
 
 const initialState = {
+    is_loading: false,
     error_code: null,
     adpost_items: {},
     adpost_detailed_item: {
-        is_loading: false,
         id: null,
         owner_id: null,
         title: null,
@@ -70,8 +70,9 @@ export const adpost_reducer = (state = initialState, action = null) => {
             return {
                 ...state,
                 error_code: null,
+                is_loading: true,
                 adpost_detailed_item: {
-                    ...action.detailed_item
+                    ...action.detailed_item,
                 }
             };
         case actionTypes.GET_DETAILED_ADPOST_FAILURE:

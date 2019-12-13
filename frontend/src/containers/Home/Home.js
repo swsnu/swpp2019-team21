@@ -20,7 +20,7 @@ class Home extends Component {
         this.props.onGetHomeList();
         this.props.onGetSuggestedTag();
         this.props.onGetRecentTagList();
-        AOS.init({ duration: 1000 });
+        AOS.init({ duration: 500 });
     }
 
     closeHandler = () => {
@@ -34,6 +34,7 @@ class Home extends Component {
 
     render() {
         var { adpost_home_list } = this.props;
+        console.log(adpost_home_list);
         adpost_home_list = adpost_home_list.slice(0, 5);
         var { suggested_tags } = this.props;
 
@@ -73,18 +74,22 @@ class Home extends Component {
                             </Button>
                         );
                     })}
+                    {suggested_tags.length ? null : (
+                        <span>추천 주제가 없습니다</span>
+                    )}
                 </div>
             </div>
         );
 
         const recent_tag_list = (
             <div className="recent-tag-frame">
-                <h2 id="TagRecentTitle">이런 주제가 인기있어요</h2>
+                <h2 id="TagRecentTitle">새로운 주제들이 있어요</h2>
                 <ol className="recent-tag-list">
-                    {this.props.recent_tags.map(tags => {
+                    {this.props.recent_tags.map((tags, index) => {
                         return (
                             <li
                                 id="recent-tag"
+                                key={index}
                                 onClick={() =>
                                     history.push(
                                         `/adposts/search/tag/${tags.name}`
@@ -164,9 +169,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(Home)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));

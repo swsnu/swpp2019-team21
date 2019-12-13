@@ -1,16 +1,96 @@
 /* The switch - the box around the slider */
+.ArticleCreate {
+    margin-top: 100px;
+    width: 840px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #404040;
+    text-align: left;
+}
+
+.ArticleCreate .CreateHeadTitle {
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #404040;
+}
+
+.ArticleCreate .CreateHeadContent {
+    font-size: 22px;
+    color: rgb(117, 117, 117);
+    font-weight: 500;
+}
+
+.ArticleCreate .CreateHeadTabs {
+    font-size: 14px;
+    line-height: normal;
+    text-align: left;
+}
+
+.ArticleCreate .section-wrapper {
+    margin: 10px;
+    padding: 10px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ArticleCreate .CreateBody {
+    background: #f7f7f7;
+    padding: 25px;
+    margin-bottom: 100px;
+    border-radius: 10px;
+}
+
+.ArticleCreate .form-label {
+    font-size: 18px;
+    font-weight: 800;
+    text-align: left;
+    line-height: normal;
+}
+
+.ArticleCreate #input-warning {
+    font-size: 0.8rem;
+    color: red;
+}
+
+.ArticleCreate #invalid-input {
+    background: #f8e0e4;
+}
+
 .switch {
     position: relative;
+    margin: 0 10px;
     display: inline-block;
     width: 60px;
     height: 34px;
 }
 
 /* Hide default HTML checkbox */
-.switch input {
+.switch #toggle-input {
     opacity: 0;
     width: 0;
     height: 0;
+}
+
+.toggle-group {
+    display: inline-flex;
+    margin-bottom: 10px;
+}
+
+.toggle-group .helper {
+    font-size: 15px;
+    color: rgb(117, 117, 117);
+    font-weight: 500;
+    margin: auto;
+}
+
+.toggle-group .openToggle-helper-content {
+    margin: 5px;
+}
+
+.switch #post-url-input {
+    width: 500px;
 }
 
 /* The slider */
@@ -38,12 +118,25 @@
     transition: 0.4s;
 }
 
+.ArticleCreate .next-tab-btn {
+    background-color: #fa4252 !important;
+    font-size: 20px;
+    font-weight: 800;
+    width: 100%;
+    border-style: hidden;
+}
+
+.ArticleCreate .next-tab-btn:hover {
+    background-color: #f03757 !important;
+    cursor: pointer;
+}
+
 input:checked + .slider {
-    background-color: #2196f3;
+    background-color: #fa4252;
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px #2196f3;
+    box-shadow: 0 0 1px #fa4252;
 }
 
 input:checked + .slider:before {
@@ -65,30 +158,15 @@ input:checked + .slider:before {
     border: none;
     background-color: transparent;
 }
-#createTabs {
-    margin-bottom: 50px;
-    margin-top: 10px;
-}
-.ArticleCreate {
-    margin-top: 150px;
-    margin-bottom: 100px;
-}
 
 #post-explain-input {
     resize: none;
-    height: 200px;
+    height: 400px;
 }
 
 #post-point-deduction {
     border: none;
-}
-
-.ArticleCreate .form-control {
-    width: 500px;
-}
-
-#createTabs text {
-    font-size: 20px;
+    background: inherit;
 }
 
 #post-thumbnail-preview {
@@ -97,18 +175,16 @@ input:checked + .slider:before {
     margin-top: 5px;
 }
 
+#post-calendar-input {
+    border-style: hidden;
+}
+
 .previewText {
     margin-top: 5px;
 }
 
-#next-button {
-    margin-top: 50px;
-    margin-bottom: 50px;
-}
-
 #next-tag-button {
     margin-top: 50px;
-    margin-bottom: 500px;
 }
 
 #submit {
@@ -116,13 +192,22 @@ input:checked + .slider:before {
     margin-bottom: 30px;
 }
 
+.ArticleCreate #calender-wrapper {
+    text-align: center;
+    width: 100%;
+}
+
+.ArticleCreate #select-calender {
+    display: inline-block;
+}
+
 .tagSelect .react-tags {
     position: relative;
     padding: 6px 0 0 6px;
+    background: white;
     border: 1px solid #d1d1d1;
     border-radius: 1px;
     margin-bottom: 20px;
-    width: 1000px;
     /* shared font styles */
     font-size: 1em;
     line-height: 1.2;
@@ -145,8 +230,8 @@ input:checked + .slider:before {
     padding: 6px 8px;
     border: 1px solid #d1d1d1;
     border-radius: 2px;
-    background: #f1f1f1;
-
+    background: #f1f1f1 !important;
+    width: fit-content;
     /* match the font styles */
     font-size: inherit;
     line-height: inherit;
@@ -246,4 +331,11 @@ input:checked + .slider:before {
 .react-tags__suggestions li.is-disabled {
     opacity: 0.5;
     cursor: auto;
+}
+
+.ArticleCreate .preview-wrapper {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background: #ffffff;
 }

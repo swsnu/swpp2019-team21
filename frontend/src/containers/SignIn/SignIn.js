@@ -2,18 +2,74 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { userActions } from '../../store/actions';
 import avatar from '../../assets/avatar.png';
+import { ls } from '../../store';
 import './SignIn.css';
 
 class SignIn extends Component {
-    componentDidMount() {
+    async componentDidMount() {
         if (localStorage.getItem('logged_in') === 'true') {
             this.props.history.push('/home');
         }
+        const user = await this.getRememberedUser();
+        this.setState({
+            email: user.useremail,
+            password: user.userpw
+        });
     }
 
     state = {
         email: '',
-        password: ''
+        password: '',
+        remember: false
+    };
+
+    getRememberedUser = async () => {
+        try {
+            const useremail = await ls.get('useremail');
+            const userpw = await ls.get('userpw');
+            if (useremail !== '' && userpw !== '') {
+                await this.setState({
+                    ...this.state,
+                    remember: true
+                });
+                return {
+                    useremail: useremail,
+                    userpw: userpw
+                };
+            } else {
+                return {
+                    useremail: '',
+                    userpw: ''
+                };
+            }
+        } catch (error) {
+            return {
+                useremail: '',
+                userpw: ''
+            };
+        }
+    };
+
+    emailChangeHandler = e => {
+        if (e.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                email: e.target.value
+            });
+        } else {
+            alert('email too long!');
+        }
+    };
+
+    passwordChangeHandler = e => {
+        if (e.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                password: e.target.value
+            });
+        } else {
+            alert('password too long!');
+        }
     };
 
     signInHandler = () => {
@@ -21,7 +77,7 @@ class SignIn extends Component {
             email: this.state.email,
             password: this.state.password
         };
-        this.props.onSignIn(user);
+        this.props.onSignIn(user, this.state.remember);
     };
 
     signUpHandler = () => {
@@ -30,6 +86,7 @@ class SignIn extends Component {
 
     forgotPasswordHandler = () => {
         // TODO:: Link to forgot Password
+        alert('Not implemented');
     };
 
     render() {
@@ -48,9 +105,7 @@ class SignIn extends Component {
                             type="text"
                             value={this.state.email}
                             required="required"
-                            onChange={event =>
-                                this.setState({ email: event.target.value })
-                            }
+                            onChange={this.emailChangeHandler}
                         />
                     </div>
                     <div className="form-group">
@@ -61,9 +116,7 @@ class SignIn extends Component {
                             placeholder="Password"
                             value={this.state.password}
                             required="required"
-                            onChange={event =>
-                                this.setState({ password: event.target.value })
-                            }
+                            onChange={this.passwordChangeHandler}
                         />
                     </div>
                     <div className="form-group">
@@ -77,7 +130,17 @@ class SignIn extends Component {
                     </div>
                     <div className="clearfix">
                         <label className="remember">
-                            <input type="checkbox" id="remember-chkbox" />
+                            <input
+                                checked={this.state.remember}
+                                type="checkbox"
+                                id="remember-chkbox"
+                                onChange={e => {
+                                    this.setState({
+                                        ...this.state,
+                                        remember: e.target.checked
+                                    });
+                                }}
+                            />
                             Remember me
                         </label>
                         <a
@@ -102,11 +165,9 @@ class SignIn extends Component {
 
 export const mapDispatchToProps = dispatch => {
     return {
-        onSignIn: user => dispatch(userActions.signIn(user))
+        onSignIn: (user, remember) =>
+            dispatch(userActions.signIn(user, remember))
     };
 };
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(SignIn);
+export default connect(null, mapDispatchToProps)(SignIn);

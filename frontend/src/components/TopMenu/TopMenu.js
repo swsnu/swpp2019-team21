@@ -25,6 +25,12 @@ class TopMenu extends Component {
         }
     }
 
+    componentDidUpdate() {
+        if (!this.props.user) {
+            this.props.reloadUser();
+        }
+    }
+
     signInHandler = () => {
         history.push('/signin');
     };
@@ -61,7 +67,7 @@ class TopMenu extends Component {
                             + New Post
                         </a>
                     )}
-                    {this.props.logged_in && (
+                    {this.props.logged_in && this.props.user && (
                         <TopMenuPopUp
                             id="pop-up-menu"
                             user={this.props.user}
@@ -94,7 +100,4 @@ export const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TopMenu);
+export default connect(mapStateToProps, mapDispatchToProps)(TopMenu);

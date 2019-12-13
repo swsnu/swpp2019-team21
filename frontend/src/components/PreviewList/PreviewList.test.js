@@ -35,7 +35,7 @@ describe('<PreviewList />', () => {
         const component = shallow(
             <PreviewList list_name={mockedListName} articles={mockedArticles} />
         );
-        const wrapper = component.find('#search-more');
+        const wrapper = component.find('#card-more-btn');
         wrapper.simulate('click');
         expect(spyHistoryPush).toHaveBeenCalledTimes(1);
     });

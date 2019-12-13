@@ -20,6 +20,8 @@ const rootReducer = combineReducers({
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
 
+axios.get('/api/token/');
+
 ReactDOM.render(
     <Provider store={store}>
         <App history={history} />

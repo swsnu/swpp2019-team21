@@ -1,241 +1,320 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { adpostActions } from '../../../store/actions/adpost.action';
-import intro_first from '../../../assets/intro_first.jpg';
 import './ArticleEdit.css';
 
 class ArticleEdit extends Component {
     state = {
         is_loadcomplete: false,
-        title: 'Sample title',
-        subtitle: 'Sample subtitle',
-        duedate: '2001/01/16',
-        content: '',
-        id: 1,
-        thumbnail: intro_first,
-        imageURL: intro_first,
-        valid: false,
-        postUrl: null,
-        postFile: null,
-        postTag: [{ id: 1, name: 'iluvswpp' }],
-        mockSuggestion: [
-            { id: 3, name: 'Bananas' },
-            { id: 4, name: 'Mango' },
-            { id: 5, name: 'Lemons' },
-            { id: 6, name: 'Apricots' }
-        ]
+        imageChanged: false,
+        new_thumbnail: null,
+        new_imageURL: null,
+        article: {
+            title: null,
+            subtitle: null,
+            content: null,
+            thumbnail: null,
+            image: [],
+            tags: [],
+            is_owner: false,
+            open_for_all: false
+        },
+        valid: {
+            title: null,
+            subtitle: null,
+            content: null,
+            thumbnail: null
+        }
     }; // should be props, not state
 
     componentDidMount() {
-        // this.props.ongetArticle(this.props.match.params.id);
+        this.props.ongetArticle(this.props.match.params.id);
     }
 
-    titleChangeHandler = t => {
-        if (t.target.value.length <= 30) {
+    componentDidUpdate() {
+        if (!this.state.is_loadcomplete && this.props.article) {
             this.setState({
                 ...this.state,
-                title: t.target.value
+                article: this.props.article,
+                is_loadcomplete: true
+            });
+            if (!this.props.article.is_owner) {
+                this.props.history.push('/home');
+            }
+        }
+    }
+
+    titleChangeHandler = e => {
+        var valid = e.target.value.length <= 30 && e.target.value.length > 0;
+        if (e.target.value.length <= 30) {
+            this.setState({
+                ...this.state,
+                article: {
+                    ...this.state.article,
+                    title: e.target.value
+                },
+                valid: {
+                    title: valid
+                }
             });
         } else {
-            alert('The title cannot be longer than 30 characters');
+            alert('제목은 30자를 넘을 수 없습니다');
         }
     };
 
-    subtitleChangeHandler = s => {
-        if (s.target.value.length <= 30) {
+    subtitleChangeHandler = e => {
+        var valid = e.target.value.length <= 30 && e.target.value.length > 0;
+        if (e.target.value.length <= 30) {
             this.setState({
                 ...this.state,
-                subtitle: s.target.value
+                article: {
+                    ...this.state.article,
+                    subtitle: e.target.value
+                },
+                valid: {
+                    ...this.state.valid,
+                    subtitle: valid
+                }
             });
         } else {
-            alert('The subtitle cannot be longer than 30 characters');
+            alert('부제목은 30자를 넘을 수 없습니다');
         }
     };
 
-    detailedChangeHandler = d => {
-        if (d.target.value.length <= 10000) {
+    detailedChangeHandler = e => {
+        var valid = e.target.value.length <= 10000 && e.target.value.length > 0;
+        if (e.target.value.length <= 10000) {
             this.setState({
                 ...this.state,
-                content: d.target.value
+                article: {
+                    ...this.state.article,
+                    content: e.target.value
+                },
+                valid: {
+                    ...this.state.valid,
+                    content: valid
+                }
             });
         } else {
-            alert('Content cannot be longer than 10000 characters');
-        }
-    };
-
-    changePictureHandler = p => {
-        if (p.target.files[0]) {
-            this.setState({
-                ...this.state,
-                thumbnail: p.target.files[0],
-                imageURL: URL.createObjectURL(p.target.files[0])
-            });
+            alert('설명은 10000자를 넘을 수 없습니다');
         }
     };
 
     imageOnChange = e => {
+        var valid = false;
         e.preventDefault();
 
         let reader = new FileReader();
         let file = e.target.files[0];
         reader.onloadend = () => {
-            this.setState({
-                postFile: file,
-                imagePreviewUrl: reader.result
-            });
+            valid =
+                file &&
+                file.name.match(/.(jpg|jpeg|png|bmp)$/i) &&
+                file.size <= 1000000;
+            if (valid) {
+                this.setState({
+                    ...this.state,
+                    new_thumbnail: file,
+                    new_imageURL: reader.result,
+                    imageChanged: true,
+                    valid: {
+                        thumbnail: valid
+                    }
+                });
+            } else {
+                alert('1MB 이내의 jpg, jpeg, png, bmp 형식 파일이 가능합니다');
+                this.setState({
+                    valid: {
+                        thumbnail: false
+                    }
+                });
+            }
         };
+
+        if (!file) {
+            this.setState({
+                ...this.state,
+                new_thumbnail: null,
+                new_imageURL: null,
+                imageChanged: false,
+                valid: {
+                    thumbnail: valid
+                }
+            });
+            return;
+        }
 
         reader.readAsDataURL(file);
     };
 
     editConfirmHandler = () => {
-        if (!this.state.title) {
-            alert('Title should not be empty');
+        if (!this.state.article.title) {
+            alert('제목을 입력하세요');
             return;
         }
-        if (!this.state.subtitle) {
-            alert('Subtitle should not be empty');
+        if (!this.state.article.subtitle) {
+            alert('부제목을 입력하세요');
             return;
         }
-        if (!this.state.content) {
-            alert('Content should not be empty');
+        if (!this.state.article.content) {
+            alert('내용을 입력하세요');
             return;
         }
-        if (!this.state.postUrl) {
-            alert('Ad url should not be empty');
+        if (this.state.imageChanged && !this.state.new_imageURL) {
+            alert('이미지를 업로드하세요');
             return;
         }
-        if (
-            this.state.postUrl.toString().length < 9 ||
-            (this.state.postUrl.toString().substring(0, 7) !== 'http://' &&
-                this.state.postUrl.toString().substring(0, 8) !== 'https://')
-        ) {
-            alert('Ad url should start with http:// or https://');
-            return;
-        }
-        if (!this.state.imagePreviewUrl) {
-            alert('You should upload image');
-            return;
-        }
-        if (this.state.postFile.size > 1000000) {
-            alert('The file cannot be bigger than 1MB');
-            return;
-        }
-        if (!this.state.postFile.name.match(/.(jpg|jpeg|png|gif)$/i)) {
-            alert('You should upload image file');
-            return;
+        if (this.state.new_thumbnail) {
+            if (this.state.new_thumbnail.size > 1000000) {
+                alert('사진 용량은 1MB 이하여야 합니다');
+                return;
+            }
+            if (!this.state.new_thumbnail.name.match(/.(jpg|jpeg|png)$/i)) {
+                alert('jpg, jpeg, png, bmp 형식 파일이 가능합니다');
+            }
         }
         const adpost = {
-            title: this.state.title,
-            subtitle: this.state.subtitle,
-            content: this.state.content,
-            image:
-                this.state.imagePreviewUrl === this.props.article.thumbnail
-                    ? 'not_changed'
-                    : [this.state.imagePreviewUrl],
-            ad_link: this.state.postUrl,
-            tags: this.props.article.tags
+            ...this.state.article,
+            image: this.state.imageChanged
+                ? [this.state.new_imageURL]
+                : ['not_changed']
         };
         this.props.onputArticle(this.props.match.params.id, adpost);
     };
 
     render() {
         let imagePreview = null;
-        let imagePreviewUrl = this.state.imagePreviewUrl;
+        let imageURL = this.state.imageChanged
+            ? this.state.new_imageURL
+            : this.state.article.thumbnail;
 
-        if (imagePreviewUrl) {
-            imagePreview = (
-                <img id="post-thumbnail-preview" src={imagePreviewUrl} />
-            );
+        if (imageURL) {
+            imagePreview = <img id="post-thumbnail-preview" src={imageURL} />;
+        } else {
+            imagePreview = <p>Please upload an image</p>;
         }
-
-        if (!this.state.is_loadcomplete && this.props.loaded) {
-            this.setState({
-                ...this.state,
-                title: this.props.article.title,
-                subtitle: this.props.article.subtitle,
-                content: this.props.article.content,
-                imagePreviewUrl: this.props.article.thumbnail,
-                postUrl: this.props.article.ad_link,
-                is_loadcomplete: true
-            });
-        }
-
         return (
             <div>
                 {this.props.loaded && (
                     <div className="ArticleEdit">
-                        <div className="edit-article-box">
-                            <h1>Edit Article</h1>
+                        <div className="EditHead">
+                            <section className="EditHeadTitle section-wrapper">
+                                <h1 className="EditHeadTitle">편집</h1>
+                                <p className="EditHeadContent">편집하세요</p>
+                            </section>
                         </div>
-                        <div className="configuration">
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Title</h3>
-                                <input
-                                    className="form-control"
-                                    placeholder=" input title"
-                                    id="post-title-input"
-                                    onChange={this.titleChangeHandler}
-                                    defaultValue={this.props.article.title}
-                                    value={this.state.postTitle}
-                                />
+                        <div className="EditBody section-wrapper">
+                            <div className="configuration">
+                                <div className="form-group" align="center">
+                                    <h3 className="form-label">
+                                        무슨 광고인가요?
+                                    </h3>
+                                    <input
+                                        className="form-control"
+                                        id={
+                                            'post-title-input' +
+                                            (this.state.valid.title === false
+                                                ? ' invalid-input'
+                                                : ' valid-input')
+                                        }
+                                        onChange={this.titleChangeHandler}
+                                        value={this.state.article.title}
+                                    />
+                                    <p id="input-warning" align="left">
+                                        {this.state.valid.title === false ? (
+                                            '제목을 입력하세요'
+                                        ) : (
+                                            <br />
+                                        )}{' '}
+                                    </p>
+                                </div>
+                                <p />
+                                <br />
+                                <div className="form-group" align="center">
+                                    <h3 className="form-label">한줄 설명</h3>
+                                    <input
+                                        className="form-control"
+                                        id={
+                                            'post-subtitle-input' +
+                                            (this.state.valid.subtitle === false
+                                                ? ' invalid-input'
+                                                : ' valid-input')
+                                        }
+                                        onChange={this.subtitleChangeHandler}
+                                        value={this.state.article.subtitle}
+                                    />
+                                    <p id="input-warning" align="left">
+                                        {this.state.valid.subtitle === false ? (
+                                            '부제목을 입력하세요'
+                                        ) : (
+                                            <br />
+                                        )}{' '}
+                                    </p>
+                                </div>
+                                <p />
+                                <br />
+                                <div className="form-group" align="center">
+                                    <h3 className="form-label">
+                                        광고에 대해 자세히 알려주세요
+                                    </h3>
+                                    <textarea
+                                        className="form-control"
+                                        id={
+                                            'post-explain-input' +
+                                            (this.state.valid.content === false
+                                                ? ' invalid-input'
+                                                : ' valid-input')
+                                        }
+                                        onChange={this.detailedChangeHandler}
+                                        value={this.state.article.content}
+                                    />
+                                    <p id="input-warning" align="left">
+                                        {this.state.valid.content === false ? (
+                                            '설명을 입력하세요'
+                                        ) : (
+                                            <br />
+                                        )}{' '}
+                                    </p>
+                                </div>
+                                <p />
+                                <br />
+                                <div className="form-group" align="center">
+                                    <h3 className="form-label">
+                                        이미지를 업로드하세요
+                                    </h3>
+                                    <input
+                                        className="form-control"
+                                        type="file"
+                                        id={
+                                            'post-thumbnail-input' +
+                                            (this.state.valid.thumbnail ===
+                                            false
+                                                ? ' invalid-input'
+                                                : ' valid-input')
+                                        }
+                                        multiple={false}
+                                        onChange={this.imageOnChange}
+                                    />
+                                    <p id="input-warning" align="left">
+                                        {this.state.valid.thumbnail ===
+                                        false ? (
+                                            '이미지 파일을 업로드하세요'
+                                        ) : (
+                                            <br />
+                                        )}{' '}
+                                    </p>
+
+                                    <div>{imagePreview}</div>
+                                </div>
+                                <p />
+                                <br />
+                                <button
+                                    className="btn btn-primary submit-btn"
+                                    id="next-button"
+                                    onClick={this.editConfirmHandler}>
+                                    수정하기
+                                </button>
                             </div>
-                            <p />
-                            <br />
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Subtitle</h3>
-                                <input
-                                    className="form-control"
-                                    placeholder=" input subtitle"
-                                    id="post-subtitle-input"
-                                    onChange={this.subtitleChangeHandler}
-                                    defaultValue={this.props.article.subtitle}
-                                    value={this.state.postSubtitle}></input>
-                            </div>
-                            <p />
-                            <br />
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Ad Description</h3>
-                                <textarea
-                                    className="form-control"
-                                    placeholder=" explain your ad"
-                                    id="post-explain-input"
-                                    onChange={this.detailedChangeHandler}
-                                    value={this.state.content}></textarea>
-                            </div>
-                            <p />
-                            <br />
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Select Thumbnail</h3>
-                                <input
-                                    className="form-control"
-                                    type="file"
-                                    id="post-thumbnail-input"
-                                    multiple={false}
-                                    onChange={this.imageOnChange}
-                                />
-                                <div>{imagePreview}</div>
-                            </div>
-                            <p />
-                            <br />
-                            <div className="form-group" align="center">
-                                <h3 className="form-label">Ad Url</h3>
-                                <input
-                                    className="form-control"
-                                    placeholder=" input url of ad"
-                                    id="post-url-input"
-                                    onChange={this.urlChangeHandler}
-                                    defaultValue={this.props.article.ad_link}
-                                    value={this.state.postUrl}></input>
-                            </div>
-                            <p />
-                            <br />
-                            <button
-                                className="btn btn-primary"
-                                id="next-button"
-                                onClick={this.editConfirmHandler}>
-                                Submit
-                            </button>
                         </div>
                     </div>
                 )}
@@ -254,9 +333,12 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
-        loaded: !state.adpost.adpost_detailed_item.is_loading,
+        loaded: state.adpost.is_loading,
         article: state.adpost.adpost_detailed_item
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleEdit);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ArticleEdit);

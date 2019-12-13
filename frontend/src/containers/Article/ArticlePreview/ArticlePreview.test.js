@@ -7,8 +7,7 @@ import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { getMockStore } from '../../../test/utils/mockStore';
 
-const stubInitialState = {
-};
+const stubInitialState = {};
 
 const mockStore = getMockStore(stubInitialState);
 describe('<ArticlePreview />', () => {
@@ -49,7 +48,11 @@ describe('<ArticlePreview />', () => {
                         <Route
                             path="/"
                             exact
-                            component={() => <ArticlePreview {...{...props, is_participated:true, }} />}
+                            component={() => (
+                                <ArticlePreview
+                                    {...{ ...props, is_participated: true }}
+                                />
+                            )}
                         />
                     </Switch>
                 </ConnectedRouter>
@@ -69,7 +72,7 @@ describe('<ArticlePreview />', () => {
     });
     it('should render without errors when participated', () => {
         const component = mount(articlepreview_participate);
-        const wrapper = component.find('.earn-point');
+        const wrapper = component.find('ArticlePreview');
         expect(wrapper.length).toBe(1);
     });
 });

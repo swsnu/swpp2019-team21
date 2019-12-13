@@ -10,6 +10,7 @@ from .models import *
 from django.views.generic import View
 from django.contrib.auth.hashers import check_password
 from django.forms.models import model_to_dict
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Q
 from datetime import datetime, date, timedelta
@@ -19,7 +20,7 @@ from . import init_data
 import base64
 from .ml import suggest
 
-base_link = 'https://www.adit.shop/redirectfrom='
+base_link = 'http://localhost:3000/redirectfrom='
 
 
 def get_client_ip(request):
@@ -56,11 +57,13 @@ def img_process(img_64):
     data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
     return PostImage.objects.create(image=data)
 
+
 def avatar_process(img_64):
     format, imgstr = img_64.split(';base64,')
     ext = format.split('/')[-1]
     data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
     return data
+
 
 def tag_process(response_dict):
     response_dict['tags'] = list(map(lambda tag: tag.content, response_dict['tags']))
@@ -117,7 +120,6 @@ class SignUpView(View):
 
 class SignInView(View):
     item_list = ['email', 'password']
-
 
     @check_valid_json(item_list=item_list)
     def post(self, request):
@@ -248,7 +250,7 @@ class ChangePWView(View):
 
 class AdPostView(View):
     item_list = ['title', 'subtitle', 'content', 'image', 'ad_link', 'target_views', 'expiry_date',
-                 'tags']
+                 'tags', 'open_for_all']
 
     def post_to_dict(self, adpost):
         response_dict = model_to_dict(adpost)
@@ -271,19 +273,23 @@ class AdPostView(View):
         expiry_date = req_data['expiry_date']
         post_tags = req_data['tags']
         ad_link = req_data['ad_link']
+        open_for_all = req_data['open_for_all']
 
-        if ad_link == "" :
+        if ad_link == "":
             ad_link = "toitself"
-        open_for_all = False
+
         upload_date = datetime.now()
         thumbnail = img_process(req_data['image'][0])
 
         adpost = AdPost(owner=request.user, title=title, subtitle=subtitle, content=content, ad_link=ad_link,
                         target_views=target_views, total_views=0, expiry_date=expiry_date, upload_date=upload_date,
                         closed=False, thumbnail=thumbnail, open_for_all=open_for_all, view_by_date='')
+        adpost.save()
 
         if adpost.ad_link == "toitself":
-            adpost.ad_link = 'http://www.adit.shop/article/{}/'.format(str(adpost.id))
+            adpost.ad_link = 'http://localhost:3000/article/{}/'.format(str(adpost.id))
+
+        adpost.save()
 
         for tag in post_tags:
             if InterestedTags.objects.filter(content=tag).exists():
@@ -292,7 +298,7 @@ class AdPostView(View):
                 tag_exist.save()
                 adpost.tags.add(tag_exist)
             else:
-                tag_new = InterestedTags(content=tag, usercount=1, postcount=0)
+                tag_new = InterestedTags(content=tag, usercount=0, postcount=1)
                 tag_new.save()
                 adpost.tags.add(tag_new)
 
@@ -343,6 +349,7 @@ class AdPostByIDView(View):
         post_new_images = req_data['image'][1:]
         post_new_tags = req_data['tags']
         post_new_thumbnail = req_data['image'][0]
+        print(post_new_thumbnail)
         post_old_images = adpost.image.all()
         post_old_tags = adpost.tags.all()
         post_old_thumbnail_id = adpost.thumbnail.id
@@ -353,21 +360,20 @@ class AdPostByIDView(View):
             if tag.usercount is 0 and tag.postcount is 0:
                 tag.delete()
         adpost.tags.clear()
-
-        if adpost.image == "not_changed":
+        if post_new_thumbnail == "not_changed":
             for image in post_old_images:
                 PostImage.delete(image)
             adpost.image.clear()
-
+        else:
             img_new = img_process(post_new_thumbnail)
             adpost.thumbnail = img_new
             post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
             adpost.save()
             PostImage.delete(post_old_thumbnail)
 
-            for i in range(len(post_new_images)):
-                newimg = img_process(post_new_images[i])
-                adpost.image.add(newimg)
+        for i in range(len(post_new_images)):
+            newimg = img_process(post_new_images[i])
+            adpost.image.add(newimg)
 
         for tag in post_new_tags:
             if InterestedTags.objects.filter(content=tag).exists():
@@ -484,8 +490,8 @@ class AdPostByCustomView(View):
                     tag_object.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(
                         pk__in=list(
                             map(lambda x: x.pk, tag_object.topost.all().filter(open_for_all=False)))))
-                    .values('id', 'thumbnail', 'title', 'subtitle', 'expiry_date', 'target_views',
-                            'total_views', 'upload_date').order_by('-upload_date'))
+                        .values('id', 'thumbnail', 'title', 'subtitle', 'expiry_date', 'target_views',
+                                'total_views', 'upload_date').order_by('-upload_date'))
             for dict in tags_custom:
                 dict['thumbnail'] = PostImage.objects.get(id=dict['thumbnail']).image.url
             post_by_custom[tag['content']] = tags_custom  # all()? not all()?
@@ -590,12 +596,13 @@ class AdReceptionOutRedirectView(View):
         # only for development
         if g.country_name("147.46.10.174") != 'South Korea':
             return response
+
         if request.COOKIES.get(cookie_name) is not None:
             cookies = request.COOKIES.get(cookie_name)
             cookies_list = cookies.split('|')
             if str(reception_object.id) not in cookies_list and not IpAddressDuplication.objects.filter(
-                    ip_address=get_client_ip(request)).exists():
-                new_ip = IpAddressDuplication(ip_address=get_client_ip(request))
+                    ip_address=get_client_ip(request), adreception=reception_object).exists():
+                new_ip = IpAddressDuplication(ip_address=get_client_ip(request), adreception=reception_object)
                 new_ip.save()
                 response.set_cookie(cookie_name, cookies + f'|{reception_object.id}', expires=expires)
 
@@ -663,3 +670,19 @@ class TagSearchView(View):
         tags_by_searchkey = [model_to_dict(tag) for tag in
                              InterestedTags.objects.all().filter(content__startswith=pattern)]
         return JsonResponse(tags_by_searchkey, safe=False)
+
+
+class ReportSendView(View):
+    item_list = ['content', 'title']
+
+    @check_valid_json(item_list=item_list)
+    def post(self, request):
+        req_data = json.loads(request.body.decode())
+        send_mail(
+            req_data['title'],
+            req_data['content'],
+            'no_reply@adit.shop',
+            ['happydh1@snu.ac.kr'],
+            fail_silently=False
+        )
+        return HttpResponse(status=200)

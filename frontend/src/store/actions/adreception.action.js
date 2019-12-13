@@ -23,7 +23,7 @@ function postReception(data) {
             )
             .catch(error => {
                 // TODO: do not use alert, use modal
-                // console.log('reception failed', error);
+                // //console.log('reception failed', error);
                 dispatch(push('/signin/'));
             });
     };
@@ -42,7 +42,7 @@ function postRedirect(data) {
             })
             .catch(error => {
                 // TODO: do not use alert, use modal
-                // console.log('redirect failed', error);
+                // //console.log('redirect failed', error);
                 dispatch(push('/home'));
             });
     };
@@ -69,14 +69,14 @@ function getReceptionByUser() {
         return axios
             .get(base_url + '/adreception/')
             .then(response => {
-                // console.log('meme', response.data);
+                // //console.log('meme', response.data);
                 dispatch({
                     type: actionTypes.GET_BYUSER,
                     data: response.data
                 });
             })
             .catch(error => {
-                // console.log('Server error', error);
+                // //console.log('Server error', error);
             });
     };
 }

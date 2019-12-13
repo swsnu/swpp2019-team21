@@ -65,7 +65,7 @@ describe('<Sign In />', () => {
         expect(spyOnSignIn).toHaveBeenCalledTimes(1);
     });
     it('should render home when logged_in', () => {
-        localStorage.setItem('logged_in', true);
+        localStorage.setItem('logged_in', 'true');
         const component = mount(signin);
         expect(spyHistoryPush).toHaveBeenCalledTimes(1);
     });

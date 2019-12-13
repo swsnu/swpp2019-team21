@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions/actionTypes';
 import { push } from 'connected-react-router';
 import axios from 'axios';
+import { ls } from '../../store';
 
 const base_url = '/api';
 
@@ -14,17 +15,32 @@ export const userActions = {
     updatePoint
 };
 
-function signIn(user) {
+function signIn(user, remember) {
     return dispatch => {
         return axios
             .post(base_url + '/sign-in/', user)
-            .then(response => {
+            .then(async response => {
+                if (remember) {
+                    try {
+                        await ls.set('useremail', user.email);
+                        await ls.set('userpw', user.password);
+                    } catch (error) {
+                        // Error removing
+                    }
+                } else {
+                    try {
+                        await ls.remove('useremail');
+                        await ls.remove('userpw');
+                    } catch (error) {
+                        // Error removing
+                    }
+                }
                 dispatch(getUser());
                 dispatch({ type: actionTypes.SIGN_IN });
                 dispatch(push('/home'));
             })
             .catch(error => {
-                alert('Email or password is wrong');
+                alert('Signin error');
             });
     };
 }
@@ -38,7 +54,7 @@ function signOut() {
                 dispatch(push('/signin'));
             })
             .catch(error => {
-                //console.log(error);
+                ////console.log(error);
                 alert('failed signout');
             });
     };
@@ -53,7 +69,7 @@ function signUp(user) {
                 dispatch(push('/signin'));
             })
             .catch(error => {
-                alert('User name duplicated');
+                alert('Sign up error');
             });
     };
 }
@@ -69,8 +85,8 @@ function getUser() {
                 })
             )
             .catch(error => {
-                localStorage.setItem('logged_in', 'false');
                 //console.log('getUser failed');
+                localStorage.setItem('logged_in', 'false');
             });
     };
 }
@@ -86,8 +102,8 @@ function putUser(user) {
                 })
             )
             .catch(error => {
-                //console.log('put user failed');
-                window.alert('Put user failed zz');
+                ////console.log('put user failed');
+                window.alert('Put user failed');
             });
     };
 }
@@ -98,7 +114,7 @@ function changePW(pw) {
             .put(base_url + '/user/pw/', pw)
             .then(response => dispatch({ type: actionTypes.PUT_USER }))
             .catch(error => {
-                //console.log('change PW failed');
+                ////console.log('change PW failed');
                 alert('Input correct PW');
             });
     };
@@ -112,8 +128,9 @@ function updatePoint(point) {
                 dispatch({ type: actionTypes.PUT_USER });
             })
             .catch(error => {
-                //console.log('update Point failed');
-                alert('Input correct Point');
+                ////console.log('update Point failed');
+                alert('Update point error');
+                console.log(error);
             });
     };
 }

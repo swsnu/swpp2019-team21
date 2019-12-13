@@ -35,7 +35,9 @@ class Preview extends Component {
                             ) / 100
                         ).toString() + '% reached'}
                     </div>
-                    <div className="card-counts">현 참여자 50명!</div>
+                    <div className="card-counts">
+                        현 조회수 {this.props.preview.total_views}회!
+                    </div>
                 </div>
             </div>
         );

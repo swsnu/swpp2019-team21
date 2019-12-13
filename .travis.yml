@@ -39,6 +39,8 @@ matrix:
         - ./node_modules/.bin/eslint src
         - yarn test --coverage --watchAll=false
         - cd ../backend
+        - python manage.py makemigrations
+        - python manage.py migrate
         - coverage run --source='adit/' manage.py test adit
         - coverage report
         - coverage xml

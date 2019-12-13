@@ -4,6 +4,7 @@ import ReactTags from 'react-tag-autocomplete';
 import { userActions } from '../../store/actions';
 import avatar from '../../assets/avatar.png';
 import './SignUp.css';
+import { tagActions } from '../../store/actions/tag.action';
 
 class SignUp extends Component {
     state = {
@@ -14,27 +15,49 @@ class SignUp extends Component {
         lname: '',
         nickname: '',
         tags: [],
+        read_check: false,
         postFile: null,
         valid: {
-            email: true,
-            password_check: true,
-            nickname: true
+            email: null,
+            password: null,
+            nickname: null,
+            fname: null,
+            lname: null
         }
     };
 
+    componentDidMount() {
+        this.props.getAllTags();
+    }
+
+    handleValidate = tag => {
+        return (
+            !this.state.tags.map(item => item.name).includes(tag.name) &&
+            this.state.tags.length <= 20
+        );
+    };
+
     signUpHandler = () => {
-        if (this.state.password.toString().length <= 8) {
-            alert('password should be longer than 8 alphabets');
+        if (!this.state.valid.email) {
+            alert('Invalid e-mail address.');
             return;
-        } else if (this.state.password_check !== this.state.password) {
-            alert('password_check different with password');
-            this.setState({ ...this.state, password_check: '' });
+        } else if (!this.state.valid.password) {
+            alert('Password must consist of 8-20 characters.');
             return;
-        } else if (this.state.fname === '' || this.state.lname === '') {
-            alert('name section cannot be empty');
+        } else if (this.state.password != this.state.password_check) {
+            alert('Must match password.');
             return;
-        } else if (this.state.nickname === '') {
-            alert('nickname cannot be empty');
+        } else if (!this.state.valid.fname) {
+            alert('First name must consist of 1-20 characters.');
+            return;
+        } else if (!this.state.valid.lname) {
+            alert('Last name must consist of 1-20 characters.');
+            return;
+        } else if (!this.state.valid.nickname) {
+            alert('Nickname must consist of 1-20 characters.');
+            return;
+        } else if (!this.state.read_check) {
+            alert('Please read and agree with terms of service');
             return;
         }
         const user = {
@@ -61,11 +84,87 @@ class SignUp extends Component {
         this.setState({ tags: tags });
     };
 
+    emailChangeHandler = e => {
+        var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var valid = e.target.value.length <= 30 && reg.test(e.target.value);
+        this.setState({
+            ...this.state,
+            email: e.target.value,
+            valid: {
+                ...this.state.valid,
+                email: valid
+            }
+        });
+    };
+
+    passwordChangeHandler = e => {
+        var valid = e.target.value.length >= 8 && e.target.value.length <= 30;
+        this.setState({
+            ...this.state,
+            password: e.target.value,
+            valid: {
+                ...this.state.valid,
+                password: valid
+            }
+        });
+    };
+
+    passwordCheckChangeHandler = e => {
+        this.setState({
+            ...this.state,
+            password_check: e.target.value
+        });
+    };
+
+    fnameChangeHandler = e => {
+        var valid = e.target.value.length <= 20 && e.target.value.length > 0;
+        this.setState({
+            ...this.state,
+            fname: e.target.value,
+            valid: {
+                ...this.state.valid,
+                fname: valid
+            }
+        });
+    };
+
+    lnameChangeHandler = e => {
+        var valid = e.target.value.length <= 20 && e.target.value.length > 0;
+        this.setState({
+            ...this.state,
+            lname: e.target.value,
+            valid: {
+                ...this.state.valid,
+                lname: valid
+            }
+        });
+    };
+
+    nicknameChangeHandler = e => {
+        var valid = e.target.value.length <= 20 && e.target.value.length > 0;
+        this.setState({
+            ...this.state,
+            nickname: e.target.value,
+            valid: {
+                ...this.state.valid,
+                nickname: valid
+            }
+        });
+    };
+
+    checkBoxHandler = e => {
+        this.setState({
+            ...this.state,
+            read_check: e.target.checked
+        });
+    };
+
     /*    passwordCheckerHandler = () => {
         // TODO Inputbox Get Red
     };*/
 
     render() {
+        //console.log(this.state.read_check);
         return (
             <div className="sign-up">
                 <div className="sign-up-form">
@@ -76,26 +175,32 @@ class SignUp extends Component {
                     <div className="form-group">
                         <p
                             className={`input-tag${
-                                this.state.valid.email ? '' : '-unvalid'
+                                this.state.valid.email === false
+                                    ? '-invalid'
+                                    : ''
                             }`}
                             align="left">
                             Email Address{' '}
-                            {this.state.valid.email
-                                ? ''
-                                : '(email already exists)'}
                         </p>
                         <input
-                            className={`form-control${
-                                this.state.valid.email ? '' : '-unvalid'
-                            }`}
-                            id="email-input"
+                            className="form-control"
+                            id={
+                                `email-input` +
+                                (this.state.valid.email === false
+                                    ? '-invalid'
+                                    : '')
+                            }
                             type="text"
                             value={this.state.email}
                             required="required"
-                            onChange={event =>
-                                this.setState({ email: event.target.value })
-                            }
+                            onChange={this.emailChangeHandler}
                         />
+                        <p id="input-warning" align="left">
+                            {this.state.valid.email === false
+                                ? 'Invalid email form'
+                                : ''}{' '}
+                            &nbsp;
+                        </p>
                     </div>
                     <div className="form-group">
                         <p className="input-tag" align="left">
@@ -103,14 +208,23 @@ class SignUp extends Component {
                         </p>
                         <input
                             className="form-control"
-                            id="pw-input"
+                            id={
+                                'pw-input' +
+                                (this.state.valid.password === false
+                                    ? '-invalid'
+                                    : '')
+                            }
                             type="password"
                             value={this.state.password}
                             required="required"
-                            onChange={event =>
-                                this.setState({ password: event.target.value })
-                            }
+                            onChange={this.passwordChangeHandler}
                         />
+                        <p id="input-warning" align="left">
+                            {this.state.valid.password === false
+                                ? 'Must consist of 8-20 characters'
+                                : ''}{' '}
+                            &nbsp;
+                        </p>
                     </div>
                     <div className="form-group">
                         <p
@@ -120,17 +234,25 @@ class SignUp extends Component {
                         </p>
                         <input
                             className="form-control"
-                            id="pw-check"
+                            id={
+                                `pw-check` +
+                                (this.state.password ===
+                                this.state.password_check
+                                    ? ''
+                                    : '-invalid')
+                            }
                             type="password"
                             value={this.state.password_check}
                             required="required"
-                            onChange={event =>
-                                this.setState({
-                                    password_check: event.target.value
-                                })
-                            }
+                            onChange={this.passwordCheckChangeHandler}
                             onBlur={this.passwordCheckerHandler}
                         />
+                        <p id="input-warning" align="left">
+                            {this.state.password !== this.state.password_check
+                                ? 'Must match password'
+                                : ''}{' '}
+                            &nbsp;
+                        </p>
                     </div>
                     <table>
                         <td>
@@ -140,16 +262,23 @@ class SignUp extends Component {
                                 </p>
                                 <input
                                     className="form-control"
-                                    id="fname"
+                                    id={
+                                        `fname` +
+                                        (this.state.valid.fname === false
+                                            ? '-invalid'
+                                            : '')
+                                    }
                                     type="text"
                                     value={this.state.fname}
                                     required="required"
-                                    onChange={event =>
-                                        this.setState({
-                                            fname: event.target.value
-                                        })
-                                    }
+                                    onChange={this.fnameChangeHandler}
                                 />
+                                <p id="input-warning" align="left">
+                                    {this.state.valid.fname === false
+                                        ? '1-20 characters'
+                                        : ''}{' '}
+                                    &nbsp;
+                                </p>
                             </div>
                         </td>
                         <td>
@@ -159,16 +288,23 @@ class SignUp extends Component {
                                 </p>
                                 <input
                                     className="form-control"
-                                    id="lname"
+                                    id={
+                                        'lname' +
+                                        (this.state.valid.lname === false
+                                            ? '-invalid'
+                                            : '')
+                                    }
                                     type="text"
                                     value={this.state.lname}
                                     required="required"
-                                    onChange={event =>
-                                        this.setState({
-                                            lname: event.target.value
-                                        })
-                                    }
+                                    onChange={this.lnameChangeHandler}
                                 />
+                                <p id="input-warning" align="left">
+                                    {this.state.valid.lname === false
+                                        ? '1-20 characters'
+                                        : ''}{' '}
+                                    &nbsp;
+                                </p>
                             </div>
                         </td>
                     </table>
@@ -181,13 +317,22 @@ class SignUp extends Component {
                         <input
                             className="form-control"
                             type="text"
-                            id="nickname"
+                            id={
+                                'nickname' +
+                                (this.state.valid.nickname === false
+                                    ? '-invalid'
+                                    : '')
+                            }
                             value={this.state.nickname}
                             required="required"
-                            onChange={event =>
-                                this.setState({ nickname: event.target.value })
-                            }
+                            onChange={this.nicknameChangeHandler}
                         />
+                        <p id="input-warning" align="left">
+                            {this.state.valid.nickname === false
+                                ? '1-20 characters'
+                                : ''}{' '}
+                            &nbsp;
+                        </p>
                     </div>
                     <div className="tagSelect">
                         <p className="input-tag" align="left">
@@ -197,16 +342,22 @@ class SignUp extends Component {
                             tags={this.state.tags}
                             id="reacttags"
                             suggestions={this.props.allTags}
-                            handleDelete={this.deleteTagHandler}
-                            handleAddition={this.addTagHandler}
+                            handleDelete={this.deleteTagHandler.bind()}
+                            handleAddition={this.addTagHandler.bind()}
+                            handleValidate={this.handleValidate.bind()}
                             allowNew={false}
                             minQueryLength={1}
                         />
                     </div>
                     <div className="checkterm">
                         <label className="Term">
-                            <input type="checkbox" id="haveread-chkbox" /> I
-                            have read and agree to the{' '}
+                            <input
+                                checked={this.state.read_check}
+                                onChange={this.checkBoxHandler}
+                                type="checkbox"
+                                id="haveread-chkbox"
+                            />{' '}
+                            I have read and agree to the{' '}
                             <a href="#">terms of service</a>
                         </label>
                     </div>
@@ -233,11 +384,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onSignUp: user => dispatch(userActions.signUp(user))
+        onSignUp: user => dispatch(userActions.signUp(user)),
+        getAllTags: () => dispatch(tagActions.getAllTag())
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

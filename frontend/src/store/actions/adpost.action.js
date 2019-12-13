@@ -13,7 +13,9 @@ export const adpostActions = {
     getAdpost,
     postAdpost,
     putAdpost,
-    getHomeAdpostList
+    getHomeAdpostList,
+    getUserAdpostList,
+    postReportEmail
 };
 
 function makeUrl(query, query_type) {
@@ -42,6 +44,46 @@ function makeUrl(query, query_type) {
         default:
             return null;
     }
+}
+
+function getUserAdpostList() {
+    return dispatch => {
+        //console.log('controlled');
+        const url = [
+            makeUrl('owner', 'special'),
+            makeUrl('participant', 'special')
+        ];
+        dispatch({ type: actionTypes.GET_ADLIST_HOME_PENDING });
+        return axios
+            .get(baseUrl + url[0])
+            .then(response => {
+                const payload_data = [
+                    {
+                        data: response.data,
+                        query: 'owner',
+                        query_type: 'special'
+                    }
+                ];
+                dispatch({
+                    type: actionTypes.GET_ADLIST_HOME_SUCCESS,
+                    payload: payload_data
+                });
+                return axios.get(baseUrl + url[1]);
+            })
+            .then(response => {
+                const payload_data = [
+                    {
+                        data: response.data,
+                        query: 'participant',
+                        query_type: 'special'
+                    }
+                ];
+                dispatch({
+                    type: actionTypes.GET_ADLIST_HOME_SUCCESS,
+                    payload: payload_data
+                });
+            });
+    };
 }
 
 function getHomeAdpostList() {
@@ -180,6 +222,14 @@ function putAdpost(id, data) {
         return axios.put(baseUrl + `/adpost/${id}/`, data).then(response => {
             id = response.data.id;
             dispatch(push(`/article/${id}`));
+        });
+    };
+}
+
+function postReportEmail(email) {
+    return dispatch => {
+        console.log(email);
+        return axios.post(baseUrl + '/report/', email).then(response => {
         });
     };
 }
