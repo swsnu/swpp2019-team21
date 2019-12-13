@@ -41,9 +41,15 @@ matrix:
         - cd ../backend
         - python manage.py makemigrations
         - python manage.py migrate
+        - cd adit
+        - mkdir log
+        - cd ..
         - coverage run --source='adit/' manage.py test adit
         - coverage report
         - coverage xml
+        - cd adit
+        - rm - rf log
+        - cd ..
         - cd ..
         - sonar-scanner
       after_success:
