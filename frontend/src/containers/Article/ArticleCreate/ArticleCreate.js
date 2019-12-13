@@ -334,10 +334,8 @@ class ArticleCreate extends Component {
             }
         };
         const confirmOnClick = () => {
-            var error = 0;
             console.log(this.state)
             if (!this.state.postTitle) {
-                error = 1;
                 alert('제목을 입력하세요');
                 this.setState({ ...this.state, currentPage: 1 });
                 return;

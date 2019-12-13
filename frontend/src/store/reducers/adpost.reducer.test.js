@@ -74,7 +74,7 @@ describe('Adpost Reducer Test', () => {
                 query_type: 'mocktype'
             },
             {
-                type: actionTypes.GET_ADLIST_FAILURE,
+                type: actionTypes.ADPOST_FAILURE,
                 error: 'mockerror'
             }
         ];
@@ -131,7 +131,7 @@ describe('Adpost Reducer Test', () => {
                 type: actionTypes.GET_DETAILED_ADPOST_PENDING
             },
             {
-                type: actionTypes.GET_DETAILED_ADPOST_FAILURE,
+                type: actionTypes.ADPOST_FAILURE,
                 error: 'mockerror'
             }
         ];
@@ -181,7 +181,7 @@ describe('Adpost Reducer Test', () => {
                 type: actionTypes.POST_ADPOST_PENDING
             },
             {
-                type: actionTypes.POST_ADPOST_FAILURE,
+                type: actionTypes.ADPOST_FAILURE,
                 error: 'mockerror'
             }
         ];

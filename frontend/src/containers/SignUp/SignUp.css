@@ -73,12 +73,7 @@
     margin-bottom: 20px;
 }
 
-.sign-up-form .btn:hover{
-    background: #f03757;
-    outline: none important;
-}
-
-.sign-up-form .btn:hover{
+.sign-up-form .btn:hover {
     background: #f03757;
     outline: none important;
 }
@@ -105,7 +100,7 @@
     color: red;
 }
 
-.form-group #email-input-invalid{
+.form-group #email-input-invalid {
     background: #f8e0e4;
 }
 
@@ -134,7 +129,6 @@
     margin-bottom: 10px;
 }
 
-.sign-up-form #signup-button:active{
+.sign-up-form #signup-button:active {
     background: #fd4555;
 }
-

@@ -133,7 +133,7 @@ describe('Adpost Actions', () => {
                     query_type: query_type
                 },
                 {
-                    type: actionTypes.GET_ADLIST_FAILURE,
+                    type: actionTypes.ADPOST_FAILURE,
                     error: {
                         response: {
                             data: undefined,
