@@ -31,10 +31,7 @@ const stubInitialState = {
         point: 1123,
         tags: ['test']
     },
-    adpost_items: {
-        owner: { is_loading: false, list: [{ id: 1, preview: mockPriview }] },
-        participant: { is_loading: false, list: [{ id: 2, preview: mockPriview }] }
-    },
+    adpost_home_list: [],
     byuser_list: []
 };
 const stubInitialStateN = {
@@ -42,7 +39,10 @@ const stubInitialStateN = {
     reception_list: [],
     adpost_items: {
         owner: { is_loading: true, list: [{ id: 1, preview: mockPriview }] },
-        participant: { is_loading: true, list: [{ id: 2, preview: mockPriview }] }
+        participant: {
+            is_loading: true,
+            list: [{ id: 2, preview: mockPriview }]
+        }
     },
     byuser_list: []
 };
@@ -52,7 +52,7 @@ jest.mock('../../components/UserDetail/UserDetail', () => {
     });
 });
 const mockStore = getMockStore(stubInitialState);
-const mockStoreN = getMockStore(stubInitialStateN)
+const mockStoreN = getMockStore(stubInitialStateN);
 describe('<UserInfo/>', () => {
     let userinfo,
         userinfoN,
@@ -106,7 +106,11 @@ describe('<UserInfo/>', () => {
         spyOnGetReceptionList = jest
             .spyOn(adreceptionActions, 'getReceptionByUser')
             .mockImplementation(() => {
-                return dispatch => {};
+                return dispatch => {
+                    return new Promise((resolve, reject) =>
+                        resolve(stubInitialState)
+                    );
+                };
             });
         spyHistoryPush = jest
             .spyOn(history, 'push')
@@ -117,11 +121,13 @@ describe('<UserInfo/>', () => {
     });
     it('should render without errors', () => {
         const component = mount(userinfo);
+        const temp = component.find('UserInfo');
+        temp.setState({ user_loaded: true, reception_loaded: true });
         const wrapper = component.find('.UserInfo');
         expect(wrapper.length).toBe(1);
     });
-    it('should not render when some values are missing', ()=>{
+    it('should not render when some values are missing', () => {
         localStorage.setItem('logged_in', 'false');
         const component = mount(userinfoN);
-    })
+    });
 });
