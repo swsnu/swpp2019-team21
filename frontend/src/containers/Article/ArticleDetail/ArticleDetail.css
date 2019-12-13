@@ -238,6 +238,15 @@
     color: #7a7a7a;
     margin-bottom: 10px;
 }
+
+#report-text {
+    color: #8b8b8b;
+}
+
+#report-input {
+    height: 250px;
+    resize: none;
+}
 /* 
 @media screen and (min-width: 1101px) {
     .left-component {
