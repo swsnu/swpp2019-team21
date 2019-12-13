@@ -186,8 +186,8 @@ function getAdpost(id) {
             })
             .catch(error => {
                 dispatch({
-                    type: actionTypes.ADPOST_FAILURE,
-                    error: error
+                    error: error,
+                    type: actionTypes.ADPOST_FAILURE
                 });
             });
     };
@@ -209,8 +209,8 @@ function postAdpost(data) {
             })
             .catch(error => {
                 dispatch({
-                    type: actionTypes.ADPOST_FAILURE,
-                    error: error
+                    error: error,
+                    type: actionTypes.ADPOST_FAILURE
                 });
             });
     };
