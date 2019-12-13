@@ -5,7 +5,12 @@ import json
 file = open("adit/mockImage", "r")
 mocked_image = file.read()
 file.close()
+
 class AditTestCase(TestCase):
+    def test_setup(self):
+        file = open("mockedImage", "r")
+        mocked_image = file.read()
+        file.close()
 
     def test_csrf(self):
         # By default, csrf checks are disabled in test client
