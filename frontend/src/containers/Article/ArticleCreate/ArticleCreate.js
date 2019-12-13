@@ -231,12 +231,12 @@ class ArticleCreate extends Component {
         const urlChangeHandler = e => {
             var valid =
                 !this.state.needUrl ||
-                (e.target.value.length <= 100 &&
+                (e.target.value.length <= 300 &&
                     e.target.value.length > 8 &&
                     (e.target.value.toString().substring(0, 7) == 'http://' ||
                         e.target.value.toString().substring(0, 8) ==
                             'https://'));
-            if (e.target.value.length <= 100) {
+            if (e.target.value.length <= 300) {
                 this.setState({
                     ...this.state,
                     postUrl: e.target.value,
@@ -245,7 +245,7 @@ class ArticleCreate extends Component {
                     }
                 });
             } else {
-                alert('Url은 100자를 넘을 수 없습니다');
+                alert('Url은 300자를 넘을 수 없습니다');
             }
         };
         const imageOnChange = e => {
