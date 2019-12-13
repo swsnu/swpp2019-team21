@@ -10,6 +10,7 @@ from .models import *
 from django.views.generic import View
 from django.contrib.auth.hashers import check_password
 from django.forms.models import model_to_dict
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Q
 from datetime import datetime, date, timedelta
@@ -669,3 +670,19 @@ class TagSearchView(View):
         tags_by_searchkey = [model_to_dict(tag) for tag in
                              InterestedTags.objects.all().filter(content__startswith=pattern)]
         return JsonResponse(tags_by_searchkey, safe=False)
+
+
+class ReportSendView(View):
+    item_list = ['content', 'title']
+
+    @check_valid_json(item_list=item_list)
+    def post(self, request):
+        req_data = json.loads(request.body.decode())
+        send_mail(
+            req_data['title'],
+            req_data['content'],
+            'no_reply@adit.shop',
+            ['happydh1@snu.ac.kr'],
+            fail_silently=False
+        )
+        return HttpResponse(status=200)

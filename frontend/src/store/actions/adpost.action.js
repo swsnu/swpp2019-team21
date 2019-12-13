@@ -14,7 +14,8 @@ export const adpostActions = {
     postAdpost,
     putAdpost,
     getHomeAdpostList,
-    getUserAdpostList
+    getUserAdpostList,
+    postReportEmail
 };
 
 function makeUrl(query, query_type) {
@@ -221,6 +222,14 @@ function putAdpost(id, data) {
         return axios.put(baseUrl + `/adpost/${id}/`, data).then(response => {
             id = response.data.id;
             dispatch(push(`/article/${id}`));
+        });
+    };
+}
+
+function postReportEmail(email) {
+    return dispatch => {
+        console.log(email);
+        return axios.post(baseUrl + '/report/', email).then(response => {
         });
     };
 }
