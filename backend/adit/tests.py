@@ -2,13 +2,13 @@ from django.test import TestCase, Client
 import json
 
 # Create your tests here.
-file = open("adit/mockImage", "r")
+file = open("mockImage", "r")
 mocked_image = file.read()
 file.close()
 
 class AditTestCase(TestCase):
     def test_setup(self):
-        file = open("mockedImage", "r")
+        file = open("mockImage", "r")
         mocked_image = file.read()
         file.close()
 
@@ -304,8 +304,8 @@ class AditTestCase(TestCase):
         self.assertEqual(response.json()['unique_link'], unique_link2)
 
         redirected_link = unique_link.replace(
-            "http://localhost:3000/redirectfrom=", "")
-
+            "https://www.adit.shop/redirectfrom=", "")
+        print("redirected_link is "+redirected_link)
         response = client.get('/api/adreception/redirectto=' + redirected_link + '/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["ad_link"], "https://www.naver.com")

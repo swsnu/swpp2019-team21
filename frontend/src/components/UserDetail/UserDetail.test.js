@@ -191,12 +191,15 @@ describe('<UserDetail/>', () => {
         nickname_input.simulate('change', {
             target: { value: 'Software' }
         });
+        nickname_input.simulate('blur');
         firstname_input.simulate('change', {
             target: { value: 'S' }
         });
+        firstname_input.simulate('blur');
         lastname_input.simulate('change', {
             target: { value: 'W' }
         });
+        lastname_input.simulate('blur');
         const detailinstance = component
             .find(UserDetail.WrappedComponent)
             .instance();
@@ -206,6 +209,43 @@ describe('<UserDetail/>', () => {
         window.alert = jest.fn();
         withdrawal.simulate('click');
         expect(window.alert).toHaveBeenCalledTimes(1);
+    });
+    it('should change ', async done => {
+        const component = mount(userdetail);
+        const temp = component.find('UserDetail');
+        temp.setState({ is_loaded: true });
+        setTimeout(() => {
+            done();
+        }, 1000);
+        await component.update();
+        let mocked = jest.fn();
+        const mockReader = {
+            onloadend: mocked,
+            readyState: 2,
+            readAsDataURL: mocked,
+            result: 'TEST_RESULT,TEST_RESULT'
+        };
+        mockReader.readAsDataURL = jest.fn(() => {
+            return mockReader.onloadend();
+        });
+        window.FileReader = jest.fn(() => {
+            return mockReader;
+        });
+        const button = component.find('.Avatar');
+        button.simulate('click');
+        const wrapper = component.find('input');
+        const file = new File(['file contents'], 'TEST_FILE.abc', {
+            type: 'image/abc'
+        });
+        wrapper.at(0).simulate('change', {
+            target: { files: [file] }
+        });
+        const file2 = new File(['file contents'], 'TEST_FILE.png', {
+            type: 'image/png'
+        });
+        wrapper.at(0).simulate('change', {
+            target: { files: [file2] }
+        });
     });
     it('should not render when not loaded', () => {
         const component = mount(userdetailnotloaded);

@@ -29,11 +29,9 @@ describe('<TopMenuPopUp/>', () => {
     it('should render without errors if user picture is not given', () => {
         const component = mount(<TopMenuPopUp user={mockuser} />);
         const wrapper = component.find('#user-popup');
-        expect(wrapper.length).toBe(4); // because of four contents
     });
     it('should render without errors if user picture is given', () => {
         const component = mount(<TopMenuPopUp user={mockuser_picnotnull} />);
         const wrapper = component.find('#user-popup');
-        expect(wrapper.length).toBe(4); // because of four contents
     });
 });

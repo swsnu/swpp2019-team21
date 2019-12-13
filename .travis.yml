@@ -48,7 +48,7 @@ matrix:
         - coverage report
         - coverage xml
         - cd adit
-        - rm - rf log
+        - rm -rf log
         - cd ..
         - cd ..
         - sonar-scanner

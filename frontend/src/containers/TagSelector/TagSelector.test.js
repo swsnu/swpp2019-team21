@@ -8,7 +8,7 @@ import { mount } from 'enzyme';
 import { history } from '../../store';
 
 const stubInitialState = {
-    allTags: []
+    allTags: ['mock1','mock2','mock3']
 };
 const mockStore = getMockStore(stubInitialState);
 describe('<TagSelector />', () => {
