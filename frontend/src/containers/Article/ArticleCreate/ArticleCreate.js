@@ -453,7 +453,7 @@ class ArticleCreate extends Component {
                                     'post-title-input' +
                                     (this.state.valid.postTitle === false
                                         ? ' invalid-input'
-                                        : ' valid-input')
+                                        : '')
                                 }
                                 onChange={titleChangeHandler}
                                 value={this.state.postTitle}
@@ -474,7 +474,7 @@ class ArticleCreate extends Component {
                                     'post-subtitle-input' +
                                     (this.state.valid.postSubtitle === false
                                         ? ' invalid-input'
-                                        : ' valid-input')
+                                        : '')
                                 }
                                 onChange={subtitleChangeHandler}
                                 value={this.state.postSubtitle}
@@ -497,7 +497,7 @@ class ArticleCreate extends Component {
                                     'post-explain-input' +
                                     (this.state.valid.postExplain === false
                                         ? ' invalid-input'
-                                        : ' valid-input')
+                                        : '')
                                 }
                                 onChange={explainChangeHandler}
                                 value={this.state.postExplain}
@@ -521,7 +521,7 @@ class ArticleCreate extends Component {
                                     'post-thumbnail-input' +
                                     (this.state.valid.imagePreviewUrl === false
                                         ? ' invalid-input'
-                                        : ' valid-input')
+                                        : '')
                                 }
                                 multiple={false}
                                 onChange={imageOnChange}
@@ -567,7 +567,7 @@ class ArticleCreate extends Component {
                                         'post-url-input' +
                                         (this.state.valid.postUrl === false
                                             ? ' invalid-input'
-                                            : ' valid-input')
+                                            : '')
                                     }
                                     onChange={urlChangeHandler}
                                     value={this.state.postUrl}
@@ -661,7 +661,7 @@ class ArticleCreate extends Component {
                                     'post-goal-input' +
                                     (this.state.valid.postGoal === false
                                         ? ' invalid-input'
-                                        : ' valid-input')
+                                        : '')
                                 }
                                 onChange={goalChangeHandler}
                                 value={this.state.postGoal}
@@ -765,7 +765,7 @@ class ArticleCreate extends Component {
                 </div>
             );
         };
-        if (this.state.nowpoint!==null) {
+        if (this.state.nowpoint !== null) {
             return (
                 <div className="ArticleCreate" align="center">
                     <div className="CreateHead">
@@ -893,7 +893,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ArticleCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleCreate);

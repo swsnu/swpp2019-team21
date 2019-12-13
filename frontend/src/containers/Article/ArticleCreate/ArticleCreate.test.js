@@ -119,9 +119,7 @@ describe('<ArticleCreate/>', () => {
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(1);
 
-        const title_wrapper = component.find(
-            '#post-title-input' + 'invalid-input'
-        );
+        const title_wrapper = component.find('#post-title-input');
         title_wrapper.simulate('change', {
             target: { value: 'Sample_title' }
         });
@@ -129,9 +127,7 @@ describe('<ArticleCreate/>', () => {
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(2);
 
-        const subtitle_wrapper = component.find(
-            '#post-subtitle-input' + 'invalid-input'
-        );
+        const subtitle_wrapper = component.find('#post-subtitle-input');
         subtitle_wrapper.simulate('change', {
             target: { value: 'Sample_subtitle' }
         });
@@ -157,9 +153,9 @@ describe('<ArticleCreate/>', () => {
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(5);
 
-        const toggle_wrapper = component.find('#post-toggle-input');
-        toggle_wrapper.simulate('change', {
-            target: { value: 'a' }
+        const toggle_wrapper = component.find('#toggle-input');
+        toggle_wrapper.at(0).simulate('change', {
+            target: { checked: true }
         });
 
         const url_wrapper = component.find('#post-url-input');
@@ -200,7 +196,7 @@ describe('<ArticleCreate/>', () => {
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(10);
 
-        const calendar_wrapper = component.find('#post-calendar-input');
+        const calendar_wrapper = component.find('#select-calender');
         calendar_wrapper.simulate('change', {
             getYear: () => {
                 return 119;
