@@ -137,7 +137,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 CRONTAB_COMMAND_SUFFIX = '2>&1'
 CRONJOBS = [
-    ('* * * * *', 'adit.sync.set_data_by_day', '>> ' + BASE_DIR + '/data_update.log'),
+    ('0 0 * * *', 'adit.sync.set_data_by_day', '>> ' + BASE_DIR + '/data_update.log'),
     ('* * * * *', 'adit.sync.lazy_learn', '>> ' + BASE_DIR + '/ml_tag_learn.log')
 ]
 
