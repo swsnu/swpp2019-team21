@@ -49,7 +49,7 @@ def tag_similarity(data_exist, data_input):
     return res
 
 
-def tag_suggest(data_exist, data_input, threshold=0.2):
+def tag_suggest(data_exist, data_input, threshold=0.1):
     data_num = np.array(list(
         map(lambda x: x.postcount, data_exist)))
     data = pd.DataFrame({'tag': list(map(lambda x: x.content, data_exist)), 'val': data_num / sum(data_num)})
@@ -77,7 +77,7 @@ def tag_suggest(data_exist, data_input, threshold=0.2):
             log.write('\n')
     ###endforDebugging
     
-    return list(map(lambda x: x[0], list(filter(lambda x: x[1] > threshold, res))[:20]))
+    return list(map(lambda x: x[0], list(filter(lambda x: x[1] > threshold, res))[:5]))
 
 
 def post_suggest(adposts, data_input, threshold=0.2):
