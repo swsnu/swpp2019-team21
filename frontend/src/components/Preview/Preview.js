@@ -4,15 +4,6 @@ import './Preview.css';
 
 class Preview extends Component {
     render() {
-        const {
-            thumbnail,
-            title,
-            subtitle,
-            expiry_date,
-            total_views,
-            target_views
-        } = this.props.preview;
-
         return (
             <div className="Preview" onClick={this.props.clickPreview}>
                 <div className="card-photo">

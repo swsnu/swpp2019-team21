@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { adpostActions } from '../../store/actions';
 import PreviewList from '../../components/PreviewList/PreviewList';
-import TagSugguestion from './TagSugguestion/TagSugguestion';
 import { history } from '../../store';
 import './Home.css';
 import { Modal, Button } from 'react-bootstrap';

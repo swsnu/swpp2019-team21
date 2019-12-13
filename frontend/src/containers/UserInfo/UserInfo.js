@@ -13,7 +13,6 @@ import PreviewList from '../../components/PreviewList/PreviewList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faUserEdit,
-    faCashRegister,
     faChargingStation
 } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button } from 'react-bootstrap';

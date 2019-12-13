@@ -4,7 +4,6 @@ import Preview from '../Preview/Preview';
 import { history } from '../../store';
 import 'react-multi-carousel/lib/styles.css';
 import './PreviewList.css';
-import AOS from 'aos';
 
 class PreviewList extends React.Component {
     clickPreviewHandler = id => {
