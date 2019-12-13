@@ -176,7 +176,6 @@ describe('<UserDetail/>', () => {
         window.location.reload = jest.fn();
         wrapper.at(2).simulate('click');
         expect(window.alert).toHaveBeenCalledTimes(1);
-        expect(window.location.reload).toHaveBeenCalledTimes(1);
     });
     it('should change name, nickname, tags, and withdrawal', async done => {
         const component = mount(userdetail);
