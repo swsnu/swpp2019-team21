@@ -30,9 +30,15 @@ class SignUp extends Component {
     }
 
     handleValidate = tag => {
+        if (this.state.user.tags.length == 20) {
+            alert('태그는 20개 까지 추가할 수 있습니다');
+        }
+
         return (
-            !this.state.tags.map(item => item.name).includes(tag.name) &&
-            this.state.tags.length <= 20
+            tag.name.length < 100 &&
+            tag.name.match(/^[a-zA-Z가-힣]+$/) &&
+            !this.state.user.tags.map(item => item.name).includes(tag.name) &&
+            this.state.user.tags.length < 20
         );
     };
 

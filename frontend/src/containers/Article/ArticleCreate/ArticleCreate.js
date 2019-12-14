@@ -72,11 +72,15 @@ class ArticleCreate extends Component {
     };
 
     handleValidate = tag => {
+        if (this.state.postTag.length == 15) {
+            alert('태그는 15개 까지 추가할 수 있습니다');
+        }
+
         return (
             tag.name.length < 100 &&
             tag.name.match(/^[a-zA-Z가-힣]+$/) &&
             !this.state.postTag.map(item => item.name).includes(tag.name) &&
-            this.state.postTag.length <= 15
+            this.state.postTag.length < 15
         );
     };
 
@@ -531,10 +535,14 @@ class ArticleCreate extends Component {
                             <div>{imagePreview}</div>
                         </div>
                         <div className="url-toggle-group toggle-group">
-                            <text className="form-label">
-                                외부 URL로 연결할까요?
-                            </text>
-                            <p />
+                            <div className="external-url-test-wrapper">
+                                <text className="form-label">
+                                    외부 URL로 연결할까요?
+                                    <p className="thin-font-div">
+                                        (등록 후 수정 할 수 없습니다)
+                                    </p>
+                                </text>
+                            </div>
                             <label className="switch">
                                 <input
                                     type="checkbox"
@@ -607,6 +615,10 @@ class ArticleCreate extends Component {
                             handleValidate={this.handleValidate.bind(this)}
                             minQueryLength={1}
                         />
+                        <p className="thin-font-div">
+                            (등록 후 수정 할 수 없습니다)
+                        </p>
+                        <br />
                         <div className="open-toggle-group toggle-group">
                             <div className="form-group" align="center">
                                 <h3 className="form-label">전체공개</h3>
@@ -634,6 +646,9 @@ class ArticleCreate extends Component {
                                 에게 공개됩니다
                             </p>
                         </div>
+                        <p className="thin-font-div">
+                            (등록 후 수정 할 수 없습니다)
+                        </p>
                         <button
                             className="btn btn-primary next-tab-btn"
                             id="next-tag-button"
@@ -649,7 +664,13 @@ class ArticleCreate extends Component {
                                 this.state.currentPage == 3 ? 'block' : 'none'
                         }}>
                         <div className="form-group" align="center">
-                            <h3 className="form-label">뷰를 설정하세요</h3>
+                            <h3 className="form-label">
+                                뷰를 설정하세요
+                                <p className="thin-font-div">
+                                    (등록 후 수정 할 수 없습니다)
+                                </p>
+                            </h3>
+
                             <input
                                 className="form-control"
                                 id={
@@ -668,7 +689,9 @@ class ArticleCreate extends Component {
                                     <br></br>
                                 )}{' '}
                             </p>
-                            <Button id="charge-button" onClick={this.chargePointHandler}>
+                            <Button
+                                id="charge-button"
+                                onClick={this.chargePointHandler}>
                                 충전
                             </Button>
                         </div>
@@ -693,7 +716,12 @@ class ArticleCreate extends Component {
                         </div>
                         <p />
                         <br />
-                        <h3 className="form-label">만료일을 선택하세요</h3>
+                        <h3 className="form-label">
+                            만료일을 선택하세요
+                            <p className="thin-font-div">
+                                (등록 후 수정 할 수 없습니다)
+                            </p>
+                        </h3>
                         <div id="calender-wrapper">
                             <Calendar
                                 id="select-calender"

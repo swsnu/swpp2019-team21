@@ -339,3 +339,15 @@ input:checked + .slider:before {
     border-radius: 5px;
     background: #ffffff;
 }
+
+.ArticleCreate .thin-font-div {
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.ArticleCreate .url-toggle-group {
+    display: block;
+}
+.ArticleCreate .urlToggle-helper-content {
+    display: inline;
+}
