@@ -82,6 +82,13 @@ describe('<ArticleDetail />', () => {
         localStorage.clear();
         localStorage.setItem('updated', 'false');
         localStorage.setItem('logged_in', 'true');
+
+        window.Kakao = {
+            Link: {
+                createDefaultButton: jest.fn()
+            }
+        };
+
         articledetail = (
             <Provider store={mockStore}>
                 <ConnectedRouter history={history}>
