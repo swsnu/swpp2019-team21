@@ -214,11 +214,9 @@ class UserDetail extends Component {
 
     render() {
         var point = null;
-        var pic = null;
         var email = null;
         if (this.props.user) {
             point = this.props.user.point;
-            pic = this.state.user.avatar ? this.state.user.avatar : avatar;
             email = this.props.user.email;
         }
         if (this.state.is_loaded) {
@@ -658,7 +656,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UserDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(UserDetail);

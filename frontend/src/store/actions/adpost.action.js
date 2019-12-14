@@ -139,8 +139,9 @@ function getHomeAdpostList() {
             })
             .catch(error => {
                 dispatch({
-                    type: actionTypes.GET_ADLIST_HOME_FAILURE,
-                    error: error
+                    type: actionTypes.ADPOST_FAILURE,
+                    error: error,
+                    from: 'GET_ADLIST_HOME'
                 });
             });
     };
@@ -166,8 +167,9 @@ function getAdpostList(query, query_type) {
             })
             .catch(error => {
                 dispatch({
-                    type: actionTypes.GET_ADLIST_FAILURE,
-                    error: error
+                    type: actionTypes.ADPOST_FAILURE,
+                    error: error,
+                    from: 'GET_ADLIST'
                 });
             });
     };
@@ -186,8 +188,9 @@ function getAdpost(id) {
             })
             .catch(error => {
                 dispatch({
-                    type: actionTypes.GET_DETAILED_ADPOST_FAILURE,
-                    error: error
+                    error: error,
+                    type: actionTypes.ADPOST_FAILURE,
+                    from: 'GET_DETAILED_ADPOST'
                 });
             });
     };
@@ -211,8 +214,9 @@ function postAdpost(data) {
             })
             .catch(error => {
                 dispatch({
-                    type: actionTypes.POST_ADPOST_FAILURE,
-                    error: error
+                    error: error,
+                    type: actionTypes.ADPOST_FAILURE,
+                    from: 'POST_ADPOST'
                 });
             });
     };
@@ -232,7 +236,6 @@ function putAdpost(id, data) {
 function postReportEmail(email) {
     return dispatch => {
         console.log(email);
-        return axios.post(baseUrl + '/report/', email).then(response => {
-        });
+        return axios.post(baseUrl + '/report/', email).then(response => {});
     };
 }

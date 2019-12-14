@@ -189,14 +189,15 @@ describe('Adpost Actions', () => {
                     query_type: query_type
                 },
                 {
-                    type: actionTypes.GET_ADLIST_FAILURE,
+                    type: actionTypes.ADPOST_FAILURE,
                     error: {
                         response: {
                             data: undefined,
                             message: 'problem'
                         },
                         status: 403
-                    }
+                    },
+                    from: 'GET_ADLIST'
                 }
             ];
             return store

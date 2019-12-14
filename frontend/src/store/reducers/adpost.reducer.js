@@ -27,7 +27,7 @@ const initialState = {
         info_aditor: { statistics: null },
         owner_nickname: null,
         owner_avatar: null,
-        view_by_date: "",
+        view_by_date: ''
     },
     adpost_post: { is_loading: false },
     adpost_home_list: []
@@ -55,11 +55,6 @@ export const adpost_reducer = (state = initialState, action = null) => {
                     data: action.payload
                 }
             };
-        case actionTypes.GET_ADLIST_FAILURE:
-            return {
-                ...state,
-                error_code: action.error
-            };
         case actionTypes.GET_DETAILED_ADPOST_PENDING:
             return {
                 ...state,
@@ -72,10 +67,10 @@ export const adpost_reducer = (state = initialState, action = null) => {
                 error_code: null,
                 is_loading: true,
                 adpost_detailed_item: {
-                    ...action.detailed_item,
+                    ...action.detailed_item
                 }
             };
-        case actionTypes.GET_DETAILED_ADPOST_FAILURE:
+        case actionTypes.ADPOST_FAILURE:
             return {
                 ...state,
                 error_code: action.error
@@ -89,11 +84,6 @@ export const adpost_reducer = (state = initialState, action = null) => {
             return {
                 ...state
             };
-        case actionTypes.POST_ADPOST_FAILURE:
-            return {
-                ...state,
-                error_code: action.error
-            };
         case actionTypes.GET_ADLIST_HOME_PENDING:
             return {
                 ...state,
@@ -104,11 +94,6 @@ export const adpost_reducer = (state = initialState, action = null) => {
             return {
                 ...state,
                 adpost_home_list: state.adpost_home_list.concat(action.payload)
-            };
-        case actionTypes.GET_ADLIST_HOME_FAILURE:
-            return {
-                ...state,
-                error_code: action.error
             };
         default:
             return state;

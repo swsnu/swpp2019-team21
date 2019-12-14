@@ -67,7 +67,7 @@
     height: 65px;
     border-radius: 50%;
     background: #7a7a7a;
-}   
+}
 
 .UserInfo .title-text {
     text-align: left;
@@ -85,28 +85,7 @@
     font-size: 15px;
     color: #7a7a7a;
     font-weight: 300;
-}
-
-.UserInfo .user-name-aggregated {
-    padding-top: 12px;
-}
-
-.UserInfo .PreviewList {
-    width: 100%;
-}
-
-.UserInfo .Preview {
-    width: calc(33% - 34px);
-}
-
-.UserInfo #card-more-btn {
-    width: calc(33% - 34px);
-}
-
-.UserInfo h2 {
-    font-size: 15px;
-    color: #7a7a7a;
-    font-weight: 300;
+    margin-bottom: 1px;
 }
 
 .UserInfo .user-name-aggregated {
@@ -153,18 +132,10 @@
     color: #000000;
 }
 
-.UserInfo h2 {
-    margin-bottom: 1px;
-}
-
 .UserInfo .point-state-wrapper,
 .edit-user-wrapper {
     margin-left: 20px;
     display: flex;
-}
-
-.UserInfo .small-btn {
-    margin-left: 5px;
 }
 
 .UserInfo #point-integer {

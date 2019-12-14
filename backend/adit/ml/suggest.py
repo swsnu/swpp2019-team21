@@ -57,14 +57,13 @@ def tag_suggest(data_exist, data_input, threshold=0.2):
     sim = {}
     for tag in data_input:
         for idx, tar in data.iterrows():
-            if tar[0] != tag:
-                try:
-                    if not tar[0] in sim:
-                        sim[tar[0]] = model.wv.similarity(tag, tar[0]) * tar[1]
-                    else:
-                        sim[tar[0]] += model.wv.similarity(tag, tar[0]) * tar[1]
-                except:
-                    pass
+            try:
+                if tar[0] != tag and not tar[0] in sim:
+                    sim[tar[0]] = model.wv.similarity(tag, tar[0]) * tar[1]
+                elif tar[0] != tag:
+                    sim[tar[0]] += model.wv.similarity(tag, tar[0]) * tar[1]
+            except:
+                pass
 
     res = sorted(sim.items(), key=lambda x: -x[1])
     
