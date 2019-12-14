@@ -140,7 +140,8 @@ function getHomeAdpostList() {
             .catch(error => {
                 dispatch({
                     type: actionTypes.ADPOST_FAILURE,
-                    error: error
+                    error: error,
+                    from: 'GET_ADLIST_HOME'
                 });
             });
     };
@@ -167,7 +168,8 @@ function getAdpostList(query, query_type) {
             .catch(error => {
                 dispatch({
                     type: actionTypes.ADPOST_FAILURE,
-                    error: error
+                    error: error,
+                    from: 'GET_ADLIST'
                 });
             });
     };
@@ -187,7 +189,8 @@ function getAdpost(id) {
             .catch(error => {
                 dispatch({
                     error: error,
-                    type: actionTypes.ADPOST_FAILURE
+                    type: actionTypes.ADPOST_FAILURE,
+                    from: 'GET_DETAILED_ADPOST'
                 });
             });
     };
@@ -210,7 +213,8 @@ function postAdpost(data) {
             .catch(error => {
                 dispatch({
                     error: error,
-                    type: actionTypes.ADPOST_FAILURE
+                    type: actionTypes.ADPOST_FAILURE,
+                    from: 'POST_ADPOST'
                 });
             });
     };
