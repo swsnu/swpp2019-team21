@@ -85,7 +85,7 @@ class SignUp extends Component {
     };
 
     emailChangeHandler = e => {
-        var reg = new RegExp(/^[^@\s]+@[^@\s.]+\.[a-zA-Z]+$/);
+        var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         var valid = e.target.value.length <= 30 && reg.test(e.target.value);
         this.setState({
             ...this.state,
@@ -389,7 +389,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

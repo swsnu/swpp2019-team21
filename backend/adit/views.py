@@ -10,6 +10,7 @@ from .models import *
 from django.views.generic import View
 from django.contrib.auth.hashers import check_password
 from django.forms.models import model_to_dict
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Q
 from datetime import datetime, date, timedelta
@@ -56,11 +57,13 @@ def img_process(img_64):
     data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
     return PostImage.objects.create(image=data)
 
+
 def avatar_process(img_64):
     format, imgstr = img_64.split(';base64,')
     ext = format.split('/')[-1]
     data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
     return data
+
 
 def tag_process(response_dict):
     response_dict['tags'] = list(map(lambda tag: tag.content, response_dict['tags']))
@@ -117,7 +120,6 @@ class SignUpView(View):
 
 class SignInView(View):
     item_list = ['email', 'password']
-
 
     @check_valid_json(item_list=item_list)
     def post(self, request):
@@ -296,7 +298,7 @@ class AdPostView(View):
                 tag_exist.save()
                 adpost.tags.add(tag_exist)
             else:
-                tag_new = InterestedTags(content=tag, usercount=1, postcount=0)
+                tag_new = InterestedTags(content=tag, usercount=0, postcount=1)
                 tag_new.save()
                 adpost.tags.add(tag_new)
 
@@ -358,17 +360,16 @@ class AdPostByIDView(View):
             if tag.usercount is 0 and tag.postcount is 0:
                 tag.delete()
         adpost.tags.clear()
-
         if post_new_thumbnail == "not_changed":
             for image in post_old_images:
                 PostImage.delete(image)
             adpost.image.clear()
-
-        img_new = img_process(post_new_thumbnail)
-        adpost.thumbnail = img_new
-        post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
-        adpost.save()
-        PostImage.delete(post_old_thumbnail)
+        else:
+            img_new = img_process(post_new_thumbnail)
+            adpost.thumbnail = img_new
+            post_old_thumbnail = PostImage.objects.get(id=post_old_thumbnail_id)
+            adpost.save()
+            PostImage.delete(post_old_thumbnail)
 
         for i in range(len(post_new_images)):
             newimg = img_process(post_new_images[i])
@@ -489,8 +490,8 @@ class AdPostByCustomView(View):
                     tag_object.topost.all().filter(open_for_all=True).union(user_related_post(request).filter(
                         pk__in=list(
                             map(lambda x: x.pk, tag_object.topost.all().filter(open_for_all=False)))))
-                    .values('id', 'thumbnail', 'title', 'subtitle', 'expiry_date', 'target_views',
-                            'total_views', 'upload_date').order_by('-upload_date'))
+                        .values('id', 'thumbnail', 'title', 'subtitle', 'expiry_date', 'target_views',
+                                'total_views', 'upload_date').order_by('-upload_date'))
             for dict in tags_custom:
                 dict['thumbnail'] = PostImage.objects.get(id=dict['thumbnail']).image.url
             post_by_custom[tag['content']] = tags_custom  # all()? not all()?
@@ -657,7 +658,7 @@ class TagView(View):
 class TagRecommendByUser(View):
     @check_is_authenticated
     def get(self, request):
-        taglist = suggest.tag_suggest(list(InterestedTags.objects.all()), list(request.user.tags.all()), 0.02)
+        taglist = suggest.tag_suggest(list(InterestedTags.objects.all()), list(request.user.tags.all()))
         return JsonResponse(taglist, safe=False)
 
 
@@ -672,3 +673,19 @@ class TagSearchView(View):
         tags_by_searchkey = [model_to_dict(tag) for tag in
                              InterestedTags.objects.all().filter(content__startswith=pattern)]
         return JsonResponse(tags_by_searchkey, safe=False)
+
+
+class ReportSendView(View):
+    item_list = ['content', 'title']
+
+    @check_valid_json(item_list=item_list)
+    def post(self, request):
+        req_data = json.loads(request.body.decode())
+        send_mail(
+            req_data['title'],
+            req_data['content'],
+            'no_reply@adit.shop',
+            ['happydh1@snu.ac.kr'],
+            fail_silently=False
+        )
+        return HttpResponse(status=200)

@@ -113,3 +113,6 @@ body {
 .UserDetail form a:hover {
     text-decoration: underline;
 }
+#user-profile-preview {
+    width: 466px;
+}

@@ -7,14 +7,14 @@ import './SignIn.css';
 
 class SignIn extends Component {
     async componentDidMount() {
+        if (localStorage.getItem('logged_in') === 'true') {
+            this.props.history.push('/home');
+        }
         const user = await this.getRememberedUser();
         this.setState({
             email: user.useremail,
             password: user.userpw
         });
-        if (localStorage.getItem('logged_in') === 'true') {
-            this.props.history.push('/home');
-        }
     }
 
     state = {

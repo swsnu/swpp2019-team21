@@ -93,7 +93,7 @@ class UserDetail extends Component {
         if (valid.fname && valid.lname && valid.nickname) {
             this.props.putUser(user);
             alert('Saved!');
-            this.props.history.push('/mypage');
+            window.location.assign('/mypage');
         } else {
             alert('Infos not valid');
         }
@@ -108,12 +108,11 @@ class UserDetail extends Component {
             ) {
                 return;
             }
+        } else if (!this.state.userImage.name.match(/.(jpg|jpeg|png)$/i)) {
+            alert('You should upload image file');
+            return;
         } else if (this.state.userImage.size > 500000) {
             alert('The file cannot be bigger than 500kB');
-            return;
-        }
-        if (!this.state.userImage.name.match(/.(jpg|jpeg|png)$/i)) {
-            alert('You should upload image file');
             return;
         }
         const user = { ...this.props.user, avatar: this.state.userImageURL };
@@ -396,7 +395,7 @@ class UserDetail extends Component {
                             />
                             {this.state.userImageURL && (
                                 <img
-                                    id="post-thumbnail-preview"
+                                    id="user-profile-preview"
                                     src={this.state.userImageURL}
                                 />
                             )}

@@ -102,6 +102,8 @@ describe('<ArticleCreate/>', () => {
         }, 1000);
         await component.update();
         expect(spyOnGetUser).toHaveBeenCalledTimes(1);
+        const temp = component.find('ArticleCreate');
+        temp.setState({ nowpoint: 100 });
         const wrapper = component.find('.article-create');
         expect(wrapper.length).toBe(1);
     });
@@ -111,6 +113,8 @@ describe('<ArticleCreate/>', () => {
             done();
         }, 1000);
         await component.update();
+        const temp = component.find('ArticleCreate');
+        temp.setState({ nowpoint: 100 });
         const wrapper = component.find('#confirm-button');
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(1);
@@ -149,9 +153,9 @@ describe('<ArticleCreate/>', () => {
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(5);
 
-        const toggle_wrapper = component.find('#post-toggle-input');
-        toggle_wrapper.simulate('change', {
-            target: { value: 'a' }
+        const toggle_wrapper = component.find('#toggle-input');
+        toggle_wrapper.at(0).simulate('change', {
+            target: { checked: true }
         });
 
         const url_wrapper = component.find('#post-url-input');
@@ -192,7 +196,7 @@ describe('<ArticleCreate/>', () => {
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(10);
 
-        const calendar_wrapper = component.find('#post-calendar-input');
+        const calendar_wrapper = component.find('#select-calender');
         calendar_wrapper.simulate('change', {
             getYear: () => {
                 return 119;
