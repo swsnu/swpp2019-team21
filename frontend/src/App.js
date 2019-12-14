@@ -20,6 +20,7 @@ import UserDetail from './components/UserDetail/UserDetail';
 
 class App extends Component {
     render() {
+        window.Kakao.init('8e60b9de7e2976a44cf11f201ee2d1f4');
         return (
             <ConnectedRouter history={this.props.history}>
                 <div className="App">
@@ -71,7 +72,4 @@ class App extends Component {
     }
 }
 
-export default connect(
-    null,
-    null
-)(App);
+export default connect(null, null)(App);

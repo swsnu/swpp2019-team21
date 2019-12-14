@@ -19,6 +19,7 @@ import {
     TwitterIcon
 } from 'react-share';
 import './ArticleDetail.css';
+import KakaoLinkBtn from './KakaoLinkBtn';
 
 var multiplier = 7;
 
@@ -55,6 +56,7 @@ class ArticleDetail extends Component {
                     #{item}
                 </li>
             ));
+
             pic = this.props.article.owner_avatar;
             const tags = <ul id="tag-link">{taglist}</ul>;
             const statData = this.props.article.view_by_date
@@ -157,14 +159,12 @@ class ArticleDetail extends Component {
                                                         </div>
                                                     </CopyToClipboard>
                                                 </div>
-                                                <div
-                                                    className="kakao-share-btn share-btn"
-                                                    data-tooltip-text="카카오톡 공유하기">
-                                                    <img
-                                                        id="kakao-share-icon"
-                                                        src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png"
-                                                    />
-                                                </div>
+                                                <KakaoLinkBtn
+                                                    article={this.props.article}
+                                                    unique_link={
+                                                        this.props.unique_link
+                                                    }
+                                                />
                                             </div>
                                         </div>
                                     )}
@@ -327,7 +327,4 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ArticleDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetail);
