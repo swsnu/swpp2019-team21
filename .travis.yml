@@ -51,7 +51,7 @@ matrix:
         - rm -rf log
         - cd ..
         - cd ..
-        - sonar-scanner
+        - sonar-scanne
       after_success:
         - cd frontend
         - coveralls-lcov -v -n coverage/lcov.info > coverage.json
