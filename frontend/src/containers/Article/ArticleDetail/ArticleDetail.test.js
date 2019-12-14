@@ -12,7 +12,8 @@ const stubInitialState = {
     adpost_detailed_item: {
         tags: [('acc', 'cur', 'i')],
         is_loading: false,
-        view_by_date: '2019,12,25'
+        view_by_date:
+            '{"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}'
     },
     views: 0,
     unique_link: 'test',
@@ -23,7 +24,9 @@ const stubInitialState_owner = {
     adpost_detailed_item: {
         tags: [],
         is_loading: false,
-        is_owner: true
+        is_owner: true,
+        view_by_date:
+            '{"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}'
     },
     views: 0,
     unique_link: 'test',
@@ -34,7 +37,9 @@ const stubInitialState_loading = {
     adpost_detailed_item: {
         tags: [],
         is_loading: true,
-        is_owner: true
+        is_owner: true,
+        view_by_date:
+            '{"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}'
     },
     views: 0,
     unique_link: 'test',
@@ -45,7 +50,9 @@ const stubInitialState_participate = {
     adpost_detailed_item: {
         tags: [],
         is_loading: false,
-        is_owner: false
+        is_owner: false,
+        view_by_date:
+            '{"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}'
     },
     views: 0,
     unique_link: 'test',
@@ -157,19 +164,19 @@ describe('<ArticleDetail />', () => {
     it('should react to participate button click', () => {
         const component = mount(articledetail);
         const wrapper = component.find('#participate-button');
-        wrapper.simulate('click');
-        expect(wrapper.length).toBe(1);
+        wrapper.at(1).simulate('click');
+        expect(wrapper.length).toBe(2);
     });
     it('should react to edit button click', () => {
         const component = mount(articledetail_owner);
         const wrapper = component.find('#post-edit-button');
-        wrapper.simulate('click');
-        expect(wrapper.length).toBe(1);
+        wrapper.at(1).simulate('click');
+        expect(wrapper.length).toBe(2);
     });
     it('should render without error when participated', () => {
         const component = mount(articledetail_participate);
-        const wrapper1 = component.find('.url-component');
-        const wrapper2 = component.find('.earn-point');
+        const wrapper1 = component.find('.share-window-participant');
+        const wrapper2 = component.find('.user-earn-view');
         expect(wrapper1.length).toBe(1);
         expect(wrapper2.length).toBe(1);
     });
@@ -182,5 +189,16 @@ describe('<ArticleDetail />', () => {
         const component = mount(articledetail_loading);
         const wrapper = component.find('ArticleDetail');
         expect(wrapper.length).toBe(1);
+    });
+    it('should be able to report', () => {
+        const component = mount(articledetail);
+        window.alert = jest.fn();
+        const wrapper = component.find('#report-text');
+        wrapper.at(0).simulate('click');
+        const reportWrapper = component.find('#report-input');
+        reportWrapper.simulate('change', { target: { value: 'Test' } });
+        const confirmWrapper = component.find('#report-confirm');
+        confirmWrapper.at(0).simulate('click');
+        expect(window.alert).toHaveBeenCalled();
     });
 });

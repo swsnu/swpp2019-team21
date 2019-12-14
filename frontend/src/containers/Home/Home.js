@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { adpostActions } from '../../store/actions';
 import PreviewList from '../../components/PreviewList/PreviewList';
-import TagSugguestion from './TagSugguestion/TagSugguestion';
 import { history } from '../../store';
 import './Home.css';
 import { Modal, Button } from 'react-bootstrap';
@@ -34,7 +33,7 @@ class Home extends Component {
 
     render() {
         var { adpost_home_list } = this.props;
-        console.log(adpost_home_list);
+        //console.log(adpost_home_list);
         adpost_home_list = adpost_home_list.slice(0, 5);
         var { suggested_tags } = this.props;
 

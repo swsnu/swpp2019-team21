@@ -8,6 +8,9 @@ class AditUserManager(BaseUserManager):
         if not email:
             raise ValueError('Users must have an email address')
 
+        if not nickname:
+            raise ValueError('Users must have an nickname')
+
         if AditUser.objects.filter(email=email).exists():
             raise ValueError('Email address should be unique')
 

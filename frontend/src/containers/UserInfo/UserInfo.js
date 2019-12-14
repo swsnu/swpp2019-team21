@@ -13,7 +13,6 @@ import PreviewList from '../../components/PreviewList/PreviewList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faUserEdit,
-    faCashRegister,
     faChargingStation
 } from '@fortawesome/free-solid-svg-icons';
 import { Modal, Button } from 'react-bootstrap';
@@ -57,7 +56,7 @@ class UserInfo extends Component {
     };
 
     componentDidMount() {
-        AOS.init({ duration: 1000 });
+        AOS.init({ duration: 700 });
         this.props
             .onGetUserList()
             .then(res => {
@@ -78,6 +77,7 @@ class UserInfo extends Component {
     }
 
     render() {
+        //console.log(this.props);
         if (
             this.state.user_loaded === true &&
             this.state.reception_loaded === true
@@ -105,10 +105,11 @@ class UserInfo extends Component {
             if (adpost_user_list[0]) {
                 own_article = adpost_user_list[0].data;
             }
+            
             if (adpost_user_list[1]) {
                 participated_article = adpost_user_list[1].data;
             }
-            //console.log(own_article, participated_article);
+            //console.log(own_article, participated_article)
             if (
                 this.props.reception_list.length > 0 &&
                 participated_article.length > 0

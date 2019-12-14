@@ -139,8 +139,9 @@ function getHomeAdpostList() {
             })
             .catch(error => {
                 dispatch({
-                    type: actionTypes.GET_ADLIST_HOME_FAILURE,
-                    error: error
+                    type: actionTypes.ADPOST_FAILURE,
+                    error: error,
+                    from: 'GET_ADLIST_HOME'
                 });
             });
     };
@@ -166,8 +167,9 @@ function getAdpostList(query, query_type) {
             })
             .catch(error => {
                 dispatch({
-                    type: actionTypes.GET_ADLIST_FAILURE,
-                    error: error
+                    type: actionTypes.ADPOST_FAILURE,
+                    error: error,
+                    from: 'GET_ADLIST'
                 });
             });
     };
@@ -186,8 +188,9 @@ function getAdpost(id) {
             })
             .catch(error => {
                 dispatch({
-                    type: actionTypes.GET_DETAILED_ADPOST_FAILURE,
-                    error: error
+                    error: error,
+                    type: actionTypes.ADPOST_FAILURE,
+                    from: 'GET_DETAILED_ADPOST'
                 });
             });
     };
@@ -195,10 +198,12 @@ function getAdpost(id) {
 
 function postAdpost(data) {
     return dispatch => {
+        //console.log(data.adpost);
         var id;
         return axios
             .post(baseUrl + '/adpost/', data.adpost)
             .then(response => {
+                //console.log(response.data)
                 id = response.data.id;
                 dispatch({ type: actionTypes.POST_ADPOST_PENDING });
                 return axios.put(baseUrl + '/user/point/', data.points);
@@ -209,8 +214,9 @@ function postAdpost(data) {
             })
             .catch(error => {
                 dispatch({
-                    type: actionTypes.POST_ADPOST_FAILURE,
-                    error: error
+                    error: error,
+                    type: actionTypes.ADPOST_FAILURE,
+                    from: 'POST_ADPOST'
                 });
             });
     };
@@ -218,8 +224,9 @@ function postAdpost(data) {
 
 function putAdpost(id, data) {
     return dispatch => {
-        console.log(data);
+        //console.log(data);
         return axios.put(baseUrl + `/adpost/${id}/`, data).then(response => {
+            //console.log(response.data)
             id = response.data.id;
             dispatch(push(`/article/${id}`));
         });
@@ -228,8 +235,7 @@ function putAdpost(id, data) {
 
 function postReportEmail(email) {
     return dispatch => {
-        console.log(email);
-        return axios.post(baseUrl + '/report/', email).then(response => {
-        });
+        //console.log(email);
+        return axios.post(baseUrl + '/report/', email).then(response => {});
     };
 }

@@ -20,7 +20,7 @@ from . import init_data
 import base64
 from .ml import suggest
 
-base_link = 'http://localhost:3000/redirectfrom='
+base_link = 'https://www.adit.shop/redirectfrom='
 
 
 def get_client_ip(request):
@@ -277,7 +277,6 @@ class AdPostView(View):
 
         if ad_link == "":
             ad_link = "toitself"
-
         upload_date = datetime.now()
         thumbnail = img_process(req_data['image'][0])
 
@@ -287,7 +286,7 @@ class AdPostView(View):
         adpost.save()
 
         if adpost.ad_link == "toitself":
-            adpost.ad_link = 'http://localhost:3000/article/{}/'.format(str(adpost.id))
+            adpost.ad_link = 'http://www.adit.shop/article/{}/'.format(str(adpost.id))
 
         adpost.save()
 
@@ -554,15 +553,6 @@ class AdReceptionByIDView(View):
     def get(self, request, id):
         response_dict = model_to_dict(AdReception.objects.get(id=id))
         return JsonResponse(response_dict)
-
-
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
 
 
 class AdReceptionOutRedirectView(View):

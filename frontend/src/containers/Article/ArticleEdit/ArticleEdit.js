@@ -45,6 +45,7 @@ class ArticleEdit extends Component {
     }
 
     titleChangeHandler = e => {
+        //console.log(e.target.value)
         var valid = e.target.value.length <= 30 && e.target.value.length > 0;
         if (e.target.value.length <= 30) {
             this.setState({
@@ -54,6 +55,7 @@ class ArticleEdit extends Component {
                     title: e.target.value
                 },
                 valid: {
+                    ...this.state.valid,
                     title: valid
                 }
             });
@@ -107,6 +109,7 @@ class ArticleEdit extends Component {
         let reader = new FileReader();
         let file = e.target.files[0];
         reader.onloadend = () => {
+            //console.log(file.name)
             valid =
                 file &&
                 file.name.match(/.(jpg|jpeg|png|bmp)$/i) &&
@@ -118,13 +121,16 @@ class ArticleEdit extends Component {
                     new_imageURL: reader.result,
                     imageChanged: true,
                     valid: {
+                        ...this.state.valid,
                         thumbnail: valid
                     }
                 });
             } else {
                 alert('1MB 이내의 jpg, jpeg, png, bmp 형식 파일이 가능합니다');
                 this.setState({
+                    ...this.state,
                     valid: {
+                        ...this.state.valid,
                         thumbnail: false
                     }
                 });
@@ -138,6 +144,7 @@ class ArticleEdit extends Component {
                 new_imageURL: null,
                 imageChanged: false,
                 valid: {
+                    ...this.state.valid,
                     thumbnail: valid
                 }
             });
@@ -148,6 +155,7 @@ class ArticleEdit extends Component {
     };
 
     editConfirmHandler = () => {
+        //console.log(this.state)
         if (!this.state.article.title) {
             alert('제목을 입력하세요');
             return;

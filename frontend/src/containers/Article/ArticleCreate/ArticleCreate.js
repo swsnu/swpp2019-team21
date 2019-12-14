@@ -26,12 +26,6 @@ class ArticleCreate extends Component {
         },
         needUrl: false,
         open_for_all: false,
-        mockSuggestion: [
-            { id: 3, name: 'Bananas' },
-            { id: 4, name: 'Mango' },
-            { id: 5, name: 'Lemons' },
-            { id: 6, name: 'Apricots' }
-        ],
         imagePreviewUrl: '',
         nowpoint: null,
         owner_nickname: '',
@@ -334,6 +328,7 @@ class ArticleCreate extends Component {
             }
         };
         const confirmOnClick = () => {
+            //console.log(this.state)
             if (!this.state.postTitle) {
                 alert('제목을 입력하세요');
                 this.setState({ ...this.state, currentPage: 1 });
@@ -673,7 +668,7 @@ class ArticleCreate extends Component {
                                     <br></br>
                                 )}{' '}
                             </p>
-                            <Button onClick={this.chargePointHandler}>
+                            <Button id="charge-button" onClick={this.chargePointHandler}>
                                 충전
                             </Button>
                         </div>

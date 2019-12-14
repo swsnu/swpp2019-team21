@@ -9,7 +9,7 @@ export default function TopMenuPopUp(props) {
 
     var nickname = props.user.nickname;
     var pic = props.user.avatar ? props.user.avatar : profile;
-    ////console.log(props.user.avatar);
+    //console.log(props.user.avatar);
     var point = props.user.point;
     var popuserinfo = (
         <Popover id="PopUserInfo">

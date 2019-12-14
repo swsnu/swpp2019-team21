@@ -142,14 +142,29 @@ describe('<UserDetail/>', () => {
         wrapper.at(1).simulate('click');
         const modalWrapper = component.find('Modal');
         const passwordInput = component.find('#password');
+        window.alert = jest.fn();
+        passwordInput.simulate('change', {
+            target: { value: '11111111111111111111111111111111111' }
+        });
+        expect(window.alert).toHaveBeenCalled();
         passwordInput.simulate('change', {
             target: { value: '123' }
         });
         const newpasswordInput = component.find('#new-password');
+        window.alert = jest.fn();
+        newpasswordInput.simulate('change', {
+            target: { value: '11111111111111111111111111111111111' }
+        });
+        expect(window.alert).toHaveBeenCalled();
         newpasswordInput.simulate('change', {
             target: { value: '1234' }
         });
         const checkpasswordInput = component.find('#new-password-check');
+        window.alert = jest.fn();
+        checkpasswordInput.simulate('change', {
+            target: { value: '11111111111111111111111111111111111' }
+        });
+        expect(window.alert).toHaveBeenCalled();
         checkpasswordInput.simulate('change', {
             target: { value: '1234' }
         });
@@ -162,6 +177,14 @@ describe('<UserDetail/>', () => {
             .instance();
         expect(detailinstance.state.showChargePoint).toEqual(true);
         const chargeInput = component.find('#chargepoint');
+        window.alert = jest.fn();
+        chargeInput.simulate('change', {
+            target: { value: '20000000000000000' }
+        });
+        expect(window.alert).toHaveBeenCalled();
+        chargeInput.simulate('change', {
+            target: { value: 'abc' }
+        });
         chargeInput.simulate('change', {
             target: { value: '123' }
         });
@@ -189,14 +212,29 @@ describe('<UserDetail/>', () => {
         const firstname_input = component.find('#fname');
         const lastname_input = component.find('#lname');
         nickname_input.simulate('change', {
+            target: { value: '' }
+        });
+        nickname_input.simulate('blur');
+        nickname_input.simulate('change', {
             target: { value: 'Software' }
         });
+        nickname_input.simulate('blur');
+        firstname_input.simulate('change', {
+            target: { value: '' }
+        });
+        firstname_input.simulate('blur');
         firstname_input.simulate('change', {
             target: { value: 'S' }
         });
+        firstname_input.simulate('blur');
+        lastname_input.simulate('change', {
+            target: { value: '' }
+        });
+        lastname_input.simulate('blur');
         lastname_input.simulate('change', {
             target: { value: 'W' }
         });
+        lastname_input.simulate('blur');
         const detailinstance = component
             .find(UserDetail.WrappedComponent)
             .instance();
@@ -207,8 +245,61 @@ describe('<UserDetail/>', () => {
         withdrawal.simulate('click');
         expect(window.alert).toHaveBeenCalledTimes(1);
     });
+    it('should change ', async done => {
+        const component = mount(userdetail);
+        const temp = component.find('UserDetail');
+        temp.setState({ is_loaded: true });
+        setTimeout(() => {
+            done();
+        }, 1000);
+        await component.update();
+        let mocked = jest.fn();
+        const mockReader = {
+            onloadend: mocked,
+            readyState: 2,
+            readAsDataURL: mocked,
+            result: 'TEST_RESULT,TEST_RESULT'
+        };
+        mockReader.readAsDataURL = jest.fn(() => {
+            return mockReader.onloadend();
+        });
+        window.FileReader = jest.fn(() => {
+            return mockReader;
+        });
+        const button = component.find('.Avatar');
+        button.simulate('click');
+        const wrapper = component.find('input');
+        const file = new File(['file contents'], 'TEST_FILE.abc', {
+            type: 'image/abc'
+        });
+        wrapper.at(0).simulate('change', {
+            target: { files: [file] }
+        });
+        const file2 = new File(['file contents'], 'TEST_FILE.png', {
+            type: 'image/png'
+        });
+        wrapper.at(0).simulate('change', {
+            target: { files: [file2] }
+        });
+    });
     it('should not render when not loaded', () => {
         const component = mount(userdetailnotloaded);
+        expect(component.find('#redirecting_spinner').length).toBe(2);
+    });
+    it('should redirect to home if no user', () => {
+        spyReloadUser = jest
+            .spyOn(userActions, 'getUser')
+            .mockImplementation(() => {
+                return dispatch => {
+                    return new Promise((resolve, reject) => {
+                        resolve(null);
+                    });
+                };
+            });
+        const component = mount(userdetail);
+    });
+    it('should check for bad input', () => {
+        const component = mount(userdetail);
         expect(component.find('#redirecting_spinner').length).toBe(2);
     });
 });

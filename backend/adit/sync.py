@@ -30,4 +30,3 @@ def lazy_learn():
     else:
         print("No change applied")
     print("Time Comsumed : {}".format(datetime.now()-now))
-    return

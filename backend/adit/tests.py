@@ -2,10 +2,15 @@ from django.test import TestCase, Client
 import json
 
 # Create your tests here.
-file = open("adit/mockImage", "r")
+file = open("mockImage", "r")
 mocked_image = file.read()
 file.close()
+
 class AditTestCase(TestCase):
+    def test_setup(self):
+        file = open("mockImage", "r")
+        mocked_image = file.read()
+        file.close()
 
     def test_csrf(self):
         # By default, csrf checks are disabled in test client
@@ -299,11 +304,14 @@ class AditTestCase(TestCase):
         self.assertEqual(response.json()['unique_link'], unique_link2)
 
         redirected_link = unique_link.replace(
-            "http://localhost:3000/redirectfrom=", "")
-
+            "https://www.adit.shop/redirectfrom=", "")
+        print("redirected_link is "+redirected_link)
         response = client.get('/api/adreception/redirectto=' + redirected_link + '/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["ad_link"], "https://www.naver.com")
+
+        response = client.get('/api/adreception/redirect/1/')
+        self.assertEqual(response.status_code, 200)
 
     def test_not_important(self):
         client = Client()
@@ -312,12 +320,5 @@ class AditTestCase(TestCase):
         response = client.put('/api/token/')
         self.assertEqual(response.status_code, 405)
 
-        """
-        Have an error...
-        
-        # Change user password, but current password wrong
-        response = client.put('/api/user/pw/', json.dumps(
-            {'current_password': 'defa', 'new_password': 'abcd'}),
-                              content_type='application/json')
-        self.assertEqual(response.status_code, 403)
-        """
+        response = client.post('/api/report/',  json.dumps({'title': 'a', 'content': 'b'}, ), content_type='application/json')
+        self.assertEqual(response.status_code, 200)

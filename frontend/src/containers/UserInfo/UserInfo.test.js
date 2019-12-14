@@ -11,7 +11,26 @@ import {
     adpostActions,
     adreceptionActions
 } from '../../store/actions';
-
+const mockarticle1 = {
+    title: 'test',
+    subtitle: 'test',
+    thumbnail: 'image.png',
+    id: 1,
+    adpost: 1
+};
+const mockarticle2 = {
+    data: [
+        {
+            title: 'test',
+            subtitle: 'test',
+            thumbnail: 'image.png',
+            id: 1,
+            adpost: 1,
+            acheive_rate: 50,
+            expiry_date: '2019-11-12'
+        }
+    ]
+};
 const mockPriview = {
     title: 'Mock Title',
     subtitle: 'Mock Subtitle',
@@ -31,8 +50,8 @@ const stubInitialState = {
         point: 1123,
         tags: ['test']
     },
-    adpost_home_list: [],
-    byuser_list: []
+    adpost_home_list: [mockarticle2],
+    byuser_list: [mockarticle1]
 };
 const stubInitialStateN = {
     logged_in: false,
@@ -61,7 +80,8 @@ describe('<UserInfo/>', () => {
         spyReloadUser,
         spyOnGetOwnList,
         spyOnGetParticipantedList,
-        spyOnGetReceptionList;
+        spyOnGetReceptionList,
+        spyUpdatePoint;
     beforeEach(() => {
         localStorage.clear();
         localStorage.setItem('logged_in', 'true');
@@ -115,6 +135,11 @@ describe('<UserInfo/>', () => {
         spyHistoryPush = jest
             .spyOn(history, 'push')
             .mockImplementation(() => {});
+        spyUpdatePoint = jest
+            .spyOn(userActions, 'updatePoint')
+            .mockImplementation(point => {
+                return dispatch => {};
+            });
     });
     afterEach(() => {
         jest.clearAllMocks();
@@ -129,5 +154,44 @@ describe('<UserInfo/>', () => {
     it('should not render when some values are missing', () => {
         localStorage.setItem('logged_in', 'false');
         const component = mount(userinfoN);
+    });
+    it('should render spinner if not loaded', () => {
+        const component = mount(userinfo);
+        const temp = component.find('UserInfo');
+        temp.setState({ user_loaded: false, reception_loaded: false });
+        const wrapper = component.find('Spinner');
+        expect(wrapper.length).toBe(1);
+    });
+    it('should allow user to charge point', () => {
+        const component = mount(userinfo);
+        const temp = component.find('UserInfo');
+        temp.setState({ user_loaded: true, reception_loaded: true });
+        const wrapper = component.find('#user-charge-btn');
+        wrapper.at(1).simulate('click');
+        const chargeInput = component.find('#chargepoint');
+        window.alert = jest.fn();
+        chargeInput.simulate('change', {
+            target: { value: '12300000000' }
+        });
+        chargeInput.simulate('change', {
+            target: { value: '123' }
+        });
+        const chargeConfirmButton = component.find('#charge-confirm');
+        window.location.reload = jest.fn();
+        chargeConfirmButton.at(1).simulate('click');
+        expect(spyUpdatePoint).toHaveBeenCalledTimes(1);
+        expect(window.alert).toHaveBeenCalledTimes(2);
+    });
+    it('should redirect user to userdetail', () => {
+        const component = mount(userinfo);
+        const temp = component.find('UserInfo');
+        temp.setState({ user_loaded: true, reception_loaded: true });
+        /*setTimeout(() => {
+            done();
+        }, 1000);
+        await component.update();*/
+        const wrapper = component.find('#user-edit-btn');
+        wrapper.at(1).simulate('click');
+        expect(spyHistoryPush).toHaveBeenCalledTimes(1);
     });
 });
