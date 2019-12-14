@@ -310,9 +310,15 @@ class AditTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["ad_link"], "https://www.naver.com")
 
+        response = client.get('/api/adreception/redirect/1/')
+        self.assertEqual(response.status_code, 200)
+
     def test_not_important(self):
         client = Client()
 
         # We can only get tokens
         response = client.put('/api/token/')
         self.assertEqual(response.status_code, 405)
+
+        response = client.post('/api/report/',  json.dumps({'title': 'a', 'content': 'b'}, ), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
