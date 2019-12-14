@@ -141,7 +141,7 @@ describe('Adpost Actions', () => {
                         },
                         status: 403
                     },
-                    fron: 'GET_ADLIST'
+                    from: 'GET_ADLIST'
                 }
             ];
             return store
