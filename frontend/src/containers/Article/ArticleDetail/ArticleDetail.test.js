@@ -12,7 +12,8 @@ const stubInitialState = {
     adpost_detailed_item: {
         tags: [('acc', 'cur', 'i')],
         is_loading: false,
-        view_by_date: '{"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}'
+        view_by_date:
+            '{"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}'
     },
     views: 0,
     unique_link: 'test',
@@ -24,7 +25,8 @@ const stubInitialState_owner = {
         tags: [],
         is_loading: false,
         is_owner: true,
-        view_by_date: '{"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}'
+        view_by_date:
+            '{"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}'
     },
     views: 0,
     unique_link: 'test',
@@ -36,7 +38,8 @@ const stubInitialState_loading = {
         tags: [],
         is_loading: true,
         is_owner: true,
-        view_by_date: '{"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}'
+        view_by_date:
+            '{"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}'
     },
     views: 0,
     unique_link: 'test',
@@ -48,7 +51,8 @@ const stubInitialState_participate = {
         tags: [],
         is_loading: false,
         is_owner: false,
-        view_by_date: '{"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}'
+        view_by_date:
+            '{"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}, {"date":"2019-11-30","view":84}'
     },
     views: 0,
     unique_link: 'test',
@@ -185,5 +189,16 @@ describe('<ArticleDetail />', () => {
         const component = mount(articledetail_loading);
         const wrapper = component.find('ArticleDetail');
         expect(wrapper.length).toBe(1);
+    });
+    it('should be able to report', () => {
+        const component = mount(articledetail);
+        window.alert = jest.fn();
+        const wrapper = component.find('#report-text');
+        wrapper.at(0).simulate('click');
+        const reportWrapper = component.find('#report-input');
+        reportWrapper.simulate('change', { target: { value: 'Test' } });
+        const confirmWrapper = component.find('#report-confirm');
+        confirmWrapper.at(0).simulate('click');
+        expect(window.alert).toHaveBeenCalled();
     });
 });

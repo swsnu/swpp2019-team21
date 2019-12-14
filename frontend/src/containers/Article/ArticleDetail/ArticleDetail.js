@@ -80,10 +80,10 @@ class ArticleDetail extends Component {
                             this.setState({
                                 ...this.state,
                                 showreportpage: false,
-                                report_content:''
+                                report_content: ''
                             });
                         }}>
-                        <Modal.Header closeButton>
+                        <Modal.Header closeButton id="report-close-button">
                             <Modal.Title>신고 사유를 작성해주세요</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
@@ -96,22 +96,26 @@ class ArticleDetail extends Component {
                                         ...this.state,
                                         report_content: e.target.value
                                     });
-                                }}/>
+                                }}
+                            />
                         </Modal.Body>
-                        <Modal.Footer >
+                        <Modal.Footer>
                             <Button
                                 id="report-confirm"
                                 variant="primary"
-                                onClick={()=>{
+                                onClick={() => {
                                     var email = {
-                                        title:'[Adit] 게시물 id:'+this.props.match.params.id+'에 대한 신고',
+                                        title:
+                                            '[Adit] 게시물 id:' +
+                                            this.props.match.params.id +
+                                            '에 대한 신고',
                                         content: this.state.report_content
-                                    }
-                                    this.props.onpostReport(email)
-                                    alert('신고가 접수되었습니다')
+                                    };
+                                    this.props.onpostReport(email);
+                                    alert('신고가 접수되었습니다');
                                     this.setState({
                                         ...this.state,
-                                        showreportpage:false
+                                        showreportpage: false
                                     });
                                 }}>
                                 저장
@@ -316,7 +320,7 @@ class ArticleDetail extends Component {
                                 </div>
                             </section>
                         )}
-                    {this.props.article.is_owner &&(
+                    {this.props.article.is_owner && (
                         <section className="article-info-owner section-wrapper">
                             <div className="stat">
                                 <h2 id="stat-text">Statistic for owner</h2>
@@ -349,16 +353,17 @@ class ArticleDetail extends Component {
                             </div>
                         </section>
                     )}
-                    {!this.props.article.is_owner && !this.props.article.closed && (
-                        <span>
-                            부적절한 컨텐츠인가요?&nbsp;&nbsp;
-                            <a
-                                id="report-text"
-                                onClick={this.reportClickHandler}>
-                                <u>신고하기</u>
-                            </a>
-                        </span>
-                    )}
+                    {!this.props.article.is_owner &&
+                        !this.props.article.closed && (
+                            <span>
+                                부적절한 컨텐츠인가요?&nbsp;&nbsp;
+                                <a
+                                    id="report-text"
+                                    onClick={this.reportClickHandler}>
+                                    <u>신고하기</u>
+                                </a>
+                            </span>
+                        )}
                 </div>
             );
         } else {

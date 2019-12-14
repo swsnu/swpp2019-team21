@@ -53,6 +53,7 @@ class TagSelector extends Component {
                     loadOptions={this.loadOptions}
                     onChange={this.handleInputChange}
                     onKeyDown={this.handleSubmit}
+                    id="tag-select-component"
                     noOptionsMessage={() => {
                         return '해당하는 태그가 없습니다';
                     }}
@@ -75,8 +76,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(TagSelector)
+    connect(mapStateToProps, mapDispatchToProps)(TagSelector)
 );
