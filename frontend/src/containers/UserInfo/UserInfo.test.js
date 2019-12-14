@@ -11,7 +11,24 @@ import {
     adpostActions,
     adreceptionActions
 } from '../../store/actions';
-
+const mockarticle1 = {
+        title: 'test',
+        subtitle: 'test',
+        thumbnail: 'image.png',
+        id: 1,
+        adpost: 1
+};
+const mockarticle2 = {
+    data: [{
+    title: 'test',
+    subtitle: 'test',
+    thumbnail: 'image.png',
+    id: 1,
+    adpost: 1,
+    acheive_rate: 50,
+    expiry_date: '2019-11-12'
+    }]
+};
 const mockPriview = {
     title: 'Mock Title',
     subtitle: 'Mock Subtitle',
@@ -31,8 +48,8 @@ const stubInitialState = {
         point: 1123,
         tags: ['test']
     },
-    adpost_home_list: [],
-    byuser_list: []
+    adpost_home_list: [mockarticle2],
+    byuser_list: [mockarticle1]
 };
 const stubInitialStateN = {
     logged_in: false,
@@ -61,7 +78,8 @@ describe('<UserInfo/>', () => {
         spyReloadUser,
         spyOnGetOwnList,
         spyOnGetParticipantedList,
-        spyOnGetReceptionList;
+        spyOnGetReceptionList,
+        spyUpdatePoint;
     beforeEach(() => {
         localStorage.clear();
         localStorage.setItem('logged_in', 'true');
@@ -115,14 +133,23 @@ describe('<UserInfo/>', () => {
         spyHistoryPush = jest
             .spyOn(history, 'push')
             .mockImplementation(() => {});
+        spyUpdatePoint = jest
+            .spyOn(userActions, 'updatePoint')
+            .mockImplementation(point => {
+                return dispatch => {};
+            });
     });
     afterEach(() => {
         jest.clearAllMocks();
     });
-    it('should render without errors', () => {
+    it('should render without errors', async done => {
         const component = mount(userinfo);
         const temp = component.find('UserInfo');
         temp.setState({ user_loaded: true, reception_loaded: true });
+        setTimeout(() => {
+            done();
+        }, 1000);
+        await component.update();
         const wrapper = component.find('.UserInfo');
         expect(wrapper.length).toBe(1);
     });
@@ -130,4 +157,26 @@ describe('<UserInfo/>', () => {
         localStorage.setItem('logged_in', 'false');
         const component = mount(userinfoN);
     });
+    it('should allow user to charge point', async done => {
+        const component = mount(userinfo);
+        const temp = component.find('UserInfo');
+        temp.setState({ user_loaded: true, reception_loaded: true });
+        setTimeout(() => {
+            done();
+        }, 1000);
+        await component.update();
+        const wrapper = component.find('#user-charge-btn');
+        wrapper.at(1).simulate('click');
+        const chargeInput = component.find('#chargepoint');
+        chargeInput.simulate('change', {
+            target: { value: '123' }
+        });
+        const chargeConfirmButton = component.find('#charge-confirm');
+        window.alert = jest.fn();
+        window.location.reload = jest.fn();
+        chargeConfirmButton.at(1).simulate('click');
+        expect(spyUpdatePoint).toHaveBeenCalledTimes(1);
+        expect(window.alert).toHaveBeenCalledTimes(1);
+
+    })
 });
