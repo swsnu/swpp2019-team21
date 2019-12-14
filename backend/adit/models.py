@@ -221,7 +221,7 @@ class Question(models.Model):
     checked = models.BooleanField()
 
 
-class IpAddressDuplication(models.Model):
+class VisitedIP(models.Model):
     ip_address = models.CharField(max_length=16)
     created = models.DateTimeField(auto_now_add=True)
     adreception = models.ForeignKey(

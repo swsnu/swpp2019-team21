@@ -590,9 +590,9 @@ class AdReceptionOutRedirectView(View):
         if request.COOKIES.get(cookie_name) is not None:
             cookies = request.COOKIES.get(cookie_name)
             cookies_list = cookies.split('|')
-            if str(reception_object.id) not in cookies_list and not IpAddressDuplication.objects.filter(
+            if str(reception_object.id) not in cookies_list and not VisitedIP.objects.filter(
                     ip_address=get_client_ip(request), adreception=reception_object).exists():
-                new_ip = IpAddressDuplication(ip_address=get_client_ip(request), adreception=reception_object)
+                new_ip = VisitedIP(ip_address=get_client_ip(request), adreception=reception_object)
                 new_ip.save()
                 response.set_cookie(cookie_name, cookies + f'|{reception_object.id}', expires=expires)
 
@@ -605,6 +605,9 @@ class AdReceptionOutRedirectView(View):
                 post.save()
         else:
             response.set_cookie(cookie_name, post_id, expires=expires)
+
+            new_ip = VisitedIP(ip_address=get_client_ip(request), adreception=reception_object)
+            new_ip.save()
 
             reception_object.views += 1
             owner.point += 7
@@ -645,7 +648,7 @@ class TagView(View):
 class TagRecommendByUser(View):
     @check_is_authenticated
     def get(self, request):
-        taglist = suggest.tag_suggest(list(InterestedTags.objects.all()), list(request.user.tags.all()), 0.02)
+        taglist = suggest.tag_suggest(list(InterestedTags.objects.all()), list(request.user.tags.all()))
         return JsonResponse(taglist, safe=False)
 
 

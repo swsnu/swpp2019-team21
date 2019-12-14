@@ -5,13 +5,12 @@ import { history } from './store';
 import { Provider } from 'react-redux';
 import { getMockStore } from './test/utils/mockStore';
 
-
 describe('App', () => {
     let app;
     beforeEach(() => {
         app = (
             <Provider store={getMockStore({})}>
-                <App history={history}/>
+                <App history={history} />
             </Provider>
         );
     });
@@ -19,6 +18,9 @@ describe('App', () => {
         jest.clearAllMocks();
     });
     it('should render', () => {
+        window.Kakao = {
+            init: jest.fn()
+        };
         const component = mount(app);
         expect(component.find('.App').length).toBe(1);
     });
