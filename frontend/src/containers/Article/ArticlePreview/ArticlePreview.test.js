@@ -18,7 +18,23 @@ describe('<ArticlePreview />', () => {
             thumbnail: null,
             title: 'test_title',
             subtitle: 'test_subtitle',
-            ad_link: 'test_link',
+            ad_link:
+                'this should be over 404 characteresfekwlafnewjkalnfuekulwabgvwekalbgwai',
+            expiry_date: 'test_date',
+            is_owner: false,
+            content: 'test_content',
+            pic: 'aaa'
+        },
+        views: -1,
+        is_participated: false
+    };
+    const props_less = {
+        article: {
+            tags: [('acc', 'cur', 'i')],
+            thumbnail: null,
+            title: 'test_title',
+            subtitle: 'test_subtitle',
+            ad_link: 'abcd',
             expiry_date: 'test_date',
             is_owner: false,
             content: 'test_content'
@@ -72,6 +88,11 @@ describe('<ArticlePreview />', () => {
     });
     it('should render without errors when participated', () => {
         const component = mount(articlepreview_participate);
+        const wrapper = component.find('ArticlePreview');
+        expect(wrapper.length).toBe(1);
+    });
+    it('should render when less props given', () => {
+        const component = mount(articlepreview);
         const wrapper = component.find('ArticlePreview');
         expect(wrapper.length).toBe(1);
     });

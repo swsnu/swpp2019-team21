@@ -316,13 +316,3 @@ class AditTestCase(TestCase):
         # We can only get tokens
         response = client.put('/api/token/')
         self.assertEqual(response.status_code, 405)
-
-        """
-        Have an error...
-        
-        # Change user password, but current password wrong
-        response = client.put('/api/user/pw/', json.dumps(
-            {'current_password': 'defa', 'new_password': 'abcd'}),
-                              content_type='application/json')
-        self.assertEqual(response.status_code, 403)
-        """
