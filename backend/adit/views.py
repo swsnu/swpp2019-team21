@@ -102,7 +102,12 @@ class SignUpView(View):
         newtags = req_data['tags']
 
         if AditUser.objects.filter(email=email).exists():
-            return HttpResponseBadRequest()
+            response_dict = {'error': 'Email duplicated'}
+            return JsonResponse(response_dict, status=400)
+
+        if AditUser.objects.filter(nickname=nickname).exists():
+            response_dict = {'error': 'Nickname duplicated'}
+            return JsonResponse(response_dict, status=400)
 
         tags = []
         for tag in newtags:

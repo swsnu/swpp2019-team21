@@ -40,7 +40,9 @@ function signIn(user, remember) {
                 dispatch(push('/home'));
             })
             .catch(error => {
-                alert('Signin error');
+                alert(
+                    '아이디또는 비밀번호를 잘못 입력하셨습니다. 다시 시도해 주세요'
+                );
             });
     };
 }
@@ -54,7 +56,6 @@ function signOut() {
                 dispatch(push('/signin'));
             })
             .catch(error => {
-                //console.log(error);
                 alert('failed signout');
             });
     };
@@ -69,7 +70,7 @@ function signUp(user) {
                 dispatch(push('/signin'));
             })
             .catch(error => {
-                alert('Sign up error');
+                alert(error.response.data.error);
             });
     };
 }
