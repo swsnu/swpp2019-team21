@@ -54,7 +54,7 @@ function signOut() {
                 dispatch(push('/signin'));
             })
             .catch(error => {
-                ////console.log(error);
+                //console.log(error);
                 alert('failed signout');
             });
     };
@@ -102,7 +102,7 @@ function putUser(user) {
                 })
             )
             .catch(error => {
-                ////console.log('put user failed');
+                //console.log('put user failed');
                 window.alert('Put user failed');
             });
     };
@@ -114,7 +114,7 @@ function changePW(pw) {
             .put(base_url + '/user/pw/', pw)
             .then(response => dispatch({ type: actionTypes.PUT_USER }))
             .catch(error => {
-                ////console.log('change PW failed');
+                //console.log('change PW failed');
                 alert('Input correct PW');
             });
     };
@@ -128,9 +128,9 @@ function updatePoint(point) {
                 dispatch({ type: actionTypes.PUT_USER });
             })
             .catch(error => {
-                ////console.log('update Point failed');
+                //console.log('update Point failed');
                 alert('Update point error');
-                console.log(error);
+                //console.log(error);
             });
     };
 }

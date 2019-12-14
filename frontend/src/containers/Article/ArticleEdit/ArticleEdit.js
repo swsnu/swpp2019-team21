@@ -45,7 +45,7 @@ class ArticleEdit extends Component {
     }
 
     titleChangeHandler = e => {
-        console.log(e.target.value)
+        //console.log(e.target.value)
         var valid = e.target.value.length <= 30 && e.target.value.length > 0;
         if (e.target.value.length <= 30) {
             this.setState({
@@ -109,7 +109,7 @@ class ArticleEdit extends Component {
         let reader = new FileReader();
         let file = e.target.files[0];
         reader.onloadend = () => {
-            console.log(file.name)
+            //console.log(file.name)
             valid =
                 file &&
                 file.name.match(/.(jpg|jpeg|png|bmp)$/i) &&
@@ -155,7 +155,7 @@ class ArticleEdit extends Component {
     };
 
     editConfirmHandler = () => {
-        console.log(this.state)
+        //console.log(this.state)
         if (!this.state.article.title) {
             alert('제목을 입력하세요');
             return;

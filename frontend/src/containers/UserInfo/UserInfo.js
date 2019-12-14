@@ -77,7 +77,7 @@ class UserInfo extends Component {
     }
 
     render() {
-        console.log(this.props);
+        //console.log(this.props);
         if (
             this.state.user_loaded === true &&
             this.state.reception_loaded === true

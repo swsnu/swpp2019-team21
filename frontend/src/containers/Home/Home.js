@@ -33,7 +33,7 @@ class Home extends Component {
 
     render() {
         var { adpost_home_list } = this.props;
-        console.log(adpost_home_list);
+        //console.log(adpost_home_list);
         adpost_home_list = adpost_home_list.slice(0, 5);
         var { suggested_tags } = this.props;
 
