@@ -84,11 +84,6 @@ class SignIn extends Component {
         this.props.history.push('/signup');
     };
 
-    forgotPasswordHandler = () => {
-        // TODO:: Link to forgot Password
-        alert('Not implemented');
-    };
-
     render() {
         return (
             <div className="sign-in">
@@ -143,13 +138,6 @@ class SignIn extends Component {
                             />
                             Remember me
                         </label>
-                        <a
-                            href="#"
-                            className="forgot-password"
-                            id="findpw-link"
-                            onClick={this.forgotPasswordHandler}>
-                            Forgot Password?
-                        </a>
                     </div>
                 </div>
                 <p className="text-center small">

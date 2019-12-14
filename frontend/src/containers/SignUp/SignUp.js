@@ -15,7 +15,6 @@ class SignUp extends Component {
         lname: '',
         nickname: '',
         tags: [],
-        read_check: false,
         postFile: null,
         valid: {
             email: null,
@@ -55,9 +54,6 @@ class SignUp extends Component {
             return;
         } else if (!this.state.valid.nickname) {
             alert('Nickname must consist of 1-20 characters.');
-            return;
-        } else if (!this.state.read_check) {
-            alert('Please read and agree with terms of service');
             return;
         }
         const user = {
@@ -152,19 +148,7 @@ class SignUp extends Component {
         });
     };
 
-    checkBoxHandler = e => {
-        this.setState({
-            ...this.state,
-            read_check: e.target.checked
-        });
-    };
-
-    /*    passwordCheckerHandler = () => {
-        // TODO Inputbox Get Red
-    };*/
-
     render() {
-        //console.log(this.state.read_check);
         return (
             <div className="sign-up">
                 <div className="sign-up-form">
@@ -348,18 +332,6 @@ class SignUp extends Component {
                             allowNew={false}
                             minQueryLength={1}
                         />
-                    </div>
-                    <div className="checkterm">
-                        <label className="Term">
-                            <input
-                                checked={this.state.read_check}
-                                onChange={this.checkBoxHandler}
-                                type="checkbox"
-                                id="haveread-chkbox"
-                            />{' '}
-                            I have read and agree to the{' '}
-                            <a href="#">terms of service</a>
-                        </label>
                     </div>
                     <div className="form-group">
                         <button

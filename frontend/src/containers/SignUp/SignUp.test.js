@@ -56,7 +56,6 @@ describe('<SignUp />', () => {
         const nickname = component.find('#nickname');
         const deltag = component.find('SignUp').instance().deleteTagHandler;
         const addtag = component.find('SignUp').instance().addTagHandler;
-        const check = component.find('#haveread-chkbox');
         const done = component.find('#signup-button');
         var change = (target, to, content) => {
             target.simulate('change', { target: { value: content } });
@@ -89,9 +88,7 @@ describe('<SignUp />', () => {
         change(lname, 'lname', 'TEST');
         no_verify();
         change(nickname, 'nickname', 'TEST');
-        no_verify();
         addtag('test_tag');
-        check.simulate('change', { target: { checked: true } });
         verify();
         addtag('test_tag');
         deltag(0);

@@ -121,10 +121,6 @@ class UserDetail extends Component {
         window.location.reload();
     };
 
-    withdrawalHandler = () => {
-        alert('Not implemented yet');
-    };
-
     deleteTagHandler = i => {
         const tags = this.state.user.tags.slice(0);
         tags.splice(i, 1);
@@ -614,14 +610,6 @@ class UserDetail extends Component {
                                 <h6>Save Changes</h6>
                             </ListGroup.Item>
                         </ListGroup>
-                        <p className="form-select" align="right">
-                            <a
-                                id="withdrawal"
-                                href="#"
-                                onClick={this.withdrawalHandler}>
-                                Withrawal
-                            </a>
-                        </p>
                     </div>
                 </div>
             );

@@ -200,7 +200,7 @@ describe('<UserDetail/>', () => {
         wrapper.at(2).simulate('click');
         expect(window.alert).toHaveBeenCalledTimes(1);
     });
-    it('should change name, nickname, tags, and withdrawal', async done => {
+    it('should change name, nickname, tags', async done => {
         const component = mount(userdetail);
         const temp = component.find('UserDetail');
         temp.setState({ is_loaded: true });
@@ -240,10 +240,6 @@ describe('<UserDetail/>', () => {
             .instance();
         detailinstance.deleteTagHandler(1);
         detailinstance.addTagHandler('tag');
-        const withdrawal = component.find('#withdrawal');
-        window.alert = jest.fn();
-        withdrawal.simulate('click');
-        expect(window.alert).toHaveBeenCalledTimes(1);
     });
     it('should change ', async done => {
         const component = mount(userdetail);
