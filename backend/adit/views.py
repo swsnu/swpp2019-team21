@@ -286,7 +286,7 @@ class AdPostView(View):
         adpost.save()
 
         if adpost.ad_link == "toitself":
-            adpost.ad_link = 'http://www.adit.shop/article/{}/'.format(str(adpost.id))
+            adpost.ad_link = 'https://www.adit.shop/article/{}/'.format(str(adpost.id))
 
         adpost.save()
 
