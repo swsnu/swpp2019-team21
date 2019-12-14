@@ -8,7 +8,7 @@ class KakaoLinkBtn extends React.Component {
             content: {
                 title: this.props.article.title,
                 description: this.props.article.subtitle,
-                imageUrl: `https://localhost:3000${this.props.article.thumbnail}`,
+                imageUrl: `https://www.adit.shop${this.props.article.thumbnail}`,
                 link: {
                     mobileWebUrl: this.props.unique_link,
                     webUrl: this.props.unique_link
@@ -24,7 +24,6 @@ class KakaoLinkBtn extends React.Component {
                 }
             ]
         });
-        console.log(`https://localhost:3000${this.props.article.thumbnail}`);
     }
 
     render() {
