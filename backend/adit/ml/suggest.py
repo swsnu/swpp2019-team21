@@ -62,7 +62,7 @@ def tag_suggest(data_exist, data_input, threshold=0.2):
                     sim[tar[0]] = model.wv.similarity(tag, tar[0]) * tar[1]
                 except:
                     pass
-            elif tar[0] != tag and tar[0] in sim
+            elif tar[0] != tag and tar[0] in sim:
                 try:
                     sim[tar[0]] += model.wv.similarity(tag, tar[0]) * tar[1]
                 except:
