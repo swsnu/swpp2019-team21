@@ -195,10 +195,12 @@ function getAdpost(id) {
 
 function postAdpost(data) {
     return dispatch => {
+        console.log(data.adpost);
         var id;
         return axios
             .post(baseUrl + '/adpost/', data.adpost)
             .then(response => {
+                console.log(response.data)
                 id = response.data.id;
                 dispatch({ type: actionTypes.POST_ADPOST_PENDING });
                 return axios.put(baseUrl + '/user/point/', data.points);
@@ -220,6 +222,7 @@ function putAdpost(id, data) {
     return dispatch => {
         console.log(data);
         return axios.put(baseUrl + `/adpost/${id}/`, data).then(response => {
+            console.log(response.data)
             id = response.data.id;
             dispatch(push(`/article/${id}`));
         });

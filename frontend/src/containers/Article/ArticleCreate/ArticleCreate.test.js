@@ -184,16 +184,20 @@ describe('<ArticleCreate/>', () => {
         wrapper.simulate('click');
         expect(spyOnAlert).toHaveBeenCalledTimes(6);
 
+        wrapper.simulate('click');
+        url_wrapper.simulate('change', {
+            target: { value: 'www.naver.com' }
+        });
+        wrapper.simulate('click');
         url_wrapper.simulate('change', {
             target: { value: 'https://www.naver.com' }
         });
 
-        wrapper.simulate('click');
-        expect(spyOnAlert).toHaveBeenCalledTimes(7);
+        expect(spyOnAlert).toHaveBeenCalledTimes(8);
         next.at(0).simulate('click')
         varConfirm = true;
         wrapper.simulate('click');
-        expect(spyOnAlert).toHaveBeenCalledTimes(8);
+        expect(spyOnAlert).toHaveBeenCalledTimes(9);
 
         const detailinstance = component
             .find(ArticleCreate.WrappedComponent)
@@ -216,7 +220,7 @@ describe('<ArticleCreate/>', () => {
             target: { value: '100' }
         });
         wrapper.simulate('click');
-        expect(spyOnAlert).toHaveBeenCalledTimes(10);
+        expect(spyOnAlert).toHaveBeenCalledTimes(11);
 
         const calendar_wrapper = component.find('#select-calender');
         calendar_wrapper.simulate('change', {
@@ -233,4 +237,25 @@ describe('<ArticleCreate/>', () => {
         next.at(1).simulate('click')
         wrapper.simulate('click');
     });
+    it('should allow user to charge point', async done => {
+        window.alert = jest.fn();
+        const component = mount(articleCreate);
+        setTimeout(() => {
+            done();
+        }, 1000);
+        const temp = component.find('ArticleCreate');
+        temp.setState({ nowpoint: 1000 });
+        const wrapper = component.find('#charge-button');
+        wrapper.at(1).simulate('click');
+        const pointinput = component.find("#chargepoint");
+        pointinput.simulate('change',{
+            target:{value:1000000000000}
+        })
+        expect(window.alert).toHaveBeenCalledTimes(1)
+        pointinput.simulate('change',{
+            target:{value:10000}
+        })
+        const wrapper2 = component.find("#charge-confirm");
+        wrapper2.at(1).simulate('click');
+    })
 });
