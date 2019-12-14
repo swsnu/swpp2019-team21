@@ -157,6 +157,17 @@ describe('<UserInfo/>', () => {
         localStorage.setItem('logged_in', 'false');
         const component = mount(userinfoN);
     });
+    it('should render spinner if not loaded', async done => {
+        const component = mount(userinfo);
+        const temp = component.find('UserInfo');
+        temp.setState({ user_loaded: false, reception_loaded: false});
+        setTimeout(() => {
+            done();
+        }, 1000);
+        await component.update();
+        const wrapper = component.find('Spinner');
+        expect(wrapper.length).toBe(1);
+    })
     it('should allow user to charge point', async done => {
         const component = mount(userinfo);
         const temp = component.find('UserInfo');
@@ -168,15 +179,29 @@ describe('<UserInfo/>', () => {
         const wrapper = component.find('#user-charge-btn');
         wrapper.at(1).simulate('click');
         const chargeInput = component.find('#chargepoint');
+        window.alert = jest.fn();
         chargeInput.simulate('change', {
-            target: { value: '123' }
+            target: { value: '12300000000' }
+        });
+        chargeInput.simulate('change', {
+            target: { value: '123'}
         });
         const chargeConfirmButton = component.find('#charge-confirm');
-        window.alert = jest.fn();
         window.location.reload = jest.fn();
         chargeConfirmButton.at(1).simulate('click');
         expect(spyUpdatePoint).toHaveBeenCalledTimes(1);
-        expect(window.alert).toHaveBeenCalledTimes(1);
-
+        expect(window.alert).toHaveBeenCalledTimes(2);
+    })
+    it('should redirect user to userdetail',async done =>{
+        const component = mount(userinfo);
+        const temp = component.find('UserInfo');
+        temp.setState({ user_loaded: true, reception_loaded: true });
+        setTimeout(() => {
+            done();
+        }, 1000);
+        await component.update();
+        const wrapper = component.find('#user-edit-btn');
+        wrapper.at(1).simulate('click');
+        expect(spyHistoryPush).toHaveBeenCalledTimes(1);
     })
 });
