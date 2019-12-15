@@ -30,5 +30,4 @@ urlpatterns = [
     path('tag/recommend/by-recent/', views.TagRecommendByRecent.as_view()),
     path('tag/search/<str:pattern>/', views.TagSearchView.as_view()),
     path('report/', views.ReportSendView.as_view())
-    # path('question/<int:adpostid>/', views.questionPostId)
 ]

@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `adit_adituser`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `adit_adituser` (
   `password` varchar(128) NOT NULL,
   `last_login` datetime(6) DEFAULT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE `adit_adituser` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `nickname` (`nickname`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `adit_adituser_groups` (
   KEY `adit_adituser_groups_group_id_c099ef8b_fk_auth_group_id` (`group_id`),
   CONSTRAINT `adit_adituser_groups_adituser_id_8b2ab399_fk_adit_adituser_id` FOREIGN KEY (`adituser_id`) REFERENCES `adit_adituser` (`id`),
   CONSTRAINT `adit_adituser_groups_group_id_c099ef8b_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +95,7 @@ CREATE TABLE `adit_adituser_tags` (
   KEY `adit_adituser_tags_interestedtags_id_6e583d2d_fk_adit_inte` (`interestedtags_id`),
   CONSTRAINT `adit_adituser_tags_adituser_id_f9730879_fk_adit_adituser_id` FOREIGN KEY (`adituser_id`) REFERENCES `adit_adituser` (`id`),
   CONSTRAINT `adit_adituser_tags_interestedtags_id_6e583d2d_fk_adit_inte` FOREIGN KEY (`interestedtags_id`) REFERENCES `adit_interestedtags` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +124,7 @@ CREATE TABLE `adit_adituser_user_permissions` (
   KEY `adit_adituser_user_p_permission_id_006311fc_fk_auth_perm` (`permission_id`),
   CONSTRAINT `adit_adituser_user_p_adituser_id_2fce34b1_fk_adit_adit` FOREIGN KEY (`adituser_id`) REFERENCES `adit_adituser` (`id`),
   CONSTRAINT `adit_adituser_user_p_permission_id_006311fc_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +163,7 @@ CREATE TABLE `adit_adpost` (
   KEY `adit_adpost_thumbnail_id_a0142f77_fk_adit_postimage_id` (`thumbnail_id`),
   CONSTRAINT `adit_adpost_owner_id_aeefbf06_fk_adit_adituser_id` FOREIGN KEY (`owner_id`) REFERENCES `adit_adituser` (`id`),
   CONSTRAINT `adit_adpost_thumbnail_id_a0142f77_fk_adit_postimage_id` FOREIGN KEY (`thumbnail_id`) REFERENCES `adit_postimage` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,7 +192,7 @@ CREATE TABLE `adit_adpost_image` (
   KEY `adit_adpost_image_postimage_id_13fd1dbe_fk_adit_postimage_id` (`postimage_id`),
   CONSTRAINT `adit_adpost_image_adpost_id_917e81a1_fk_adit_adpost_id` FOREIGN KEY (`adpost_id`) REFERENCES `adit_adpost` (`id`),
   CONSTRAINT `adit_adpost_image_postimage_id_13fd1dbe_fk_adit_postimage_id` FOREIGN KEY (`postimage_id`) REFERENCES `adit_postimage` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +220,7 @@ CREATE TABLE `adit_adpost_tags` (
   KEY `adit_adpost_tags_interestedtags_id_edee47ed_fk_adit_inte` (`interestedtags_id`),
   CONSTRAINT `adit_adpost_tags_adpost_id_3375e3c5_fk_adit_adpost_id` FOREIGN KEY (`adpost_id`) REFERENCES `adit_adpost` (`id`),
   CONSTRAINT `adit_adpost_tags_interestedtags_id_edee47ed_fk_adit_inte` FOREIGN KEY (`interestedtags_id`) REFERENCES `adit_interestedtags` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=226 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=226 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +253,7 @@ CREATE TABLE `adit_adreception` (
   KEY `adit_adreception_owner_id_ba20ede4_fk_adit_adituser_id` (`owner_id`),
   CONSTRAINT `adit_adreception_adpost_id_93b35a94_fk_adit_adpost_id` FOREIGN KEY (`adpost_id`) REFERENCES `adit_adpost` (`id`),
   CONSTRAINT `adit_adreception_owner_id_ba20ede4_fk_adit_adituser_id` FOREIGN KEY (`owner_id`) REFERENCES `adit_adituser` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,7 +272,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `adit_interestedtags`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `adit_interestedtags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(20) NOT NULL,
@@ -280,7 +280,7 @@ CREATE TABLE `adit_interestedtags` (
   `postcount` int(11) NOT NULL,
   `created_time` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=211 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=211 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -299,13 +299,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `adit_ipaddressduplication`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `adit_ipaddressduplication` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(16) NOT NULL,
   `created` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -323,12 +323,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `adit_postimage`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `adit_postimage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `image` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -347,7 +347,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `adit_question`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `adit_question` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` longtext NOT NULL,
@@ -359,7 +359,7 @@ CREATE TABLE `adit_question` (
   KEY `adit_question_owner_id_345d69d1_fk_adit_adituser_id` (`owner_id`),
   CONSTRAINT `adit_question_adpost_id_5007ad58_fk_adit_adpost_id` FOREIGN KEY (`adpost_id`) REFERENCES `adit_adpost` (`id`),
   CONSTRAINT `adit_question_owner_id_345d69d1_fk_adit_adituser_id` FOREIGN KEY (`owner_id`) REFERENCES `adit_adituser` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -377,14 +377,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `adit_suggestpending`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `adit_suggestpending` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `adit_suggestpending_post_id_47d32b25_fk_adit_adpost_id` (`post_id`),
   CONSTRAINT `adit_suggestpending_post_id_47d32b25_fk_adit_adpost_id` FOREIGN KEY (`post_id`) REFERENCES `adit_adpost` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -402,7 +402,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `adit_visitedip`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `adit_visitedip` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(16) NOT NULL,
@@ -411,7 +411,7 @@ CREATE TABLE `adit_visitedip` (
   PRIMARY KEY (`id`),
   KEY `adit_visitedip_adreception_id_7e8eff9b_fk_adit_adreception_id` (`adreception_id`),
   CONSTRAINT `adit_visitedip_adreception_id_7e8eff9b_fk_adit_adreception_id` FOREIGN KEY (`adreception_id`) REFERENCES `adit_adreception` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -430,13 +430,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `auth_group`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(80) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -454,7 +454,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `auth_group_permissions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_group_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
@@ -464,7 +464,7 @@ CREATE TABLE `auth_group_permissions` (
   KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
   CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -482,7 +482,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `auth_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -491,7 +491,7 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -510,7 +510,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `django_admin_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `django_admin_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `action_time` datetime(6) NOT NULL,
@@ -525,7 +525,7 @@ CREATE TABLE `django_admin_log` (
   KEY `django_admin_log_user_id_c564eba6_fk_adit_adituser_id` (`user_id`),
   CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   CONSTRAINT `django_admin_log_user_id_c564eba6_fk_adit_adituser_id` FOREIGN KEY (`user_id`) REFERENCES `adit_adituser` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -543,14 +543,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `django_content_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `django_content_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `app_label` varchar(100) NOT NULL,
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -569,14 +569,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `django_migrations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `django_migrations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `app` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -595,14 +595,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `django_session`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `django_session` (
   `session_key` varchar(40) NOT NULL,
   `session_data` longtext NOT NULL,
   `expire_date` datetime(6) NOT NULL,
   PRIMARY KEY (`session_key`),
   KEY `django_session_expire_date_a5c62663` (`expire_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
