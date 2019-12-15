@@ -189,7 +189,7 @@ describe('User Actions', () => {
             localStorage.setItem = mockLocalStorage;
 
             store = mockStore({});
-            moxios.wait(() => {
+            moxios.wait(( ) => {
                 const request = moxios.requests.mostRecent();
                 request.respondWith({
                     status: 403,
