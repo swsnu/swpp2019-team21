@@ -192,7 +192,12 @@ describe('User Actions', () => {
             moxios.wait(() => {
                 const request = moxios.requests.mostRecent();
                 request.respondWith({
-                    status: 403
+                    status: 403,
+                    response: {
+                        data: {
+                            error: 'invalid input'
+                        }
+                    }
                 });
             });
         });
