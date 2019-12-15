@@ -615,6 +615,7 @@ class ArticleCreate extends Component {
                             handleValidate={this.handleValidate.bind(this)}
                             minQueryLength={1}
                         />
+		    	<p>새 태그 추가 가능</p>
                         <p className="thin-font-div">
                             (등록 후 수정 할 수 없습니다)
                         </p>
