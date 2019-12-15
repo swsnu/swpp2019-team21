@@ -586,6 +586,7 @@ class UserDetail extends Component {
                             allowNew={false}
                             minQueryLength={1}
                         />
+			<p>새 태그 추가 불가</p>
                     </div>
                     <div className="form-group" align="left">
                         <p className="label-tag" align="left">

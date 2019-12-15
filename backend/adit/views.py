@@ -24,7 +24,7 @@ base_link = 'https://www.adit.shop/redirectfrom='
 
 
 def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR");
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
     else:
@@ -589,7 +589,7 @@ class AdReceptionOutRedirectView(View):
 
         g = GeoIP2()
 
-        if g.country_name(get_client_ip(response)) != 'South Korea':
+        if g.country_name(get_client_ip(request)) != 'South Korea':
             return response
 
         if request.COOKIES.get(cookie_name) is not None:
