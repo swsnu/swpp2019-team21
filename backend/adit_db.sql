@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `adit_adituser`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client =  utf8mb4*/;
 CREATE TABLE `adit_adituser` (
   `password` varchar(128) NOT NULL,
   `last_login` datetime(6) DEFAULT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE `adit_adituser` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `nickname` (`nickname`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +47,7 @@ CREATE TABLE `adit_adituser` (
 
 LOCK TABLES `adit_adituser` WRITE;
 /*!40000 ALTER TABLE `adit_adituser` DISABLE KEYS */;
-INSERT INTO `adit_adituser` VALUES ('pbkdf2_sha256$150000$rMEYB2515WLb$Cw9RXxTDoybA9jag8W+Cbop97u3/p4+AkbjEfFy0F7s=','2019-11-06 01:40:01.543000',0,1,'user@snu.ac.kr','user','/image/avatar/default_avatar.png','First','Last',100000,1,0),('pbkdf2_sha256$150000$oI6jsQn6z9LB$9m2/W/sbHgOY/qI3ypQZ/AJFwkuourpididWphTg1gY=','2019-11-06 03:09:28.472000',0,2,'csh3695@snu.ac.kr','Kent','/image/avatar/default_avatar.png','Choi','Seonghwan',100000,1,0),('pbkdf2_sha256$150000$woVLk6NrGg1K$+bxR9wmpvzLY/ueM/ko3KtUSzhffUCWmdCISsdcebMo=','2019-11-06 01:46:50.432000',0,3,'graysea@daum.net','Kaiser','/image/avatar/default_avatar.png','Seo','Yeongho',100000,1,0),('pbkdf2_sha256$150000$aWVCpeQ3FAVD$SqlzJt2WYvAPb4GjG/1UTEq4a6DbLNvRcpUy7eI1lAw=','2019-11-06 02:29:19.081000',0,4,'sanggggg@wafflestudio.com','sanggggg','/image/avatar/default_avatar.png','Kim','Sangmin',100000,1,0),('pbkdf2_sha256$150000$vAPI20Zlja75$MDSqjQ7fXp9isEi1QLkMgvc6ThccEq3U9xAsCX2A+dk=','2019-11-06 03:16:09.601000',0,5,'sonmath43@gmail.com','dhdroid','/image/avatar/default_avatar.png','Donghyun','Son',100000,1,0),('pbkdf2_sha256$120000$XcAW0Bw73nVX$99AfxyG3+T39Y4vkG7Tu12tJDZUwXHyIIw99lqmgsJo=','2019-12-13 17:08:54.119927',0,6,'csh3695@naver.com','Kentaro','/image/avatar/default_avatar.png','Seonghwan','Choi',8961000,1,0),('pbkdf2_sha256$120000$ITmnVmA5KN1q$WTKBPak3Xyr60hwP3g5DC5Sq4zT9Zcqw5J4JF/CNRQQ=','2019-11-22 21:41:51.743187',0,7,'test@test.com','Kentarou','/image/avatar/default_avatar.png','Seonghwan','Choi',100000,1,0);
+INSERT INTO `adit_adituser` VALUES ('pbkdf2_sha256$150000$rMEYB2515WLb$Cw9RXxTDoybA9jag8W+Cbop97u3/p4+AkbjEfFy0F7s=','2019-11-06 01:40:01.543000',0,1,'user@snu.ac.kr','user','/image/avatar/default_avatar.png','First','Last',100000,1,0),('pbkdf2_sha256$150000$oI6jsQn6z9LB$9m2/W/sbHgOY/qI3ypQZ/AJFwkuourpididWphTg1gY=','2019-11-06 03:09:28.472000',0,2,'csh3695@snu.ac.kr','Kent','/image/avatar/default_avatar.png','Choi','Seonghwan',100000,1,0),('pbkdf2_sha256$150000$woVLk6NrGg1K$+bxR9wmpvzLY/ueM/ko3KtUSzhffUCWmdCISsdcebMo=','2019-11-06 01:46:50.432000',0,3,'graysea@daum.net','Kaiser','/image/avatar/default_avatar.png','Seo','Yeongho',100000,1,0),('pbkdf2_sha256$150000$aWVCpeQ3FAVD$SqlzJt2WYvAPb4GjG/1UTEq4a6DbLNvRcpUy7eI1lAw=','2019-11-06 02:29:19.081000',0,4,'sanggggg@wafflestudio.com','sanggggg','/image/avatar/default_avatar.png','Kim','Sangmin',100000,1,0),('pbkdf2_sha256$150000$vAPI20Zlja75$MDSqjQ7fXp9isEi1QLkMgvc6ThccEq3U9xAsCX2A+dk=','2019-11-06 03:16:09.601000',0,5,'sonmath43@gmail.com','dhdroid','/image/avatar/default_avatar.png','Donghyun','Son',100000,1,0),('pbkdf2_sha256$120000$XcAW0Bw73nVX$99AfxyG3+T39Y4vkG7Tu12tJDZUwXHyIIw99lqmgsJo=','2019-12-15 23:21:05.707092',0,6,'csh3695@naver.com','Kentaro','/image/avatar/default_avatar.png','Seonghwan','Choi',8961000,1,0),('pbkdf2_sha256$120000$ITmnVmA5KN1q$WTKBPak3Xyr60hwP3g5DC5Sq4zT9Zcqw5J4JF/CNRQQ=','2019-11-22 21:41:51.743187',0,7,'test@test.com','Kentarou','/image/avatar/default_avatar.png','Seonghwan','Choi',100000,1,0);
 /*!40000 ALTER TABLE `adit_adituser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +67,7 @@ CREATE TABLE `adit_adituser_groups` (
   KEY `adit_adituser_groups_group_id_c099ef8b_fk_auth_group_id` (`group_id`),
   CONSTRAINT `adit_adituser_groups_adituser_id_8b2ab399_fk_adit_adituser_id` FOREIGN KEY (`adituser_id`) REFERENCES `adit_adituser` (`id`),
   CONSTRAINT `adit_adituser_groups_group_id_c099ef8b_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +95,7 @@ CREATE TABLE `adit_adituser_tags` (
   KEY `adit_adituser_tags_interestedtags_id_6e583d2d_fk_adit_inte` (`interestedtags_id`),
   CONSTRAINT `adit_adituser_tags_adituser_id_f9730879_fk_adit_adituser_id` FOREIGN KEY (`adituser_id`) REFERENCES `adit_adituser` (`id`),
   CONSTRAINT `adit_adituser_tags_interestedtags_id_6e583d2d_fk_adit_inte` FOREIGN KEY (`interestedtags_id`) REFERENCES `adit_interestedtags` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `adit_adituser_tags` (
 
 LOCK TABLES `adit_adituser_tags` WRITE;
 /*!40000 ALTER TABLE `adit_adituser_tags` DISABLE KEYS */;
-INSERT INTO `adit_adituser_tags` VALUES (44,6,1),(47,6,27),(45,6,52),(46,6,151);
+INSERT INTO `adit_adituser_tags` VALUES (60,6,1),(61,6,27),(62,6,52),(63,6,151);
 /*!40000 ALTER TABLE `adit_adituser_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,7 +124,7 @@ CREATE TABLE `adit_adituser_user_permissions` (
   KEY `adit_adituser_user_p_permission_id_006311fc_fk_auth_perm` (`permission_id`),
   CONSTRAINT `adit_adituser_user_p_adituser_id_2fce34b1_fk_adit_adit` FOREIGN KEY (`adituser_id`) REFERENCES `adit_adituser` (`id`),
   CONSTRAINT `adit_adituser_user_p_permission_id_006311fc_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,7 +163,7 @@ CREATE TABLE `adit_adpost` (
   KEY `adit_adpost_thumbnail_id_a0142f77_fk_adit_postimage_id` (`thumbnail_id`),
   CONSTRAINT `adit_adpost_owner_id_aeefbf06_fk_adit_adituser_id` FOREIGN KEY (`owner_id`) REFERENCES `adit_adituser` (`id`),
   CONSTRAINT `adit_adpost_thumbnail_id_a0142f77_fk_adit_postimage_id` FOREIGN KEY (`thumbnail_id`) REFERENCES `adit_postimage` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,7 +192,7 @@ CREATE TABLE `adit_adpost_image` (
   KEY `adit_adpost_image_postimage_id_13fd1dbe_fk_adit_postimage_id` (`postimage_id`),
   CONSTRAINT `adit_adpost_image_adpost_id_917e81a1_fk_adit_adpost_id` FOREIGN KEY (`adpost_id`) REFERENCES `adit_adpost` (`id`),
   CONSTRAINT `adit_adpost_image_postimage_id_13fd1dbe_fk_adit_postimage_id` FOREIGN KEY (`postimage_id`) REFERENCES `adit_postimage` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +220,7 @@ CREATE TABLE `adit_adpost_tags` (
   KEY `adit_adpost_tags_interestedtags_id_edee47ed_fk_adit_inte` (`interestedtags_id`),
   CONSTRAINT `adit_adpost_tags_adpost_id_3375e3c5_fk_adit_adpost_id` FOREIGN KEY (`adpost_id`) REFERENCES `adit_adpost` (`id`),
   CONSTRAINT `adit_adpost_tags_interestedtags_id_edee47ed_fk_adit_inte` FOREIGN KEY (`interestedtags_id`) REFERENCES `adit_interestedtags` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=200 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +253,7 @@ CREATE TABLE `adit_adreception` (
   KEY `adit_adreception_owner_id_ba20ede4_fk_adit_adituser_id` (`owner_id`),
   CONSTRAINT `adit_adreception_adpost_id_93b35a94_fk_adit_adpost_id` FOREIGN KEY (`adpost_id`) REFERENCES `adit_adpost` (`id`),
   CONSTRAINT `adit_adreception_owner_id_ba20ede4_fk_adit_adituser_id` FOREIGN KEY (`owner_id`) REFERENCES `adit_adituser` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -279,7 +279,7 @@ CREATE TABLE `adit_interestedtags` (
   `postcount` int(11) NOT NULL,
   `created_time` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=222 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -304,7 +304,7 @@ CREATE TABLE `adit_ipaddressduplication` (
   `ip_address` varchar(16) NOT NULL,
   `created` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,7 +327,7 @@ CREATE TABLE `adit_postimage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `image` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -358,7 +358,7 @@ CREATE TABLE `adit_question` (
   KEY `adit_question_owner_id_345d69d1_fk_adit_adituser_id` (`owner_id`),
   CONSTRAINT `adit_question_adpost_id_5007ad58_fk_adit_adpost_id` FOREIGN KEY (`adpost_id`) REFERENCES `adit_adpost` (`id`),
   CONSTRAINT `adit_question_owner_id_345d69d1_fk_adit_adituser_id` FOREIGN KEY (`owner_id`) REFERENCES `adit_adituser` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -383,7 +383,7 @@ CREATE TABLE `adit_suggestpending` (
   PRIMARY KEY (`id`),
   KEY `adit_suggestpending_post_id_47d32b25_fk_adit_adpost_id` (`post_id`),
   CONSTRAINT `adit_suggestpending_post_id_47d32b25_fk_adit_adpost_id` FOREIGN KEY (`post_id`) REFERENCES `adit_adpost` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -407,7 +407,7 @@ CREATE TABLE `auth_group` (
   `name` varchar(80) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -435,7 +435,7 @@ CREATE TABLE `auth_group_permissions` (
   KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
   CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -462,7 +462,7 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -471,7 +471,7 @@ CREATE TABLE `auth_permission` (
 
 LOCK TABLES `auth_permission` WRITE;
 /*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
-INSERT INTO `auth_permission` VALUES (1,'Can add adit user',1,'add_adituser'),(2,'Can change adit user',1,'change_adituser'),(3,'Can delete adit user',1,'delete_adituser'),(4,'Can view adit user',1,'view_adituser'),(5,'Can add ad post',2,'add_adpost'),(6,'Can change ad post',2,'change_adpost'),(7,'Can delete ad post',2,'delete_adpost'),(8,'Can view ad post',2,'view_adpost'),(9,'Can add ad reception',3,'add_adreception'),(10,'Can change ad reception',3,'change_adreception'),(11,'Can delete ad reception',3,'delete_adreception'),(12,'Can view ad reception',3,'view_adreception'),(13,'Can add interested tags',4,'add_interestedtags'),(14,'Can change interested tags',4,'change_interestedtags'),(15,'Can delete interested tags',4,'delete_interestedtags'),(16,'Can view interested tags',4,'view_interestedtags'),(17,'Can add post image',5,'add_postimage'),(18,'Can change post image',5,'change_postimage'),(19,'Can delete post image',5,'delete_postimage'),(20,'Can view post image',5,'view_postimage'),(21,'Can add question',6,'add_question'),(22,'Can change question',6,'change_question'),(23,'Can delete question',6,'delete_question'),(24,'Can view question',6,'view_question'),(25,'Can add log entry',7,'add_logentry'),(26,'Can change log entry',7,'change_logentry'),(27,'Can delete log entry',7,'delete_logentry'),(28,'Can view log entry',7,'view_logentry'),(29,'Can add permission',8,'add_permission'),(30,'Can change permission',8,'change_permission'),(31,'Can delete permission',8,'delete_permission'),(32,'Can view permission',8,'view_permission'),(33,'Can add group',9,'add_group'),(34,'Can change group',9,'change_group'),(35,'Can delete group',9,'delete_group'),(36,'Can view group',9,'view_group'),(37,'Can add content type',10,'add_contenttype'),(38,'Can change content type',10,'change_contenttype'),(39,'Can delete content type',10,'delete_contenttype'),(40,'Can view content type',10,'view_contenttype'),(41,'Can add session',11,'add_session'),(42,'Can change session',11,'change_session'),(43,'Can delete session',11,'delete_session'),(44,'Can view session',11,'view_session'),(45,'Can add ip address duplication',12,'add_ipaddressduplication'),(46,'Can change ip address duplication',12,'change_ipaddressduplication'),(47,'Can delete ip address duplication',12,'delete_ipaddressduplication'),(48,'Can view ip address duplication',12,'view_ipaddressduplication'),(49,'Can add suggest pending',13,'add_suggestpending'),(50,'Can change suggest pending',13,'change_suggestpending'),(51,'Can delete suggest pending',13,'delete_suggestpending'),(52,'Can view suggest pending',13,'view_suggestpending');
+INSERT INTO `auth_permission` VALUES (1,'Can add adit user',1,'add_adituser'),(2,'Can change adit user',1,'change_adituser'),(3,'Can delete adit user',1,'delete_adituser'),(4,'Can view adit user',1,'view_adituser'),(5,'Can add ad post',2,'add_adpost'),(6,'Can change ad post',2,'change_adpost'),(7,'Can delete ad post',2,'delete_adpost'),(8,'Can view ad post',2,'view_adpost'),(9,'Can add ad reception',3,'add_adreception'),(10,'Can change ad reception',3,'change_adreception'),(11,'Can delete ad reception',3,'delete_adreception'),(12,'Can view ad reception',3,'view_adreception'),(13,'Can add interested tags',4,'add_interestedtags'),(14,'Can change interested tags',4,'change_interestedtags'),(15,'Can delete interested tags',4,'delete_interestedtags'),(16,'Can view interested tags',4,'view_interestedtags'),(17,'Can add post image',5,'add_postimage'),(18,'Can change post image',5,'change_postimage'),(19,'Can delete post image',5,'delete_postimage'),(20,'Can view post image',5,'view_postimage'),(21,'Can add question',6,'add_question'),(22,'Can change question',6,'change_question'),(23,'Can delete question',6,'delete_question'),(24,'Can view question',6,'view_question'),(25,'Can add log entry',7,'add_logentry'),(26,'Can change log entry',7,'change_logentry'),(27,'Can delete log entry',7,'delete_logentry'),(28,'Can view log entry',7,'view_logentry'),(29,'Can add permission',8,'add_permission'),(30,'Can change permission',8,'change_permission'),(31,'Can delete permission',8,'delete_permission'),(32,'Can view permission',8,'view_permission'),(33,'Can add group',9,'add_group'),(34,'Can change group',9,'change_group'),(35,'Can delete group',9,'delete_group'),(36,'Can view group',9,'view_group'),(37,'Can add content type',10,'add_contenttype'),(38,'Can change content type',10,'change_contenttype'),(39,'Can delete content type',10,'delete_contenttype'),(40,'Can view content type',10,'view_contenttype'),(41,'Can add session',11,'add_session'),(42,'Can change session',11,'change_session'),(43,'Can delete session',11,'delete_session'),(44,'Can view session',11,'view_session'),(45,'Can add ip address duplication',12,'add_ipaddressduplication'),(46,'Can change ip address duplication',12,'change_ipaddressduplication'),(47,'Can delete ip address duplication',12,'delete_ipaddressduplication'),(48,'Can view ip address duplication',12,'view_ipaddressduplication'),(49,'Can add suggest pending',13,'add_suggestpending'),(50,'Can change suggest pending',13,'change_suggestpending'),(51,'Can delete suggest pending',13,'delete_suggestpending'),(52,'Can view suggest pending',13,'view_suggestpending'),(53,'Can add visited ip',14,'add_visitedip'),(54,'Can change visited ip',14,'change_visitedip'),(55,'Can delete visited ip',14,'delete_visitedip'),(56,'Can view visited ip',14,'view_visitedip');
 /*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -496,7 +496,7 @@ CREATE TABLE `django_admin_log` (
   KEY `django_admin_log_user_id_c564eba6_fk_adit_adituser_id` (`user_id`),
   CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   CONSTRAINT `django_admin_log_user_id_c564eba6_fk_adit_adituser_id` FOREIGN KEY (`user_id`) REFERENCES `adit_adituser` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -521,7 +521,7 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -530,7 +530,7 @@ CREATE TABLE `django_content_type` (
 
 LOCK TABLES `django_content_type` WRITE;
 /*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
-INSERT INTO `django_content_type` VALUES (1,'adit','adituser'),(2,'adit','adpost'),(3,'adit','adreception'),(4,'adit','interestedtags'),(12,'adit','ipaddressduplication'),(5,'adit','postimage'),(6,'adit','question'),(13,'adit','suggestpending'),(7,'admin','logentry'),(9,'auth','group'),(8,'auth','permission'),(10,'contenttypes','contenttype'),(11,'sessions','session');
+INSERT INTO `django_content_type` VALUES (1,'adit','adituser'),(2,'adit','adpost'),(3,'adit','adreception'),(4,'adit','interestedtags'),(12,'adit','ipaddressduplication'),(5,'adit','postimage'),(6,'adit','question'),(13,'adit','suggestpending'),(14,'adit','visitedip'),(7,'admin','logentry'),(9,'auth','group'),(8,'auth','permission'),(10,'contenttypes','contenttype'),(11,'sessions','session');
 /*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -547,7 +547,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -573,7 +573,7 @@ CREATE TABLE `django_session` (
   `expire_date` datetime(6) NOT NULL,
   PRIMARY KEY (`session_key`),
   KEY `django_session_expire_date_a5c62663` (`expire_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -582,7 +582,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('2h9x54ws41fq2rbz9dnixzrzsebda3z0','YmUxZTc1ZDhhNDYzNzRlMjgwZDJkNzFlYmRhOGI2Nzc1MjkyYzM0NDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIxNTlhZWMyOThjYTdlZWY5NDEzYjRhYWU4YTkxNzQ5NWYyMmNiMzg4In0=','2019-12-05 17:11:55.287000'),('2y54c0x5p97w3awe78ad5tk1w11a0602','Y2I2NTBmZDhmNjFiYTdlYjRmZTFjYjAyYmRlN2ExY2ZlYzU0NDgzODp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlNWY1NDRlYWUzMjdmYmVmN2RlYWQ4NWFhYmE3Yjg5ODg5NTg5ODg2In0=','2019-12-17 16:29:03.527343'),('4nfzdb160z6ag7jvjbam7d5rkc1dq2gw','OTI5Yzk1ZjIxYjRmNzFjNzI2NTY5NGU3NWZiNDJkYTA5YjIyYjUxNDp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5NzEwYjUxZTAxZjRjMjE2MjdkOWJlYmI5NDU1OTE4MzA1ZTk0NWM0In0=','2019-12-06 21:41:51.750310'),('h0jh445f3shbp1owyf1c90lk0oth6q63','Y2I2NTBmZDhmNjFiYTdlYjRmZTFjYjAyYmRlN2ExY2ZlYzU0NDgzODp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlNWY1NDRlYWUzMjdmYmVmN2RlYWQ4NWFhYmE3Yjg5ODg5NTg5ODg2In0=','2019-12-07 19:54:30.175102'),('ixqqkp4xgmihpu7aw2z5uu28ekhvi97j','OTI5Yzk1ZjIxYjRmNzFjNzI2NTY5NGU3NWZiNDJkYTA5YjIyYjUxNDp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5NzEwYjUxZTAxZjRjMjE2MjdkOWJlYmI5NDU1OTE4MzA1ZTk0NWM0In0=','2019-12-06 21:40:40.087181'),('lqep990jx3pp0zhza0tzhjm2ejybdduz','Y2I2NTBmZDhmNjFiYTdlYjRmZTFjYjAyYmRlN2ExY2ZlYzU0NDgzODp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlNWY1NDRlYWUzMjdmYmVmN2RlYWQ4NWFhYmE3Yjg5ODg5NTg5ODg2In0=','2019-12-27 17:08:54.125506');
+INSERT INTO `django_session` VALUES ('1usmzi8dxb08rn6qjgha8fkmvitb7tvt','Y2I2NTBmZDhmNjFiYTdlYjRmZTFjYjAyYmRlN2ExY2ZlYzU0NDgzODp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlNWY1NDRlYWUzMjdmYmVmN2RlYWQ4NWFhYmE3Yjg5ODg5NTg5ODg2In0=','2019-12-29 23:21:05.712402'),('2h9x54ws41fq2rbz9dnixzrzsebda3z0','YmUxZTc1ZDhhNDYzNzRlMjgwZDJkNzFlYmRhOGI2Nzc1MjkyYzM0NDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIxNTlhZWMyOThjYTdlZWY5NDEzYjRhYWU4YTkxNzQ5NWYyMmNiMzg4In0=','2019-12-05 17:11:55.287000'),('2y54c0x5p97w3awe78ad5tk1w11a0602','Y2I2NTBmZDhmNjFiYTdlYjRmZTFjYjAyYmRlN2ExY2ZlYzU0NDgzODp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlNWY1NDRlYWUzMjdmYmVmN2RlYWQ4NWFhYmE3Yjg5ODg5NTg5ODg2In0=','2019-12-17 16:29:03.527343'),('4nfzdb160z6ag7jvjbam7d5rkc1dq2gw','OTI5Yzk1ZjIxYjRmNzFjNzI2NTY5NGU3NWZiNDJkYTA5YjIyYjUxNDp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5NzEwYjUxZTAxZjRjMjE2MjdkOWJlYmI5NDU1OTE4MzA1ZTk0NWM0In0=','2019-12-06 21:41:51.750310'),('h0jh445f3shbp1owyf1c90lk0oth6q63','Y2I2NTBmZDhmNjFiYTdlYjRmZTFjYjAyYmRlN2ExY2ZlYzU0NDgzODp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlNWY1NDRlYWUzMjdmYmVmN2RlYWQ4NWFhYmE3Yjg5ODg5NTg5ODg2In0=','2019-12-07 19:54:30.175102'),('ixqqkp4xgmihpu7aw2z5uu28ekhvi97j','OTI5Yzk1ZjIxYjRmNzFjNzI2NTY5NGU3NWZiNDJkYTA5YjIyYjUxNDp7Il9hdXRoX3VzZXJfaWQiOiI3IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5NzEwYjUxZTAxZjRjMjE2MjdkOWJlYmI5NDU1OTE4MzA1ZTk0NWM0In0=','2019-12-06 21:40:40.087181'),('lqep990jx3pp0zhza0tzhjm2ejybdduz','Y2I2NTBmZDhmNjFiYTdlYjRmZTFjYjAyYmRlN2ExY2ZlYzU0NDgzODp7Il9hdXRoX3VzZXJfaWQiOiI2IiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlNWY1NDRlYWUzMjdmYmVmN2RlYWQ4NWFhYmE3Yjg5ODg5NTg5ODg2In0=','2019-12-27 17:08:54.125506');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -595,4 +595,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-13 19:25:50
+-- Dump completed on 2019-12-15 23:30:23
