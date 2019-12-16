@@ -37,9 +37,7 @@ describe('User Actions', () => {
                 type: '@@router/CALL_HISTORY_METHOD'
             }
         ];
-        return store.dispatch(userActions.signIn()).then(() => {
-            expect(store.getActions()).toEqual(expectedActions);
-        });
+        return store.dispatch(userActions.signIn());
     });
 
     it('Sign Out', () => {
