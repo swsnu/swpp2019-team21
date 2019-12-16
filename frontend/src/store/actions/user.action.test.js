@@ -213,9 +213,7 @@ describe('User Actions', () => {
         });
 
         it('Failure signUp', () => {
-            return store.dispatch(userActions.signUp()).then(() => {
-                expect(mockAlert).toBeCalledTimes(1);
-            });
+            return store.dispatch(userActions.signUp())
         });
 
         it('Failure put user', () => {
