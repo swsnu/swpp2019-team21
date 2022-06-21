@@ -23,7 +23,7 @@ lazy-object-proxy==1.4.3
 maxminddb==1.5.1
 mccabe==0.6.1
 mysqlclient==1.4.6
-numpy==1.17.4
+numpy==1.22.0
 pandas==0.25.3
 Pillow==6.2.1
 pycparser==2.19
